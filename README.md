@@ -1,4 +1,4 @@
-# Anteproyecto Trabajo Fin de Ciclo TFC
+# Anteproyecto Trabajo Fin de Ciclo TFC 2º DAM 2024
 
 # Autor del proyecto:
 
@@ -9,6 +9,8 @@ El proyecto está realizado de forma individual por Juan Manuel Gutiérrez.
 ## Título:
 
 CarCare
+
+Proyecto final del Grado Superior de Desarrollo de Aplicaciones Multiplataforma en el [CPIFP Alan Turing](https://github.com/CPIFPAlanTuring) 2024.
 
 ## Objetivos:
 
@@ -29,6 +31,6 @@ La temática es el mundo de los vehículos, automóviles, motocicletas, camiones
 # Repositorios
 
 - Repositorio de la aplicación en versión web:
-    - https://github.com/Juanma-Gutierrez/CarCare-Firebase
+  - https://github.com/Juanma-Gutierrez/CarCare-Firebase
 - Repositorio de la aplicación en versión móvil:
-    - [https://github.com/Juanma-Gutierrez/CarCare-Kotlin](https://github.com/Juanma-Gutierrez/CarCare-Kotlin/tree/main)
+  - https://github.com/Juanma-Gutierrez/CarCare-Kotlin
