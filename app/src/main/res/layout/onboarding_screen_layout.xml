@@ -7,33 +7,33 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="75dp"
+        android:layout_width="@dimen/onBoardingContentWidth"
+        android:layout_height="@dimen/onBoardingContentWidth"
+        app:layout_constraintBottom_toTopOf="@+id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:layout_marginBottom="@dimen/marginM"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/tv_title"
+        style="@style/MaterialAlertDialog.Material3.Title.Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        style="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.60"
+        tools:text="Titulo" />
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/onBoardingContentWidth"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:layout_marginTop="@dimen/marginS"
+        android:textAlignment="center"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />

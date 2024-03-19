@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="onBoardingContentWidth">250dp</dimen>
+    <dimen name="marginXL">100dp</dimen>
+    <dimen name="marginL">75dp</dimen>
+    <dimen name="marginM">50dp</dimen>
+    <dimen name="marginS">25dp</dimen>
+    <dimen name="marginXS">8dp</dimen>
+</resources>

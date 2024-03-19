@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
+import com.juanmaGutierrez.carcare.data.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
 import com.juanmaGutierrez.carcare.model.OnBoardingData
 import com.juanmaGutierrez.carcare.service.getView
@@ -81,38 +82,7 @@ class OnBoardingActivity : AppCompatActivity() {
         editor.apply()
     }
 
-    private fun getOnBoardingDataValues(): MutableList<OnBoardingData> {
-        val onBoardingData: MutableList<OnBoardingData> = ArrayList()
-        onBoardingData.add(
-            OnBoardingData(
-                "CarCare",
-                "Carcare es tu aplicación para la gestión de gastos de tus vehículos",
-                R.drawable.indicator_selector
-            )
-        )
-        onBoardingData.add(
-            OnBoardingData(
-                "Vehículos",
-                "Da de alta todos los vehículos que tengas, también puedes gestionar los que has tenido anteriormente.",
-                R.drawable.indicator_selector
-            )
-        )
-        onBoardingData.add(
-            OnBoardingData(
-                "Proveedores",
-                "Agrega los proveedores que te prestan servicio.",
-                R.drawable.indicator_selector
-            )
-        )
-        onBoardingData.add(
-            OnBoardingData(
-                "Gastos",
-                "Añade los gastos que surjan en cada momento.",
-                R.drawable.indicator_selector
-            )
-        )
-        return onBoardingData
-    }
+
 
     private fun setOnBoardingViewPagerAdapter(onBoardingData: List<OnBoardingData>) {
         onBoardingViewPager = findViewById(R.id.screenPager)
