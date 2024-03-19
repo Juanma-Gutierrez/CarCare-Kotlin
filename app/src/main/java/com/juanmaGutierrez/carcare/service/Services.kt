@@ -1,5 +1,6 @@
-package com.juanmaGutierrez.carcare.services
+package com.juanmaGutierrez.carcare.service
 
+import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
@@ -23,3 +24,9 @@ fun showSnackBar(message: String, view: View) {
     snackBarView.layoutParams = layoutParams
     snackBar.show()
 }
+
+fun Activity.getView(action: (View) -> Unit) {
+    val contentView = findViewById<View>(android.R.id.content)
+    action(contentView)
+}
+
