@@ -3,14 +3,12 @@
     <string name="app_name">CarCare</string>
     <string name="next_button">Siguiente</string>
     <string name="get_started_button">Comenzar</string>
-    <string name="onBoarding_title1">CarCare</string>
-    <string name="onBoarding_text1">Carcare es tu aplicación para la gestión de gastos de tus vehículos.</string>
-    <string name="onBoarding_title2">Vehículos</string>
-    <string name="onBoarding_text2">Da de alta todos los vehículos que tengas, también puedes gestionar los que has tenido anteriormente.</string>
-    <string name="onBoarding_title3">Proveedores</string>
-    <string name="onBoarding_text3">Agrega los proveedores que te prestan servicio.</string>
-    <string name="onBoarding_title4">Gastos</string>
-    <string name="onBoarding_text4">Añade los gastos que surjan en cada momento.</string>
-    <string name="lorem_s">Lorem ipsum dolor sit amet</string>
-    <string name="lorem_m">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="onBoarding_title_carcare">CarCare</string>
+    <string name="onBoarding_text_carcare">Carcare es tu aplicación para la gestión de gastos de tus vehículos.</string>
+    <string name="onBoarding_title1">Vehículos</string>
+    <string name="onBoarding_text1">Da de alta todos los vehículos que tengas, también puedes gestionar los que has tenido anteriormente.</string>
+    <string name="onBoarding_title2">Proveedores</string>
+    <string name="onBoarding_text2">Agrega los proveedores que te prestan servicio.</string>
+    <string name="onBoarding_title3">Gastos</string>
+    <string name="onBoarding_text3">Añade los gastos que surjan en cada momento.</string>
 </resources>

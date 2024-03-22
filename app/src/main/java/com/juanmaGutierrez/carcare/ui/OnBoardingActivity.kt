@@ -41,9 +41,9 @@ class OnBoardingActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 position = tab!!.position
                 if (tab.position == onBoardingData.size - 1) {
-                    next!!.text = "Get Started"
+                    next!!.text = getString(R.string.get_started_button)
                 } else {
-                    next!!.text = "Next"
+                    next!!.text = getString(R.string.next_button)
                 }
             }
 

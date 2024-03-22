@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
-
     private fun isFirstTimeRun(): Boolean {
         sharedPreferences = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
         return sharedPreferences!!.getBoolean("isFirstTimeRun", true)
