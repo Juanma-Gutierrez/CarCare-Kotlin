@@ -13,8 +13,6 @@ import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
 import com.juanmaGutierrez.carcare.data.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
 import com.juanmaGutierrez.carcare.model.OnBoardingData
-import com.juanmaGutierrez.carcare.service.getView
-import com.juanmaGutierrez.carcare.service.showSnackBar
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
@@ -29,10 +27,9 @@ class OnBoardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getView { view -> showSnackBar("entra en OnBoardingActivity", view) }
         tabLayout = binding.tabIndicator
         next = binding.tvNext
-        val onBoardingData: MutableList<OnBoardingData> = getOnBoardingDataValues()
+        val onBoardingData: MutableList<OnBoardingData> = getOnBoardingDataValues(this)
         setOnBoardingViewPagerAdapter(onBoardingData)
         position = onBoardingViewPager!!.currentItem
         setNextButton(onBoardingData)
@@ -81,8 +78,6 @@ class OnBoardingActivity : AppCompatActivity() {
         ) // TODO Modificar a false para no mostrar onBoarding
         editor.apply()
     }
-
-
 
     private fun setOnBoardingViewPagerAdapter(onBoardingData: List<OnBoardingData>) {
         onBoardingViewPager = findViewById(R.id.screenPager)

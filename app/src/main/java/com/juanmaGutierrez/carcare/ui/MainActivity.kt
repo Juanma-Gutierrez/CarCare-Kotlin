@@ -6,8 +6,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.juanmaGutierrez.carcare.databinding.ActivityMainBinding
-import com.juanmaGutierrez.carcare.service.getView
-import com.juanmaGutierrez.carcare.service.showSnackBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getView { view -> showSnackBar("entra en onCreate de mainActivity", view) }
         if (!isFirstTimeRun()) {
             val activity = Intent(applicationContext, VehiclesActivity::class.java)
             startActivity(activity)
@@ -29,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showOnBoardingActivity() {
-        getView { view -> showSnackBar("entra en showOnBoardingActivity", view) }
         val activity = Intent(applicationContext, OnBoardingActivity::class.java)
         startActivity(activity)
         finish()

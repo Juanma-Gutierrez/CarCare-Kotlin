@@ -1,31 +1,32 @@
 package com.juanmaGutierrez.carcare.data
 
+import android.content.Context
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.OnBoardingData
 
 class OnBoardingData {
 }
 
-fun getOnBoardingDataValues(): MutableList<OnBoardingData> {
+fun getOnBoardingDataValues(context: Context): MutableList<OnBoardingData> {
     val data: MutableList<OnBoardingData> = mutableListOf(
         OnBoardingData(
-            "CarCare",
-            "Carcare es tu aplicación para la gestión de gastos de tus vehículos",
+            context.getString(R.string.onBoarding_title_carcare),
+            context.getString(R.string.onBoarding_text_carcare),
             R.drawable.logo_carcare_transparent
         ),
         OnBoardingData(
-            "Vehículos",
-            "Da de alta todos los vehículos que tengas, también puedes gestionar los que has tenido anteriormente.",
+            context.getString(R.string.onBoarding_title1),
+            context.getString(R.string.onBoarding_text1),
             R.drawable.onboarding1
         ),
         OnBoardingData(
-            "Proveedores",
-            "Agrega los proveedores que te prestan servicio.",
+            context.getString(R.string.onBoarding_title2),
+            context.getString(R.string.onBoarding_text2),
             R.drawable.onboarding2
         ),
         OnBoardingData(
-            "Gastos",
-            "Añade los gastos que surjan en cada momento.",
+            context.getString(R.string.onBoarding_title3),
+            context.getString(R.string.onBoarding_text3),
             R.drawable.onboarding3
         )
     )

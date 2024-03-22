@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">CarCare</string>
+    <string name="next_button">Next</string>
+    <string name="get_started_button">Start</string>
+    <string name="onBoarding_title_carcare">CarCare</string>
+    <string name="onBoarding_text_carcare">Carcare is your application for managing your vehicle expenses.</string>
+    <string name="onBoarding_title1">Vehicles</string>
+    <string name="onBoarding_text1">Register all the vehicles you have, you can also manage the ones you have previously owned.</string>
+    <string name="onBoarding_title2">Providers</string>
+    <string name="onBoarding_text2">Add your service providers.</string>
+    <string name="onBoarding_title3">Spents</string>
+    <string name="onBoarding_text3">Add the expenses that arise from time to time.</string>
 </resources>
