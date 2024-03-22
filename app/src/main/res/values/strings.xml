@@ -10,4 +10,6 @@
     <string name="onBoarding_text2">Add your service providers.</string>
     <string name="onBoarding_title3">Spents</string>
     <string name="onBoarding_text3">Add the expenses that arise from time to time.</string>
+    <string name="registry_button">Not registered? Do it now</string>
+    <string name="login_button">Login</string>
 </resources>

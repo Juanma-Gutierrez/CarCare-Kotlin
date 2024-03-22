@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui
+package com.juanmaGutierrez.carcare.ui.onBoarding
 
 import android.content.Context
 import android.content.Intent
@@ -13,6 +13,8 @@ import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
 import com.juanmaGutierrez.carcare.data.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
 import com.juanmaGutierrez.carcare.model.OnBoardingData
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
+import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
@@ -63,7 +65,7 @@ class OnBoardingActivity : AppCompatActivity() {
             }
             if (position == onBoardingData.size) {
                 savePrefData()
-                val activity = Intent(applicationContext, VehiclesActivity::class.java)
+                val activity = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(activity)
             }
         }
@@ -75,7 +77,7 @@ class OnBoardingActivity : AppCompatActivity() {
         editor.putBoolean(
             "isFirstTimeRun",
             true
-        ) // TODO Modificar a false para no mostrar onBoarding
+        ) // TODO Modificar a -false- para no mostrar onBoarding
         editor.apply()
     }
 

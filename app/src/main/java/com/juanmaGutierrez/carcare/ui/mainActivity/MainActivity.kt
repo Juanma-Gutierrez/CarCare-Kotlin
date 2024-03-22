@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui
+package com.juanmaGutierrez.carcare.ui.mainActivity
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.juanmaGutierrez.carcare.databinding.ActivityMainBinding
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
+import com.juanmaGutierrez.carcare.ui.onBoarding.OnBoardingActivity
+import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (!isFirstTimeRun()) {
-            val activity = Intent(applicationContext, VehiclesActivity::class.java)
+            val activity = Intent(applicationContext, LoginActivity::class.java)
             startActivity(activity)
             finish()
         } else {

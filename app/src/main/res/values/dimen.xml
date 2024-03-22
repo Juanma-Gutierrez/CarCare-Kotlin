@@ -6,4 +6,6 @@
     <dimen name="marginM">50dp</dimen>
     <dimen name="marginS">25dp</dimen>
     <dimen name="marginXS">8dp</dimen>
+    <dimen name="logoMedium">150dp</dimen>
+    <dimen name="dividerSeparator">20dp</dimen>
 </resources>
