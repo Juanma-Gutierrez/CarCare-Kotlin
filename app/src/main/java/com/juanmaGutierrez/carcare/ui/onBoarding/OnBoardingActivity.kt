@@ -76,7 +76,7 @@ class OnBoardingActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
         editor.putBoolean(
             "isFirstTimeRun",
-            false
+            true
         ) // TODO Modificar a -false- para no mostrar onBoarding
         editor.apply()
     }
@@ -87,6 +87,4 @@ class OnBoardingActivity : AppCompatActivity() {
         onBoardingViewPager!!.adapter = onBoardingViewPagerAdapter
         tabLayout?.setupWithViewPager(onBoardingViewPager)
     }
-
-
 }
