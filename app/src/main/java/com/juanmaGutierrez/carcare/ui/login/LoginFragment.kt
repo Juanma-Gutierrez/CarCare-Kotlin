@@ -6,21 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.databinding.ActivityLoginBinding
+import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
-
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = FragmentLoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        System.out.println("ENTRA EN FRAGMENT")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    ): View {
+        binding.loBtLogin.setOnClickListener { login() }
+        binding.loBtRegister.setOnClickListener { register() }
+        return binding.root
+    }
+
+    private fun login() {
+        System.out.println("boton LOGIN")
+    }
+
+    private fun register() {
+        System.out.println("boton REGISTRO")
     }
 
 }

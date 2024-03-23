@@ -2,14 +2,18 @@ package com.juanmaGutierrez.carcare.ui.login
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityLoginBinding
+import com.juanmaGutierrez.carcare.ui.mainActivity.MainViewModel
 
 class LoginActivity : AppCompatActivity() {
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)

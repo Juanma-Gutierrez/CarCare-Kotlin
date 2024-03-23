@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.onBoarding.OnBoardingActivity
 
-class MainActivityViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
     private var sharedPreferences: SharedPreferences? = null
 
-    fun checkFirstTimeRun(context: Context) {
+    fun init(context: Context) {
         if (!isFirstTimeRun(context)) {
             val activity = Intent(context, LoginActivity::class.java)
             context.startActivity(activity)
