@@ -1,0 +1,7 @@
+<resources>
+    <attr name="colorDanger" format="color" />
+    <attr name="colorOnDanger" format="color" />
+    <attr name="colorDangerContainer" format="color" />
+    <attr name="colorOnDangerContainer" format="color" />
+    <attr name="harmonizeDanger" format="boolean" />
+</resources>
