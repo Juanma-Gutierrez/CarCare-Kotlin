@@ -7,29 +7,24 @@ import androidx.lifecycle.ViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.onBoarding.OnBoardingActivity
 
-class MainActivityViewModel(private val context: Context) : ViewModel() {
+class MainActivityViewModel : ViewModel() {
     private var sharedPreferences: SharedPreferences? = null
 
-    init {
-        print("entra en viewmodel");
-
-        System.out.println(isFirstTimeRun())
-        if (!isFirstTimeRun()) {
+    fun checkFirstTimeRun(context: Context) {
+        if (!isFirstTimeRun(context)) {
             val activity = Intent(context, LoginActivity::class.java)
             context.startActivity(activity)
-            // finish()
         } else {
-            showOnBoardingActivity()
+            showOnBoardingActivity(context)
         }
     }
 
-    private fun showOnBoardingActivity() {
+    private fun showOnBoardingActivity(context: Context) {
         val activity = Intent(context, OnBoardingActivity::class.java)
         context.startActivity(activity)
-        //finish()
     }
 
-    private fun isFirstTimeRun(): Boolean {
+    private fun isFirstTimeRun(context: Context): Boolean {
         sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
         return sharedPreferences!!.getBoolean("isFirstTimeRun", true)
     }
