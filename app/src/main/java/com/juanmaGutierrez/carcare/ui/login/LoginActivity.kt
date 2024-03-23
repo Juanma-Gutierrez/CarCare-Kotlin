@@ -19,6 +19,6 @@ class LoginActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(binding.fragmentContainer.id, LoginFragment())
         fragmentTransaction.commit()
-        viewModel.init(this)
+        // viewModel.init(this)
     }
 }

@@ -26,7 +26,7 @@ class LoginFragment : Fragment() {
             val password = binding.loItPassword.text.toString()
             viewModel.login(this, email, password)
         }
-        binding.loBtRegister.setOnClickListener { viewModel.register() }
+        binding.loBtRegister.setOnClickListener { viewModel.register(this) }
         return binding.root
     }
 

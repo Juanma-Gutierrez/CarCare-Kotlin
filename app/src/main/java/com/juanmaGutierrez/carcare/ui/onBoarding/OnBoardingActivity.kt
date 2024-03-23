@@ -77,7 +77,7 @@ class OnBoardingActivity : AppCompatActivity() {
         editor.putBoolean(
             "isFirstTimeRun",
             false
-        ) // TODO Modificar a -false- para no mostrar onBoarding
+        ) // TODO Cambiar a -false- para no mostrar onBoarding
         editor.apply()
     }
 

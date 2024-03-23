@@ -15,6 +15,10 @@
     <string name="label_email">Correo electrónico</string>
     <string name="label_password">Contraseña</string>
     <string name="label_login">Login</string>
+    <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
+    <string name="snackBar_welcome">Welcome!</string>
+    <string name="snackBar_inputError">"Error in the data entered "</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

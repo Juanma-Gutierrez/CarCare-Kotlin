@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.ViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
@@ -18,7 +20,9 @@ class LoginViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
 
     fun init(activity: LoginActivity) {
+        //if (!userIsLogged()) {
         if (userIsLogged()) {
+            // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
             Log.i(Constants.TAG, "User registered")
             // TODO Usar navgraph para ir a vehiculos
             val intent = Intent(activity, VehiclesActivity::class.java)
@@ -27,20 +31,25 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login(fragment: LoginFragment, email: String, password: String) {
-
         if (!validInputs(email, password)) {
-            fragment.view?.let { showSnackBar("Error en los datos introducidos", it) }
+            showSnackBar(
+                fragment.getString(R.string.snackBar_fieldsEmpty),
+                fragment.requireView()
+            )
             return
         }
+        auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    showSnackBar("BIENVENIDO ${user!!.email}", fragment.view!!)
+                    showSnackBar(
+                        fragment.getString(R.string.snackBar_welcome),
+                        fragment.requireView()
+                    )
                 } else {
                     showSnackBar(
-                        "Error en el correo electrónico o en la contraseña",
-                        fragment.view!!
+                        fragment.getString(R.string.snackBar_inputError),
+                        fragment.requireView()
                     )
                     Log.e(Constants.TAG_ERROR, "signInWithEmail:failure", task.exception)
                 }
@@ -58,8 +67,11 @@ class LoginViewModel : ViewModel() {
     }
 
 
-    fun register() {
+    fun register(fragment: LoginFragment) {
         System.out.println("boton REGISTRO")
+        showSnackBar("Ir a registro de usuario",
+            fragment.requireView()
+        )
     }
 
 
