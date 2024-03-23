@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1029461328658",
+    "firebase_url": "https://proyecto-carcare-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "proyecto-carcare",
+    "storage_bucket": "proyecto-carcare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029461328658:android:70237829be6d6855a229cb",
+        "android_client_info": {
+          "package_name": "com.juanmaGutierrez.carcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTb3vVG3PEsY9ppAkBtlZcRAJVAyRKfzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
