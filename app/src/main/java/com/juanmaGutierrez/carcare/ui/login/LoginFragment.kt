@@ -21,12 +21,14 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding.loBtLogin.setOnClickListener { viewModel.login() }
+        binding.loBtLogin.setOnClickListener {
+            val email = binding.loItEmail.text.toString()
+            val password = binding.loItPassword.text.toString()
+            viewModel.login(this, email, password)
+        }
         binding.loBtRegister.setOnClickListener { viewModel.register() }
         return binding.root
     }
-
-
 
 
 }
