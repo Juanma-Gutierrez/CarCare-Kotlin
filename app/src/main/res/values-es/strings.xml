@@ -13,4 +13,7 @@
     <string name="onBoarding_text3">Añade los gastos que surjan en cada momento.</string>
     <string name="registry_button">¿No estás registrado? Hazlo ahora</string>
     <string name="login_button">Entrar</string>
+    <string name="label_email">Correo electrónico</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_login">Login</string>
 </resources>

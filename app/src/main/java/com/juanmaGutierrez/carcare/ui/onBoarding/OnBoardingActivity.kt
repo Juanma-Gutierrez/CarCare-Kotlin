@@ -76,7 +76,7 @@ class OnBoardingActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
         editor.putBoolean(
             "isFirstTimeRun",
-            true
+            false
         ) // TODO Modificar a -false- para no mostrar onBoarding
         editor.apply()
     }

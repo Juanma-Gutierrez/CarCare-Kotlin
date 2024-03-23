@@ -12,4 +12,7 @@
     <string name="onBoarding_text3">Add the expenses that arise from time to time.</string>
     <string name="registry_button">Not registered? Do it now</string>
     <string name="login_button">Login</string>
+    <string name="label_email">Correo electrónico</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_login">Login</string>
 </resources>
