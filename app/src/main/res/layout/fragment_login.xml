@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".ui.login.LoginFragment">
 
     <LinearLayout
@@ -13,8 +14,8 @@
         android:orientation="vertical">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="@dimen/logoMedium"
-            android:layout_height="@dimen/logoMedium"
+            android:layout_width="@dimen/logoM"
+            android:layout_height="@dimen/logoM"
             android:layout_marginTop="@dimen/marginM"
             android:layout_marginBottom="@dimen/marginXS"
             android:src="@drawable/logo_carcare_transparent" />

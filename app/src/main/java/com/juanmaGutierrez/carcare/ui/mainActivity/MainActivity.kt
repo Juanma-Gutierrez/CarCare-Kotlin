@@ -14,5 +14,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.init(this)
+        binding.amBtLogin.setOnClickListener { viewModel.init(this) }
     }
 }

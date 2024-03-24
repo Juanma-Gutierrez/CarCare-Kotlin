@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- OnBoarding-->
-    <dimen name="logoMedium">125dp</dimen>
+    <dimen name="logoM">150dp</dimen>
+    <dimen name="logoL">200dp</dimen>
     <dimen name="onBoardingContentWidth">250dp</dimen>
     <!-- Margins -->
     <dimen name="marginXL">100dp</dimen>
