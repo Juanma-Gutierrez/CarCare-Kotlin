@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.login
+package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
 import android.content.Context
 import android.os.Bundle
@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
-import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
 
 interface OnRegisterButtonClickListener {

@@ -7,6 +7,9 @@ import com.google.android.material.snackbar.Snackbar
 
 class Services {}
 
+/**
+ * Usage: showSnackBar("Message", requireView())
+ */
 fun showSnackBar(message: String, view: View) {
     val snackBar = Snackbar.make(
         view,
@@ -25,8 +28,11 @@ fun showSnackBar(message: String, view: View) {
     snackBar.show()
 }
 
+/*
 fun Activity.getView(action: (View) -> Unit) {
+    System.out.println("call getView")
     val contentView = findViewById<View>(android.R.id.content)
     action(contentView)
 }
+*/
 

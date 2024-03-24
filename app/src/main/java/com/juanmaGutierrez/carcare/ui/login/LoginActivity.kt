@@ -5,6 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityLoginBinding
+import com.juanmaGutierrez.carcare.ui.login.loginFragment.LoginFragment
+import com.juanmaGutierrez.carcare.ui.login.loginFragment.LoginViewModel
+import com.juanmaGutierrez.carcare.ui.login.loginFragment.OnRegisterButtonClickListener
+import com.juanmaGutierrez.carcare.ui.login.registerFragment.RegisterFragment
 
 class LoginActivity : AppCompatActivity(), OnRegisterButtonClickListener {
     private lateinit var binding: ActivityLoginBinding

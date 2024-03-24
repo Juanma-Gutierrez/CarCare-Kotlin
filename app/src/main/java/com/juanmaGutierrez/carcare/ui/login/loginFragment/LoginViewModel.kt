@@ -1,9 +1,7 @@
-package com.juanmaGutierrez.carcare.ui.login
+package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
 import android.content.Intent
 import android.util.Log
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -11,6 +9,7 @@ import com.google.firebase.auth.auth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
 
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".ui.login.RegisterFragment">
+    tools:context=".ui.login.registerFragment.RegisterFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -135,7 +135,7 @@
 
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/lo_bt_login"
+                        android:id="@+id/re_bt_register"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_register"
@@ -144,7 +144,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/lo_bt_register"
+                android:id="@+id/re_bt_login"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
