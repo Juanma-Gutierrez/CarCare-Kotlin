@@ -1,12 +1,10 @@
 package com.juanmaGutierrez.carcare.ui.login
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -64,14 +62,6 @@ class LoginViewModel : ViewModel() {
 
     private fun validInputs(email: String, password: String): Boolean {
         return ((email != "") and (password != ""))
-    }
-
-
-    fun register(fragment: LoginFragment) {
-        System.out.println("boton REGISTRO")
-        showSnackBar("Ir a registro de usuario",
-            fragment.requireView()
-        )
     }
 
 

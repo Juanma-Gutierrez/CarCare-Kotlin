@@ -1,16 +1,25 @@
 package com.juanmaGutierrez.carcare.ui.login
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
+import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
+
+interface OnRegisterButtonClickListener {
+    fun onRegisterButtonClicked()
+}
 
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
+    private lateinit var registerListener: OnRegisterButtonClickListener
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = FragmentLoginBinding.inflate(layoutInflater)
@@ -26,9 +35,19 @@ class LoginFragment : Fragment() {
             val password = binding.loItPassword.text.toString()
             viewModel.login(this, email, password)
         }
-        binding.loBtRegister.setOnClickListener { viewModel.register(this) }
+        binding.loBtRegister.setOnClickListener {
+            // cerrar el fragment actual y abrir el fragment RegisterFragment
+            registerListener.onRegisterButtonClicked()
+        }
         return binding.root
     }
 
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnRegisterButtonClickListener) {
+            registerListener = context
+        } else {
+            throw RuntimeException("$context must implement OnRegisterButtonClickListener")
+        }
+    }
 }
