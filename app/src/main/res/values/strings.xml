@@ -32,4 +32,7 @@
     <string name="label_username">Username</string>
     <string name="label_repeatPassword">Repeat password</string>
     <string name="goLogin_button">Login</string>
+    <string name="error_emptyFields">No puedes dejar campos vacíos</string>
+    <string name="error_passwordNotMatch">The password do not match</string>
+    <string name="error_passwordWeak">The password is too weak</string>
 </resources>
