@@ -11,13 +11,18 @@
     <string name="onBoarding_text2">Agrega los proveedores que te prestan servicio.</string>
     <string name="onBoarding_title3">Gastos</string>
     <string name="onBoarding_text3">Añade los gastos que surjan en cada momento.</string>
-    <string name="registry_button">¿No estás registrado? Hazlo ahora</string>
+    <string name="goRegister_button">¿No estás registrado? Hazlo ahora</string>
     <string name="login_button">Entrar</string>
     <string name="label_email">Correo electrónico</string>
     <string name="label_password">Contraseña</string>
     <string name="label_login">Login</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_welcome">¡Bienvenido!</string>
     <string name="snackBar_inputError">Error en los datos introducidos</string>
+    <string name="label_register">Registro</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_surname">Apellidos</string>
+    <string name="label_username">Nombre de usuario</string>
+    <string name="label_repeatPassword">Repetir contraseña</string>
+    <string name="goLogin_button">Iniciar sesión</string>
 </resources>

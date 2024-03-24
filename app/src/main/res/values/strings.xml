@@ -1,5 +1,14 @@
 <resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">NEW FRAGMENT CREATED</string>
+
+    <!-- App -->
     <string name="app_name">CarCare</string>
+    <!-- SnackBar -->
+    <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
+    <string name="snackBar_welcome">Welcome!</string>
+    <string name="snackBar_inputError">"Error in the data entered "</string>
+    <!-- onBoarding -->
     <string name="next_button">Next</string>
     <string name="get_started_button">Start</string>
     <string name="onBoarding_title_carcare">CarCare</string>
@@ -10,15 +19,17 @@
     <string name="onBoarding_text2">Add your service providers.</string>
     <string name="onBoarding_title3">Spents</string>
     <string name="onBoarding_text3">Add the expenses that arise from time to time.</string>
-    <string name="registry_button">Not registered? Do it now</string>
+    <!-- Login -->
     <string name="login_button">Login</string>
-    <string name="label_email">Correo electrónico</string>
-    <string name="label_password">Contraseña</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
     <string name="label_login">Login</string>
-    <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
-    <string name="snackBar_welcome">Welcome!</string>
-    <string name="snackBar_inputError">"Error in the data entered "</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="goRegister_button">Not registered? Do it now</string>
+    <!-- Register -->
+    <string name="label_register">Register</string>
+    <string name="label_name">Name</string>
+    <string name="label_surname">Surname</string>
+    <string name="label_username">Username</string>
+    <string name="label_repeatPassword">Repeat password</string>
+    <string name="goLogin_button">Login</string>
 </resources>
