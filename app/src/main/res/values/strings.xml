@@ -8,6 +8,7 @@
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
     <string name="snackBar_inputError">"Error in the data entered "</string>
+    <string name="snackBar_registerUser_Successfully">User registered successfully</string>
     <!-- onBoarding -->
     <string name="next_button">Next</string>
     <string name="get_started_button">Start</string>
@@ -35,4 +36,5 @@
     <string name="error_emptyFields">You can\'t leave empty fields</string>
     <string name="error_passwordNotMatch">The password do not match</string>
     <string name="error_passwordWeak">The password is too weak</string>
+
 </resources>
