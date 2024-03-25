@@ -55,6 +55,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     // Add the dependency for the Firebase Authentication library
     implementation("com.google.firebase:firebase-auth")
+    // Navigation graph
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

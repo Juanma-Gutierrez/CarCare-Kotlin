@@ -15,7 +15,7 @@
     <string name="login_button">Entrar</string>
     <string name="label_email">Correo electrónico</string>
     <string name="label_password">Contraseña</string>
-    <string name="label_login">Login</string>
+    <string name="label_login">Iniciar sesión</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_welcome">¡Bienvenido!</string>
     <string name="snackBar_inputError">Error en los datos introducidos</string>
