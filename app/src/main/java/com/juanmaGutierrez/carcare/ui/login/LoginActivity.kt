@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity(), OnRegisterButtonClickListener {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(binding.loginFragmentContainer.id, LoginFragment())
         fragmentTransaction.commit()
-        // viewModel.init(this)
+        viewModel.init(this)
     }
 
     override fun onRegisterButtonClicked() {

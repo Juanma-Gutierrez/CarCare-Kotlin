@@ -45,7 +45,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun validUserData(user: User): Boolean {
-        print(user)
         if (someFieldEmpty(user)) {
             _showSnackbarEvent.value =
                 getApplication<Application>().getString(R.string.error_emptyFields)

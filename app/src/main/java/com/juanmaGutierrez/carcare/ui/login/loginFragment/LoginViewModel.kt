@@ -8,6 +8,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.service.Constants
+import com.juanmaGutierrez.carcare.service.LogType
+import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
@@ -56,6 +58,14 @@ class LoginViewModel : ViewModel() {
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
         val currentUser = auth.currentUser
+        System.out.println("EN USERISLOGGED")
+        if (currentUser != null) {
+            System.out.println("EN TRUE")
+            fbSaveLog(LogType.INFO, "Primera prueba usuario logueado")
+        } else {
+            System.out.println("EN FALSE")
+            fbSaveLog(LogType.INFO, "Primera prueba usuario NO logueado")
+        }
         return (currentUser != null)
     }
 
