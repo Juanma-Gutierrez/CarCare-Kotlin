@@ -15,5 +15,6 @@ data class ItemLog(
     val type: LogType,
     val operationLog: OperationLog,
     val currentUser: String? = "",
+    val uid: String? = "",
     val content: String,
 )

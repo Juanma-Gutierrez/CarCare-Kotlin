@@ -63,12 +63,13 @@ class LoginViewModel : ViewModel() {
             val itemLog = createLog(
                 LogType.INFO,
                 auth.currentUser!!,
+                currentUser.uid,
                 OperationLog.LOGIN,
                 "Login successfully"
             )
             fbSaveLog(itemLog)
         } else {
-            val itemLog = createLog(LogType.ERROR, null, OperationLog.LOGIN, "Login failed")
+            val itemLog = createLog(LogType.ERROR, null, null, OperationLog.LOGIN, "Login failed")
             fbSaveLog(itemLog)
         }
         return (currentUser != null)
@@ -78,11 +79,13 @@ class LoginViewModel : ViewModel() {
     private fun createLog(
         type: LogType,
         currentUser: FirebaseUser?,
+        uid: String? = "",
         operation: OperationLog,
         content: String = "",
     ): ItemLog {
-        val email = if (currentUser != null) currentUser.email else ""
-        return ItemLog(LocalDateTime.now(), type, operation, email, content)
+        val email = currentUser?.email ?: ""
+        val uid = currentUser?.uid ?: ""
+        return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
     }
 
     private fun validInputs(email: String, password: String): Boolean {
