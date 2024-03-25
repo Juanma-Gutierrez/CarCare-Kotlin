@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -12,9 +14,9 @@ import com.google.firebase.auth.auth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.ItemLog
 import com.juanmaGutierrez.carcare.model.LogType
+import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.fbSaveLog
-import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
 import java.time.LocalDateTime
@@ -22,13 +24,14 @@ import java.time.LocalDateTime
 
 class LoginViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
+    private val _showSnackbarEvent = MutableLiveData<String>()
+    val showSnackbarEvent: LiveData<String>
+        get() = _showSnackbarEvent
 
     fun init(activity: LoginActivity) {
-        //if (!userIsLogged()) {
-        if (userIsLogged()) {
+        if (!userIsLogged()) {
             // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
             Log.i("wanma", "User registered")
-            // TODO Usar navgraph para ir a vehiculos
             val intent = Intent(activity, VehiclesActivity::class.java)
             activity.startActivity(intent)
         }
@@ -36,22 +39,16 @@ class LoginViewModel : ViewModel() {
 
     fun login(fragment: LoginFragment, email: String, password: String) {
         if (!validInputs(email, password)) {
-            showSnackBar(
-                fragment.getString(R.string.snackBar_fieldsEmpty), fragment.requireView()
-            )
+            _showSnackbarEvent.value = fragment.getString(R.string.snackBar_fieldsEmpty)
             return
         }
         auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    showSnackBar(
-                        fragment.getString(R.string.snackBar_welcome), fragment.requireView()
-                    )
+                    _showSnackbarEvent.value = fragment.getString(R.string.snackBar_welcome)
                 } else {
-                    showSnackBar(
-                        fragment.getString(R.string.snackBar_inputError), fragment.requireView()
-                    )
+                    _showSnackbarEvent.value = fragment.getString(R.string.snackBar_inputError)
                     Log.e(Constants.TAG_ERROR, "signInWithEmail:failure", task.exception)
                 }
             }
@@ -63,10 +60,15 @@ class LoginViewModel : ViewModel() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             Log.d("wanma", currentUser.email.toString())
-            val itemLog = createLog(LogType.INFO, auth.currentUser!!, "Login successfully")
+            val itemLog = createLog(
+                LogType.INFO,
+                auth.currentUser!!,
+                OperationLog.LOGIN,
+                "Login successfully"
+            )
             fbSaveLog(itemLog)
         } else {
-            val itemLog = createLog(LogType.INFO, null, "Login failed")
+            val itemLog = createLog(LogType.ERROR, null, OperationLog.LOGIN, "Login failed")
             fbSaveLog(itemLog)
         }
         return (currentUser != null)
@@ -76,14 +78,11 @@ class LoginViewModel : ViewModel() {
     private fun createLog(
         type: LogType,
         currentUser: FirebaseUser?,
+        operation: OperationLog,
         content: String = "",
-        amount: Number = 0.0,
-        vehicle: String = "",
     ): ItemLog {
         val email = if (currentUser != null) currentUser.email else ""
-        return ItemLog(
-            LocalDateTime.now(), type, email, content, amount, vehicle
-        )
+        return ItemLog(LocalDateTime.now(), type, operation, email, content)
     }
 
     private fun validInputs(email: String, password: String): Boolean {

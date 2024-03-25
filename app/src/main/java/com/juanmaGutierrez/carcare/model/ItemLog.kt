@@ -6,11 +6,14 @@ enum class LogType {
     INFO, DEBUG, WARNING, ERROR, VERBOSE
 }
 
+enum class OperationLog {
+    CREATEUSER, LOGIN, LOGOUT, CREATEVEHICLE, CREATEPROVIDER, CREATESPENT
+}
+
 data class ItemLog(
     val dateTime: LocalDateTime,
     val type: LogType,
+    val operationLog: OperationLog,
     val currentUser: String? = "",
     val content: String,
-    val amount: Number = 0.0,
-    val vehicle: String = "",
 )

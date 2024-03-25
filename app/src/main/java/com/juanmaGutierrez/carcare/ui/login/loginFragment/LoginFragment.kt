@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
+import com.juanmaGutierrez.carcare.service.showSnackBar
 
 interface OnRegisterButtonClickListener {
     fun onRegisterButtonClicked()
@@ -35,6 +36,13 @@ class LoginFragment : Fragment() {
         }
         binding.loBtRegister.setOnClickListener { registerListener.onRegisterButtonClicked() }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.showSnackbarEvent.observe(viewLifecycleOwner) { message ->
+            showSnackBar(message, view)
+        }
     }
 
     override fun onAttach(context: Context) {
