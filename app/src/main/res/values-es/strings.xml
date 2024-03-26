@@ -29,4 +29,7 @@
     <string name="error_passwordNotMatch">Las contraseñas no coinciden</string>
     <string name="error_passwordWeak">La contraseña es demasiado débil</string>
     <string name="snackBar_registerUser_Successfully">Usuario registrado con éxito</string>
+    <string name="bottomBar_vehicles">Vehículos</string>
+    <string name="bottomBar_providers">Proveedores</string>
+    <string name="bottomBar_spents">Gastos</string>
 </resources>

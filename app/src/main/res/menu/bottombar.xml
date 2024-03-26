@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_vehicles"
+        android:icon="@drawable/icon_vehicle"
+        android:title="@string/bottomBar_vehicles" />
+
+    <item
+        android:id="@+id/navigation_providers"
+        android:icon="@drawable/icon_provider"
+        android:title="@string/bottomBar_providers" />
+
+    <item
+        android:id="@+id/navigation_spents"
+        android:icon="@drawable/icon_euro"
+        android:title="@string/bottomBar_spents" />
+
+</menu>

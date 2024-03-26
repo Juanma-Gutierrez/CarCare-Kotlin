@@ -4,6 +4,10 @@
 
     <!-- App -->
     <string name="app_name">CarCare</string>
+    <!-- Bottombar-->
+    <string name="bottomBar_vehicles">Vehicles</string>
+    <string name="bottomBar_providers">Providers</string>
+    <string name="bottomBar_spents">Spents</string>
     <!-- SnackBar -->
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
@@ -36,5 +40,7 @@
     <string name="error_emptyFields">You can\'t leave empty fields</string>
     <string name="error_passwordNotMatch">The password do not match</string>
     <string name="error_passwordWeak">The password is too weak</string>
+
+
 
 </resources>

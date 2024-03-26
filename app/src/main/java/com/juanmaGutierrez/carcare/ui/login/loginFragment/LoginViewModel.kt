@@ -30,7 +30,7 @@ class LoginViewModel : ViewModel() {
         get() = _showSnackbarEvent
 
     fun init(activity: LoginActivity) {
-        if (userIsLogged()) {
+        if (!userIsLogged()) {
             // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
             Log.i(TAG, "User registered")
             val intent = Intent(activity, VehiclesActivity::class.java)
