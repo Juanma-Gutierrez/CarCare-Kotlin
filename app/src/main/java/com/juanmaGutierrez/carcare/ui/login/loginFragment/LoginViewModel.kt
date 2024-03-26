@@ -16,6 +16,7 @@ import com.juanmaGutierrez.carcare.model.ItemLog
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
+import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
@@ -29,9 +30,9 @@ class LoginViewModel : ViewModel() {
         get() = _showSnackbarEvent
 
     fun init(activity: LoginActivity) {
-        if (!userIsLogged()) {
+        if (userIsLogged()) {
             // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
-            Log.i("wanma", "User registered")
+            Log.i(TAG, "User registered")
             val intent = Intent(activity, VehiclesActivity::class.java)
             activity.startActivity(intent)
         }
@@ -59,7 +60,6 @@ class LoginViewModel : ViewModel() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            Log.d("wanma", currentUser.email.toString())
             val itemLog = createLog(
                 LogType.INFO,
                 auth.currentUser!!,

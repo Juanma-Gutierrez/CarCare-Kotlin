@@ -14,7 +14,6 @@ import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
-    private lateinit var auth: FirebaseAuth
     private lateinit var activity: AppCompatActivity
     private val _showSnackbarEvent = MutableLiveData<String>()
     val showSnackbarEvent: LiveData<String>
@@ -36,7 +35,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                 Log.e(TAG, "Error in register user")
             }
     }
-
 
     private fun validUserData(user: User): Boolean {
         if (someFieldEmpty(user)) {
@@ -67,7 +65,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         return pattern.matches(password)
     }
 
-
     private fun someFieldEmpty(user: User): Boolean {
         return (user.name.isEmpty() or
                 user.surname.isEmpty() or
@@ -86,5 +83,4 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             repeatPassword = binding.reItRepeatPassword.text.toString()
         )
     }
-
 }

@@ -7,88 +7,93 @@
     android:gravity="center"
     tools:context=".ui.login.loginFragment.LoginFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="@dimen/logoM"
-            android:layout_height="@dimen/logoM"
-            android:layout_marginTop="@dimen/marginM"
-            android:layout_marginBottom="@dimen/marginXS"
-            android:src="@drawable/logo_carcare_transparent" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/loginCardView"
-            style="@style/Widget.Material3.CardView.Elevated"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/marginS">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/logoM"
+                android:layout_height="@dimen/logoM"
+                android:layout_marginTop="@dimen/marginM"
+                android:layout_marginBottom="@dimen/marginXS"
+                android:src="@drawable/logo_carcare_transparent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/loginCardView"
+                style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@drawable/empty_divider"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/marginS"
-                android:showDividers="middle">
+                android:layout_margin="@dimen/marginS">
 
-                <com.google.android.material.textview.MaterialTextView
-                    style="@style/MaterialAlertDialog.Material3.Title.Text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/label_login"
-                    android:textAlignment="center"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:startIconContentDescription="@string/label_email"
-                    app:startIconDrawable="@drawable/icon_mail">
+                    android:divider="@drawable/empty_divider"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/marginS"
+                    android:showDividers="middle">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lo_it_email"
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/MaterialAlertDialog.Material3.Title.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/label_login"
+                        android:textAlignment="center"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/label_email"
-                        android:inputType="text" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:startIconContentDescription="@string/label_email"
+                        app:startIconDrawable="@drawable/icon_mail">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:startIconContentDescription="@string/label_password"
-                    app:startIconDrawable="@drawable/icon_password">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/lo_it_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_email"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/lo_it_password"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/label_password"
-                        android:inputType="textPassword" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:startIconContentDescription="@string/label_password"
+                        app:startIconDrawable="@drawable/icon_password">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/lo_bt_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_button"
-                    app:icon="@drawable/icon_check" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/lo_it_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_password"
+                            android:inputType="textPassword" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/lo_bt_register"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/goRegister_button" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/lo_bt_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_button"
+                        app:icon="@drawable/icon_check" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/lo_bt_register"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/marginS"
+                android:text="@string/goRegister_button" />
 
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>
 

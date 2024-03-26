@@ -148,7 +148,7 @@
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/marginM"
+                android:layout_marginBottom="@dimen/marginS"
                 android:text="@string/goLogin_button" />
         </LinearLayout>
     </ScrollView>

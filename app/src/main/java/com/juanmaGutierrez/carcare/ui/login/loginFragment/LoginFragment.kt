@@ -18,7 +18,6 @@ class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
     private lateinit var registerListener: OnRegisterButtonClickListener
-    // TODO activar el mismo sistema de comunicación de toast que en registerFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = FragmentLoginBinding.inflate(layoutInflater)
