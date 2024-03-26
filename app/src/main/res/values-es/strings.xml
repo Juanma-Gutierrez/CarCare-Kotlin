@@ -16,6 +16,7 @@
     <string name="label_email">Correo electrónico</string>
     <string name="label_password">Contraseña</string>
     <string name="label_login">Iniciar sesión</string>
+    <string name="sw_showlAllVehicles">Mostrar todos los vehículos</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_welcome">¡Bienvenido!</string>
     <string name="snackBar_inputError">Error en los datos introducidos</string>
@@ -29,7 +30,7 @@
     <string name="error_passwordNotMatch">Las contraseñas no coinciden</string>
     <string name="error_passwordWeak">La contraseña es demasiado débil</string>
     <string name="snackBar_registerUser_Successfully">Usuario registrado con éxito</string>
-    <string name="bottomBar_vehicles">Vehículos</string>
-    <string name="bottomBar_providers">Proveedores</string>
-    <string name="bottomBar_spents">Gastos</string>
+    <string name="menu_vehicles">Vehículos</string>
+    <string name="menu_providers">Proveedores</string>
+    <string name="menu_spents">Gastos</string>
 </resources>

@@ -2,16 +2,16 @@
     <item
         android:id="@+id/navigation_vehicles"
         android:icon="@drawable/icon_vehicle"
-        android:title="@string/bottomBar_vehicles" />
+        android:title="@string/menu_vehicles" />
 
     <item
         android:id="@+id/navigation_providers"
         android:icon="@drawable/icon_provider"
-        android:title="@string/bottomBar_providers" />
+        android:title="@string/menu_providers" />
 
     <item
         android:id="@+id/navigation_spents"
         android:icon="@drawable/icon_euro"
-        android:title="@string/bottomBar_spents" />
+        android:title="@string/menu_spents" />
 
 </menu>

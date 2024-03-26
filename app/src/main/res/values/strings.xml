@@ -4,10 +4,12 @@
 
     <!-- App -->
     <string name="app_name">CarCare</string>
-    <!-- Bottombar-->
-    <string name="bottomBar_vehicles">Vehicles</string>
-    <string name="bottomBar_providers">Providers</string>
-    <string name="bottomBar_spents">Spents</string>
+    <!-- Menu -->
+    <string name="menu_vehicles">Vehicles</string>
+    <string name="menu_providers">Providers</string>
+    <string name="menu_spents">Spents</string>
+    <!-- Vehicle Topbar -->
+    <string name="sw_showlAllVehicles">Show all vehicles</string>
     <!-- SnackBar -->
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
