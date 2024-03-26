@@ -5,10 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.vehicles.VehiclesActivity">
+    tools:context=".ui.providers.ProvidersActivity">
+
 
     <include
-        android:id="@+id/tb_vehiclesToolbar"
+        android:id="@+id/tb_providersToolbar"
         layout="@layout/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -22,36 +23,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_vehiclesToolbar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_theme_light_inversePrimary">
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:checked="false"
-                android:layout_marginHorizontal="@dimen/marginXS"
-                android:textAlignment="viewEnd"
-                android:text="@string/sw_showlAllVehicles" />
-        </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tb_providersToolbar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
-
     <include
+        android:id="@+id/bb_providersBottombar"
         layout="@layout/bottombar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

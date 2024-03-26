@@ -18,7 +18,6 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
-
         binding.reBtRegister.setOnClickListener { viewModel.register(binding) }
         binding.reBtLogin.setOnClickListener { parentFragmentManager.popBackStack() }
         return binding.root

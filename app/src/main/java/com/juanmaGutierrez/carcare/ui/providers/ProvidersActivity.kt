@@ -1,25 +1,24 @@
-package com.juanmaGutierrez.carcare.ui.vehicles
+package com.juanmaGutierrez.carcare.ui.providers
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.databinding.ActivityVehiclesBinding
+import com.juanmaGutierrez.carcare.databinding.BottombarBinding
 import com.juanmaGutierrez.carcare.ui.viewModels.ListItemsViewModel
 
-
-class VehiclesActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityVehiclesBinding
+class ProvidersActivity : AppCompatActivity() {
     private lateinit var viewModel: ListItemsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityVehiclesBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
+        setContentView(R.layout.activity_providers)
         viewModel = ViewModelProvider(this)[ListItemsViewModel::class.java]
-        viewModel.setToolbar(getString(R.string.menu_vehicles), this)
+        viewModel.setToolbar(getString(R.string.menu_providers), this)
         viewModel.setBottombar(findViewById(R.id.bottom_bar), this)
-
     }
+
 
 }
