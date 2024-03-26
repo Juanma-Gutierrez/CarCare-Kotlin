@@ -4,11 +4,8 @@ import android.content.Context
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.OnBoardingData
 
-class OnBoardingData {
-}
-
-fun getOnBoardingDataValues(context: Context): MutableList<OnBoardingData> {
-    val data: MutableList<OnBoardingData> = mutableListOf(
+fun getOnBoardingDataValues(context: Context): List<OnBoardingData> {
+    val data: List<OnBoardingData> = listOf(
         OnBoardingData(
             context.getString(R.string.onBoarding_title_carcare),
             context.getString(R.string.onBoarding_text_carcare),

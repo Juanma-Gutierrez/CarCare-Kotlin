@@ -11,6 +11,8 @@ import com.juanmaGutierrez.carcare.model.ItemLog
 import com.juanmaGutierrez.carcare.model.Providers
 import com.juanmaGutierrez.carcare.model.User
 import com.juanmaGutierrez.carcare.model.UserFB
+import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
+import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -27,7 +29,7 @@ fun fbSaveLog(itemLog: ItemLog) {
         .addOnFailureListener { e ->
             val logMap = mapOf("logs" to listOf(itemLog))
             docRef.set(logMap)
-            Log.e(TAG, "Error in database operation", e)
+            Log.e(TAG, ERROR_DATABASE, e)
         }
 }
 
@@ -40,7 +42,7 @@ fun fbRegisterUserAuth(user: User) {
                 fbCreateUser(user, uid)
                 fbCreateProviders(uid)
             } else {
-                Log.e(TAG, "createUserWithEmail:failure", task.exception)
+                Log.e(TAG, ERROR_CREATE_USER_WITH_EMAIL, task.exception)
             }
         }
 }

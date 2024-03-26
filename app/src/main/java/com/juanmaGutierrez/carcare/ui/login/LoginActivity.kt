@@ -3,8 +3,6 @@ package com.juanmaGutierrez.carcare.ui.login
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityLoginBinding
 import com.juanmaGutierrez.carcare.ui.login.loginFragment.LoginFragment

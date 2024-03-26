@@ -14,6 +14,7 @@ interface OnRegisterButtonClickListener {
     fun onRegisterButtonClicked()
 }
 
+
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding

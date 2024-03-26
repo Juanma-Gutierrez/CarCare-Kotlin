@@ -14,7 +14,6 @@ import com.juanmaGutierrez.carcare.data.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
 import com.juanmaGutierrez.carcare.model.OnBoardingData
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
-import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
@@ -31,14 +30,14 @@ class OnBoardingActivity : AppCompatActivity() {
         setContentView(binding.root)
         tabLayout = binding.tabIndicator
         next = binding.tvNext
-        val onBoardingData: MutableList<OnBoardingData> = getOnBoardingDataValues(this)
+        val onBoardingData: List<OnBoardingData> = getOnBoardingDataValues(this)
         setOnBoardingViewPagerAdapter(onBoardingData)
         position = onBoardingViewPager!!.currentItem
         setNextButton(onBoardingData)
         setTabDots(onBoardingData)
     }
 
-    private fun setTabDots(onBoardingData: MutableList<OnBoardingData>) {
+    private fun setTabDots(onBoardingData: List<OnBoardingData>) {
         tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 position = tab!!.position
@@ -50,14 +49,16 @@ class OnBoardingActivity : AppCompatActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
+                print(tab?.position)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
+                print(tab?.position)
             }
         })
     }
 
-    private fun setNextButton(onBoardingData: MutableList<OnBoardingData>) {
+    private fun setNextButton(onBoardingData: List<OnBoardingData>) {
         next?.setOnClickListener {
             if (position < onBoardingData.size) {
                 position++

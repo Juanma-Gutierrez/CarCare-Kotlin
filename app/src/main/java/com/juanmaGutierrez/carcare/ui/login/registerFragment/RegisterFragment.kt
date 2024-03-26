@@ -14,18 +14,13 @@ class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel
     private lateinit var binding: FragmentRegisterBinding
 
-/*    override fun onCreate(savedInstanceState: Bundle?) {
-        binding = FragmentRegisterBinding.inflate(layoutInflater)
-        super.onCreate(savedInstanceState)
-    }*/
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
 
         binding.reBtRegister.setOnClickListener { viewModel.register(binding) }
-        binding.reBtLogin.setOnClickListener { fragmentManager?.popBackStack() }
+        binding.reBtLogin.setOnClickListener { parentFragmentManager.popBackStack() }
         return binding.root
     }
 

@@ -41,9 +41,9 @@ android {
 
 dependencies {
     // ViewModels in fragments
-    implementation ("androidx.activity:activity-ktx:1.3.1")
-    implementation ("androidx.fragment:fragment-ktx:1.3.0")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
+    implementation (libs.androidx.activity.ktx)
+    implementation (libs.androidx.fragment.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))

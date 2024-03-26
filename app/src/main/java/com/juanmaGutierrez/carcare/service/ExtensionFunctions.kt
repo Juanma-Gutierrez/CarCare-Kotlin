@@ -1,11 +1,8 @@
 package com.juanmaGutierrez.carcare.service
 
-import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
-
-class Services {}
 
 /**
  * Usage: showSnackBar("Message", requireView())
@@ -28,11 +25,4 @@ fun showSnackBar(message: String, view: View) {
     snackBar.show()
 }
 
-/*
-fun Activity.getView(action: (View) -> Unit) {
-    System.out.println("call getView")
-    val contentView = findViewById<View>(android.R.id.content)
-    action(contentView)
-}
-*/
 
