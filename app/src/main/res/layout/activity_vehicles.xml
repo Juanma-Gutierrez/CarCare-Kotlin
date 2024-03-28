@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.vehicles.VehiclesActivity">
+    tools:context=".ui.listItemActivities.VehiclesActivity">
 
     <include
         android:id="@+id/tb_vehiclesToolbar"
@@ -19,29 +19,31 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/marginL"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tb_vehiclesToolbar">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_light_inversePrimary">
+            android:background="@color/md_theme_dark_secondary">
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:checked="false"
+                android:text="@string/sw_showlAllVehicles"
                 android:layout_marginHorizontal="@dimen/marginXS"
-                android:textAlignment="viewEnd"
-                android:text="@string/sw_showlAllVehicles" />
-        </LinearLayout>
+                android:textAlignment="viewEnd" />
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ve_rv_vehicles"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_vehicle" />
 
     </LinearLayout>
 
