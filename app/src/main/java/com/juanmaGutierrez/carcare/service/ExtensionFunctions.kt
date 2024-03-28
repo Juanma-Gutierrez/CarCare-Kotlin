@@ -2,10 +2,7 @@ package com.juanmaGutierrez.carcare.service
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toolbar
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.juanmaGutierrez.carcare.R
 
 /**
  * Usage: showSnackBar("Message", requireView())
@@ -26,4 +23,8 @@ fun showSnackBar(message: String, view: View) {
     )
     snackBarView.layoutParams = layoutParams
     snackBar.show()
+}
+
+fun toUpperCamelCase(input: String): String {
+    return input.split(" ").joinToString("") { it.replaceFirstChar { char -> char.uppercase() } }
 }

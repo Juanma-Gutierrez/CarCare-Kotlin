@@ -1,17 +1,15 @@
 package com.juanmaGutierrez.carcare.adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 
 class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
     RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
@@ -34,9 +32,9 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
         fun bind(vehicle: VehicleEntity) {
             itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked = vehicle.available
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brandAndModel).text =
-                "${vehicle.brand.uppercase()} ${vehicle.model.uppercase()}"
+                "${toUpperCamelCase(vehicle.brand)} ${toUpperCamelCase(vehicle.model)}"
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text =
-                "${vehicle.plate} ${vehicle.available}"
+                "${vehicle.plate.uppercase()}"
             itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage)
                 .setImageResource(R.drawable.vehicle_placeholder)
         }
