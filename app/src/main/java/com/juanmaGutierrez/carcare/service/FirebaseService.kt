@@ -19,6 +19,26 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 
+class FirebaseService {
+    var userID: String = ""
+    var userEmail: String = ""
+
+    override fun toString(): String {
+        return "-FirebaseService-\nUSER ID: $userID\nUSER EMAIL: $userEmail\n"
+    }
+
+    companion object {
+        private var instance: FirebaseService? = null
+
+        fun getInstance(): FirebaseService {
+            if (instance == null) {
+                instance = FirebaseService()
+            }
+            return instance!!
+        }
+    }
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {
     println(itemLog)

@@ -17,9 +17,10 @@ import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
-import com.juanmaGutierrez.carcare.ui.vehicles.VehiclesActivity
+import com.juanmaGutierrez.carcare.ui.listItemActivities.VehiclesActivity
 import java.time.LocalDateTime
 
 
@@ -29,12 +30,15 @@ class LoginViewModel : ViewModel() {
     val showSnackbarEvent: LiveData<String>
         get() = _showSnackbarEvent
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun init(activity: LoginActivity) {
-        if (!userIsLogged()) {
+        if (userIsLogged()) {
             // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
             Log.i(TAG, "User registered")
             val intent = Intent(activity, VehiclesActivity::class.java)
             activity.startActivity(intent)
+        } else {
+            print("No está logueado")
         }
     }
 
@@ -55,6 +59,12 @@ class LoginViewModel : ViewModel() {
             }
     }
 
+    private fun recordLocallyUser(currentUser: FirebaseUser) {
+        val fb = FirebaseService.getInstance()
+        fb.userID = currentUser.uid
+        fb.userEmail = currentUser.email.toString()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
@@ -67,9 +77,11 @@ class LoginViewModel : ViewModel() {
                 OperationLog.LOGIN,
                 "Login successfully"
             )
+            recordLocallyUser(auth.currentUser!!)
             fbSaveLog(itemLog)
         } else {
-            val itemLog = createLog(LogType.ERROR, null, null, OperationLog.LOGIN, "Login failed")
+            val itemLog =
+                createLog(LogType.ERROR, null, null, OperationLog.LOGIN, "Login failed")
             fbSaveLog(itemLog)
         }
         return (currentUser != null)

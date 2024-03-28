@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
+    // Kapt
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -61,6 +63,11 @@ dependencies {
     val navVersion = "2.7.7"
     implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
+    // Room
+    val roomVersion = "2.6.0"
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
