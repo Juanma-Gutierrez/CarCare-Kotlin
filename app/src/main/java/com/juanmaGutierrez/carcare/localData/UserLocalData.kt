@@ -1,10 +1,10 @@
 package com.juanmaGutierrez.carcare.localData
 
 class UserLocalData {
-    var user: Any? = null
+    var userID: String = ""
 
     override fun toString(): String {
-        return "-UserLocalData-\nUSER: $user\n"
+        return "-UserLocalData-\nUserID: $userID\n"
     }
 
     companion object {

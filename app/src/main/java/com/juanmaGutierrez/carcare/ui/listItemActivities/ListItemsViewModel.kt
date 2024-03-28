@@ -66,7 +66,7 @@ class ListItemsViewModel : ViewModel() {
 
     private fun saveLocalUser(data: Map<String, Any>?) {
         val user = UserLocalData.getInstance()
-
+        user.userID = data!!["userId"].toString()
     }
 
     fun setToolbar(title: String, activity: AppCompatActivity) {
