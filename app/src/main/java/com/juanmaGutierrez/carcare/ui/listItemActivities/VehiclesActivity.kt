@@ -8,6 +8,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.ActivityVehiclesBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
+import com.juanmaGutierrez.carcare.localData.VehicleEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class VehiclesActivity : AppCompatActivity() {
         binding.veRvVehicles.layoutManager = LinearLayoutManager(this)
         binding.veRvVehicles.adapter = adapter
         loadVehiclesFromRoom()
+        binding.veSwSwitchAllVehicles.setOnCheckedChangeListener { _, _ -> loadVehiclesFromRoom() }
     }
 
     private fun loadVehiclesFromRoom() {
@@ -39,8 +41,15 @@ class VehiclesActivity : AppCompatActivity() {
         val vehicleDao = appDatabase.vehicleDao()
         GlobalScope.launch(Dispatchers.Main) {
             val vehicles = vehicleDao.getVehicles()
-            adapter.updateData(vehicles)
-
+            val vehiclesFiltered = checkAvailablesVehicles(vehicles)
+            adapter.updateData(vehiclesFiltered)
         }
+    }
+
+    private fun checkAvailablesVehicles(vehicles: List<VehicleEntity>): List<VehicleEntity> {
+        if (binding.veSwSwitchAllVehicles.isChecked) {
+            return vehicles
+        }
+        return vehicles.filter { it.available }
     }
 }

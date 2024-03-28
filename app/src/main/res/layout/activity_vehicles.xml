@@ -31,6 +31,7 @@
             android:background="@color/md_theme_dark_secondary">
 
             <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/ve_sw_switchAllVehicles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="false"
