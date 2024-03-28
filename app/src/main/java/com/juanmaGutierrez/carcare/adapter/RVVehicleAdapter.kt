@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
@@ -30,6 +31,7 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brandAndModel).text =
                 "${vehicle.brand.uppercase()} ${vehicle.model.uppercase()}"
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = "${vehicle.plate}"
+            itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.vehicle_placeholder)
         }
     }
 
