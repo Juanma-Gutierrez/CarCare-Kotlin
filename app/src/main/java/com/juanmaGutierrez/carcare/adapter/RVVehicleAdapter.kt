@@ -30,11 +30,13 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(vehicle: VehicleEntity) {
-            itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked = vehicle.available
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_brandAndModel).text =
+            val vehicleName =
                 "${toUpperCamelCase(vehicle.brand)} ${toUpperCamelCase(vehicle.model)}"
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text =
-                "${vehicle.plate.uppercase()}"
+            val plate = "${vehicle.plate.uppercase()}"
+            itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked =
+                vehicle.available
+            itemView.findViewById<MaterialTextView>(R.id.iv_tv_brandAndModel).text = vehicleName
+            itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = plate
             itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage)
                 .setImageResource(R.drawable.vehicle_placeholder)
         }

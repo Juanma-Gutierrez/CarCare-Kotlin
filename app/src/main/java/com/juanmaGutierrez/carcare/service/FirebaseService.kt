@@ -41,7 +41,6 @@ class FirebaseService {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {
-    println(itemLog)
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.COL_LOG).document(Constants.COL_LOG_DOC)
     docRef.update(Constants.COL_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog))

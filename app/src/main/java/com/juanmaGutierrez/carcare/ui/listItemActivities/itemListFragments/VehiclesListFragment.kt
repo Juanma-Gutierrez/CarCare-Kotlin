@@ -7,11 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.juanmaGutierrez.carcare.R
 
-/**
- * A simple [Fragment] subclass.
- * Use the [VehiclesListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class VehiclesListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
