@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vehicle = vehicles[position]
+        Log.d("wanma", "Posición: $position")
         holder.bind(vehicle)
     }
 
@@ -43,6 +45,7 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
     }
 
     fun updateData(newVehicles: List<VehicleEntity>) {
+        Log.d("wanma","En updateData: $newVehicles")
         vehicles = newVehicles
         notifyDataSetChanged()
     }

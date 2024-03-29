@@ -22,14 +22,15 @@ class ItemListActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         configureViewModel()
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
-        initVehiclesFragment()
+        initVehiclesFrag()
     }
 
-    private fun initVehiclesFragment() {
-        viewModel.getVehiclesFromUser()
+    private fun initVehiclesFrag() {
+        viewModel.saveFBVehiclesToRoom()
         viewModel.initVehiclesFragment()
-        viewModel.initVehicles()
+        // viewModel.initVehicles()
     }
+
 
     private fun configureViewModel() {
         viewModel.initVehiclesEnvironment(this, binding, vehicleBinding)

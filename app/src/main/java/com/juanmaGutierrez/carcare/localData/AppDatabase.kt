@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.juanmaGutierrez.carcare.localData.VehicleDao
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import java.util.Random
+import java.util.UUID
 
 @Database(entities = [VehicleEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -29,3 +31,4 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 }
+

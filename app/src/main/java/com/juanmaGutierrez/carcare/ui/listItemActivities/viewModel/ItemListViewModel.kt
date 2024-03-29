@@ -1,7 +1,7 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
-import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -19,6 +19,7 @@ import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
 import com.juanmaGutierrez.carcare.localData.UserLocalData
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.juanmaGutierrez.carcare.model.createRandomVehicleList
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.SpentsListFragment
@@ -32,11 +33,14 @@ class ItemListViewModel : ViewModel() {
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: ActivityItemListBinding
     private lateinit var vehicleBinding: FragmentVehiclesListBinding
-    private lateinit var activity: AppCompatActivity
+    lateinit var activity: AppCompatActivity
     private val vehicleDao = MainActivity.database.vehicleDao()
     private val _toolbarTitle = MutableLiveData<String>()
     val toolbarTitle: LiveData<String>
         get() = _toolbarTitle
+    val _vehicleList = MutableLiveData<List<VehicleEntity>>()
+    val vehicleList: LiveData<List<VehicleEntity>>
+        get() = _vehicleList
 
     fun initVehiclesEnvironment(
         activity: AppCompatActivity,
@@ -49,7 +53,6 @@ class ItemListViewModel : ViewModel() {
     }
 
     fun initVehiclesFragment() {
-        vehicleAdapter = VehicleAdapter(emptyList())
         val fragmentManager = activity.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(binding.itemListFragmentContainer.id, VehiclesListFragment())
@@ -61,33 +64,37 @@ class ItemListViewModel : ViewModel() {
             activity.supportFragmentManager.findFragmentById(R.id.itemList_fragment_container)
         Log.d("wanma", "TEST: ${currentFragment is VehiclesListFragment}")
 
-        var vehicleAdapter = VehicleAdapter(emptyList())
+        val randomVehicleList = createRandomVehicleList()
+        Log.d("wanma", "VEHICULOS: $randomVehicleList")
+        vehicleAdapter = VehicleAdapter(randomVehicleList)
         val recyclerView = vehicleBinding.veRvVehicles
         recyclerView.layoutManager = LinearLayoutManager(activity.applicationContext)
         recyclerView.adapter = vehicleAdapter
-        loadVehiclesFromRoom(activity)
+        loadVehiclesFromRoom()
         val switchAllVehicles = vehicleBinding.veSwSwitchAllVehicles
-        switchAllVehicles.setOnCheckedChangeListener { _, _ -> loadVehiclesFromRoom(activity) }
+        switchAllVehicles.setOnCheckedChangeListener { _, _ -> loadVehiclesFromRoom() }
     }
 
-    private fun loadVehiclesFromRoom(activity: AppCompatActivity) {
+    fun loadVehiclesFromRoom(activity: AppCompatActivity = this.activity): List<VehicleEntity> {
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
+        var vehiclesFiltered: List<VehicleEntity> = emptyList()
         GlobalScope.launch(Dispatchers.Main) {
             val vehicles = vehicleDao.getVehicles()
-            val vehiclesFiltered = checkAvailablesVehicles(vehicles)
-            vehicleAdapter.updateData(vehiclesFiltered)
+            vehiclesFiltered = checkAvailablesVehicles(vehicles)
+            // vehicleAdapter.updateData(vehiclesFiltered)
         }
+        return vehiclesFiltered
     }
 
     private fun checkAvailablesVehicles(vehicles: List<VehicleEntity>): List<VehicleEntity> {
-        if (vehicleBinding.veSwSwitchAllVehicles.isChecked) {
+/*        if (vehicleBinding.veSwSwitchAllVehicles.isChecked) {
             return vehicles
-        }
+        }*/
         return vehicles.filter { it.available }
     }
 
-    fun getVehiclesFromUser() {
+    fun saveFBVehiclesToRoom() {
         val fb = FirebaseService.getInstance()
         val db = Firebase.firestore
         val docRef = db.collection("user").document(fb.userID)
@@ -99,7 +106,9 @@ class ItemListViewModel : ViewModel() {
                     if (document.data != null) {
                         val vehiclesList: List<Map<String, Any>> =
                             document.data!!.get("vehicles") as List<Map<String, Any>>
-                        saveVehiclesLocally(vehiclesList)
+                        _vehicleList.value = mapVehiclesList(vehiclesList)
+                        saveVehiclesLocally(_vehicleList.value!!)
+                        Log.d("wanma","RESULTADO: ${_vehicleList.value}")
                     }
                 } else {
                     Log.e("ERROR", "No such document")
@@ -110,7 +119,7 @@ class ItemListViewModel : ViewModel() {
             }
     }
 
-    fun saveVehiclesLocally(vehicles: List<Map<String, Any>>) {
+    fun mapVehiclesList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
         val vehicleEntities = vehicles.map { vehicleData ->
             VehicleEntity(
                 vehicleId = vehicleData["vehicleId"].toString(),
@@ -125,9 +134,12 @@ class ItemListViewModel : ViewModel() {
                 brand = vehicleData["brand"].toString()
             )
         }
-        Log.d("wanma", vehicleEntities.size.toString())
+        return vehicleEntities
+    }
+
+    fun saveVehiclesLocally(vehicles: List<VehicleEntity>) {
         viewModelScope.launch {
-            vehicleDao.insertVehicles(vehicleEntities)
+            vehicleDao.insertVehicles(vehicles)
         }
     }
 
