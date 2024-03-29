@@ -1,8 +1,10 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities
+package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
-import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,11 +14,18 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.localData.UserLocalData
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
 import com.juanmaGutierrez.carcare.service.FirebaseService
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.ProvidersListFragment
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.SpentsListFragment
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.login.registerFragment.RegisterFragment
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.launch
 
-class ListItemsViewModel : ViewModel() {
+class ItemListViewModel : ViewModel() {
     private val vehicleDao = MainActivity.database.vehicleDao()
+    private val _toolbarTitle = MutableLiveData<String>()
+    val toolbarTitle: LiveData<String>
+        get() = _toolbarTitle
 
     fun getVehiclesFromUser() {
         val fb = FirebaseService.getInstance()
@@ -80,26 +89,38 @@ class ListItemsViewModel : ViewModel() {
     ) {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.navigation_vehicles -> {
-                    val intent = Intent(activity, VehiclesActivity::class.java)
-                    activity.startActivity(intent)
-                    true
-                }
+                R.id.navigation_vehicles -> replaceFragment(
+                    VehiclesListFragment(),
+                    activity,
+                    "Vehiculos"
+                )
 
-                R.id.navigation_providers -> {
-                    val intent = Intent(activity, ProvidersActivity::class.java)
-                    activity.startActivity(intent)
-                    true
-                }
+                R.id.navigation_providers -> replaceFragment(
+                    ProvidersListFragment(),
+                    activity,
+                    "Proveedores"
+                )
 
-                R.id.navigation_spents -> {
-                    val intent = Intent(activity, SpentsActivity::class.java)
-                    activity.startActivity(intent)
-                    true
-                }
-
+                R.id.navigation_spents -> replaceFragment(SpentsListFragment(), activity, "Gastos")
                 else -> false
             }
         }
+    }
+
+    private fun replaceFragment(
+        fragment: Fragment,
+        activity: AppCompatActivity,
+        title: String
+    ): Boolean {
+        setToolbarTitle(title)
+        val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.itemList_fragment_container, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+        return true
+    }
+
+    fun setToolbarTitle(title: String) {
+        _toolbarTitle.value = title
     }
 }

@@ -20,7 +20,7 @@ import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
-import com.juanmaGutierrez.carcare.ui.listItemActivities.VehiclesActivity
+import com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity
 import java.time.LocalDateTime
 
 
@@ -35,7 +35,7 @@ class LoginViewModel : ViewModel() {
         if (userIsLogged()) {
             // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
             Log.i(TAG, "User registered")
-            val intent = Intent(activity, VehiclesActivity::class.java)
+            val intent = Intent(activity, ItemListActivity::class.java)
             activity.startActivity(intent)
         } else {
             print("No está logueado")

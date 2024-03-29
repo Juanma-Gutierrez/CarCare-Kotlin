@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.listItemActivities.VehiclesActivity">
-
-    <include
-        android:id="@+id/tb_vehiclesToolbar"
-        layout="@layout/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".ui.listItemActivities.itemListFragments.VehiclesListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/marginL"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_vehiclesToolbar">
+        app:layout_constraintTop_toBottomOf="@+id/tb_top_toolbar">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -34,9 +24,9 @@
                 android:id="@+id/ve_sw_switchAllVehicles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/marginXS"
                 android:checked="false"
                 android:text="@string/sw_showlAllVehicles"
-                android:layout_marginHorizontal="@dimen/marginXS"
                 android:textAlignment="viewEnd" />
         </FrameLayout>
 
@@ -49,12 +39,4 @@
     </LinearLayout>
 
 
-    <include
-        layout="@layout/bottombar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

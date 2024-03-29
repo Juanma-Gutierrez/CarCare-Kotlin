@@ -6,9 +6,9 @@
     app:startDestination="@id/vehiclesActivity">
     <activity
         android:id="@+id/vehiclesActivity"
-        android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.VehiclesActivity"
+        android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity"
         android:label="activity_vehicles"
-        tools:layout="@layout/activity_vehicles" />
+        tools:layout="@layout/activity_item_list" />
     <activity
         android:id="@+id/providersActivity"
         android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.ProvidersActivity"

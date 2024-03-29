@@ -22,7 +22,7 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.listItemActivities.VehiclesActivity"
+            android:name=".ui.listItemActivities.ItemListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.onBoarding.OnBoardingActivity"
