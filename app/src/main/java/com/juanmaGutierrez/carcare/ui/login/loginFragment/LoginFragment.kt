@@ -1,14 +1,20 @@
 package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 interface OnRegisterButtonClickListener {
     fun onRegisterButtonClicked()
@@ -25,10 +31,13 @@ class LoginFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.init(this.activity as LoginActivity)
+        viewModel.checkUserIsLogged()
         binding.loBtLogin.setOnClickListener {
             val email = binding.loItEmail.text.toString()
             val password = binding.loItPassword.text.toString()
@@ -42,6 +51,11 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.showSnackbarEvent.observe(viewLifecycleOwner) { message ->
             showSnackBar(message, view)
+        }
+        viewModel.navigateToItemList.observe(viewLifecycleOwner) {
+            Log.d("wanma", "entra en el navegate observer")
+            val intent = Intent(requireActivity(), ItemListActivity::class.java)
+            startActivity(intent)
         }
     }
 

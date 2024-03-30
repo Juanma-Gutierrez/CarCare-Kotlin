@@ -27,6 +27,7 @@ import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.Vehic
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ItemListViewModel : ViewModel() {
@@ -94,9 +95,13 @@ class ItemListViewModel : ViewModel() {
         return vehicles.filter { it.available }
     }
 
-    fun saveFBVehiclesToRoom() {
+    suspend fun saveFBVehiclesToRoom() {
         val fb = FirebaseService.getInstance()
+        while (fb.userID.isEmpty()) {
+            delay(100) // Esperar 100 milisegundos antes de verificar de nuevo
+        }
         val db = Firebase.firestore
+        Log.d("wanma", "fb userid ${fb.userID}")
         val docRef = db.collection("user").document(fb.userID)
         docRef.get()
             .addOnSuccessListener { document ->

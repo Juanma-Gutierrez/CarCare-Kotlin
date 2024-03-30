@@ -1,20 +1,16 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
-import com.juanmaGutierrez.carcare.localData.VehicleEntity
-import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -40,6 +36,8 @@ class VehiclesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeVehicleList()
         setupRecyclerView()
+        val switchAllVehicles = binding.veSwSwitchAllVehicles
+        switchAllVehicles.setOnCheckedChangeListener { _, _ -> setupRecyclerView() }
     }
 
     private fun setupRecyclerView() {
@@ -47,13 +45,8 @@ class VehiclesListFragment : Fragment() {
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
         GlobalScope.launch(Dispatchers.Main) {
-            // val vehicles = vehicleDao.getVehicles()
-            // val vehiclesList = viewModel.loadVehiclesFromRoom(requireActivity() as AppCompatActivity)
             val vehiclesList = vehicleDao.getVehicles()
-            Log.d("wanma", "vehiclesLista en setup: $vehiclesList")
-            // viewModel._vehicleList.value!!
             vehicleAdapter = VehicleAdapter(vehiclesList)
-            Log.d("wanma", "setupRecyclerView: $vehiclesList")
             vehicleAdapter.updateData(vehiclesList)
             binding.veRvVehicles.layoutManager = LinearLayoutManager(requireContext())
             binding.veRvVehicles.adapter = vehicleAdapter
@@ -62,7 +55,6 @@ class VehiclesListFragment : Fragment() {
 
     private fun observeVehicleList() {
         viewModel.vehicleList.observe(viewLifecycleOwner) { vehicles ->
-            Log.d("wanma", "observeVehicleList: $vehicles")
             vehicleAdapter.updateData(vehicles)
         }
     }

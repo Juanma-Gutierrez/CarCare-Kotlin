@@ -1,9 +1,11 @@
 package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,22 +28,25 @@ import java.time.LocalDateTime
 
 class LoginViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var activity: LoginActivity
     private val _showSnackbarEvent = MutableLiveData<String>()
     val showSnackbarEvent: LiveData<String>
         get() = _showSnackbarEvent
+    private val _navigateToItemList = MutableLiveData<Boolean>()
+    val navigateToItemList: LiveData<Boolean>
+        get() = _navigateToItemList
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun init(activity: LoginActivity) {
-        if (userIsLogged()) {
-            // TODO Cambiar a -!userIsLogged()- para hacer la comprobación correcta de usuario logueado
-            Log.i(TAG, "User registered")
-            val intent = Intent(activity, ItemListActivity::class.java)
-            activity.startActivity(intent)
-        } else {
-            print("No está logueado")
-        }
+        this.activity = activity
+        // checkUserIsLogged()
     }
 
+    private fun navigateItemList() {
+        _navigateToItemList.value = true
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun login(fragment: LoginFragment, email: String, password: String) {
         if (!validInputs(email, password)) {
             _showSnackbarEvent.value = fragment.getString(R.string.snackBar_fieldsEmpty)
@@ -52,6 +57,7 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
                     _showSnackbarEvent.value = fragment.getString(R.string.snackBar_welcome)
+                    navigateItemList()
                 } else {
                     _showSnackbarEvent.value = fragment.getString(R.string.snackBar_inputError)
                     Log.e(Constants.TAG_ERROR, "signInWithEmail:failure", task.exception)
@@ -59,10 +65,13 @@ class LoginViewModel : ViewModel() {
             }
     }
 
-    private fun recordLocallyUser(currentUser: FirebaseUser) {
-        val fb = FirebaseService.getInstance()
-        fb.userID = currentUser.uid
-        fb.userEmail = currentUser.email.toString()
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkUserIsLogged() {
+        // TODO Cambiar a -userIsLogged()- para hacer la comprobación correcta de usuario logueado
+        if (userIsLogged()) {
+            Log.i("wanma", "User registered")
+            navigateItemList()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,21 +79,28 @@ class LoginViewModel : ViewModel() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val itemLog = createLog(
-                LogType.INFO,
-                auth.currentUser!!,
-                currentUser.uid,
-                OperationLog.LOGIN,
-                "Login successfully"
+            fbSaveLog(
+                createLog(
+                    LogType.INFO,
+                    auth.currentUser!!,
+                    currentUser.uid,
+                    OperationLog.LOGIN,
+                    "Login successfully"
+                )
             )
             recordLocallyUser(auth.currentUser!!)
-            fbSaveLog(itemLog)
         } else {
             val itemLog =
                 createLog(LogType.ERROR, null, null, OperationLog.LOGIN, "Login failed")
             fbSaveLog(itemLog)
         }
         return (currentUser != null)
+    }
+
+    private fun recordLocallyUser(currentUser: FirebaseUser) {
+        val fb = FirebaseService.getInstance()
+        fb.userID = currentUser.uid
+        fb.userEmail = currentUser.email.toString()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

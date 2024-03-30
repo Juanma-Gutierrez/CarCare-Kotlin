@@ -7,6 +7,9 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ItemListActivity : AppCompatActivity() {
@@ -22,13 +25,16 @@ class ItemListActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         configureViewModel()
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
-        initVehiclesFrag()
+        CoroutineScope(Dispatchers.Main).launch {
+            initVehiclesFrag()
+        }
     }
 
     private fun initVehiclesFrag() {
-        viewModel.saveFBVehiclesToRoom()
-        viewModel.initVehiclesFragment()
-        // viewModel.initVehicles()
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.saveFBVehiclesToRoom()
+            viewModel.initVehiclesFragment()
+        }
     }
 
 
