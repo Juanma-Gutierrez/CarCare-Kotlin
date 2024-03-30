@@ -1,7 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
 import android.util.Log
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -82,23 +81,23 @@ class ItemListViewModel : ViewModel() {
         var vehiclesFiltered: List<VehicleEntity> = emptyList()
         GlobalScope.launch(Dispatchers.Main) {
             val vehicles = vehicleDao.getVehicles()
-            vehiclesFiltered = checkAvailablesVehicles(vehicles)
-            // vehicleAdapter.updateData(vehiclesFiltered)
+            vehiclesFiltered = checkAvailablesVehicles(vehicles, vehicleBinding.veSwSwitchAllVehicles.isChecked)
+            vehicleAdapter.updateData(vehiclesFiltered)
         }
         return vehiclesFiltered
     }
 
-    private fun checkAvailablesVehicles(vehicles: List<VehicleEntity>): List<VehicleEntity> {
-/*        if (vehicleBinding.veSwSwitchAllVehicles.isChecked) {
+    private fun checkAvailablesVehicles(vehicles: List<VehicleEntity>, switch: Boolean): List<VehicleEntity> {
+        if (switch) {
             return vehicles
-        }*/
+        }
         return vehicles.filter { it.available }
     }
 
     suspend fun saveFBVehiclesToRoom() {
         val fb = FirebaseService.getInstance()
         while (fb.userID.isEmpty()) {
-            delay(100) // Esperar 100 milisegundos antes de verificar de nuevo
+            delay(100)
         }
         val db = Firebase.firestore
         Log.d("wanma", "fb userid ${fb.userID}")
@@ -113,7 +112,7 @@ class ItemListViewModel : ViewModel() {
                             document.data!!.get("vehicles") as List<Map<String, Any>>
                         _vehicleList.value = mapVehiclesList(vehiclesList)
                         saveVehiclesLocally(_vehicleList.value!!)
-                        Log.d("wanma","RESULTADO: ${_vehicleList.value}")
+                        Log.d("wanma", "RESULTADO: ${_vehicleList.value}")
                     }
                 } else {
                     Log.e("ERROR", "No such document")
