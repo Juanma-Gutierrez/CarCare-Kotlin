@@ -22,7 +22,6 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vehicle = vehicles[position]
-        Log.d("wanma", "Posición: $position")
         holder.bind(vehicle)
     }
 

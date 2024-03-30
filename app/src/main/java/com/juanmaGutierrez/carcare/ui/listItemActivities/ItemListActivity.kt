@@ -28,6 +28,7 @@ class ItemListActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             initVehiclesFrag()
         }
+        vehicleBinding.veSwSwitchAllVehicles.setOnCheckedChangeListener { _, _ -> viewModel.loadVehiclesFromRoom() }
     }
 
     private fun initVehiclesFrag() {

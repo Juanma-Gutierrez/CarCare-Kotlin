@@ -1,6 +1,7 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,19 +36,20 @@ class VehiclesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeVehicleList()
-        setupRecyclerView()
-        val switchAllVehicles = binding.veSwSwitchAllVehicles
-        switchAllVehicles.setOnCheckedChangeListener { _, _ -> setupRecyclerView() }
+        val switch = binding.veSwSwitchAllVehicles
+        setupRecyclerView(switch.isChecked)
+        switch.setOnCheckedChangeListener { _, _ -> setupRecyclerView(switch.isChecked) }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerView(switch:Boolean) {
         val activity = requireActivity() as AppCompatActivity
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
         GlobalScope.launch(Dispatchers.Main) {
             val vehiclesList = vehicleDao.getVehicles()
-            vehicleAdapter = VehicleAdapter(vehiclesList)
-            vehicleAdapter.updateData(vehiclesList)
+            val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList, switch)
+            vehicleAdapter = VehicleAdapter(filteredList)
+            vehicleAdapter.updateData(filteredList)
             binding.veRvVehicles.layoutManager = LinearLayoutManager(requireContext())
             binding.veRvVehicles.adapter = vehicleAdapter
         }

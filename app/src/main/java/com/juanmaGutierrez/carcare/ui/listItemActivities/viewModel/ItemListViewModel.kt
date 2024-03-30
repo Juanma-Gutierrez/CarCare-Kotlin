@@ -71,23 +71,23 @@ class ItemListViewModel : ViewModel() {
         recyclerView.layoutManager = LinearLayoutManager(activity.applicationContext)
         recyclerView.adapter = vehicleAdapter
         loadVehiclesFromRoom()
-        val switchAllVehicles = vehicleBinding.veSwSwitchAllVehicles
-        switchAllVehicles.setOnCheckedChangeListener { _, _ -> loadVehiclesFromRoom() }
     }
 
     fun loadVehiclesFromRoom(activity: AppCompatActivity = this.activity): List<VehicleEntity> {
+        Log.d("wanma","entra en loadvehiclesfromroom")
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
         var vehiclesFiltered: List<VehicleEntity> = emptyList()
         GlobalScope.launch(Dispatchers.Main) {
             val vehicles = vehicleDao.getVehicles()
-            vehiclesFiltered = checkAvailablesVehicles(vehicles, vehicleBinding.veSwSwitchAllVehicles.isChecked)
+            vehiclesFiltered = filtercheckAvailablesVehicles(vehicles, vehicleBinding.veSwSwitchAllVehicles.isChecked)
             vehicleAdapter.updateData(vehiclesFiltered)
         }
         return vehiclesFiltered
     }
 
-    private fun checkAvailablesVehicles(vehicles: List<VehicleEntity>, switch: Boolean): List<VehicleEntity> {
+    fun filtercheckAvailablesVehicles(vehicles: List<VehicleEntity>, switch: Boolean): List<VehicleEntity> {
+        Log.d("wanma", "switch: $switch")
         if (switch) {
             return vehicles
         }
