@@ -17,6 +17,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     private val _showSnackbarEvent = MutableLiveData<String>()
     val showSnackbarEvent: LiveData<String>
         get() = _showSnackbarEvent
+    private val _navigateToItemList = MutableLiveData<Boolean>()
+    val navigateToItemList: LiveData<Boolean>
+        get() = _navigateToItemList
 
     fun init(activity: AppCompatActivity) {
         this.activity = activity
@@ -30,6 +33,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                 fbRegisterUserAuth(user)
                 _showSnackbarEvent.value =
                     activity.getString(R.string.snackBar_registerUser_Successfully)
+                navigateItemList()
             } catch (e: Error) {
                 Log.e(TAG, "Error in register user")
             }
@@ -81,5 +85,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             password = binding.reItPassword.text.toString(),
             repeatPassword = binding.reItRepeatPassword.text.toString()
         )
+    }
+
+    private fun navigateItemList() {
+        _navigateToItemList.value = true
     }
 }
