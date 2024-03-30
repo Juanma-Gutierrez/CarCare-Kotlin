@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -7,11 +8,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,7 +48,10 @@ class ItemListActivity : AppCompatActivity() {
                     showSnackBar(resources.getString(R.string.cancel_message), findViewById(android.R.id.content))
                 }
                 .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                    Log.d("wanma", "Aceptar")
+                    val data = FirebaseAuth.getInstance().signOut();
+                    Log.d("wanma", "Aceptar: $data")
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
                 }
                 .show()
         }
