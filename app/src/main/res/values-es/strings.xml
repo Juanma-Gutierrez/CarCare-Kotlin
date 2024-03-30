@@ -30,7 +30,12 @@
     <string name="error_passwordNotMatch">Las contraseñas no coinciden</string>
     <string name="error_passwordWeak">La contraseña es demasiado débil</string>
     <string name="snackBar_registerUser_Successfully">Usuario registrado con éxito</string>
+    <string name="accept">Aceptar</string>
+    <string name="logout_title">Cerrar sesión</string>
+    <string name="logout_message">¿Quieres cerrar sesión y salir de la aplicación?</string>
     <string name="menu_vehicles">Vehículos</string>
     <string name="menu_providers">Proveedores</string>
     <string name="menu_spents">Gastos</string>
+    <string name="cancel">Cancelar</string>
+    <string name="cancel_message">Operación cancelada</string>
 </resources>

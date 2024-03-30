@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 
 /**
  * Usage: showSnackBar("Message", requireView())
+ * Usage: showSnackBar("Message", findViewById(android.R.id.content))
  */
 fun showSnackBar(message: String, view: View) {
     val snackBar = Snackbar.make(

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/closeSession"
+        android:title="Cerrar sesion"
+        android:contentDescription="Cerrar sesión"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/edit"
+        android:title="editar"
+        android:contentDescription="editar"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/icon_mail"
+        android:title="favoritos"
+        android:contentDescription="favoritos"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/more"
+        android:title="mas"
+        android:contentDescription="mas"
+        app:showAsAction="never" />
+
+</menu>

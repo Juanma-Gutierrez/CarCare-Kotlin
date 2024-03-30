@@ -4,7 +4,13 @@
 
     <!-- App -->
     <string name="app_name">CarCare</string>
-    <!-- Menu -->
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_message">Operation cancelled</string>
+    <!-- TopAppBar -->
+    <string name="logout_title">Close session</string>
+    <string name="logout_message">Do you want to log out and exit the application?</string>
+    <!-- BottomBar -->
     <string name="menu_vehicles">Vehicles</string>
     <string name="menu_providers">Providers</string>
     <string name="menu_spents">Spents</string>

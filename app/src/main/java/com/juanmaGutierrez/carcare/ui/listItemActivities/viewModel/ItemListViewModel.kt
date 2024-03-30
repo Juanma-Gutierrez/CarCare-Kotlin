@@ -153,7 +153,7 @@ class ItemListViewModel : ViewModel() {
     }
 
     fun setToolbar(title: String, activity: AppCompatActivity) {
-        activity.setSupportActionBar(activity.findViewById(R.id.tb_toolbar))
+        activity.setSupportActionBar(activity.findViewById(R.id.topAppBar))
         activity.supportActionBar?.title = title
     }
 

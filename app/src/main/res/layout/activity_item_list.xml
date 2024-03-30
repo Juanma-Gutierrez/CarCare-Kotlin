@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/tb_top_toolbar"
-        layout="@layout/top_toolbar"
+        layout="@layout/toolbar_top_app_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
 
     <include
         android:id="@+id/bb_bottombar"
-        layout="@layout/bottom_toolbar"
+        layout="@layout/toolbar_bottom_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

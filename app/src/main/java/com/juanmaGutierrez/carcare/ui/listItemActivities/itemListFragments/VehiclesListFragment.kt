@@ -39,6 +39,7 @@ class VehiclesListFragment : Fragment() {
         val switch = binding.veSwSwitchAllVehicles
         setupRecyclerView(switch.isChecked)
         switch.setOnCheckedChangeListener { _, _ -> setupRecyclerView(switch.isChecked) }
+
     }
 
     private fun setupRecyclerView(switch:Boolean) {
