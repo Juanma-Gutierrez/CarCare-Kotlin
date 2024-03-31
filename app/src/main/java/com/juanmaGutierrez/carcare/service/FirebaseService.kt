@@ -4,10 +4,13 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.juanmaGutierrez.carcare.model.ItemLog
+import com.juanmaGutierrez.carcare.model.LogType
+import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.model.Providers
 import com.juanmaGutierrez.carcare.model.User
 import com.juanmaGutierrez.carcare.model.UserFB
@@ -15,11 +18,13 @@ import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_CREATE_USER
 import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 
 class FirebaseService {
+    var user: FirebaseUser? = null
     var userID: String = ""
     var userEmail: String = ""
 
@@ -104,5 +109,18 @@ fun mapUser(user: User, uid: String): UserFB {
         emptyList(),
     )
     return data
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun createLog(
+    type: LogType,
+    currentUser: FirebaseUser?,
+    uid: String? = "",
+    operation: OperationLog,
+    content: String = "",
+): ItemLog {
+    val email = currentUser?.email ?: ""
+    val uid = currentUser?.uid ?: ""
+    return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
 }
 

@@ -14,15 +14,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.model.ItemLog
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
-import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.FirebaseService
+import com.juanmaGutierrez.carcare.service.createLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
-import com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity
 import java.time.LocalDateTime
 
 
@@ -56,7 +54,7 @@ class LoginViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    _showSnackbarEvent.value = fragment.getString(R.string.snackBar_welcome)
+                    saveLoginToLog(auth.currentUser)
                     navigateItemList()
                 } else {
                     _showSnackbarEvent.value = fragment.getString(R.string.snackBar_inputError)
@@ -64,6 +62,20 @@ class LoginViewModel : ViewModel() {
                 }
             }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveLoginToLog(currentUser: FirebaseUser?) {
+        fbSaveLog(
+            createLog(
+                LogType.INFO,
+                auth.currentUser!!,
+                currentUser?.uid,
+                OperationLog.LOGIN,
+                "Login successfully"
+            )
+        )
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
@@ -79,42 +91,13 @@ class LoginViewModel : ViewModel() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            fbSaveLog(
-                createLog(
-                    LogType.INFO,
-                    auth.currentUser!!,
-                    currentUser.uid,
-                    OperationLog.LOGIN,
-                    "Login successfully"
-                )
-            )
-            recordLocallyUser(auth.currentUser!!)
+            Log.d(Constants.TAG, "Login successfully")
         } else {
-            val itemLog =
-                createLog(LogType.ERROR, null, null, OperationLog.LOGIN, "Login failed")
-            fbSaveLog(itemLog)
+            Log.d(Constants.TAG_ERROR, "Login error")
         }
         return (currentUser != null)
     }
 
-    private fun recordLocallyUser(currentUser: FirebaseUser) {
-        val fb = FirebaseService.getInstance()
-        fb.userID = currentUser.uid
-        fb.userEmail = currentUser.email.toString()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createLog(
-        type: LogType,
-        currentUser: FirebaseUser?,
-        uid: String? = "",
-        operation: OperationLog,
-        content: String = "",
-    ): ItemLog {
-        val email = currentUser?.email ?: ""
-        val uid = currentUser?.uid ?: ""
-        return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
-    }
 
     private fun validInputs(email: String, password: String): Boolean {
         return ((email != "") and (password != ""))

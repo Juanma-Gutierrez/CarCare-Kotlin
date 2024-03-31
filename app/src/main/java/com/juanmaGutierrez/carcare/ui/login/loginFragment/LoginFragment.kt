@@ -53,7 +53,6 @@ class LoginFragment : Fragment() {
             showSnackBar(message, view)
         }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
-            Log.d("wanma", "entra en el navegate observer")
             val intent = Intent(requireActivity(), ItemListActivity::class.java)
             startActivity(intent)
         }

@@ -1,6 +1,9 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
+import android.content.Intent
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -9,7 +12,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
@@ -18,11 +23,18 @@ import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
 import com.juanmaGutierrez.carcare.localData.UserLocalData
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.juanmaGutierrez.carcare.model.LogType
+import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.model.createRandomVehicleList
+import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.FirebaseService
+import com.juanmaGutierrez.carcare.service.createLog
+import com.juanmaGutierrez.carcare.service.fbSaveLog
+import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -41,6 +53,9 @@ class ItemListViewModel : ViewModel() {
     val _vehicleList = MutableLiveData<List<VehicleEntity>>()
     val vehicleList: LiveData<List<VehicleEntity>>
         get() = _vehicleList
+    private val _signOut = MutableLiveData<Boolean>()
+    val signOut: LiveData<Boolean>
+        get() = _signOut
 
     fun initVehiclesEnvironment(
         activity: AppCompatActivity,
@@ -50,6 +65,7 @@ class ItemListViewModel : ViewModel() {
         this.activity = activity
         this.binding = binding
         this.vehicleBinding = vehicleBinding
+        this._signOut.value = false
     }
 
     fun initVehiclesFragment() {
@@ -59,14 +75,17 @@ class ItemListViewModel : ViewModel() {
         fragmentTransaction.commit()
     }
 
-    fun initVehicles() {
-        val currentFragment =
-            activity.supportFragmentManager.findFragmentById(R.id.itemList_fragment_container)
-        Log.d("wanma", "TEST: ${currentFragment is VehiclesListFragment}")
+    suspend fun initVehicles() {
+        /*        val currentFragment =
+                    activity.supportFragmentManager.findFragmentById(R.id.itemList_fragment_container)
+                Log.d("wanma", "TEST: ${currentFragment is VehiclesListFragment}")
 
-        val randomVehicleList = createRandomVehicleList()
-        Log.d("wanma", "VEHICULOS: $randomVehicleList")
-        vehicleAdapter = VehicleAdapter(randomVehicleList)
+                val randomVehicleList = createRandomVehicleList()
+                Log.d("wanma", "VEHICULOS: $randomVehicleList")*/
+
+        saveFBVehiclesToRoom()
+        val vehicles = loadVehiclesFromRoom(activity)
+        vehicleAdapter = VehicleAdapter(vehicles)
         val recyclerView = vehicleBinding.veRvVehicles
         recyclerView.layoutManager = LinearLayoutManager(activity.applicationContext)
         recyclerView.adapter = vehicleAdapter
@@ -74,7 +93,6 @@ class ItemListViewModel : ViewModel() {
     }
 
     fun loadVehiclesFromRoom(activity: AppCompatActivity = this.activity): List<VehicleEntity> {
-        Log.d("wanma","entra en loadvehiclesfromroom")
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
         var vehiclesFiltered: List<VehicleEntity> = emptyList()
@@ -87,10 +105,7 @@ class ItemListViewModel : ViewModel() {
     }
 
     fun filtercheckAvailablesVehicles(vehicles: List<VehicleEntity>, switch: Boolean): List<VehicleEntity> {
-        Log.d("wanma", "switch: $switch")
-        if (switch) {
-            return vehicles
-        }
+        if (switch) return vehicles
         return vehicles.filter { it.available }
     }
 
@@ -106,13 +121,11 @@ class ItemListViewModel : ViewModel() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     saveLocalUser(document.data)
-                    Log.d("wanma", "DocumentSnapshot data: ${document.data}")
                     if (document.data != null) {
                         val vehiclesList: List<Map<String, Any>> =
                             document.data!!.get("vehicles") as List<Map<String, Any>>
                         _vehicleList.value = mapVehiclesList(vehiclesList)
                         saveVehiclesLocally(_vehicleList.value!!)
-                        Log.d("wanma", "RESULTADO: ${_vehicleList.value}")
                     }
                 } else {
                     Log.e("ERROR", "No such document")
@@ -200,5 +213,32 @@ class ItemListViewModel : ViewModel() {
 
     fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setSignOutDialog() {
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(activity.getString(R.string.logout_title))
+            .setMessage(activity.getString(R.string.logout_message))
+            .setNegativeButton(activity.getString(R.string.cancel)) { dialog, which ->
+                showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
+            }
+            .setPositiveButton(activity.getString(R.string.accept)) { dialog, which ->
+                signOut()
+                this._signOut.value = true
+            }
+            .show()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun signOut() {
+        val fb = FirebaseAuth.getInstance()
+        Log.d("wanma", "logout user: ${fb.currentUser!!.uid}")
+        val itemLog =
+            createLog(LogType.INFO, fb.currentUser, fb.currentUser!!.uid, OperationLog.LOGOUT, "Logout")
+        fbSaveLog(itemLog)
+        FirebaseAuth.getInstance().signOut();
     }
 }

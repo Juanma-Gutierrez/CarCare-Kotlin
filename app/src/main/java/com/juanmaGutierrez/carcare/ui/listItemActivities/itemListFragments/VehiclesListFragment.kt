@@ -15,6 +15,7 @@ import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,11 +42,10 @@ class VehiclesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeVehicleList()
         val switch = binding.veSwSwitchAllVehicles
         setupRecyclerView(switch.isChecked)
         switch.setOnCheckedChangeListener { _, _ -> setupRecyclerView(switch.isChecked) }
-
+        observeVehicleList()
     }
 
     private fun setupRecyclerView(switch:Boolean) {
@@ -61,10 +61,10 @@ class VehiclesListFragment : Fragment() {
             binding.veRvVehicles.adapter = vehicleAdapter
         }
     }
-
     private fun observeVehicleList() {
         viewModel.vehicleList.observe(viewLifecycleOwner) { vehicles ->
-            vehicleAdapter.updateData(vehicles)
+            // vehicleAdapter.updateData(vehicles)
+            Log.d("wanma", "Cambiado la lista de vehiculos ${vehicles.size} $vehicles")
         }
     }
 
