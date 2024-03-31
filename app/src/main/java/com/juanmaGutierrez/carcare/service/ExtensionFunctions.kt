@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 
+
+
 /**
  * Usage: showSnackBar("Message", requireView())
  * Usage: showSnackBar("Message", findViewById(android.R.id.content))

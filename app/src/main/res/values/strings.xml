@@ -10,12 +10,19 @@
     <!-- TopAppBar -->
     <string name="logout_title">Close session</string>
     <string name="logout_message">Do you want to log out and exit the application?</string>
+    <!-- Detail Toolbar -->
+    <string name="new_vehicle">New vehicle</string>
+    <string name="edit_vehicle">Edit vehicle</string>
+    <string name="new_provider">New provider</string>
+    <string name="edit_provider">Edit provider</string>
+    <string name="new_spent">New spent</string>
+    <string name="edit_spent">Edit spent</string>
     <!-- BottomBar -->
     <string name="menu_vehicles">Vehicles</string>
     <string name="menu_providers">Providers</string>
     <string name="menu_spents">Spents</string>
     <!-- Vehicle Topbar -->
-    <string name="sw_showlAllVehicles">Show all vehicles</string>
+    <string name="sw_showAllVehicles">Show all vehicles</string>
     <!-- SnackBar -->
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
@@ -48,6 +55,8 @@
     <string name="error_emptyFields">You can\'t leave empty fields</string>
     <string name="error_passwordNotMatch">The password do not match</string>
     <string name="error_passwordWeak">The password is too weak</string>
+    <string name="snackBar_showAll">Show all vehicles</string>
+    <string name="snackBar_showAvailables">Show only available vehicles</string>
 
 
 </resources>

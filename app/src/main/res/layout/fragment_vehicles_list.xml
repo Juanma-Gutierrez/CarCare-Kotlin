@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/marginXS"
                 android:checked="false"
-                android:text="@string/sw_showlAllVehicles"
+                android:text="@string/sw_showAllVehicles"
                 android:textAlignment="viewEnd" />
         </FrameLayout>
 
