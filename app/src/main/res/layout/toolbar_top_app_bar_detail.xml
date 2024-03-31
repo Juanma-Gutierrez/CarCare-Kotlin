@@ -5,14 +5,14 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+        android:id="@+id/topAppBarDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_theme_light_primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/icon_options"
+        app:navigationIcon="@drawable/icon_arrow_left"
         app:navigationIconTint="@color/color_white"
         app:titleTextColor="@color/color_white" />
 </androidx.constraintlayout.widget.ConstraintLayout>

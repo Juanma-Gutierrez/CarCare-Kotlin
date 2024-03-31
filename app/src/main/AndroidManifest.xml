@@ -13,7 +13,7 @@
         android:theme="@style/Theme.CarCare"
         tools:targetApi="31">
         <activity
-            android:name=".DetailActivity"
+            android:name=".ui.detailActivities.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.listItemActivities.SpentsActivity"
