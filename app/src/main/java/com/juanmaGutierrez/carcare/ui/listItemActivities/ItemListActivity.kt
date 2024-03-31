@@ -47,32 +47,6 @@ class ItemListActivity : AppCompatActivity() {
             viewModel.setSignOutDialog()
         }
     }
-/*
-    private fun setSignOutDialog() {
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle(resources.getString(R.string.logout_title))
-            .setMessage(resources.getString(R.string.logout_message))
-            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
-                showSnackBar(resources.getString(R.string.cancel_message), findViewById(android.R.id.content))
-            }
-            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                signOut()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
-            .show()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun signOut() {
-        val data = FirebaseAuth.getInstance().signOut();
-        Log.d(Constants.TAG, "Logout: $data")
-        val itemLog =
-            createLog(LogType.INFO, null, null, OperationLog.LOGOUT, "Logout")
-        fbSaveLog(itemLog)
-    }*/
-
 
     private fun initVehiclesFrag() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -80,7 +54,6 @@ class ItemListActivity : AppCompatActivity() {
             viewModel.initVehiclesFragment()
         }
     }
-
 
     private fun configureViewModel() {
         Log.d("wanma", "Configure ViewModel")

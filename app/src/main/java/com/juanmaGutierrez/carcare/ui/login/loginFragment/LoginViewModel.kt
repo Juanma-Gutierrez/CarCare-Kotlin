@@ -1,11 +1,8 @@
 package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,11 +14,9 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
-import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.createLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
-import java.time.LocalDateTime
 
 
 class LoginViewModel : ViewModel() {
@@ -79,9 +74,8 @@ class LoginViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
-        // TODO Cambiar a -userIsLogged()- para hacer la comprobación correcta de usuario logueado
         if (userIsLogged()) {
-            Log.i("wanma", "User registered")
+            Log.i(Constants.TAG, "User logged")
             navigateItemList()
         }
     }

@@ -1,6 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
-import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -10,7 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Firebase
@@ -25,8 +23,6 @@ import com.juanmaGutierrez.carcare.localData.UserLocalData
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
-import com.juanmaGutierrez.carcare.model.createRandomVehicleList
-import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.createLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
@@ -34,14 +30,16 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.VehiclesListFragment
-import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ItemListViewModel : ViewModel() {
+class ItemListViewModel(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+) : ViewModel() {
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: ActivityItemListBinding
     private lateinit var vehicleBinding: FragmentVehiclesListBinding
@@ -75,28 +73,11 @@ class ItemListViewModel : ViewModel() {
         fragmentTransaction.commit()
     }
 
-    suspend fun initVehicles() {
-        /*        val currentFragment =
-                    activity.supportFragmentManager.findFragmentById(R.id.itemList_fragment_container)
-                Log.d("wanma", "TEST: ${currentFragment is VehiclesListFragment}")
-
-                val randomVehicleList = createRandomVehicleList()
-                Log.d("wanma", "VEHICULOS: $randomVehicleList")*/
-
-        saveFBVehiclesToRoom()
-        val vehicles = loadVehiclesFromRoom(activity)
-        vehicleAdapter = VehicleAdapter(vehicles)
-        val recyclerView = vehicleBinding.veRvVehicles
-        recyclerView.layoutManager = LinearLayoutManager(activity.applicationContext)
-        recyclerView.adapter = vehicleAdapter
-        loadVehiclesFromRoom()
-    }
-
     fun loadVehiclesFromRoom(activity: AppCompatActivity = this.activity): List<VehicleEntity> {
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
         var vehiclesFiltered: List<VehicleEntity> = emptyList()
-        GlobalScope.launch(Dispatchers.Main) {
+        GlobalScope.launch(dispatcher) {
             val vehicles = vehicleDao.getVehicles()
             vehiclesFiltered = filtercheckAvailablesVehicles(vehicles, vehicleBinding.veSwSwitchAllVehicles.isChecked)
             vehicleAdapter.updateData(vehiclesFiltered)
@@ -122,8 +103,7 @@ class ItemListViewModel : ViewModel() {
                 if (document != null) {
                     saveLocalUser(document.data)
                     if (document.data != null) {
-                        val vehiclesList: List<Map<String, Any>> =
-                            document.data!!.get("vehicles") as List<Map<String, Any>>
+                        val vehiclesList = document.data!!["vehicles"] as List<Map<String, Any>>
                         _vehicleList.value = mapVehiclesList(vehiclesList)
                         saveVehiclesLocally(_vehicleList.value!!)
                     }
@@ -221,10 +201,10 @@ class ItemListViewModel : ViewModel() {
         MaterialAlertDialogBuilder(activity)
             .setTitle(activity.getString(R.string.logout_title))
             .setMessage(activity.getString(R.string.logout_message))
-            .setNegativeButton(activity.getString(R.string.cancel)) { dialog, which ->
+            .setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
                 showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
             }
-            .setPositiveButton(activity.getString(R.string.accept)) { dialog, which ->
+            .setPositiveButton(activity.getString(R.string.accept)) { _, _ ->
                 signOut()
                 this._signOut.value = true
             }

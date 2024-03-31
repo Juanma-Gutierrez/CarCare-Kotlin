@@ -15,7 +15,6 @@ import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,7 +47,7 @@ class VehiclesListFragment : Fragment() {
         observeVehicleList()
     }
 
-    private fun setupRecyclerView(switch:Boolean) {
+    private fun setupRecyclerView(switch: Boolean) {
         val activity = requireActivity() as AppCompatActivity
         val appDatabase = AppDatabase.getInstance(activity.applicationContext)
         val vehicleDao = appDatabase.vehicleDao()
@@ -61,6 +60,7 @@ class VehiclesListFragment : Fragment() {
             binding.veRvVehicles.adapter = vehicleAdapter
         }
     }
+
     private fun observeVehicleList() {
         viewModel.vehicleList.observe(viewLifecycleOwner) { vehicles ->
             // vehicleAdapter.updateData(vehicles)
