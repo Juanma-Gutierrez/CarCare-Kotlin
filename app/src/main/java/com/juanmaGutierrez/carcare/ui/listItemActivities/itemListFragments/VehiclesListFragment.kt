@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.juanmaGutierrez.carcare.DetailActivity
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.localData.AppDatabase
@@ -30,6 +32,10 @@ class VehiclesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVehiclesListBinding.inflate(inflater, container, false)
+        binding.veFabAddVehicle.setOnClickListener {
+            val intent = Intent(requireContext(), DetailActivity::class.java)
+            startActivity(intent)
+        }
         return binding.root
     }
 
