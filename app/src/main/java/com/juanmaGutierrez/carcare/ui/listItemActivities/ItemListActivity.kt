@@ -1,13 +1,15 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
-import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.VehiclesListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
@@ -21,29 +23,24 @@ class ItemListActivity : AppCompatActivity() {
     // private lateinit var vehicleBinding: FragmentVehiclesListBinding
     private lateinit var viewModel: ItemListViewModel
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         super.onCreate(savedInstanceState)
         binding = ActivityItemListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        configureTopToolbar()
-        configureViewModel()
         navigateToVehiclesFragment()
+        configureViewModel()
+        signOutAccepted()
+        configureTopToolbar()
 
-        /*
-                vehicleBinding = FragmentVehiclesListBinding.inflate(layoutInflater)
+        /*      vehicleBinding = FragmentVehiclesListBinding.inflate(layoutInflater)
                 configureViewModel()
                 CoroutineScope(Dispatchers.Main).launch { initVehiclesFrag() }
                 vehicleBinding.veSwSwitchAllVehicles.setOnCheckedChangeListener { _, _ -> viewModel.loadVehiclesFromRoom() }
-                viewModel.signOut.observe(this) { isSignedOut ->
-                    if (isSignedOut) {
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
-
          */
     }
+
 
     private fun navigateToVehiclesFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -52,20 +49,23 @@ class ItemListActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureTopToolbar() {
-        Log.d("wanma", "Configure toptoolbar")
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
-        val topAppBar = binding.tbTopToolbar.topAppBar
-        topAppBar.setNavigationOnClickListener {
-            viewModel.setSignOutDialog()
+        binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.tb_it_logout -> {
+                    viewModel.setSignOutDialog()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
-    private fun initVehiclesFrag() {
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.saveFBVehiclesToRoom()
-            viewModel.initVehiclesFragment()
-        }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_top_app_bar, menu)
+        return true
     }
 
     private fun configureViewModel() {
@@ -76,5 +76,21 @@ class ItemListActivity : AppCompatActivity() {
         /*
                 viewModel.initVehiclesEnvironment(this, binding, vehicleBinding)
         */
+    }
+
+/*    private fun initVehiclesFrag() {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.saveFBVehiclesToRoom()
+            viewModel.initVehiclesFragment()
+        }
+    }*/
+
+    private fun signOutAccepted() {
+        viewModel.signOut.observe(this) { isSignedOut ->
+            if (isSignedOut) {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }
