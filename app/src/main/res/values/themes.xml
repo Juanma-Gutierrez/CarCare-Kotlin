@@ -44,4 +44,10 @@
         <item name="harmonizeDanger">false</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inverseSurface</item>
     </style>
+
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">@color/color_white</item>
+        <item name="android:textColorSecondary">@color/color_white</item>
+    </style>
+
 </resources>
