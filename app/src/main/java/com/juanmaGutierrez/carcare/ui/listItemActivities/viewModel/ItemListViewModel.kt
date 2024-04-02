@@ -27,9 +27,9 @@ import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.createLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
-import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.ProvidersListFragment
-import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.SpentsListFragment
-import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.providersList.ProvidersListFragment
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList.SpentsListFragment
+import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList.VehiclesListFragment
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

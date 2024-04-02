@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments
+package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

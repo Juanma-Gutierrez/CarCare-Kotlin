@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments
+package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList
 
 import android.content.Intent
 import android.os.Bundle
