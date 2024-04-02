@@ -23,12 +23,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class VehiclesListFragment : Fragment() {
-    private val viewModel: ItemListViewModel by viewModels()
+    private val vehiclesListViewModel: VehiclesListViewModel by viewModels()
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: FragmentVehiclesListBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +62,7 @@ class VehiclesListFragment : Fragment() {
         val vehicleDao = appDatabase.vehicleDao()
         GlobalScope.launch(Dispatchers.Main) {
             val vehiclesList = vehicleDao.getVehicles()
-            val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList, switch)
+            val filteredList = vehiclesListViewModel.filtercheckAvailablesVehicles(vehiclesList, switch)
             vehicleAdapter = VehicleAdapter(filteredList)
             vehicleAdapter.updateData(filteredList)
             binding.veRvVehicles.layoutManager = LinearLayoutManager(requireContext())
@@ -74,7 +71,7 @@ class VehiclesListFragment : Fragment() {
     }
 
     private fun observeVehicleList() {
-        viewModel.vehicleList.observe(viewLifecycleOwner) { vehicles ->
+        vehiclesListViewModel.vehicleList.observe(viewLifecycleOwner) { vehicles ->
             // vehicleAdapter.updateData(vehicles)
             Log.d("wanma", "Cambiado la lista de vehiculos ${vehicles.size} $vehicles")
         }
