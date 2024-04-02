@@ -66,6 +66,16 @@ class ItemListViewModel(
         this._signOut.value = false
     }
 
+    fun initItemListEnvironment(
+        activity: AppCompatActivity,
+        binding: ActivityItemListBinding,
+    ) {
+        this.activity = activity
+        this.binding = binding
+        this._signOut.value = false
+    }
+
+
     fun initVehiclesFragment() {
         val fragmentManager = activity.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
