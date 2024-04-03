@@ -14,6 +14,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
+import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.createLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
@@ -50,6 +51,8 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
                     saveLoginToLog(auth.currentUser)
+                    val fb = FirebaseService.getInstance()
+                    fb.user = auth.currentUser
                     navigateItemList()
                 } else {
                     _showSnackbarEvent.value = fragment.getString(R.string.snackBar_inputError)

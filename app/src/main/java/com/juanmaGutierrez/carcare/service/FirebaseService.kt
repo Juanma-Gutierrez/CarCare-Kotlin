@@ -23,15 +23,15 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 
-/*
-
 class FirebaseService {
     var user: FirebaseUser? = null
-    var userID: String = ""
-    var userEmail: String = ""
 
     override fun toString(): String {
-        return "-FirebaseService-\nUSER ID: $userID\nUSER EMAIL: $userEmail\n"
+        var data = ""
+        if (user != null) {
+            data = "-FirebaseService-\nUSER ID: ${user!!.uid}\nUSER EMAIL: ${user!!.email}\n"
+        }
+        return data
     }
 
     companion object {
@@ -45,7 +45,7 @@ class FirebaseService {
         }
     }
 }
-*/
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {

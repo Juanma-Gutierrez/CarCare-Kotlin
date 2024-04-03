@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.ui.detailActivities.DetailActivity
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import kotlinx.coroutines.launch
 
 class VehiclesListFragment : Fragment() {
     private lateinit var vehiclesListViewModel: VehiclesListViewModel
@@ -39,14 +41,16 @@ class VehiclesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vehiclesListViewModel.addVehiclesWithDelay()
-        // vehiclesListViewModel.loadLocalVehicles()
-
+        vehiclesListViewModel.loadLocalVehicles(requireContext())
         vehiclesListViewModel.vehiclesList.observe(viewLifecycleOwner) { list ->
-            Log.d("wanma", "Tamaño de la lista de vehículos ${list.size}")
+            // actualizar recyclerview
+            showSnackBar("Tamaño: ${list.size}", this.requireView())
         }
 
         configureSwitchAllVehicles()
-
+/*        viewLifecycleOwner.lifecycleScope.launch {
+            vehiclesListViewModel.saveFBVehiclesToRoom()
+        }*/
 
         // getLocalVehiclesFromRoom()  // da bloqueo total
     }
