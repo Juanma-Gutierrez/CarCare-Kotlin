@@ -48,7 +48,7 @@ class ItemListActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureTopToolbar() {
-        viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
+        // viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title } // TODO descomentar
         binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.tb_it_logout -> {
@@ -66,7 +66,6 @@ class ItemListActivity : AppCompatActivity() {
     }
 
     private fun configureViewModel() {
-        Log.d("wanma", "Configure ViewModel")
         viewModel.initItemListEnvironment(this, binding)
         viewModel.setToolbar(getString(R.string.menu_vehicles), this)
         viewModel.setNavigationBottombar(findViewById(R.id.bottomBar), this)

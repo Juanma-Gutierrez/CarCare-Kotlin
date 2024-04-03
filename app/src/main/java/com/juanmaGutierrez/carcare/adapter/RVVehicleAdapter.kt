@@ -44,7 +44,6 @@ class VehicleAdapter(private var vehicles: List<VehicleEntity>) :
     }
 
     fun updateData(newVehicles: List<VehicleEntity>) {
-        Log.d("wanma","En updateData: $newVehicles")
         vehicles = newVehicles
         notifyDataSetChanged()
     }

@@ -22,16 +22,14 @@ import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.provi
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList.VehiclesListFragment
 
-class ItemListViewModel: ViewModel() {
+class ItemListViewModel : ViewModel() {
     private lateinit var binding: ActivityItemListBinding
     lateinit var activity: AppCompatActivity
 
     private val _toolbarTitle = MutableLiveData<String>()
-    val toolbarTitle: LiveData<String>
-        get() = _toolbarTitle
+    val toolbarTitle: LiveData<String> get() = _toolbarTitle
     private val _signOut = MutableLiveData<Boolean>()
-    val signOut: LiveData<Boolean>
-        get() = _signOut
+    val signOut: LiveData<Boolean> get() = _signOut
 
     fun initItemListEnvironment(
         activity: AppCompatActivity,
@@ -112,7 +110,6 @@ class ItemListViewModel: ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun signOut() {
         val fb = FirebaseAuth.getInstance()
-        Log.d("wanma", "logout user: ${fb.currentUser!!.uid}")
         val itemLog =
             createLog(LogType.INFO, fb.currentUser, fb.currentUser!!.uid, OperationLog.LOGOUT, "Logout")
         fbSaveLog(itemLog)

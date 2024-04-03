@@ -24,7 +24,6 @@ class DetailViewModel : ViewModel() {
         val ts = ToolbarService.getInstance()
         activity.setSupportActionBar(activity.findViewById(R.id.topAppBarDetail))
         activity.supportActionBar?.title = ts.detailTitle
-        Log.d("wanma", "Titulo: ${ts.detailTitle}")
     }
 
 }

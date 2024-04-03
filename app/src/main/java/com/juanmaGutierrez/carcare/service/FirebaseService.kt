@@ -23,6 +23,8 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 
+/*
+
 class FirebaseService {
     var user: FirebaseUser? = null
     var userID: String = ""
@@ -43,6 +45,7 @@ class FirebaseService {
         }
     }
 }
+*/
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {
