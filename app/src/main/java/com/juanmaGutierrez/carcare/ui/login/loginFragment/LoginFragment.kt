@@ -48,9 +48,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.showSnackbarEvent.observe(viewLifecycleOwner) { message ->
-            showSnackBar(message, view)
-        }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view) }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), ItemListActivity::class.java)
             startActivity(intent)

@@ -14,9 +14,8 @@ import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var activity: AppCompatActivity
-    private val _showSnackbarEvent = MutableLiveData<String>()
-    val showSnackbarEvent: LiveData<String>
-        get() = _showSnackbarEvent
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
     private val _navigateToItemList = MutableLiveData<Boolean>()
     val navigateToItemList: LiveData<Boolean>
         get() = _navigateToItemList
@@ -31,7 +30,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         else
             try {
                 fbRegisterUserAuth(user)
-                _showSnackbarEvent.value =
+                _snackbarMessage.value =
                     activity.getString(R.string.snackBar_registerUser_Successfully)
                 navigateItemList()
             } catch (e: Error) {
@@ -41,7 +40,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private fun validUserData(user: User): Boolean {
         if (someFieldEmpty(user)) {
-            _showSnackbarEvent.value =
+            _snackbarMessage.value =
                 getApplication<Application>().getString(R.string.error_emptyFields)
             return false
         }
@@ -51,12 +50,12 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private fun passwordIsValid(user: User): Boolean {
         if (user.password != user.repeatPassword) {
-            _showSnackbarEvent.value =
+            _snackbarMessage.value =
                 getApplication<Application>().getString(R.string.error_passwordNotMatch)
             return false
         }
         if (!validatePasswordCharacters(user.password)) {
-            _showSnackbarEvent.value =
+            _snackbarMessage.value =
                 getApplication<Application>().getString(R.string.error_passwordWeak)
             return false
         }

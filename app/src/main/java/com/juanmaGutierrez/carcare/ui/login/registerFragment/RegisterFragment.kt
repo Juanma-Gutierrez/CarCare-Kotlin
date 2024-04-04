@@ -30,7 +30,7 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[RegisterViewModel::class.java]
         viewModel.init(activity as AppCompatActivity)
-        viewModel.showSnackbarEvent.observe(viewLifecycleOwner) { message ->
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
             showSnackBar(message, view)
         }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {

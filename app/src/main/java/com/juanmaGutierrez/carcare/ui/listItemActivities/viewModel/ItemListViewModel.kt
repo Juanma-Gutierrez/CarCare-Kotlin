@@ -1,7 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -15,8 +14,9 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
-import com.juanmaGutierrez.carcare.service.createLog
+import com.juanmaGutierrez.carcare.service.fbCreateLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
+import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList.SpentsListFragment
@@ -111,7 +111,7 @@ class ItemListViewModel : ViewModel() {
     private fun signOut() {
         val fb = FirebaseAuth.getInstance()
         val itemLog =
-            createLog(LogType.INFO, fb.currentUser, fb.currentUser!!.uid, OperationLog.LOGOUT, "Logout")
+            fbCreateLog(LogType.INFO, fb.currentUser, fb.currentUser!!.uid, OperationLog.LOGOUT, "Logout")
         fbSaveLog(itemLog)
         FirebaseAuth.getInstance().signOut();
     }

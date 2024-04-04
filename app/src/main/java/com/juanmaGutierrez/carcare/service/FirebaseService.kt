@@ -115,7 +115,7 @@ fun mapUser(user: User, uid: String): UserFB {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun createLog(
+fun fbCreateLog(
     type: LogType,
     currentUser: FirebaseUser?,
     uid: String? = "",
@@ -125,5 +125,11 @@ fun createLog(
     val email = currentUser?.email ?: ""
     val uid = currentUser?.uid ?: ""
     return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
+}
+
+fun fbSaveUserLocally(user: FirebaseUser): FirebaseUser? {
+    val fb = FirebaseService.getInstance()
+    fb.user = user
+    return fb.user
 }
 

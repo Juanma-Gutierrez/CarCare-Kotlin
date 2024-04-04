@@ -14,8 +14,8 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.Constants
-import com.juanmaGutierrez.carcare.service.FirebaseService
-import com.juanmaGutierrez.carcare.service.createLog
+import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
+import com.juanmaGutierrez.carcare.service.fbCreateLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
@@ -23,17 +23,14 @@ import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 class LoginViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
     private lateinit var activity: LoginActivity
-    private val _showSnackbarEvent = MutableLiveData<String>()
-    val showSnackbarEvent: LiveData<String>
-        get() = _showSnackbarEvent
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
     private val _navigateToItemList = MutableLiveData<Boolean>()
-    val navigateToItemList: LiveData<Boolean>
-        get() = _navigateToItemList
+    val navigateToItemList: LiveData<Boolean> get() = _navigateToItemList
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun init(activity: LoginActivity) {
         this.activity = activity
-        // checkUserIsLogged()
     }
 
     private fun navigateItemList() {
@@ -43,7 +40,7 @@ class LoginViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun login(fragment: LoginFragment, email: String, password: String) {
         if (!validInputs(email, password)) {
-            _showSnackbarEvent.value = fragment.getString(R.string.snackBar_fieldsEmpty)
+            _snackbarMessage.value = fragment.getString(R.string.snackBar_fieldsEmpty)
             return
         }
         auth = Firebase.auth
@@ -51,11 +48,10 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
                     saveLoginToLog(auth.currentUser)
-                    val fb = FirebaseService.getInstance()
-                    fb.user = auth.currentUser
+                    fbSaveUserLocally(auth.currentUser!!)
                     navigateItemList()
                 } else {
-                    _showSnackbarEvent.value = fragment.getString(R.string.snackBar_inputError)
+                    _snackbarMessage.value = fragment.getString(R.string.snackBar_inputError)
                     Log.e(Constants.TAG_ERROR, "signInWithEmail:failure", task.exception)
                 }
             }
@@ -64,7 +60,7 @@ class LoginViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveLoginToLog(currentUser: FirebaseUser?) {
         fbSaveLog(
-            createLog(
+            fbCreateLog(
                 LogType.INFO,
                 auth.currentUser!!,
                 currentUser?.uid,
@@ -86,15 +82,14 @@ class LoginViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
+        if (auth.currentUser != null) {
+            fbSaveUserLocally(auth.currentUser!!)
             Log.d(Constants.TAG, "Login successfully")
         } else {
             Log.d(Constants.TAG_ERROR, "Login error")
         }
-        return (currentUser != null)
+        return (auth.currentUser != null)
     }
-
 
     private fun validInputs(email: String, password: String): Boolean {
         return ((email != "") and (password != ""))
