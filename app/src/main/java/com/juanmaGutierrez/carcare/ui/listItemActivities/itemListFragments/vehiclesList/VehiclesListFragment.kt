@@ -40,19 +40,21 @@ class VehiclesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vehiclesListViewModel.addVehiclesWithDelay()
+        // vehiclesListViewModel.addVehiclesWithDelay()
         vehiclesListViewModel.loadLocalVehicles(requireContext())
         vehiclesListViewModel.vehiclesList.observe(viewLifecycleOwner) { list ->
+            print(list)
             // actualizar recyclerview
-            showSnackBar("Tamaño: ${list.size}", this.requireView())
+            // showSnackBar("Tamaño: ${list.size}", this.requireView())
+        }
+        vehiclesListViewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
+            showSnackBar(message, this.requireView())
+        }
+        configureSwitchAllVehicles()
+        viewLifecycleOwner.lifecycleScope.launch {
+            vehiclesListViewModel.saveFBVehiclesToRoom()
         }
 
-        configureSwitchAllVehicles()
-/*        viewLifecycleOwner.lifecycleScope.launch {
-            vehiclesListViewModel.saveFBVehiclesToRoom()
-        }*/
-
-        // getLocalVehiclesFromRoom()  // da bloqueo total
     }
 
     /*

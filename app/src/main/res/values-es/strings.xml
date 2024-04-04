@@ -33,9 +33,17 @@
     <string name="accept">Aceptar</string>
     <string name="logout_title">Cerrar sesión</string>
     <string name="logout_message">¿Quieres cerrar sesión y salir de la aplicación?</string>
+    <string name="new_vehicle">Nuevo vehículo</string>
+    <string name="edit_vehicle">Editar vehículo</string>
+    <string name="new_provider">Nuevo proveedor</string>
+    <string name="edit_provider">Editar proveedor</string>
+    <string name="new_spent">Nuevo gasto</string>
+    <string name="edit_spent">Editar gasto</string>
     <string name="menu_vehicles">Vehículos</string>
     <string name="menu_providers">Proveedores</string>
     <string name="menu_spents">Gastos</string>
     <string name="cancel">Cancelar</string>
     <string name="cancel_message">Operación cancelada</string>
+    <string name="snackBar_showAll">Mostrar todos los vehículos</string>
+    <string name="snackBar_showAvailables">Mostrar solamente los vehículos disponibles</string>
 </resources>

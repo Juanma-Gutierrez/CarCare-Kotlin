@@ -29,6 +29,8 @@ class VehiclesListViewModel(
     private val _vehicleList = MutableLiveData<List<VehicleEntity>>()
     val vehiclesList: LiveData<List<VehicleEntity>> get() = _vehicleList
     private val vehicleDao = MainActivity.database.vehicleDao()
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
     /*    private lateinit var vehicleAdapter: VehicleAdapter
         private lateinit var binding: ActivityItemListBinding
@@ -41,23 +43,18 @@ class VehiclesListViewModel(
 
     fun loadLocalVehicles(context: Context) {
         viewModelScope.launch {
-            val localVehicles = withContext(Dispatchers.IO) {
-                getLocalVehicles(context)
-            }
-            _vehicleList.value = localVehicles
-        }
-    }
-
-    suspend fun getLocalVehicles(context: Context): List<VehicleEntity> {
-        return withContext(Dispatchers.IO) {
+            //   withContext(Dispatchers.IO) {
             val appDatabase = AppDatabase.getInstance(context.applicationContext)
             val vehicleDao = appDatabase.vehicleDao()
             val vehicles = vehicleDao.getVehicles()
             if (vehicles.isNotEmpty()) {
-                vehicles
+                _snackbarMessage.value = "carga vehículos locales, ${vehicles.size}"
+                _vehicleList.value = vehicles
             } else {
+                _snackbarMessage.value = "Debes incluir algún vehículo en tu base de datos"
                 // todo añadir mensaje de que se cree algún vehículo
-                emptyList()
+                _vehicleList.value = emptyList()
+                //    }
             }
         }
     }
@@ -67,25 +64,27 @@ class VehiclesListViewModel(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val fb = FirebaseService.getInstance()
-                /*        while (fb.user.not) {
-                            delay(100)
-                        }*/
-                val db = Firebase.firestore
-                val docRef = db.collection("user").document(fb.user!!.uid)
-                docRef.get()
-                    .addOnSuccessListener { document ->
-                        if (document.data != null) {
-                            val vehiclesList = document.data!!["vehicles"] as List<Map<String, Any>>
-                            _vehicleList.value = mapVehiclesList(vehiclesList)
-                            saveVehiclesLocally(_vehicleList.value!!)
-                            //}
-                        } else {
-                            Log.e("ERROR", "No such document")
+                //if (fb.user != null) {
+                    Log.e("wanma", "****************** ${fb.user}")
+                    val db = Firebase.firestore
+                    //val docRef = db.collection("user").document(fb.user!!.uid) esta dando problemas porque user llega null
+                    val docRef = db.collection("user").document("2q9htbSYiJVC4bKirouCOmx0qbW2")
+                    docRef.get()
+                        .addOnSuccessListener { document ->
+                            if (document.data != null) {
+                                val vehiclesList = document.data!!["vehicles"] as List<Map<String, Any>>
+                                _vehicleList.value = mapVehiclesList(vehiclesList)
+                                _snackbarMessage.value = "carga de vehículos de firebase, ${vehiclesList.size}"
+                                saveVehiclesLocally(_vehicleList.value!!)
+                                //}
+                            } else {
+                                Log.e("ERROR", "No such document")
+                            }
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.e("ERROR", "Get failed with ", exception)
-                    }
+                        .addOnFailureListener { exception ->
+                            Log.e("ERROR", "Get failed with ", exception)
+                        }
+               //  }
             }
         }
     }
