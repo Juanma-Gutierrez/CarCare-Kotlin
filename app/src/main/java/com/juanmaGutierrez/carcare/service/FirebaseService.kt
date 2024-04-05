@@ -50,8 +50,8 @@ class FirebaseService {
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection(Constants.COL_LOG).document(Constants.COL_LOG_DOC)
-    docRef.update(Constants.COL_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog))
+    val docRef = db.collection(Constants.COLLECTION_LOG).document(Constants.COLLECTION_LOG_DOC)
+    docRef.update(Constants.COLLECTION_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog))
         .addOnSuccessListener {}
         .addOnFailureListener { e ->
             val logMap = mapOf("logs" to listOf(itemLog))

@@ -26,7 +26,7 @@
     <!-- SnackBar -->
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
-    <string name="snackBar_inputError">"Error in the data entered "</string>
+    <string name="snackBar_inputError">Unable to log in</string>
     <string name="snackBar_registerUser_Successfully">User registered successfully</string>
     <!-- onBoarding -->
     <string name="next_button">Next</string>

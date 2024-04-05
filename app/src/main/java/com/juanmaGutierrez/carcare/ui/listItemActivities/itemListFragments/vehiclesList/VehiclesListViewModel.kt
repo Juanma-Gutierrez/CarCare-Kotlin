@@ -11,14 +11,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.localData.AppDatabase
 import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.juanmaGutierrez.carcare.mapping.mapVehiclesListEntity
 import com.juanmaGutierrez.carcare.service.FirebaseService
-import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -51,7 +48,6 @@ class VehiclesListViewModel(
         }
     }
 
-
     suspend fun saveFBVehiclesToRoom() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -62,9 +58,9 @@ class VehiclesListViewModel(
                     .addOnSuccessListener { document ->
                         if (document.data != null) {
                             val vehiclesList = document.data!!["vehicles"] as List<Map<String, Any>>
-                            _vehicleList.value = mapVehiclesList(vehiclesList)
-                            _snackbarMessage.value = "carga de vehículos de firebase, ${vehiclesList.size}"
-                            saveVehiclesLocally(_vehicleList.value!!)
+                            _vehicleList.value = mapVehiclesListEntity(vehiclesList)
+                            _snackbarMessage.value = "ha cargado datos de firebase ${vehiclesList.size}"
+                            saveVehiclesToRoom(_vehicleList.value!!)
                         } else {
                             Log.e("ERROR", "No such document")
                         }
@@ -76,26 +72,7 @@ class VehiclesListViewModel(
         }
     }
 
-
-    fun mapVehiclesList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
-        val vehicleEntities = vehicles.map { vehicleData ->
-            VehicleEntity(
-                vehicleId = vehicleData["vehicleId"].toString(),
-                userId = vehicleData["userId"].toString(),
-                ref = vehicleData["ref"].toString(),
-                created = vehicleData["created"].toString(),
-                registrationDate = vehicleData["registrationDate"].toString(),
-                available = vehicleData["available"] as Boolean,
-                model = vehicleData["model"].toString(),
-                plate = vehicleData["plate"].toString(),
-                category = vehicleData["category"].toString(),
-                brand = vehicleData["brand"].toString()
-            )
-        }
-        return vehicleEntities
-    }
-
-    fun saveVehiclesLocally(vehicles: List<VehicleEntity>) {
+    fun saveVehiclesToRoom(vehicles: List<VehicleEntity>) {
         viewModelScope.launch {
             vehicleDao.replaceAllVehicles(vehicles)
         }

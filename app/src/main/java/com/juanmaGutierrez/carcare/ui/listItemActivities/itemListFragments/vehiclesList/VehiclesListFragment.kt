@@ -42,8 +42,8 @@ class VehiclesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // vehiclesListViewModel.addVehiclesWithDelay()
         vehiclesListViewModel.loadLocalVehicles(requireContext())
-        vehiclesListViewModel.vehiclesList.observe(viewLifecycleOwner) { list ->
-            print(list)
+        vehiclesListViewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
+            // loadDataInRecyclerView(vehiclesList)
             // actualizar recyclerview
             // showSnackBar("Tamaño: ${list.size}", this.requireView())
         }
@@ -56,6 +56,8 @@ class VehiclesListFragment : Fragment() {
         }
 
     }
+
+
 
     /*
         private fun getLocalVehiclesFromRoom() {

@@ -19,7 +19,7 @@
     <string name="sw_showAllVehicles">Mostrar todos los vehículos</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_welcome">¡Bienvenido!</string>
-    <string name="snackBar_inputError">Error en los datos introducidos</string>
+    <string name="snackBar_inputError">No se ha podido iniciar sesión</string>
     <string name="label_register">Registro</string>
     <string name="label_name">Nombre</string>
     <string name="label_surname">Apellidos</string>

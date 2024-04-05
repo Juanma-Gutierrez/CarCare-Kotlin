@@ -52,7 +52,7 @@ class LoginViewModel : ViewModel() {
                     navigateItemList()
                 } else {
                     _snackbarMessage.value = fragment.getString(R.string.snackBar_inputError)
-                    Log.e(Constants.TAG_ERROR, "signInWithEmail:failure", task.exception)
+                    Log.e(Constants.TAG_ERROR, Constants.LOGIN_FAILURE_SING_IN_WITH_EMAIL, task.exception)
                 }
             }
     }
@@ -65,7 +65,7 @@ class LoginViewModel : ViewModel() {
                 auth.currentUser!!,
                 currentUser?.uid,
                 OperationLog.LOGIN,
-                "Login successfully"
+                Constants.LOGIN_SUCCESFULLY
             )
         )
     }
@@ -74,7 +74,7 @@ class LoginViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
         if (userIsLogged()) {
-            Log.i(Constants.TAG, "User logged")
+            Log.i(Constants.TAG, Constants.LOGIN_USER_LOGGED)
             navigateItemList()
         }
     }
@@ -84,9 +84,9 @@ class LoginViewModel : ViewModel() {
         auth = Firebase.auth
         if (auth.currentUser != null) {
             fbSaveUserLocally(auth.currentUser!!)
-            Log.d(Constants.TAG, "Login successfully")
+            Log.i(Constants.TAG, Constants.LOGIN_SUCCESFULLY)
         } else {
-            Log.d(Constants.TAG_ERROR, "Login error")
+            Log.e(Constants.TAG_ERROR, Constants.LOGIN_ERROR)
         }
         return (auth.currentUser != null)
     }
