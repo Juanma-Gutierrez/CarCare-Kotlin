@@ -16,7 +16,6 @@ import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.fbCreateLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
-import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList.SpentsListFragment

@@ -6,20 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
+import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 import com.juanmaGutierrez.carcare.model.User
 import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
+import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
+import kotlinx.coroutines.launch
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var activity: AppCompatActivity
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
     private val _navigateToItemList = MutableLiveData<Boolean>()
-    val navigateToItemList: LiveData<Boolean>
-        get() = _navigateToItemList
+    val navigateToItemList: LiveData<Boolean> get() = _navigateToItemList
 
     fun init(activity: AppCompatActivity) {
         this.activity = activity
@@ -31,18 +34,25 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         else
             try {
                 fbRegisterUserAuth(user)
-                _snackbarMessage.value =
-                    activity.getString(R.string.snackBar_registerUser_Successfully)
-                navigateItemList()
+                clearRoomDatabase {
+                    navigateItemList()
+                }
             } catch (e: Error) {
-                Log.e(TAG,  Constants.REGISTER_USER_ERROR)
+                Log.e(TAG, Constants.REGISTER_USER_ERROR)
             }
+    }
+
+    private fun clearRoomDatabase(callback: () -> Unit) {
+        val vehicleDao = MainActivity.database.vehicleDao()
+        viewModelScope.launch {
+            vehicleDao.clearVehicles()
+            callback()
+        }
     }
 
     private fun validUserData(user: User): Boolean {
         if (someFieldEmpty(user)) {
-            _snackbarMessage.value =
-                getApplication<Application>().getString(R.string.error_emptyFields)
+            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_emptyFields)
             return false
         }
         if (!passwordIsValid(user)) return false
@@ -51,13 +61,11 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private fun passwordIsValid(user: User): Boolean {
         if (user.password != user.repeatPassword) {
-            _snackbarMessage.value =
-                getApplication<Application>().getString(R.string.error_passwordNotMatch)
+            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_passwordNotMatch)
             return false
         }
         if (!validatePasswordCharacters(user.password)) {
-            _snackbarMessage.value =
-                getApplication<Application>().getString(R.string.error_passwordWeak)
+            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_passwordWeak)
             return false
         }
         return true

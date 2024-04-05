@@ -66,7 +66,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconContentDescription="@string/label_password"
-                        app:startIconDrawable="@drawable/icon_password">
+                        app:startIconDrawable="@drawable/icon_password"
+                        app:endIconMode="password_toggle">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/lo_it_password"

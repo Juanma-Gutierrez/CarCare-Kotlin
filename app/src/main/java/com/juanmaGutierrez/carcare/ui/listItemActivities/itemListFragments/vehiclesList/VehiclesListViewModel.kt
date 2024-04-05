@@ -1,11 +1,7 @@
 package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList
 
-import android.app.Application
 import android.content.Context
-import android.content.res.Resources
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +19,7 @@ import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -44,6 +41,7 @@ class VehiclesListViewModel(
             val appDatabase = AppDatabase.getInstance(context.applicationContext)
             val vehicleDao = appDatabase.vehicleDao()
             val vehicles = vehicleDao.getVehicles()
+            delay(1000L)
             if (vehicles.isNotEmpty()) {
                 _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehicles)
             } else {

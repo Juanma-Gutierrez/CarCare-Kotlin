@@ -110,7 +110,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconContentDescription="Password"
-                        app:startIconDrawable="@drawable/icon_password">
+                        app:startIconDrawable="@drawable/icon_password"
+                        app:endIconMode="password_toggle">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/re_it_password"
@@ -124,7 +125,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:startIconContentDescription="Repeat password"
-                        app:startIconDrawable="@drawable/icon_password">
+                        app:startIconDrawable="@drawable/icon_password"
+                        app:endIconMode="password_toggle">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/re_it_repeatPassword"

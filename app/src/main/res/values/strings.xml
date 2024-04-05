@@ -3,7 +3,7 @@
     <string name="hello_blank_fragment" translatable="false">NEW FRAGMENT CREATED</string>
 
     <!-- App -->
-    <string name="app_name">CarCare</string>
+    <string name="app_name" translatable="false">CarCare</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="cancel_message">Operation cancelled</string>
@@ -63,11 +63,11 @@
     <string name="error_emptyFields">You can\'t leave empty fields</string>
     <string name="error_passwordNotMatch">The password do not match</string>
     <string name="error_passwordWeak">The password is too weak</string>
-    <string name="snackBar_showAll">Show all vehicles</string>
-    <string name="snackBar_showAvailables">Show only available vehicles</string>
+    <string name="snackBar_showAll">All vehicles</string>
+    <string name="snackBar_showAvailables">Available vehicles</string>
 
     <!-- Vehicles List -->
-    <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
+    <string name="vehiclesList_noVehicles">You must add some vehicle to your database</string>
 
 
 </resources>

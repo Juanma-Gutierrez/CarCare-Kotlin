@@ -75,10 +75,7 @@ class OnBoardingActivity : AppCompatActivity() {
     fun savePrefData() {
         sharedPreferences = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-        editor.putBoolean(
-            "isFirstTimeRun",
-            false
-        ) // TODO Cambiar a -false- para no mostrar onBoarding
+        editor.putBoolean("isFirstTimeRun", false)
         editor.apply()
     }
 

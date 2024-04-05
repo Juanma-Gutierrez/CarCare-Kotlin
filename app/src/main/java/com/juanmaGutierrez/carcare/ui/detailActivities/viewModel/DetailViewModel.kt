@@ -1,6 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.detailActivities.viewModel
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
