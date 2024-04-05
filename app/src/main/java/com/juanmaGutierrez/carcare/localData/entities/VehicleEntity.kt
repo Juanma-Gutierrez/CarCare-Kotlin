@@ -1,7 +1,8 @@
-package com.juanmaGutierrez.carcare.localData
+package com.juanmaGutierrez.carcare.localData.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.DocumentReference
 
 @Entity(tableName = "vehicles")
 data class VehicleEntity(

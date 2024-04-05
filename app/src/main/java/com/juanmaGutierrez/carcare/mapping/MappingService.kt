@@ -1,11 +1,12 @@
 package com.juanmaGutierrez.carcare.mapping
 
-import com.google.firebase.firestore.DocumentReference
-import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.google.firebase.firestore.FirebaseFirestore
+import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 import com.juanmaGutierrez.carcare.model.Vehicle
 
-fun mapVehiclesListEntity(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
+fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
     val vehicleEntities = vehicles.map { vehicleData ->
+        val refVehicle = "/vehicle/" + vehicleData["vehicleId"].toString()
         VehicleEntity(
             available = vehicleData["available"] as Boolean,
             brand = vehicleData["brand"].toString(),
@@ -13,7 +14,7 @@ fun mapVehiclesListEntity(vehicles: List<Map<String, Any>>): List<VehicleEntity>
             created = vehicleData["created"].toString(),
             model = vehicleData["model"].toString(),
             plate = vehicleData["plate"].toString(),
-            ref = vehicleData["ref"].toString(),
+            ref = refVehicle,
             registrationDate = vehicleData["registrationDate"].toString(),
             userId = vehicleData["userId"].toString(),
             vehicleId = vehicleData["vehicleId"].toString(),
@@ -22,18 +23,19 @@ fun mapVehiclesListEntity(vehicles: List<Map<String, Any>>): List<VehicleEntity>
     return vehicleEntities
 }
 
-fun mapVehiclesList(vehicles: List<Map<String, Any>>): List<Vehicle> {
+fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Vehicle> {
     val vehiclesList = vehicles.map { vehicleData ->
+        val docRef = FirebaseFirestore.getInstance().document(vehicleData.ref)
         Vehicle(
-            available = vehicleData["available"] as Boolean,
-            brand = vehicleData["brand"].toString(),
-            category = vehicleData["category"].toString(),
-            created = vehicleData["created"].toString(),
-            model = vehicleData["model"].toString(),
-            plate = vehicleData["plate"].toString(),
-            ref = vehicleData["ref"] as DocumentReference,
-            registrationDate = vehicleData["registrationDate"].toString(),
-            vehicleId = vehicleData["vehicleId"].toString(),
+            available = vehicleData.available,
+            brand = vehicleData.brand,
+            category = vehicleData.category,
+            created = vehicleData.created,
+            model = vehicleData.model,
+            plate = vehicleData.plate,
+            ref = docRef,
+            registrationDate = vehicleData.registrationDate,
+            vehicleId = vehicleData.vehicleId,
         )
     }
     return vehiclesList

@@ -1,10 +1,11 @@
-package com.juanmaGutierrez.carcare.localData
+package com.juanmaGutierrez.carcare.localData.DAO
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 
 @Dao
 interface VehicleDao {

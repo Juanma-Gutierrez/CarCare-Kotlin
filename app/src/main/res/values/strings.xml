@@ -7,9 +7,11 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="cancel_message">Operation cancelled</string>
+
     <!-- TopAppBar -->
     <string name="logout_title">Close session</string>
     <string name="logout_message">Do you want to log out and exit the application?</string>
+
     <!-- Detail Toolbar -->
     <string name="new_vehicle">New vehicle</string>
     <string name="edit_vehicle">Edit vehicle</string>
@@ -17,17 +19,21 @@
     <string name="edit_provider">Edit provider</string>
     <string name="new_spent">New spent</string>
     <string name="edit_spent">Edit spent</string>
+
     <!-- BottomBar -->
     <string name="menu_vehicles">Vehicles</string>
     <string name="menu_providers">Providers</string>
     <string name="menu_spents">Spents</string>
+
     <!-- Vehicle Topbar -->
     <string name="sw_showAllVehicles">Show all vehicles</string>
+
     <!-- SnackBar -->
     <string name="snackBar_fieldsEmpty">You must fill in the fields correctly</string>
     <string name="snackBar_welcome">Welcome!</string>
     <string name="snackBar_inputError">Unable to log in</string>
     <string name="snackBar_registerUser_Successfully">User registered successfully</string>
+
     <!-- onBoarding -->
     <string name="next_button">Next</string>
     <string name="get_started_button">Start</string>
@@ -39,12 +45,14 @@
     <string name="onBoarding_text2">Add your service providers.</string>
     <string name="onBoarding_title3">Spents</string>
     <string name="onBoarding_text3">Add the expenses that arise from time to time.</string>
+
     <!-- Login -->
     <string name="login_button">Login</string>
     <string name="label_email">Email</string>
     <string name="label_password">Password</string>
     <string name="label_login">Login</string>
     <string name="goRegister_button">Not registered? Do it now</string>
+
     <!-- Register -->
     <string name="label_register">Register</string>
     <string name="label_name">Name</string>
@@ -57,6 +65,9 @@
     <string name="error_passwordWeak">The password is too weak</string>
     <string name="snackBar_showAll">Show all vehicles</string>
     <string name="snackBar_showAvailables">Show only available vehicles</string>
+
+    <!-- Vehicles List -->
+    <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
 
 
 </resources>

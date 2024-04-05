@@ -17,10 +17,7 @@ import com.juanmaGutierrez.carcare.model.UserFB
 import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
 import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.Executors
 
 class FirebaseService {
@@ -51,8 +48,7 @@ class FirebaseService {
 fun fbSaveLog(itemLog: ItemLog) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.COLLECTION_LOG).document(Constants.COLLECTION_LOG_DOC)
-    docRef.update(Constants.COLLECTION_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog))
-        .addOnSuccessListener {}
+    docRef.update(Constants.COLLECTION_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog)).addOnSuccessListener {}
         .addOnFailureListener { e ->
             val logMap = mapOf("logs" to listOf(itemLog))
             docRef.set(logMap)
@@ -76,27 +72,18 @@ fun fbRegisterUserAuth(user: User) {
 
 fun fbCreateUser(user: User, uid: String) {
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection("user").document(uid)
+    val docRef = db.collection(Constants.FB_COLLECTION_USER).document(uid)
     val mappedUser = mapUser(user, uid)
-    docRef.set(mappedUser)
-        .addOnSuccessListener {}
-        .addOnFailureListener { e -> Log.e("ERROR", "Error in database operation", e) }
+    docRef.set(mappedUser).addOnSuccessListener {}
+        .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
 fun fbCreateProviders(uid: String) {
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection("provider").document(uid)
+    val docRef = db.collection(Constants.FB_COLLECTION_PROVIDER).document(uid)
     val providers = Providers(emptyList())
-    docRef.set(providers)
-        .addOnSuccessListener {}
-        .addOnFailureListener { e -> Log.e("ERROR", "Error in database operation", e) }
-}
-
-fun getTimestamp(): String {
-    val currentTimestamp = Date()
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-    val timestampString = dateFormat.format(currentTimestamp)
-    return timestampString
+    docRef.set(providers).addOnSuccessListener {}
+        .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
 fun mapUser(user: User, uid: String): UserFB {
@@ -106,7 +93,7 @@ fun mapUser(user: User, uid: String): UserFB {
         user.email,
         user.name,
         user.username,
-        "user",
+        Constants.DEFAULT_ROLE,
         user.surname,
         uid,
         emptyList(),
@@ -132,4 +119,3 @@ fun fbSaveUserLocally(user: FirebaseUser): FirebaseUser? {
     fb.user = user
     return fb.user
 }
-

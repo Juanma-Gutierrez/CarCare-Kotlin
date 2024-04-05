@@ -17,7 +17,6 @@ import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 class ItemListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemListBinding
-    // private lateinit var vehicleBinding: FragmentVehiclesListBinding
     private lateinit var viewModel: ItemListViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -30,14 +29,7 @@ class ItemListActivity : AppCompatActivity() {
         configureViewModel()
         signOutAccepted()
         configureTopToolbar()
-
-        /*      vehicleBinding = FragmentVehiclesListBinding.inflate(layoutInflater)
-                configureViewModel()
-                CoroutineScope(Dispatchers.Main).launch { initVehiclesFrag() }
-                vehicleBinding.veSwSwitchAllVehicles.setOnCheckedChangeListener { _, _ -> viewModel.loadVehiclesFromRoom() }
-         */
     }
-
 
     private fun navigateToVehiclesFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -45,16 +37,16 @@ class ItemListActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureTopToolbar() {
-        // viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title } // TODO descomentar
+        viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
         binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.tb_it_logout -> {
                     viewModel.setSignOutDialog()
                     true
                 }
+
                 else -> false
             }
         }
@@ -69,17 +61,7 @@ class ItemListActivity : AppCompatActivity() {
         viewModel.initItemListEnvironment(this, binding)
         viewModel.setToolbar(getString(R.string.menu_vehicles), this)
         viewModel.setNavigationBottombar(findViewById(R.id.bottomBar), this)
-        /*
-                viewModel.initVehiclesEnvironment(this, binding, vehicleBinding)
-        */
     }
-
-/*    private fun initVehiclesFrag() {
-        CoroutineScope(Dispatchers.Main).launch {
-            viewModel.saveFBVehiclesToRoom()
-            viewModel.initVehiclesFragment()
-        }
-    }*/
 
     private fun signOutAccepted() {
         viewModel.signOut.observe(this) { isSignedOut ->

@@ -34,7 +34,6 @@ class RegisterFragment : Fragment() {
             showSnackBar(message, view)
         }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
-            Log.d("wanma", "navega de registro a itemlistactivity")
             val intent = Intent(requireActivity(), ItemListActivity::class.java)
             startActivity(intent)
         }

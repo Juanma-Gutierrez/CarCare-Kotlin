@@ -74,6 +74,7 @@ class LoginViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
         if (userIsLogged()) {
+            Log.d("wanma", "hola")
             Log.i(Constants.TAG, Constants.LOGIN_USER_LOGGED)
             navigateItemList()
         }
@@ -83,9 +84,11 @@ class LoginViewModel : ViewModel() {
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
         if (auth.currentUser != null) {
+            Log.d("wanma",  auth.currentUser!!.uid + (auth.currentUser != null).toString())
             fbSaveUserLocally(auth.currentUser!!)
             Log.i(Constants.TAG, Constants.LOGIN_SUCCESFULLY)
         } else {
+            Log.d("wanma", "sin usuario")
             Log.e(Constants.TAG_ERROR, Constants.LOGIN_ERROR)
         }
         return (auth.currentUser != null)

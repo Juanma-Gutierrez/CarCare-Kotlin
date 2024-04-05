@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
 import com.juanmaGutierrez.carcare.model.User
+import com.juanmaGutierrez.carcare.service.Constants
 import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
 
@@ -34,7 +35,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                     activity.getString(R.string.snackBar_registerUser_Successfully)
                 navigateItemList()
             } catch (e: Error) {
-                Log.e(TAG, "Error in register user")
+                Log.e(TAG,  Constants.REGISTER_USER_ERROR)
             }
     }
 

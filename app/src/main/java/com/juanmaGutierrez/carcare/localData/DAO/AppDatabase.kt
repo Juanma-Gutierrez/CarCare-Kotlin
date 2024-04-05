@@ -1,9 +1,10 @@
-package com.juanmaGutierrez.carcare.localData
+package com.juanmaGutierrez.carcare.localData.DAO
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 
 @Database(entities = [VehicleEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

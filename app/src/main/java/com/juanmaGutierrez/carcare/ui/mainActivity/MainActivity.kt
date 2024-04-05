@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.juanmaGutierrez.carcare.databinding.ActivityMainBinding
-import com.juanmaGutierrez.carcare.localData.AppDatabase
+import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()

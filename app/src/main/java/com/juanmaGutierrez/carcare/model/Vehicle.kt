@@ -1,7 +1,7 @@
 package com.juanmaGutierrez.carcare.model
 
 import com.google.firebase.firestore.DocumentReference
-import com.juanmaGutierrez.carcare.localData.VehicleEntity
+import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 import java.util.Random
 import java.util.UUID
 
