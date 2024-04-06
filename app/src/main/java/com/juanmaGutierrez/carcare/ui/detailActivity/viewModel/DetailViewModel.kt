@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.detailActivities.viewModel
+package com.juanmaGutierrez.carcare.ui.detailActivity.viewModel
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData

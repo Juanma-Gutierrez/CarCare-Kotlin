@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList
 
 import android.content.Context
 import android.util.Log
@@ -10,11 +10,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
-import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
+import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListEntityToVehiclesList
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListRawToVehicleEntityList
 import com.juanmaGutierrez.carcare.model.Vehicle
-import com.juanmaGutierrez.carcare.service.Constants
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,7 +41,7 @@ class VehiclesListViewModel(
             val appDatabase = AppDatabase.getInstance(context.applicationContext)
             val vehicleDao = appDatabase.vehicleDao()
             val vehicles = vehicleDao.getVehicles()
-            delay(1000L)
+            delay(3000L)
             if (vehicles.isNotEmpty()) {
                 _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehicles)
             } else {

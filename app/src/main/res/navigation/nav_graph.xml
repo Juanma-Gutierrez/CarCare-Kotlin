@@ -6,17 +6,17 @@
     app:startDestination="@id/vehiclesActivity">
     <activity
         android:id="@+id/vehiclesActivity"
-        android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity"
+        android:name="com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity"
         android:label="activity_vehicles"
         tools:layout="@layout/activity_item_list" />
     <activity
         android:id="@+id/providersActivity"
-        android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.ProvidersActivity"
+        android:name="com.juanmaGutierrez.carcare.ui.itemListActivity.ProvidersActivity"
         android:label="activity_providers"
         tools:layout="@layout/activity_providers" />
     <activity
         android:id="@+id/spentsActivity"
-        android:name="com.juanmaGutierrez.carcare.ui.listItemActivities.SpentsActivity"
+        android:name="com.juanmaGutierrez.carcare.ui.itemListActivity.SpentsActivity"
         android:label="activity_spents"
         tools:layout="@layout/activity_spents" />
 </navigation>

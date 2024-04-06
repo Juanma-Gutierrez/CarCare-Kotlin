@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.ui.detailActivities.DetailActivity
+import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.model.Vehicle

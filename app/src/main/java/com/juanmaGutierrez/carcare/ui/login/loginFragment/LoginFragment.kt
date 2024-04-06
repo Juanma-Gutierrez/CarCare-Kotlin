@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
-import com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity
+import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 interface OnRegisterButtonClickListener {

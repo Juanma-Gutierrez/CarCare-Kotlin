@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.service
+package com.juanmaGutierrez.carcare.model
 
 
 class Constants {

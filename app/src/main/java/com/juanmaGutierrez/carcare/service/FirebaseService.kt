@@ -8,15 +8,16 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.ItemLog
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.model.Providers
 import com.juanmaGutierrez.carcare.model.User
 import com.juanmaGutierrez.carcare.model.UserFB
-import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
-import com.juanmaGutierrez.carcare.service.Constants.Companion.ERROR_DATABASE
-import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
+import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
+import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
 

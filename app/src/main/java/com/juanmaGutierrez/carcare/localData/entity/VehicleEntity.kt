@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.localData.entities
+package com.juanmaGutierrez.carcare.localData.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

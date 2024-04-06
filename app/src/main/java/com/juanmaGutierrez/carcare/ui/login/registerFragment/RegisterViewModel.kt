@@ -9,10 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
-import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
 import com.juanmaGutierrez.carcare.model.User
-import com.juanmaGutierrez.carcare.service.Constants
-import com.juanmaGutierrez.carcare.service.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.launch

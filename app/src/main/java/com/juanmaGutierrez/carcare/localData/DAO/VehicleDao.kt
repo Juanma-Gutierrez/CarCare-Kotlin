@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
+import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 
 @Dao
 interface VehicleDao {

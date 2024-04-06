@@ -1,7 +1,7 @@
 package com.juanmaGutierrez.carcare.mapping
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.juanmaGutierrez.carcare.localData.entities.VehicleEntity
+import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 import com.juanmaGutierrez.carcare.model.Vehicle
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {

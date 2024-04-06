@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
-import com.juanmaGutierrez.carcare.ui.listItemActivities.ItemListActivity
+import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 
 class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel

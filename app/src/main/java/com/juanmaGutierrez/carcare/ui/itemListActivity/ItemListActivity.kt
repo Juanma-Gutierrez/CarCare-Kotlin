@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities
+package com.juanmaGutierrez.carcare.ui.itemListActivity
 
 import android.content.Intent
 import android.os.Build
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
-import com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.vehiclesList.VehiclesListFragment
-import com.juanmaGutierrez.carcare.ui.listItemActivities.viewModel.ItemListViewModel
+import com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 

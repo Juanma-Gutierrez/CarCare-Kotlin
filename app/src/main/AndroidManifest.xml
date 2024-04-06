@@ -13,19 +13,19 @@
         android:theme="@style/Theme.CarCare"
         tools:targetApi="31">
         <activity
-            android:name=".ui.detailActivities.DetailActivity"
+            android:name=".ui.detailActivity.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.listItemActivities.SpentsActivity"
+            android:name=".ui.itemListActivity.SpentsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.listItemActivities.ProvidersActivity"
+            android:name=".ui.itemListActivity.ProvidersActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.listItemActivities.ItemListActivity"
+            android:name=".ui.itemListActivity.ItemListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.onBoarding.OnBoardingActivity"

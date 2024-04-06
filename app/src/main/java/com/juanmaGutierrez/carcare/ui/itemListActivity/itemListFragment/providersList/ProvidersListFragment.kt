@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.listItemActivities.itemListFragments.spentsList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.providersList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.juanmaGutierrez.carcare.R
 
-class SpentsListFragment : Fragment() {
+
+class ProvidersListFragment : Fragment() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -16,6 +19,6 @@ class SpentsListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_spents_list, container, false)
+        return inflater.inflate(R.layout.fragment_providers_list, container, false)
     }
 }

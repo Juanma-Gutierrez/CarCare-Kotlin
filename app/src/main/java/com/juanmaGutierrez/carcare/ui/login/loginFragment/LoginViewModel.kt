@@ -13,7 +13,7 @@ import com.google.firebase.auth.auth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
-import com.juanmaGutierrez.carcare.service.Constants
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
 import com.juanmaGutierrez.carcare.service.fbCreateLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
