@@ -4,6 +4,7 @@
     <dimen name="logoM">150dp</dimen>
     <dimen name="logoL">200dp</dimen>
     <dimen name="onBoardingContentWidth">250dp</dimen>
+
     <!-- Margins -->
     <dimen name="marginXL">100dp</dimen>
     <dimen name="marginL">75dp</dimen>
@@ -11,4 +12,15 @@
     <dimen name="marginS">25dp</dimen>
     <dimen name="marginXS">8dp</dimen>
     <dimen name="dividerSeparator">20dp</dimen>
+
+    <!-- Vehicle Placeholder -->
+    <dimen name="placeholderInner">140dp</dimen>
+    <dimen name="placeholderOutter">150dp</dimen>
+    <dimen name="placeholderMarginTop">25dp</dimen>
+    <dimen name="placeholderMarginBottom">-100dp</dimen>
+    <dimen name="placeholderMarginInfo">100dp</dimen>
+
+    <!-- Buttons Size-->
+    <dimen name="buttonL">175dp</dimen>
+
 </resources>

@@ -69,5 +69,14 @@
     <!-- Vehicles List -->
     <string name="vehiclesList_noVehicles">You must add some vehicle to your database</string>
 
+    <!-- Vehicle detail -->
+    <string name="vehicleDetail_brand">Brand</string>
+    <string name="vehicleDetail_model">Model</string>
+    <string name="vehicleDetail_plate">Plate</string>
+    <string name="vehicleDetail_category">Category</string>
+    <string name="vehicleDetail_available">Available vehicle</string>
+    <string name="vehicleDetail_registrationDate">Registration date</string>
+
+
 
 </resources>

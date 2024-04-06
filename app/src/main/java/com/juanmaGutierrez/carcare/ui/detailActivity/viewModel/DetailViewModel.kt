@@ -21,7 +21,6 @@ class DetailViewModel : ViewModel() {
 
     fun init(activity: AppCompatActivity, fragmentType: String) {
         this.activity = activity
-        _snackbarMessage.value = fragmentType
     }
 
     fun setToolbarTitle(title: String) {

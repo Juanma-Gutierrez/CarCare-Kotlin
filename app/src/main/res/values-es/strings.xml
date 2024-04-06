@@ -46,4 +46,10 @@
     <string name="snackBar_showAll">Todos los vehículos</string>
     <string name="snackBar_showAvailables">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
+    <string name="vehicleDetail_brand">Marca</string>
+    <string name="vehicleDetail_model">Modelo</string>
+    <string name="vehicleDetail_plate">Matrícula</string>
+    <string name="vehicleDetail_category">Categoría</string>
+    <string name="vehicleDetail_available">Vehículo disponible</string>
+    <string name="vehicleDetail_registrationDate">Fecha de registro</string>
 </resources>
