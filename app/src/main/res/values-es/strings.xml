@@ -52,4 +52,8 @@
     <string name="vehicleDetail_category">Categoría</string>
     <string name="vehicleDetail_available">Vehículo disponible</string>
     <string name="vehicleDetail_registrationDate">Fecha de registro</string>
+    <string name="vehicle_category_car">Coche</string>
+    <string name="vehicle_category_motorcycle">Motocicleta</string>
+    <string name="vehicle_category_van">Furgoneta</string>
+    <string name="vehicle_category_truck">Camión</string>
 </resources>

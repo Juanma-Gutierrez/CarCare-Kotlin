@@ -76,6 +76,10 @@
     <string name="vehicleDetail_category">Category</string>
     <string name="vehicleDetail_available">Available vehicle</string>
     <string name="vehicleDetail_registrationDate">Registration date</string>
+    <string name="vehicle_category_car">Car</string>
+    <string name="vehicle_category_motorcycle">Motorcycle</string>
+    <string name="vehicle_category_van">Van</string>
+    <string name="vehicle_category_truck">Truck</string>
 
 
 

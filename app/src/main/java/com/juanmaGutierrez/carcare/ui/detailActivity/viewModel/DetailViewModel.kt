@@ -1,15 +1,11 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.viewModel
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
-import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.showSnackBar
+
 
 class DetailViewModel : ViewModel() {
     lateinit var activity: AppCompatActivity
@@ -26,4 +22,5 @@ class DetailViewModel : ViewModel() {
     fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
     }
+
 }

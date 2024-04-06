@@ -95,16 +95,20 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/vd_it_category"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicleDetail_category"
-                        app:endIconDrawable="@drawable/icon_arrow_down"
-                        app:endIconMode="custom">
+                        android:hint="@string/vehicleDetail_category">
 
-                        <com.google.android.material.textfield.TextInputEditText
+                        <AutoCompleteTextView
+                            android:id="@+id/vd_ac_category"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
+
+                        <!--                        <com.google.android.material.textfield.TextInputEditText
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content" />-->
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.checkbox.MaterialCheckBox
