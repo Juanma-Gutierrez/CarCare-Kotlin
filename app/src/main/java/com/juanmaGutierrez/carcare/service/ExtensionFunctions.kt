@@ -1,8 +1,15 @@
 package com.juanmaGutierrez.carcare.service
 
+import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.LogType
+import com.juanmaGutierrez.carcare.model.OperationLog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -40,4 +47,24 @@ fun getTimestamp(): String {
     val currentTimestamp = Date()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
     return dateFormat.format(currentTimestamp)
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun saveToLog(
+    type: LogType,
+    auth: FirebaseAuth,
+    operation: OperationLog,
+    content: String,
+    onComplete: (() -> Unit)? = null
+) {
+    fbSaveLog(
+        fbCreateLog(
+            type,
+            auth.currentUser!!,
+            auth.currentUser?.uid,
+            operation,
+            content
+        )
+    )
+    onComplete?.invoke()
 }

@@ -15,8 +15,7 @@ import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
-import com.juanmaGutierrez.carcare.service.fbCreateLog
-import com.juanmaGutierrez.carcare.service.fbSaveLog
+import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 
@@ -47,8 +46,9 @@ class LoginViewModel : ViewModel() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
-                    saveLoginToLog(auth.currentUser)
-                    fbSaveUserLocally(auth.currentUser!!)
+                    saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) {
+                        fbSaveUserLocally(auth.currentUser!!)
+                    }
                     navigateItemList()
                 } else {
                     _snackbarMessage.value = fragment.getString(R.string.snackBar_inputError)
@@ -58,23 +58,8 @@ class LoginViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveLoginToLog(currentUser: FirebaseUser?) {
-        fbSaveLog(
-            fbCreateLog(
-                LogType.INFO,
-                auth.currentUser!!,
-                currentUser?.uid,
-                OperationLog.LOGIN,
-                Constants.LOGIN_SUCCESFULLY
-            )
-        )
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
         if (userIsLogged()) {
-            Log.d("wanma", "hola")
             Log.i(Constants.TAG, Constants.LOGIN_USER_LOGGED)
             navigateItemList()
         }
@@ -84,11 +69,9 @@ class LoginViewModel : ViewModel() {
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
         if (auth.currentUser != null) {
-            Log.d("wanma",  auth.currentUser!!.uid + (auth.currentUser != null).toString())
             fbSaveUserLocally(auth.currentUser!!)
             Log.i(Constants.TAG, Constants.LOGIN_SUCCESFULLY)
         } else {
-            Log.d("wanma", "sin usuario")
             Log.e(Constants.TAG_ERROR, Constants.LOGIN_ERROR)
         }
         return (auth.currentUser != null)

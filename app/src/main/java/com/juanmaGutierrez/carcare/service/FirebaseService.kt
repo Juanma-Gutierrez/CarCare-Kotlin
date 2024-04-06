@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
@@ -57,12 +58,14 @@ fun fbSaveLog(itemLog: ItemLog) {
         }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun fbRegisterUserAuth(user: User) {
     val auth = Firebase.auth
     auth.createUserWithEmailAndPassword(user.email, user.password)
         .addOnCompleteListener(Executors.newSingleThreadExecutor()) { task ->
             if (task.isSuccessful) {
                 val uid = auth.currentUser?.uid ?: ""
+                saveToLog(LogType.INFO, auth, OperationLog.CREATEUSER, Constants.REGISTER_SUCCESSFULLY)
                 fbCreateUser(user, uid)
                 fbCreateProviders(uid)
             } else {

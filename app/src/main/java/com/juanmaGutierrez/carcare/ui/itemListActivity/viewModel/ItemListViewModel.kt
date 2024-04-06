@@ -12,10 +12,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.LogType
 import com.juanmaGutierrez.carcare.model.OperationLog
-import com.juanmaGutierrez.carcare.service.fbCreateLog
-import com.juanmaGutierrez.carcare.service.fbSaveLog
+import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
@@ -107,10 +107,9 @@ class ItemListViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun signOut() {
-        val fb = FirebaseAuth.getInstance()
-        val itemLog =
-            fbCreateLog(LogType.INFO, fb.currentUser, fb.currentUser!!.uid, OperationLog.LOGOUT, "Logout")
-        fbSaveLog(itemLog)
-        FirebaseAuth.getInstance().signOut();
+        val auth = FirebaseAuth.getInstance()
+        saveToLog(LogType.INFO, auth, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
+            FirebaseAuth.getInstance().signOut()
+        }
     }
 }

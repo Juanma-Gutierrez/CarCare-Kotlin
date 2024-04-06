@@ -16,8 +16,10 @@ class Constants {
         const val LOGIN_SUCCESFULLY = "Login successfully"
         const val LOGIN_ERROR = "Login error"
         const val LOGIN_FAILURE_SING_IN_WITH_EMAIL = "signInWithEmail:failure"
+        const val LOGOUT_SUCCESSFULLY = "Logout successfully"
 
         // Register
+        const val REGISTER_SUCCESSFULLY = "Register user successfully"
         const val REGISTER_USER_ERROR = "Error in register user"
         const val DEFAULT_ROLE = "user"
 
