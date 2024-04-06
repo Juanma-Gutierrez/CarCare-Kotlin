@@ -2,9 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/tb_it_userEmail"
+        android:enabled="false"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/tb_it_logout"
-        android:title="@string/logout_title"
         android:contentDescription="@string/logout_title"
+        android:title="@string/logout_title"
         app:showAsAction="never" />
 
 </menu>

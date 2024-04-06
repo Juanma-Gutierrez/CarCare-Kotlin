@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList
 
 import android.content.Context
 import android.util.Log

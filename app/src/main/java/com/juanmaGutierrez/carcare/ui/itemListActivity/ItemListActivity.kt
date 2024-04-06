@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
-import com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList.VehiclesListFragment
+import com.juanmaGutierrez.carcare.service.fbGetUserLogged
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
@@ -45,7 +47,6 @@ class ItemListActivity : AppCompatActivity() {
                     viewModel.setSignOutDialog()
                     true
                 }
-
                 else -> false
             }
         }
@@ -53,6 +54,9 @@ class ItemListActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_top_app_bar, menu)
+        val userEmail = fbGetUserLogged()?.email ?: ""
+        val userEmailMenuItem = menu.findItem(R.id.tb_it_userEmail)
+        userEmailMenuItem.title = userEmail
         return true
     }
 

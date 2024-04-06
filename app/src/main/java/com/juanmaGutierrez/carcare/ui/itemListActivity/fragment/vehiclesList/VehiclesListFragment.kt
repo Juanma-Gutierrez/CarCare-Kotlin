@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,6 +34,7 @@ class VehiclesListFragment : Fragment() {
             val ts = ToolbarService.getInstance()
             ts.detailTitle = getString(R.string.new_vehicle)
             val intent = Intent(requireContext(), DetailActivity::class.java)
+            intent.putExtra("fragmentType", "newVehicle")
             startActivity(intent)
         }
         return binding.root

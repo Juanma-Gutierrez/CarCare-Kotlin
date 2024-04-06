@@ -17,14 +17,13 @@ import com.juanmaGutierrez.carcare.model.OperationLog
 import com.juanmaGutierrez.carcare.service.fbCreateLog
 import com.juanmaGutierrez.carcare.service.fbSaveLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
-import com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.providersList.ProvidersListFragment
-import com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.spentsList.SpentsListFragment
-import com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.vehiclesList.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
 
 class ItemListViewModel : ViewModel() {
     private lateinit var binding: ActivityItemListBinding
     lateinit var activity: AppCompatActivity
-
     private val _toolbarTitle = MutableLiveData<String>()
     val toolbarTitle: LiveData<String> get() = _toolbarTitle
     private val _signOut = MutableLiveData<Boolean>()
@@ -85,7 +84,7 @@ class ItemListViewModel : ViewModel() {
         return true
     }
 
-    fun setToolbarTitle(title: String) {
+    private fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
     }
 

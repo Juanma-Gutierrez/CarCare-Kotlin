@@ -120,3 +120,8 @@ fun fbSaveUserLocally(user: FirebaseUser): FirebaseUser? {
     fb.user = user
     return fb.user
 }
+
+fun fbGetUserLogged(): FirebaseUser? {
+    val fb = FirebaseService.getInstance()
+    return fb.user
+}

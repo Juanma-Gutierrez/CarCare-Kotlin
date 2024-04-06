@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.itemListActivity.itemListFragment.providersList
+package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
