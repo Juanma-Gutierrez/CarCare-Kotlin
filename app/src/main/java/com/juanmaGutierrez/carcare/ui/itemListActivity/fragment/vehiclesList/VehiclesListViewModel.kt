@@ -53,7 +53,7 @@ class VehiclesListViewModel(
 
     suspend fun saveFBVehiclesToRoom() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcher) {
                 val fb = FirebaseService.getInstance()
                 val db = Firebase.firestore
                 val docRef = db.collection(Constants.FB_COLLECTION_USER).document(fb.user!!.uid)

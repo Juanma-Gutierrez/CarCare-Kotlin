@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.ui.mainActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.api.APIClient
@@ -56,15 +57,15 @@ class MainViewModel : ViewModel() {
             val brandsResponse = APIClient.apiService.getAllBrands()
             loadBrandsInLocalBrandsService(brandsResponse)
         } catch (e: Exception) {
-            log("${Constants.ERROR_API_CALL} ${e.message}")
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
         }
     }
 
-    private fun loadBrandsInLocalBrandsService( brandsResponse: BrandsResponseAPI) {
+    private fun loadBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
         val vehiclesBrandSVC = VehicleBrandsService
-        vehiclesBrandSVC.carsList = brandsResponse.data.cars
-        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles
-        vehiclesBrandSVC.vansList = brandsResponse.data.vans
-        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks
+        vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
+        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles.sorted()
+        vehiclesBrandSVC.vansList = brandsResponse.data.vans.sorted()
+        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
     }
 }
