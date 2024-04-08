@@ -13,7 +13,7 @@ import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListEntityToVehiclesList
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListRawToVehicleEntityList
-import com.juanmaGutierrez.carcare.model.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.Vehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity

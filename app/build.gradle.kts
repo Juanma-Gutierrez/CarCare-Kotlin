@@ -46,6 +46,10 @@ dependencies {
     implementation (libs.androidx.activity.ktx)
     implementation (libs.androidx.fragment.ktx)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    // Retrofit
+    val rfVersion = "2.11.0"
+    implementation("com.squareup.retrofit2:retrofit:$rfVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$rfVersion")
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))

@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.model
+package com.juanmaGutierrez.carcare.model.localData
 
 import java.time.LocalDateTime
 

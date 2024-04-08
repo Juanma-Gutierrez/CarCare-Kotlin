@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.model
+package com.juanmaGutierrez.carcare.model.localData
 
 data class Provider(
     var category: String,

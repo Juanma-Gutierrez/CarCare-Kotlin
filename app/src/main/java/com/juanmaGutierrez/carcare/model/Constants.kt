@@ -3,10 +3,15 @@ package com.juanmaGutierrez.carcare.model
 
 class Constants {
     companion object {
+        // Tags
         const val TAG = "Info-CarCare"
         const val TAG_ERROR = "Error-CarCare"
 
+        // API
+        const val API_URL = "https://jumang.pythonanywhere.com/"
+
         // Database
+        const val DATABASE_NAME = "app_database"
         const val COLLECTION_LOG = "log"
         const val COLLECTION_LOG_DOC = "generalLog"
         const val COLLECTION_LOG_ARRAYLIST = "logs"
@@ -25,8 +30,9 @@ class Constants {
 
         // Errors
         const val ERROR_DATABASE = "Error in database operation"
-        const val ERROR_CREATE_USER_WITH_EMAIL = "createUserWithEmail:failure"
-        const val ERROR_EXCEPTION_PREFIX = "Get failed with "
+        const val ERROR_CREATE_USER_WITH_EMAIL = "CreateUserWithEmail: failure"
+        const val ERROR_EXCEPTION_PREFIX = "Get failed with:"
+        const val ERROR_API_CALL = "Error occurred during API call:"
 
         // Firebase Collections
         const val FB_COLLECTION_LOG = "log"

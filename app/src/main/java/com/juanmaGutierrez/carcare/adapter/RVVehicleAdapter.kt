@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.model.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.Vehicle
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 

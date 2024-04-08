@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.model
+package com.juanmaGutierrez.carcare.model.localData
 
 import com.google.firebase.firestore.DocumentReference
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity

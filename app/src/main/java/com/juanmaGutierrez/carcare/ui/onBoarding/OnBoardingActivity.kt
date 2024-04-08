@@ -10,9 +10,9 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
-import com.juanmaGutierrez.carcare.data.getOnBoardingDataValues
+import com.juanmaGutierrez.carcare.localData.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
-import com.juanmaGutierrez.carcare.model.OnBoardingData
+import com.juanmaGutierrez.carcare.model.localData.OnBoardingData
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 class OnBoardingActivity : AppCompatActivity() {

@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.LogType
-import com.juanmaGutierrez.carcare.model.OperationLog
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment

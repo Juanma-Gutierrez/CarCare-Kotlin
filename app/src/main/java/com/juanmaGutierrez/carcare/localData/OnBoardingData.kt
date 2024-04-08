@@ -1,8 +1,8 @@
-package com.juanmaGutierrez.carcare.data
+package com.juanmaGutierrez.carcare.localData
 
 import android.content.Context
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.model.OnBoardingData
+import com.juanmaGutierrez.carcare.model.localData.OnBoardingData
 
 fun getOnBoardingDataValues(context: Context): List<OnBoardingData> {
     val data: List<OnBoardingData> = listOf(

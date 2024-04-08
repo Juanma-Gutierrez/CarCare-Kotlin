@@ -1,15 +1,14 @@
 package com.juanmaGutierrez.carcare.service
 
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.LogType
-import com.juanmaGutierrez.carcare.model.OperationLog
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -67,4 +66,8 @@ fun saveToLog(
         )
     )
     onComplete?.invoke()
+}
+
+fun log(string: String, t: Throwable? = null) {
+    Log.d("wanma", string, t)
 }

@@ -13,7 +13,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
-import com.juanmaGutierrez.carcare.model.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.Vehicle
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import kotlinx.coroutines.launch

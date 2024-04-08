@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import com.juanmaGutierrez.carcare.databinding.ActivityMainBinding
 import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
+import com.juanmaGutierrez.carcare.model.Constants
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
+
 
     companion object {
         lateinit var database: AppDatabase
@@ -25,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         database = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java,
-            "app_database"
+            Constants.DATABASE_NAME
         ).build()
-
+        viewModel.getAllBrandsFromAPI()
     }
 }

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.model.OnBoardingData
+import com.juanmaGutierrez.carcare.model.localData.OnBoardingData
 
 
 class OnBoardingViewPagerAdapter(
