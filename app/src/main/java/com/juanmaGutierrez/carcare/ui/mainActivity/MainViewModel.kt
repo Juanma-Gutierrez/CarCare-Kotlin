@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.api.APIClient
 import com.juanmaGutierrez.carcare.api.APIService
+import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.onBoarding.OnBoardingActivity
@@ -52,11 +54,17 @@ class MainViewModel : ViewModel() {
     private suspend fun callBrandsFromAPI() {
         try {
             val brandsResponse = APIClient.apiService.getAllBrands()
-            log("$brandsResponse")
+            loadBrandsInLocalBrandsService(brandsResponse)
         } catch (e: Exception) {
             log("${Constants.ERROR_API_CALL} ${e.message}")
         }
     }
 
-
+    private fun loadBrandsInLocalBrandsService( brandsResponse: BrandsResponseAPI) {
+        val vehiclesBrandSVC = VehicleBrandsService
+        vehiclesBrandSVC.carsList = brandsResponse.data.cars
+        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles
+        vehiclesBrandSVC.vansList = brandsResponse.data.vans
+        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks
+    }
 }
