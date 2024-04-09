@@ -79,10 +79,11 @@
                         android:hint="@string/vehicleDetail_brand">
 
                         <AutoCompleteTextView
-                        android:id="@+id/vd_ac_brand"
+                            android:id="@+id/vd_ac_brand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -92,24 +93,28 @@
                         android:hint="@string/vehicleDetail_model">
 
                         <AutoCompleteTextView
-                        android:id="@+id/vd_ac_model"
+                            android:id="@+id/vd_ac_model"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/vd_it_plate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/vehicleDetail_plate">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/vd_it_plate"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="10" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/vd_cb_available"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"

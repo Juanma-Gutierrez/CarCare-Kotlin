@@ -29,6 +29,5 @@ class MainActivity : AppCompatActivity() {
             AppDatabase::class.java,
             Constants.DATABASE_NAME
         ).build()
-        viewModel.getAllBrandsFromAPI()
     }
 }

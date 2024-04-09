@@ -40,32 +40,4 @@ class MainViewModel : ViewModel() {
         sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
         return sharedPreferences!!.getBoolean("isFirstTimeRun", true)
     }
-
-    fun getAllBrandsFromAPI() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create(APIService::class.java)
-        viewModelScope.launch {
-            callBrandsFromAPI()
-        }
-    }
-
-    private suspend fun callBrandsFromAPI() {
-        try {
-            val brandsResponse = APIClient.apiService.getAllBrands()
-            loadBrandsInLocalBrandsService(brandsResponse)
-        } catch (e: Exception) {
-            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
-        }
-    }
-
-    private fun loadBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
-        val vehiclesBrandSVC = VehicleBrandsService
-        vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
-        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles.sorted()
-        vehiclesBrandSVC.vansList = brandsResponse.data.vans.sorted()
-        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
-    }
 }

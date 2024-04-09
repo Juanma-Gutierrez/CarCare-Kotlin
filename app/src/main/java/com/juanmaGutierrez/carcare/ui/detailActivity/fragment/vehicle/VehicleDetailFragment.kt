@@ -30,7 +30,11 @@ class VehicleDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getAllBrandsFromAPI()
         loadCategoriesInSelectable()
+        viewModel.modelsList.observe(viewLifecycleOwner) { list -> loadModelsInSelectable(list) }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) }
+        showSnackBar(getString(R.string.snackBar_selectCategoryBrandModel), requireView())
     }
 
     private fun loadModelsByBrand() {
@@ -46,23 +50,10 @@ class VehicleDetailFragment : Fragment() {
                 "truck" -> VehicleBrandsService.trucksList[id.toInt()]
                 else -> ""
             }
-            showSnackBar("Pulsado: $vehicleRef", requireView())
-            // val vehiclesBrandSVC = VehicleBrandsService
+            viewModel.selectedCategory = selectedCategory
             viewModel.loadModelsByBrand(vehicleRef)
-            viewModel.modelsList.observe(viewLifecycleOwner) { list ->
-                loadModelsInSelectable(list)
-            }
         }
     }
-
-    // todo continuar con la carga de datos del modelo, ahora mismo crashea
-    private fun loadModelsInSelectable(modelsList: List<String>) {
-        val modelSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, modelsList)
-        modelSelectable.setAdapter(selectableAdapter)
-    }
-
 
     private fun loadCategoriesInSelectable() {
         val categorySelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_category)
@@ -72,9 +63,8 @@ class VehicleDetailFragment : Fragment() {
         categorySelectable.setAdapter(selectableAdapter)
         categorySelectable.setOnItemClickListener { _, _, _, id ->
             val brandsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_brand)
-            clearBrands()
-            clearModels()
-            brandsSelectable.isEnabled = true
+            val modelsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+            configureSelectables(brandsSelectable, modelsSelectable)
             when (categoriesList[id.toInt()]) {
                 "Coche", "Car" -> {
                     selectedCategory = "car"
@@ -103,17 +93,25 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    private fun configureSelectables(brandsSelectable: AutoCompleteTextView, modelsSelectable: AutoCompleteTextView) {
+        brandsSelectable.isEnabled = true
+        modelsSelectable.isEnabled = false
+        clearBrands()
+        clearModels()
+    }
+
+    private fun clearModels() {
+        val modelsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+        modelsSelectable.setText("")
+        loadModelsInSelectable(emptyList())
+    }
+
 
     private fun clearBrands() {
         val brandsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_brand)
         brandsSelectable.setText("")
         brandsSelectable.isEnabled = true
         loadBrandsInSelectable(brandsSelectable, emptyList())
-    }
-
-    private fun clearModels() {
-        val modelSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
-        loadModelInSelectable(modelSelectable, emptyList())
     }
 
     private fun loadBrandsInSelectable(selectable: AutoCompleteTextView, listItems: List<String>) {
@@ -125,14 +123,22 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
-    private fun loadModelInSelectable(selectable: AutoCompleteTextView, listItems: List<String>) {
+    // todo continuar con la carga de datos del modelo, ahora mismo crashea
+    private fun loadModelsInSelectable(modelsList: List<String>) {
+        val modelSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
         val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, listItems)
-        selectable.setAdapter(selectableAdapter)
-        selectable.setOnItemClickListener { _, _, _, id ->
-            showSnackBar(listItems[id.toInt()], requireView())
-        }
+            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, modelsList)
+        modelSelectable.setAdapter(selectableAdapter)
     }
+
+    /*    private fun loadModelInSelectable(selectable: AutoCompleteTextView, listItems: List<String>) {
+            val selectableAdapter =
+                ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, listItems)
+            selectable.setAdapter(selectableAdapter)
+            selectable.setOnItemClickListener { _, _, _, id ->
+                showSnackBar(listItems[id.toInt()], requireView())
+            }
+        }*/
 
     private fun createCategories(): List<String> {
         return listOf(

@@ -33,6 +33,7 @@
     <string name="snackBar_welcome">Welcome!</string>
     <string name="snackBar_inputError">Unable to log in</string>
     <string name="snackBar_registerUser_Successfully">User registered successfully</string>
+    <string name="snackBar_selectCategoryBrandModel">Select category, brand and model</string>
 
     <!-- onBoarding -->
     <string name="next_button">Next</string>

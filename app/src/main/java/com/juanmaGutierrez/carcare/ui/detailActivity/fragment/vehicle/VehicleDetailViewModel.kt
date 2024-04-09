@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.api.APIClient
 import com.juanmaGutierrez.carcare.api.APIService
+import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
+import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.service.log
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
@@ -18,11 +19,42 @@ class VehicleDetailViewModel : ViewModel() {
     private lateinit var apiService: APIService
     private val _modelsList = MutableLiveData<List<String>>()
     val modelsList: LiveData<List<String>> get() = _modelsList
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
+    var selectedCategory: String = ""
 
     fun loadModelsByBrand(brand: String) {
         viewModelScope.launch {
             getModelsByBrand(brand)
         }
+    }
+
+    fun getAllBrandsFromAPI() {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constants.API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        apiService = retrofit.create(APIService::class.java)
+        viewModelScope.launch {
+            callBrandsFromAPI()
+        }
+    }
+
+    private suspend fun callBrandsFromAPI() {
+        try {
+            val brandsResponse = APIClient.apiService.getAllBrands()
+            loadBrandsInLocalBrandsService(brandsResponse)
+        } catch (e: Exception) {
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
+        }
+    }
+
+    private fun loadBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
+        val vehiclesBrandSVC = VehicleBrandsService
+        vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
+        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles.sorted()
+        vehiclesBrandSVC.vansList = brandsResponse.data.vans.sorted()
+        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
     }
 
     private suspend fun getModelsByBrand(brand: String) {
@@ -39,8 +71,7 @@ class VehicleDetailViewModel : ViewModel() {
     private suspend fun callModelsFromAPI(brand: String): List<String> {
         var data = emptyList<String>()
         try {
-            data = APIClient.apiService.getCarsBrands().brands
-            log("tamaño de data en callModelsFromApi: $data, $brand")
+            data = APIClient.apiService.getModelsByBrand(selectedCategory, brand).models
         } catch (e: Exception) {
             Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
         }

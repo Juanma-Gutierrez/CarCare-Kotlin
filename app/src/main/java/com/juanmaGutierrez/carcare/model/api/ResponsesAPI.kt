@@ -15,3 +15,7 @@ data class BrandsList(
     val trucks: List<String>,
     val vans: List<String>,
 )
+
+data class ModelListResponseAPI(
+    val models: List<String>,
+)
