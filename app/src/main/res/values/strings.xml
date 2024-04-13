@@ -6,6 +6,7 @@
     <string name="app_name" translatable="false">CarCare</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="cancel_message">Operation cancelled</string>
 
     <!-- TopAppBar -->

@@ -21,19 +21,13 @@ class VehicleDetailViewModel : ViewModel() {
     val modelsList: LiveData<List<String>> get() = _modelsList
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
     var selectedCategory: String = ""
 
-    fun loadModelsByBrand(brand: String) {
-        viewModelScope.launch {
-            getModelsByBrand(brand)
-        }
-    }
-
     fun getAllBrandsFromAPI() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit =
+            Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
         apiService = retrofit.create(APIService::class.java)
         viewModelScope.launch {
             callBrandsFromAPI()
@@ -41,8 +35,10 @@ class VehicleDetailViewModel : ViewModel() {
     }
 
     private suspend fun callBrandsFromAPI() {
+        _isLoading.value = true
         try {
             val brandsResponse = APIClient.apiService.getAllBrands()
+            _isLoading.value = false
             loadBrandsInLocalBrandsService(brandsResponse)
         } catch (e: Exception) {
             Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
@@ -57,11 +53,15 @@ class VehicleDetailViewModel : ViewModel() {
         vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
     }
 
+    fun loadModelsByBrand(brand: String) {
+        viewModelScope.launch {
+            getModelsByBrand(brand)
+        }
+    }
+
     private suspend fun getModelsByBrand(brand: String) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val retrofit =
+            Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
         apiService = retrofit.create(APIService::class.java)
         viewModelScope.launch {
             _modelsList.value = callModelsFromAPI(brand)
@@ -70,8 +70,10 @@ class VehicleDetailViewModel : ViewModel() {
 
     private suspend fun callModelsFromAPI(brand: String): List<String> {
         var data = emptyList<String>()
+        _isLoading.value = true
         try {
             data = APIClient.apiService.getModelsByBrand(selectedCategory, brand).models
+            _isLoading.value = false
         } catch (e: Exception) {
             Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
         }

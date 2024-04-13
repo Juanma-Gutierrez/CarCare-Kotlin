@@ -57,4 +57,5 @@
     <string name="vehicle_category_van">Furgoneta</string>
     <string name="vehicle_category_truck">Camión</string>
     <string name="snackBar_selectCategoryBrandModel">Selecciona una categoría, una marca y un modelo</string>
+    <string name="delete">Eliminar</string>
 </resources>
