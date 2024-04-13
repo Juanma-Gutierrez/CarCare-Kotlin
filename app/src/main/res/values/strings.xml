@@ -82,7 +82,7 @@
     <string name="vehicle_category_motorcycle">Motorcycle</string>
     <string name="vehicle_category_van">Van</string>
     <string name="vehicle_category_truck">Truck</string>
-
+    <string name="add_new_item">Add new item</string>
 
 
 </resources>

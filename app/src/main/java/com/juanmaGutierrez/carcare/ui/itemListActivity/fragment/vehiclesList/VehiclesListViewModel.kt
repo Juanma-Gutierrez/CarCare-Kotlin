@@ -37,6 +37,8 @@ class VehiclesListViewModel(
     private val vehicleDao = MainActivity.database.vehicleDao()
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     init {
         _vehicleList.value = emptyList()
@@ -47,9 +49,9 @@ class VehiclesListViewModel(
             val appDatabase = AppDatabase.getInstance(context.applicationContext)
             val vehicleDao = appDatabase.vehicleDao()
             val vehicles = vehicleDao.getVehicles()
-            delay(3000L)
             if (vehicles.isNotEmpty()) {
                 _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehicles)
+                _isLoading.value = false
             } else {
                 _snackbarMessage.value = context.getString(R.string.vehiclesList_noVehicles)
                 _vehicleList.value = emptyList()

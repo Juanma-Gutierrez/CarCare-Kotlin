@@ -10,10 +10,6 @@ class Constants {
         // API
         const val API_URL = "https://jumang.pythonanywhere.com/"
 
-        // Messages
-        const val ISLOADING_VISIBLE = "VISIBLE"
-        const val ISLOADING_GONE = "GONE"
-
         // Database
         const val DATABASE_NAME = "app_database"
         const val COLLECTION_LOG = "log"

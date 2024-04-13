@@ -19,7 +19,7 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import kotlinx.coroutines.launch
 
 class VehiclesListFragment : Fragment() {
-    private lateinit var vehiclesListViewModel: VehiclesListViewModel
+    private lateinit var viewModel: VehiclesListViewModel
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: FragmentVehiclesListBinding
     private lateinit var vehiclesList: List<Vehicle>
@@ -28,8 +28,8 @@ class VehiclesListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        vehiclesListViewModel = ViewModelProvider(this)[VehiclesListViewModel::class.java]
-        binding = FragmentVehiclesListBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[VehiclesListViewModel::class.java]
+        binding = FragmentVehiclesListBinding.inflate(layoutInflater)
         binding.veFabAddVehicle.setOnClickListener {
             val ts = ToolbarService.getInstance()
             ts.detailTitle = getString(R.string.new_vehicle)
@@ -42,17 +42,23 @@ class VehiclesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vehiclesListViewModel.loadLocalVehicles(requireContext())
-        vehiclesListViewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
+        viewModel.loadLocalVehicles(requireContext())
+        viewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
             this.vehiclesList = vehiclesList
             checkSwitchAndUpdateRecylerView()
         }
-        vehiclesListViewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
             showSnackBar(message, this.requireView())
         }
         configureSwitchAllVehicles()
         viewLifecycleOwner.lifecycleScope.launch {
-            vehiclesListViewModel.saveFBVehiclesToRoom()
+            viewModel.saveFBVehiclesToRoom()
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
+            when (isLoading){
+                true -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
+                false -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
+            }
         }
     }
 
@@ -74,7 +80,7 @@ class VehiclesListFragment : Fragment() {
     }
 
     private fun updateRecyclerView(vehiclesList: List<Vehicle>?, switch: Boolean) {
-        val filteredList = vehiclesListViewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
+        val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
         vehicleAdapter = VehicleAdapter(filteredList)
         vehicleAdapter.updateData(filteredList)
         binding.veRvVehicles.layoutManager = LinearLayoutManager(requireContext())

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,43 +7,49 @@
     tools:context=".ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment">
 
     <LinearLayout
+        android:id="@+id/ve_fl_submenu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_dark_secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/ve_sw_switchAllVehicles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/marginXS"
+            android:checked="false"
+            android:text="@string/sw_showAllVehicles"
+            android:textAlignment="viewEnd" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ve_rv_vehicles"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_top_toolbar">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_theme_dark_secondary">
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/ve_sw_switchAllVehicles"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/marginXS"
-                android:checked="false"
-                android:text="@string/sw_showAllVehicles"
-                android:textAlignment="viewEnd" />
-        </FrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ve_rv_vehicles"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_vehicle" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/ve_fl_submenu"
+        tools:listitem="@layout/item_vehicle" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ve_fab_addVehicle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/marginS"
-        app:srcCompat="@drawable/icon_plus"/>
+        android:contentDescription="@string/add_new_item"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/icon_plus" />
 
-</FrameLayout>
+    <include
+        layout="@layout/is_loading"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
