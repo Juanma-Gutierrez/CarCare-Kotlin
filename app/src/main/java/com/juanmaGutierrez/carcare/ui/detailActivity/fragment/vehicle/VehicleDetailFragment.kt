@@ -8,16 +8,21 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.localData.Vehicle
 import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class VehicleDetailFragment : Fragment() {
     private lateinit var viewModel: VehicleDetailViewModel
     private lateinit var selectedCategory: String
+    private lateinit var detailActivity: DetailActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
@@ -27,6 +32,7 @@ class VehicleDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        detailActivity = activity as DetailActivity
         return inflater.inflate(R.layout.fragment_vehicle_detail, container, false)
     }
 
@@ -36,16 +42,29 @@ class VehicleDetailFragment : Fragment() {
         loadCategoriesInSelectable()
         viewModel.modelsList.observe(viewLifecycleOwner) { list -> loadModelsInSelectable(list) }
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) }
-        viewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
-            when (isLoading){
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
                 true -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
                 false -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
             }
         }
+        checkActiveFragment()
+        showInfoNewVehicle()
+    }
 
+    private fun checkActiveFragment() {
+        if (detailActivity.activeFragment.equals("newVehicle")){
+            requireView().findViewById<MaterialButton>(R.id.vd_bt_delete).visibility = View.GONE
+        }
+    }
 
-        // aviso de seleccionar categoría
-        showSnackBar(getString(R.string.snackBar_selectCategoryBrandModel), requireView())
+    private fun showInfoNewVehicle() {
+        val activity = this.requireActivity()
+        MaterialAlertDialogBuilder(activity)
+            .setTitle(activity.getString(R.string.show_info_newVehicle_title))
+            .setMessage(activity.getString(R.string.show_info_newVehicle_message))
+            .setPositiveButton(activity.getString(R.string.accept)) { _, _ -> }
+            .show()
     }
 
     private fun loadCategoriesInSelectable() {

@@ -1,14 +1,10 @@
 package com.juanmaGutierrez.carcare.service
 
-import android.R
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.model.localData.LogType
@@ -73,6 +69,6 @@ fun saveToLog(
 }
 
 fun log(string: String, t: Throwable? = null) {
-    Log.d("wanma", string, t)
+    Log.d("jumang", string, t)
 }
 

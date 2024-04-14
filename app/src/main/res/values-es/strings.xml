@@ -58,4 +58,7 @@
     <string name="vehicle_category_truck">Camión</string>
     <string name="snackBar_selectCategoryBrandModel">Selecciona una categoría, una marca y un modelo</string>
     <string name="delete">Eliminar</string>
+    <string name="add_new_item">Crear un nuevo elemento</string>
+    <string name="show_info_newVehicle_title">Nuevo vehículo</string>
+    <string name="show_info_newVehicle_message">Para crear un nuevo vehículo, introduce la categoría, la marca, el modelo y el resto de datos.</string>
 </resources>
