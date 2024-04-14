@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
+import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
@@ -26,15 +30,25 @@ class ItemListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityItemListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        navigateToVehiclesFragment()
+        openSelectedFragment()
         configureViewModel()
         signOutAccepted()
         configureTopToolbar()
     }
 
-    private fun navigateToVehiclesFragment() {
+    private fun openSelectedFragment() {
+        val intent = intent
+        val destinationFragment = intent.getStringExtra("destinationFragment")
+        when (destinationFragment) {
+            null, "vehiclesList" -> navigateToVehiclesFragment(VehiclesListFragment())
+            "providersList" -> navigateToVehiclesFragment(ProvidersListFragment())
+            "spentsList" -> navigateToVehiclesFragment(SpentsListFragment())
+        }
+    }
+
+    private fun navigateToVehiclesFragment(destination: Any) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.itemList_fragment_container, VehiclesListFragment())
+        fragmentTransaction.replace(R.id.itemList_fragment_container, destination as Fragment)
         fragmentTransaction.commit()
     }
 
@@ -47,6 +61,7 @@ class ItemListActivity : AppCompatActivity() {
                     viewModel.setSignOutDialog()
                     true
                 }
+
                 else -> false
             }
         }

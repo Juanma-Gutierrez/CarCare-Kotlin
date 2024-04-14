@@ -53,20 +53,18 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setBackButton() {
-        log("entra en setBackButton")
         val toolbar: MaterialToolbar = findViewById(R.id.topAppBarDetail)
-        log("titulo: ${toolbar.title}")
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, ItemListActivity::class.java)
             when (activeFragment) {
                 "newVehicle", "editVehicle" -> {
-                    intent.putExtra("destinationActivity", "vehiclesList")
+                    intent.putExtra("destinationFragment", "vehiclesList")
                 }
                 "newProvider", "editProvider" -> {
-                    intent.putExtra("destinationActivity", "providersList")
+                    intent.putExtra("destinationFragment", "providersList")
                 }
                 "newSpent", "editSpent" -> {
-                    intent.putExtra("destinationActivity", "spentsList")
+                    intent.putExtra("destinationFragment", "spentsList")
                 }
             }
             startActivity(intent)
