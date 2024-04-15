@@ -8,6 +8,13 @@
     tools:context=".ui.detailActivity.DetailActivity">
 
     <include
+        layout="@layout/lottie_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
         android:id="@+id/tb_top_toolbar_detail"
         layout="@layout/toolbar_top_app_bar_detail"
         app:layout_constraintEnd_toEndOf="parent"

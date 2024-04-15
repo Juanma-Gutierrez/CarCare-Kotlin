@@ -6,7 +6,7 @@
     android:gravity="center">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -165,7 +165,7 @@
     </ScrollView>
 
     <include
-        layout="@layout/vl_is_loading"
+        layout="@layout/lottie_is_loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

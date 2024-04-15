@@ -8,18 +8,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.login.LoginActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/md_theme_light_inversePrimary"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/login_fragment_container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:lottie_fileName="background.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:scaleType="fitXY"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/login_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

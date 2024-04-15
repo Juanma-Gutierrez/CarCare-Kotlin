@@ -1,15 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detailActivity.fragment.provider.ProviderDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="DETALLE DE PROVEEDOR" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <!-- Form card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sd_spentCardView"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/marginS">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:divider="@drawable/empty_divider"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/marginS"
+                    android:paddingTop="@dimen/marginM"
+                    android:paddingBottom="@dimen/marginM"
+                    android:showDividers="middle">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nombre">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pd_tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Teléfono">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pd_tv_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/vehicleDetail_category">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/pd_ac_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Buttons -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vd_bt_accept"
+                        android:layout_width="@dimen/buttonL"
+                        android:layout_height="wrap_content"
+                        android:text="@string/accept"
+                        app:icon="@drawable/icon_check" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vd_bt_cancel"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/buttonL"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        app:icon="@drawable/icon_cancel" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/vd_bt_delete"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="@dimen/buttonL"
+                        android:layout_height="wrap_content"
+                        android:text="@string/delete"
+                        app:icon="@drawable/icon_trash" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <include
+        layout="@layout/lottie_is_loading"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </FrameLayout>
