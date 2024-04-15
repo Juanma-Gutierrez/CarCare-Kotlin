@@ -123,7 +123,6 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
-
     private fun configureSelectables(brandsSelectable: AutoCompleteTextView, modelsSelectable: AutoCompleteTextView) {
         brandsSelectable.isEnabled = true
         modelsSelectable.isEnabled = false
@@ -167,11 +166,5 @@ class VehicleDetailFragment : Fragment() {
             getString(R.string.vehicle_category_van),
             getString(R.string.vehicle_category_truck)
         )
-    }
-
-    private fun setIsLoading(s: String) {
-        when (s) {
-
-        }
     }
 }

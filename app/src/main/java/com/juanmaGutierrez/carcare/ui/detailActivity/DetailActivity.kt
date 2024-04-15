@@ -2,21 +2,18 @@ package com.juanmaGutierrez.carcare.ui.detailActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
-import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
-import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -40,13 +37,37 @@ class DetailActivity : AppCompatActivity() {
             "newVehicle" -> {
                 activeFragment = "newVehicle"
                 viewModel.setToolbarTitle(getString(R.string.new_vehicle))
-                navigateToNewVehiclesFragment(VehicleDetailFragment())
+                navigateToDetailFragment(VehicleDetailFragment())
             }
 
             "editVehicle" -> {
                 activeFragment = "editVehicle"
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToNewVehiclesFragment(VehicleDetailFragment()) // TODO Cambiar
+                navigateToDetailFragment(VehicleDetailFragment()) // TODO Cambiar
+            }
+
+            "newProvider" -> {
+                activeFragment = "newProvider"
+                viewModel.setToolbarTitle(getString(R.string.new_provider))
+                navigateToDetailFragment(ProviderDetailFragment())
+            }
+
+            "editProvider" -> {
+                activeFragment = "editProvider"
+                viewModel.setToolbarTitle(getString(R.string.edit_provider))
+                navigateToDetailFragment(ProviderDetailFragment())
+            }
+
+            "newSpent" -> {
+                activeFragment = "newSpent"
+                viewModel.setToolbarTitle(getString(R.string.new_spent))
+                navigateToDetailFragment(SpentDetailFragment())
+            }
+
+            "editSpent" -> {
+                activeFragment = "editSpent"
+                viewModel.setToolbarTitle(getString(R.string.edit_spent))
+                navigateToDetailFragment(SpentDetailFragment())
             }
         }
 
@@ -60,9 +81,11 @@ class DetailActivity : AppCompatActivity() {
                 "newVehicle", "editVehicle" -> {
                     intent.putExtra("destinationFragment", "vehiclesList")
                 }
+
                 "newProvider", "editProvider" -> {
                     intent.putExtra("destinationFragment", "providersList")
                 }
+
                 "newSpent", "editSpent" -> {
                     intent.putExtra("destinationFragment", "spentsList")
                 }
@@ -72,11 +95,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    private fun navigateToNewVehiclesFragment(fragment: Fragment) {
+    private fun navigateToDetailFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.itemDetail_fragment_container, fragment)
         fragmentTransaction.commit()
     }
-
-
 }

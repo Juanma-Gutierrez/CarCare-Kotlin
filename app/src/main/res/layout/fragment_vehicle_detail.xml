@@ -165,7 +165,7 @@
     </ScrollView>
 
     <include
-        layout="@layout/is_loading"
+        layout="@layout/vl_is_loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

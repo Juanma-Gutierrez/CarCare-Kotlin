@@ -24,13 +24,16 @@ class VehiclesListFragment : Fragment() {
     private lateinit var binding: FragmentVehiclesListBinding
     private lateinit var vehiclesList: List<Vehicle>
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this)[VehiclesListViewModel::class.java]
         binding = FragmentVehiclesListBinding.inflate(layoutInflater)
-        binding.veFabAddVehicle.setOnClickListener {
+        binding.vlFabAddVehicle.setOnClickListener {
             val ts = ToolbarService.getInstance()
             ts.detailTitle = getString(R.string.new_vehicle)
             val intent = Intent(requireContext(), DetailActivity::class.java)
@@ -54,8 +57,8 @@ class VehiclesListFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.saveFBVehiclesToRoom()
         }
-        viewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
-            when (isLoading){
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
                 true -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
                 false -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
             }
@@ -63,12 +66,12 @@ class VehiclesListFragment : Fragment() {
     }
 
     private fun checkSwitchAndUpdateRecylerView() {
-        val switch = binding.veSwSwitchAllVehicles
+        val switch = binding.vlSwSwitchAllVehicles
         updateRecyclerView(this.vehiclesList, switch.isChecked)
     }
 
     private fun configureSwitchAllVehicles() {
-        val switch = binding.veSwSwitchAllVehicles
+        val switch = binding.vlSwSwitchAllVehicles
         switch.setOnCheckedChangeListener { _, _ ->
             if (switch.isChecked) {
                 showSnackBar(getString(R.string.snackBar_showAll), requireView())
@@ -83,7 +86,7 @@ class VehiclesListFragment : Fragment() {
         val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
         vehicleAdapter = VehicleAdapter(filteredList)
         vehicleAdapter.updateData(filteredList)
-        binding.veRvVehicles.layoutManager = LinearLayoutManager(requireContext())
-        binding.veRvVehicles.adapter = vehicleAdapter
+        binding.vlRvVehicles.layoutManager = LinearLayoutManager(requireContext())
+        binding.vlRvVehicles.adapter = vehicleAdapter
     }
 }

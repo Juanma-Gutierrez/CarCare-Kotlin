@@ -7,7 +7,7 @@
     tools:context=".ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment">
 
     <LinearLayout
-        android:id="@+id/ve_fl_submenu"
+        android:id="@+id/vl_fl_submenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_theme_dark_secondary"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/ve_sw_switchAllVehicles"
+            android:id="@+id/vl_sw_switchAllVehicles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/marginXS"
@@ -26,17 +26,17 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ve_rv_vehicles"
+        android:id="@+id/vl_rv_vehicles"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ve_fl_submenu"
+        app:layout_constraintTop_toBottomOf="@id/vl_fl_submenu"
         tools:listitem="@layout/item_vehicle" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ve_fab_addVehicle"
+        android:id="@+id/vl_fab_addVehicle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginS"
@@ -46,7 +46,7 @@
         app:srcCompat="@drawable/icon_plus" />
 
     <include
-        layout="@layout/is_loading"
+        layout="@layout/vl_is_loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
