@@ -28,6 +28,17 @@ class ItemListViewModel : ViewModel() {
     val toolbarTitle: LiveData<String> get() = _toolbarTitle
     private val _signOut = MutableLiveData<Boolean>()
     val signOut: LiveData<Boolean> get() = _signOut
+    private var navigationListener: NavigationListener? = null
+
+    interface NavigationListener {
+        fun navigateToFragment(fragment: Fragment)
+    }
+
+
+    fun setNavigationListener(listener: NavigationListener) {
+        navigationListener = listener
+    }
+
 
     fun initItemListEnvironment(
         activity: AppCompatActivity,
@@ -38,32 +49,28 @@ class ItemListViewModel : ViewModel() {
         this._signOut.value = false
     }
 
+
     fun setToolbar(title: String, activity: AppCompatActivity) {
         activity.setSupportActionBar(activity.findViewById(R.id.topAppBar))
         activity.supportActionBar?.title = title
     }
 
+
     fun setNavigationBottombar(
-        bottomNavigationView: BottomNavigationView,
-        activity: AppCompatActivity
+        bottomNavigationView: BottomNavigationView, activity: AppCompatActivity
     ) {
-        bottomNavigationView.setOnItemSelectedListener  { item ->
+        bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_vehicles -> replaceFragment(
-                    VehiclesListFragment(),
-                    activity,
-                    activity.getString(R.string.menu_vehicles)
+                    VehiclesListFragment(), activity.getString(R.string.menu_vehicles)
                 )
 
                 R.id.navigation_providers -> replaceFragment(
-                    ProvidersListFragment(),
-                    activity,
-                    activity.getString(R.string.menu_providers)
+                    ProvidersListFragment(), activity.getString(R.string.menu_providers)
                 )
 
                 R.id.navigation_spents -> replaceFragment(
-                    SpentsListFragment(), activity,
-                    activity.getString(R.string.menu_spents)
+                    SpentsListFragment(), activity.getString(R.string.menu_spents)
                 )
 
                 else -> false
@@ -71,18 +78,15 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
+
     private fun replaceFragment(
-        fragment: Fragment,
-        activity: AppCompatActivity,
-        title: String
+        fragment: Fragment, title: String
     ): Boolean {
         setToolbarTitle(title)
-        val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.itemList_fragment_container, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        navigationListener?.navigateToFragment(fragment)
         return true
     }
+
 
     private fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
@@ -91,17 +95,14 @@ class ItemListViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setSignOutDialog() {
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(activity.getString(R.string.logout_title))
+        MaterialAlertDialogBuilder(activity).setTitle(activity.getString(R.string.logout_title))
             .setMessage(activity.getString(R.string.logout_message))
             .setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
                 showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
-            }
-            .setPositiveButton(activity.getString(R.string.accept)) { _, _ ->
+            }.setPositiveButton(activity.getString(R.string.accept)) { _, _ ->
                 signOut()
                 this._signOut.value = true
-            }
-            .show()
+            }.show()
     }
 
 

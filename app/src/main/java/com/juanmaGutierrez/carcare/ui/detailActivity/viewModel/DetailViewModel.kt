@@ -15,12 +15,13 @@ class DetailViewModel : ViewModel() {
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
+
     fun init(activity: AppCompatActivity, fragmentType: String) {
         this.activity = activity
     }
 
+
     fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
     }
-
 }

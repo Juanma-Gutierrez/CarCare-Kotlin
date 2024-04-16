@@ -19,9 +19,10 @@ import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewMod
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 
-class ItemListActivity : AppCompatActivity() {
+class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListener {
     private lateinit var binding: ActivityItemListBinding
     private lateinit var viewModel: ItemListViewModel
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,35 +34,44 @@ class ItemListActivity : AppCompatActivity() {
         configureViewModel()
         signOutAccepted()
         configureTopToolbar()
+        viewModel.setNavigationListener(this)
     }
 
+
     private fun openSelectedFragment() {
+        log(" en OpenselectedFragment: ${supportFragmentManager.backStackEntryCount}")
         val intent = intent
         val destinationFragment = intent.getStringExtra("destinationFragment")
         when (destinationFragment) {
             null, "vehiclesList" -> {
                 log("vehiculos")
+                viewModel.setToolbar(getString(R.string.menu_vehicles), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_vehicles
                 navigateToFragment(VehiclesListFragment())
             }
+
             "providersList" -> {
                 log("proveedores")
+                viewModel.setToolbar(getString(R.string.menu_providers), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_providers
                 navigateToFragment(ProvidersListFragment())
             }
+
             "spentsList" -> {
                 log("gastos")
+                viewModel.setToolbar(getString(R.string.menu_spents), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_spents
                 navigateToFragment(SpentsListFragment())
             }
         }
     }
 
-    private fun navigateToFragment(destination: Any) {
+
+    override fun navigateToFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.itemList_fragment_container, destination as Fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.replace(R.id.itemList_fragment_container, fragment).commit()
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureTopToolbar() {
@@ -78,6 +88,7 @@ class ItemListActivity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_top_app_bar, menu)
         val userEmail = fbGetUserLogged()?.email ?: ""
@@ -86,11 +97,13 @@ class ItemListActivity : AppCompatActivity() {
         return true
     }
 
+
     private fun configureViewModel() {
         viewModel.initItemListEnvironment(this, binding)
         viewModel.setToolbar(getString(R.string.menu_vehicles), this)
         viewModel.setNavigationBottombar(findViewById(R.id.bottomBar), this)
     }
+
 
     private fun signOutAccepted() {
         viewModel.signOut.observe(this) { isSignedOut ->

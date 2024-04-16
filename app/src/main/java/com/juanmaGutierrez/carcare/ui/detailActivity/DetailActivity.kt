@@ -1,12 +1,10 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -14,7 +12,6 @@ import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderD
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
-import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -44,7 +41,7 @@ class DetailActivity : AppCompatActivity() {
             "editVehicle" -> {
                 activeFragment = "editVehicle"
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToDetailFragment(VehicleDetailFragment()) // TODO Cambiar
+                navigateToDetailFragment(VehicleDetailFragment()) // TODO Pasar el id del vehículo
             }
 
             "newProvider" -> {
@@ -77,21 +74,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setBackButton() {
         val toolbar: MaterialToolbar = findViewById(R.id.topAppBarDetail)
         toolbar.setNavigationOnClickListener {
-            val intent = Intent(this, ItemListActivity::class.java)
-            when (activeFragment) {
-                "newVehicle", "editVehicle" -> {
-                    intent.putExtra("destinationFragment", "vehiclesList")
-                }
-
-                "newProvider", "editProvider" -> {
-                    intent.putExtra("destinationFragment", "providersList")
-                }
-
-                "newSpent", "editSpent" -> {
-                    intent.putExtra("destinationFragment", "spentsList")
-                }
-            }
-            startActivity(intent)
+            onBackPressed()
         }
     }
 

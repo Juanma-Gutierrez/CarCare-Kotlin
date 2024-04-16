@@ -42,8 +42,7 @@ class LoginViewModel : ViewModel() {
             return
         }
         auth = Firebase.auth
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(fragment.requireActivity()) { task ->
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
                     saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) {
                         fbSaveUserLocally(auth)
