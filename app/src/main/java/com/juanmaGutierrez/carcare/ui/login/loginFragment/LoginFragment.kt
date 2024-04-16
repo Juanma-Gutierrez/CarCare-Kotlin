@@ -51,7 +51,9 @@ class LoginFragment : Fragment() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view) }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), ItemListActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            requireActivity().finish()
         }
     }
 

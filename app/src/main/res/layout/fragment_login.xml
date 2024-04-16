@@ -83,16 +83,16 @@
                         android:layout_height="wrap_content"
                         android:text="@string/login_button"
                         app:icon="@drawable/icon_check" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/lo_bt_register"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/goRegister_button" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/lo_bt_register"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/marginS"
-                android:text="@string/goRegister_button" />
 
         </LinearLayout>
     </ScrollView>
