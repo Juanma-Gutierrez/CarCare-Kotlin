@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
             .addOnCompleteListener(fragment.requireActivity()) { task ->
                 if (task.isSuccessful) {
                     saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) {
-                        fbSaveUserLocally(auth.currentUser!!)
+                        fbSaveUserLocally(auth)
                     }
                     navigateItemList()
                 } else {
@@ -68,7 +68,7 @@ class LoginViewModel : ViewModel() {
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
         if (auth.currentUser != null) {
-            fbSaveUserLocally(auth.currentUser!!)
+            fbSaveUserLocally(auth)
             Log.i(Constants.TAG, Constants.LOGIN_SUCCESFULLY)
         } else {
             Log.e(Constants.TAG_ERROR, Constants.LOGIN_ERROR)

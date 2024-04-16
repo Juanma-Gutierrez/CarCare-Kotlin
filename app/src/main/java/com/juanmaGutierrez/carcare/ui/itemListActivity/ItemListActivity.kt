@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
@@ -38,13 +39,25 @@ class ItemListActivity : AppCompatActivity() {
         val intent = intent
         val destinationFragment = intent.getStringExtra("destinationFragment")
         when (destinationFragment) {
-            null, "vehiclesList" -> navigateToVehiclesFragment(VehiclesListFragment())
-            "providersList" -> navigateToVehiclesFragment(ProvidersListFragment())
-            "spentsList" -> navigateToVehiclesFragment(SpentsListFragment())
+            null, "vehiclesList" -> {
+                log("vehiculos")
+                binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_vehicles
+                navigateToFragment(VehiclesListFragment())
+            }
+            "providersList" -> {
+                log("proveedores")
+                binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_providers
+                navigateToFragment(ProvidersListFragment())
+            }
+            "spentsList" -> {
+                log("gastos")
+                binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_spents
+                navigateToFragment(SpentsListFragment())
+            }
         }
     }
 
-    private fun navigateToVehiclesFragment(destination: Any) {
+    private fun navigateToFragment(destination: Any) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.itemList_fragment_container, destination as Fragment)
         fragmentTransaction.commit()

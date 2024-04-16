@@ -51,7 +51,7 @@ fun getTimestamp(): String {
 @RequiresApi(Build.VERSION_CODES.O)
 fun saveToLog(
     type: LogType,
-    auth: FirebaseAuth,
+    auth: FirebaseAuth?,
     operation: OperationLog,
     content: String,
     onComplete: (() -> Unit)? = null
@@ -59,8 +59,8 @@ fun saveToLog(
     fbSaveLog(
         fbCreateLog(
             type,
-            auth.currentUser!!,
-            auth.currentUser?.uid,
+            auth?.currentUser!!,
+            auth.currentUser!!.uid,
             operation,
             content
         )

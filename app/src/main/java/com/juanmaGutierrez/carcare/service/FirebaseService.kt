@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FieldValue
@@ -23,6 +24,7 @@ import java.util.concurrent.Executors
 
 class FirebaseService {
     var user: FirebaseUser? = null
+    var auth: FirebaseAuth? = null
 
     override fun toString(): String {
         var data = ""
@@ -117,9 +119,10 @@ fun fbCreateLog(
     return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
 }
 
-fun fbSaveUserLocally(user: FirebaseUser): FirebaseUser? {
+fun fbSaveUserLocally(auth:FirebaseAuth): FirebaseUser? {
     val fb = FirebaseService.getInstance()
-    fb.user = user
+    fb.user = auth.currentUser
+    fb.auth = auth
     return fb.user
 }
 

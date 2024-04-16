@@ -11,6 +11,11 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.juanmaGutierrez.carcare.databinding.FragmentLoginBinding
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.service.FirebaseService
+import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
@@ -46,10 +51,13 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view) }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
+            val auth = FirebaseService.getInstance().auth
+            saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY)
             val intent = Intent(requireActivity(), ItemListActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
