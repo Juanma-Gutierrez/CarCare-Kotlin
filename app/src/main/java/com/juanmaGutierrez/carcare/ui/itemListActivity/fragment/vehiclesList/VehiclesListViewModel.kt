@@ -9,25 +9,18 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.api.APIClient
-import com.juanmaGutierrez.carcare.api.APIService
 import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
-import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListEntityToVehiclesList
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListRawToVehicleEntityList
 import com.juanmaGutierrez.carcare.model.localData.Vehicle
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class VehiclesListViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default

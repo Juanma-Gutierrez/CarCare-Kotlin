@@ -10,7 +10,6 @@ import com.juanmaGutierrez.carcare.api.APIService
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
-import com.juanmaGutierrez.carcare.service.log
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

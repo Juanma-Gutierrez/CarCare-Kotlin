@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
 import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class SpentsListFragment : Fragment() {

@@ -11,11 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
-import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -53,7 +49,7 @@ class VehicleDetailFragment : Fragment() {
     }
 
     private fun checkActiveFragment() {
-        if (detailActivity.activeFragment.equals("newVehicle")){
+        if (detailActivity.activeFragment == "newVehicle"){
             requireView().findViewById<MaterialButton>(R.id.vd_bt_delete).visibility = View.GONE
         }
     }

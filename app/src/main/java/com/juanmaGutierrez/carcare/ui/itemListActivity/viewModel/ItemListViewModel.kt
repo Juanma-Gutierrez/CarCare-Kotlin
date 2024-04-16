@@ -47,7 +47,7 @@ class ItemListViewModel : ViewModel() {
         bottomNavigationView: BottomNavigationView,
         activity: AppCompatActivity
     ) {
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        bottomNavigationView.setOnItemSelectedListener  { item ->
             when (item.itemId) {
                 R.id.navigation_vehicles -> replaceFragment(
                     VehiclesListFragment(),
