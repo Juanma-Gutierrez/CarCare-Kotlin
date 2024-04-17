@@ -31,7 +31,6 @@
     <string name="snackBar_registerUser_Successfully">Usuario registrado con éxito</string>
     <string name="accept">Aceptar</string>
     <string name="logout_title">Cerrar sesión</string>
-    <string name="logout_message">¿Quieres cerrar sesión y salir de la aplicación?</string>
     <string name="new_vehicle">Nuevo vehículo</string>
     <string name="edit_vehicle">Editar vehículo</string>
     <string name="new_provider">Nuevo proveedor</string>
@@ -59,6 +58,14 @@
     <string name="snackBar_selectCategoryBrandModel">Selecciona una categoría, una marca y un modelo</string>
     <string name="delete">Eliminar</string>
     <string name="add_new_item">Crear un nuevo elemento</string>
-    <string name="show_info_newVehicle_title">Nuevo vehículo</string>
-    <string name="show_info_newVehicle_message">Para crear un nuevo vehículo, introduce la categoría, la marca, el modelo y el resto de datos.</string>
+
+    <!-- Alert Dialog -->
+    <string name="alertDialog_logout_message">¿Quieres cerrar sesión y salir de la aplicación?</string>
+    <string name="alertDialog_show_info_newVehicle_title">Nuevo vehículo</string>
+    <string name="alertDialog_show_info_newVehicle_message">Para crear un nuevo vehículo, introduce la categoría, la marca, el modelo y el resto de datos.</string>
+    <string name="alertDialog_newVehicle_title">Nuevo vehículo</string>
+    <string name="alertDialog_newVehicle_message">¿Seguro que quieres crear este vehículo?</string>
+    <string name="alertDialog_editVehicle_title">Editar vehículo</string>
+    <string name="alertDialog_editVehicle_message">¿Seguro que quieres editar este vehículo?</string>
+
 </resources>

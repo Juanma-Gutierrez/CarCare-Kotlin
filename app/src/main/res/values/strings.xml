@@ -11,7 +11,6 @@
 
     <!-- TopAppBar -->
     <string name="logout_title">Close session</string>
-    <string name="logout_message">Do you want to log out and exit the application?</string>
 
     <!-- Detail Toolbar -->
     <string name="new_vehicle">New vehicle</string>
@@ -83,8 +82,14 @@
     <string name="vehicle_category_van">Van</string>
     <string name="vehicle_category_truck">Truck</string>
     <string name="add_new_item">Add new item</string>
-    <string name="show_info_newVehicle_title">New vehicle</string>
-    <string name="show_info_newVehicle_message">To create a new vehicle, enter the category, make, model and other data.</string>
 
+    <!-- Alert Dialog Messages -->
+    <string name="alertDialog_logout_message">Do you want to log out and exit the application?</string>
+    <string name="alertDialog_show_info_newVehicle_title">New vehicle</string>
+    <string name="alertDialog_show_info_newVehicle_message">To create a new vehicle, enter the category, make, model and other data.</string>
+    <string name="alertDialog_newVehicle_title">Create new vehicle</string>
+    <string name="alertDialog_newVehicle_message">Are you sure to create this new vehicle?</string>
+    <string name="alertDialog_editVehicle_title">Edit vehicle</string>
+    <string name="alertDialog_editVehicle_message">Are you sure to save this vehicle?</string>
 
 </resources>

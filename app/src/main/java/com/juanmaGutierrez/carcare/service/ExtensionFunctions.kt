@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import java.text.SimpleDateFormat
@@ -72,3 +75,25 @@ fun log(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
 
+fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
+    MaterialAlertDialogBuilder(ad.activity)
+        .setTitle(ad.title)
+        .setMessage(ad.message)
+        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
+            callback(true)
+        }
+        .setNegativeButton(ad.activity.getString(R.string.cancel)) { _, _ ->
+            callback(false)
+        }
+        .show()
+}
+
+fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
+    MaterialAlertDialogBuilder(ad.activity)
+        .setTitle(ad.title)
+        .setMessage(ad.message)
+        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
+            callback(true)
+        }
+        .show()
+}

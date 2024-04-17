@@ -1,21 +1,24 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
+import com.juanmaGutierrez.carcare.service.showDialogAccept
+import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class VehicleDetailFragment : Fragment() {
+    private lateinit var binding: FragmentVehicleDetailBinding
     private lateinit var viewModel: VehicleDetailViewModel
     private lateinit var selectedCategory: String
     private lateinit var detailActivity: DetailActivity
@@ -27,9 +30,10 @@ class VehicleDetailFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentVehicleDetailBinding.inflate(layoutInflater)
         detailActivity = activity as DetailActivity
-        return inflater.inflate(R.layout.fragment_vehicle_detail, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,32 +50,71 @@ class VehicleDetailFragment : Fragment() {
         }
         checkActiveFragment()
         showInfoNewVehicle()
+        binding.vdBtAccept.setOnClickListener {
+            acceptVehicle()
+        }
+    }
+
+    private fun acceptVehicle() {
+        if (!checkAllFieldsValid()) {
+            showSnackBar("falta rellenar algún campo", requireView())
+            return
+        }
+        val ad = AlertDialogModel(
+            this.requireActivity(),
+            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
+            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
+        )
+        showDialogAcceptCancel(ad) { aceptado ->
+            if (aceptado) {
+                showSnackBar("aceptar nuevo vehiculo", requireView())
+            } else {
+                showSnackBar("cancelar nuevo vehiculo", requireView())
+            }
+        }
+    }
+
+    private fun checkAllFieldsValid(): Boolean {
+        val validEditText = checkValidEditText()
+        val validDate = checkValidDate()
+        return validEditText && validDate
+    }
+
+    private fun checkValidEditText(): Boolean {
+        return listOf(
+            binding.vdAcCategory, binding.vdAcBrand, binding.vdAcModel, binding.vdItPlate
+        ).all { it.text.toString().isNotBlank() }
+    }
+
+    private fun checkValidDate(): Boolean {
+        return true
     }
 
     private fun checkActiveFragment() {
-        if (detailActivity.activeFragment == "newVehicle"){
-            requireView().findViewById<MaterialButton>(R.id.vd_bt_delete).visibility = View.GONE
+        when (detailActivity.activeFragment) {
+            "newVehicle" -> binding.vdBtDelete.visibility = View.GONE
+            "editVehicle" -> showSnackBar("edición de vehículo", requireView())
         }
     }
 
     private fun showInfoNewVehicle() {
-        val activity = this.requireActivity()
-        MaterialAlertDialogBuilder(activity)
-            .setTitle(activity.getString(R.string.show_info_newVehicle_title))
-            .setMessage(activity.getString(R.string.show_info_newVehicle_message))
-            .setPositiveButton(activity.getString(R.string.accept)) { _, _ -> }
-            .show()
+        val ad = AlertDialogModel(
+            this.requireActivity(),
+            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
+            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
+        )
+        showDialogAccept(ad) { }
     }
 
     private fun loadCategoriesInSelectable() {
-        val categorySelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_category)
+        val categorySelectable = binding.vdAcCategory
         val categoriesList = getCategories()
         val selectableAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, categoriesList)
         categorySelectable.setAdapter(selectableAdapter)
         categorySelectable.setOnItemClickListener { _, _, _, id ->
-            val brandsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_brand)
-            val modelsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+            val brandsSelectable = binding.vdAcBrand
+            val modelsSelectable = binding.vdAcModel
             configureSelectables(brandsSelectable, modelsSelectable)
             when (categoriesList[id.toInt()]) {
                 "Coche", "Car" -> {
@@ -82,8 +125,7 @@ class VehicleDetailFragment : Fragment() {
                 "Motocicleta", "Motorcycle" -> {
                     selectedCategory = "motorcycle"
                     loadBrandsInSelectable(
-                        brandsSelectable,
-                        VehicleBrandsService.motorcyclesList
+                        brandsSelectable, VehicleBrandsService.motorcyclesList
                     )
                 }
 
@@ -102,9 +144,9 @@ class VehicleDetailFragment : Fragment() {
     }
 
     private fun loadModelsByBrand() {
-        val brandSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_brand)
+        val brandSelectable = binding.vdAcBrand
         brandSelectable.setOnItemClickListener { _, _, _, id ->
-            val modelsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+            val modelsSelectable = binding.vdAcModel
             clearModels()
             modelsSelectable.isEnabled = true
             val vehicleRef = when (selectedCategory) {
@@ -127,13 +169,13 @@ class VehicleDetailFragment : Fragment() {
     }
 
     private fun clearModels() {
-        val modelsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+        val modelsSelectable = binding.vdAcModel
         modelsSelectable.setText("")
         loadModelsInSelectable(emptyList())
     }
 
     private fun clearBrands() {
-        val brandsSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_brand)
+        val brandsSelectable = binding.vdAcBrand
         brandsSelectable.setText("")
         brandsSelectable.isEnabled = true
         loadBrandsInSelectable(brandsSelectable, emptyList())
@@ -143,13 +185,10 @@ class VehicleDetailFragment : Fragment() {
         val selectableAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, listItems)
         selectable.setAdapter(selectableAdapter)
-        selectable.setOnItemClickListener { _, _, _, id ->
-            showSnackBar(listItems[id.toInt()], requireView())
-        }
     }
 
     private fun loadModelsInSelectable(modelsList: List<String>) {
-        val modelSelectable: AutoCompleteTextView = requireView().findViewById(R.id.vd_ac_model)
+        val modelSelectable = binding.vdAcModel
         val selectableAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, modelsList)
         modelSelectable.setAdapter(selectableAdapter)

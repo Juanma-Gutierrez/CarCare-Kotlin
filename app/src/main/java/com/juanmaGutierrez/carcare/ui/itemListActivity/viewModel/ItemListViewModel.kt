@@ -8,14 +8,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.saveToLog
+import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
@@ -95,14 +96,17 @@ class ItemListViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setSignOutDialog() {
-        MaterialAlertDialogBuilder(activity).setTitle(activity.getString(R.string.logout_title))
-            .setMessage(activity.getString(R.string.logout_message))
-            .setNegativeButton(activity.getString(R.string.cancel)) { _, _ ->
-                showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
-            }.setPositiveButton(activity.getString(R.string.accept)) { _, _ ->
+        val ad = AlertDialogModel(
+            activity, activity.getString(R.string.logout_title), activity.getString(R.string.alertDialog_logout_message)
+        )
+        showDialogAcceptCancel(ad) { accept ->
+            if (accept) {
                 signOut()
                 this._signOut.value = true
-            }.show()
+            } else {
+                showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
+            }
+        }
     }
 
 

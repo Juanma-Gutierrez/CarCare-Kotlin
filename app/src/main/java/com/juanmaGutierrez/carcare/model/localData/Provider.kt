@@ -11,4 +11,3 @@ data class Provider(
 data class Providers(
     var providers: List<Provider>
 )
-
