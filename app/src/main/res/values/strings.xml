@@ -81,6 +81,12 @@
     <string name="vehicle_category_motorcycle">Motorcycle</string>
     <string name="vehicle_category_van">Van</string>
     <string name="vehicle_category_truck">Truck</string>
+    <string name="vehicle_createVehicle_successfully">Vehicle created successfully</string>
+    <string name="vehicle_createVehicle_error">Error in vehicle creation</string>
+    <string name="vehicle_editVehicle_successfully">Vehicle updated successfully</string>
+    <string name="vehicle_editVehicle_error">Error in vehicle updating</string>
+
+    <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>
 
     <!-- Alert Dialog Messages -->

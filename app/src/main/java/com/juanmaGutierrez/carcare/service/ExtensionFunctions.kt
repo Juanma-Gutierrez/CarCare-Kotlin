@@ -45,6 +45,13 @@ fun String.toUpperCamelCase(delimiter: String = " "): String {
     }
 }
 
+fun String.convertDateMillisToDate(): String {
+    val timestamp = this.toLong()
+    val date = Date(timestamp)
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    return dateFormat.format(date)
+}
+
 fun getTimestamp(): String {
     val currentTimestamp = Date()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
@@ -96,4 +103,12 @@ fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
             callback(true)
         }
         .show()
+}
+
+fun generateId(): String {
+    val length = 22
+    val allowedChars = ('a'..'z') + ('0'..'9')
+    return (1..length)
+        .map { allowedChars.random() }
+        .joinToString("")
 }

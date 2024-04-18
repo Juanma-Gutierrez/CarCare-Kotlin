@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.service
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +20,7 @@ import com.juanmaGutierrez.carcare.model.localData.UserFB
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
 
@@ -91,6 +93,20 @@ fun fbCreateProviders(uid: String) {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
+    val db = FirebaseFirestore.getInstance()
+    val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
+    val result = docRef.set(vehicle)
+        .addOnSuccessListener {
+            val fb = FirebaseService.getInstance()
+            saveToLog(LogType.INFO, fb.auth, OperationLog.CREATEVEHICLE, Constants.LOG_SET_VEHICLE)
+        }
+        .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
+    return result
+}
+
+
 fun mapUser(user: User, uid: String): UserFB {
     val currentTimeStamp = getTimestamp()
     val data = UserFB(
@@ -119,7 +135,7 @@ fun fbCreateLog(
     return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
 }
 
-fun fbSaveUserLocally(auth:FirebaseAuth): FirebaseUser? {
+fun fbSaveUserLocally(auth: FirebaseAuth): FirebaseUser? {
     val fb = FirebaseService.getInstance()
     fb.user = auth.currentUser
     fb.auth = auth

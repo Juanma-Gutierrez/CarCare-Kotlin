@@ -1,21 +1,37 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Firebase
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.service.FirebaseService
+import com.juanmaGutierrez.carcare.service.convertDateMillisToDate
+import com.juanmaGutierrez.carcare.service.fbSetVehicle
+import com.juanmaGutierrez.carcare.service.generateId
+import com.juanmaGutierrez.carcare.service.log
+import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showDialogAccept
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
+import java.util.Date
 
 class VehicleDetailFragment : Fragment() {
     private lateinit var binding: FragmentVehicleDetailBinding
@@ -55,6 +71,7 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptVehicle() {
         if (!checkAllFieldsValid()) {
             showSnackBar("falta rellenar algún campo", requireView())
@@ -65,13 +82,61 @@ class VehicleDetailFragment : Fragment() {
             this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
             this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
         )
-        showDialogAcceptCancel(ad) { aceptado ->
-            if (aceptado) {
-                showSnackBar("aceptar nuevo vehiculo", requireView())
+        showDialogAcceptCancel(ad) { accept ->
+            val fb = FirebaseService.getInstance()
+            if (accept) {
+                try {
+                    saveVehicleToFB()
+                    saveVehiclePreviewToUser()
+                    val message = requireActivity().getString(R.string.vehicle_createVehicle_successfully)
+                    showSnackBar(message, requireView())
+                    saveToLog(LogType.INFO, fb.auth, OperationLog.CREATEVEHICLE, message)
+                    navigateToVehiclesList()
+                } catch (e: Error) {
+                    Log.e(Constants.TAG_ERROR, "Error in vehicle creation: ${e.message}")
+                }
             } else {
-                showSnackBar("cancelar nuevo vehiculo", requireView())
+                val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
+                showSnackBar(message, requireView())
+                saveToLog(LogType.ERROR, fb.auth, OperationLog.CREATEVEHICLE, message)
+
             }
         }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveVehicleToFB(): Boolean {
+        val vehicle: VehicleFB = generateVehicle()
+        val responseVehicle = fbSetVehicle(vehicle)
+        return responseVehicle.isSuccessful
+    }
+
+    private fun saveVehiclePreviewToUser() {
+        // TODO HACER LA GRABACIÓN DE LA VISTA PREVIA
+        log("grabar la vista previa del vehículo")
+    }
+
+    private fun navigateToVehiclesList() {
+        // TODO HACER LA NAVEGACIÓN AL LISTADO DE VEHÍCULOS
+        log("navegar al listado de vehículos")
+    }
+
+
+    private fun generateVehicle(): VehicleFB {
+        val fb = FirebaseService.getInstance()
+        return VehicleFB(
+            binding.vdCbAvailable.isChecked,
+            binding.vdAcBrand.text.toString(),
+            binding.vdAcCategory.text.toString(),
+            Date().time.toString().convertDateMillisToDate(),
+            binding.vdAcModel.text.toString(),
+            binding.vdItPlate.text.toString(),
+            binding.vdCvRegistrationDate.date.toString().convertDateMillisToDate(),
+            emptyList(),
+            fb.user!!.uid,
+            generateId()
+        )
     }
 
     private fun checkAllFieldsValid(): Boolean {

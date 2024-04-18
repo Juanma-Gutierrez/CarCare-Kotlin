@@ -23,6 +23,11 @@ class Constants {
         const val LOGIN_FAILURE_SING_IN_WITH_EMAIL = "signInWithEmail:failure"
         const val LOGOUT_SUCCESSFULLY = "Logout successfully"
 
+        // Log
+        const val LOG_SET_VEHICLE = "Set vehicle succesfully"
+        const val LOG_SET_PROVIDER = "Set provider succesfully"
+        const val LOG_SET_SPENT = "Set spent succesfully"
+
         // Register
         const val REGISTER_SUCCESSFULLY = "Register user successfully"
         const val REGISTER_USER_ERROR = "Error in register user"

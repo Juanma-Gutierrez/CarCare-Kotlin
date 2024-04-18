@@ -44,11 +44,11 @@ class VehiclesListViewModel(
             val vehicles = vehicleDao.getVehicles()
             if (vehicles.isNotEmpty()) {
                 _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehicles)
-                _isLoading.value = false
             } else {
                 _snackbarMessage.value = context.getString(R.string.vehiclesList_noVehicles)
                 _vehicleList.value = emptyList()
             }
+            _isLoading.value = false
         }
     }
 

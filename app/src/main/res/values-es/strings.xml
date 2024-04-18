@@ -67,5 +67,10 @@
     <string name="alertDialog_newVehicle_message">¿Seguro que quieres crear este vehículo?</string>
     <string name="alertDialog_editVehicle_title">Editar vehículo</string>
     <string name="alertDialog_editVehicle_message">¿Seguro que quieres editar este vehículo?</string>
+    <string name="vehicle_createVehicle_successfully">Vehículo creado correctamente</string>
+    <string name="vehicle_createVehicle_error">Error en la creación del vehículo</string>
+    <string name="vehicle_editVehicle_successfully">Vehículo actualizado correctamente</string>
+    <string name="vehicle_editVehicle_error">Error en la actualización del vehículo</string>
+
 
 </resources>

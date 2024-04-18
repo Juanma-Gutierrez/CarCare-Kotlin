@@ -131,7 +131,7 @@
                         android:text="@string/vehicleDetail_registrationDate" />
 
                     <CalendarView
-                        android:id="@+id/vd_cv_registerDate"
+                        android:id="@+id/vd_cv_registration_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
