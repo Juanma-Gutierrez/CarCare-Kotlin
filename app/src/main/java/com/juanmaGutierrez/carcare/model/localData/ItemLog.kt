@@ -1,7 +1,5 @@
 package com.juanmaGutierrez.carcare.model.localData
 
-import java.time.LocalDateTime
-
 enum class LogType {
     INFO, DEBUG, WARNING, ERROR, VERBOSE
 }
@@ -11,7 +9,7 @@ enum class OperationLog {
 }
 
 data class ItemLog(
-    val dateTime: LocalDateTime,
+    val dateTime: String,
     val type: LogType,
     val operationLog: OperationLog,
     val currentUser: String? = "",

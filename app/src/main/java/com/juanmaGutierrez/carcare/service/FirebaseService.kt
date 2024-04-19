@@ -97,12 +97,10 @@ fun fbCreateProviders(uid: String) {
 fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
-    val result = docRef.set(vehicle)
-        .addOnSuccessListener {
+    val result = docRef.set(vehicle).addOnSuccessListener {
             val fb = FirebaseService.getInstance()
             saveToLog(LogType.INFO, fb.auth, OperationLog.CREATEVEHICLE, Constants.LOG_SET_VEHICLE)
-        }
-        .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
+        }.addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
     return result
 }
 
@@ -132,7 +130,7 @@ fun fbCreateLog(
 ): ItemLog {
     val email = currentUser?.email ?: ""
     val uid = currentUser?.uid ?: ""
-    return ItemLog(LocalDateTime.now(), type, operation, email, uid, content)
+    return ItemLog(getTimestamp(), type, operation, email, uid, content)
 }
 
 fun fbSaveUserLocally(auth: FirebaseAuth): FirebaseUser? {
