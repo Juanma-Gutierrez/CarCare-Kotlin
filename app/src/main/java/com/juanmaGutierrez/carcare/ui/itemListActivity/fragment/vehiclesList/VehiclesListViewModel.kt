@@ -13,7 +13,7 @@ import com.juanmaGutierrez.carcare.localData.DAO.AppDatabase
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListEntityToVehiclesList
 import com.juanmaGutierrez.carcare.mapping.mapVehiclesListRawToVehicleEntityList
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
@@ -25,8 +25,8 @@ import kotlinx.coroutines.withContext
 class VehiclesListViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
-    private val _vehicleList = MutableLiveData<List<Vehicle>>()
-    val vehiclesList: LiveData<List<Vehicle>> get() = _vehicleList
+    private val _vehicleList = MutableLiveData<List<VehiclePreview>>()
+    val vehiclesList: LiveData<List<VehiclePreview>> get() = _vehicleList
     private val vehicleDao = MainActivity.database.vehicleDao()
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
@@ -80,7 +80,7 @@ class VehiclesListViewModel(
         }
     }
 
-    fun filtercheckAvailablesVehicles(vehicles: List<Vehicle>, switch: Boolean): List<Vehicle> {
+    fun filtercheckAvailablesVehicles(vehicles: List<VehiclePreview>, switch: Boolean): List<VehiclePreview> {
         if (switch) return vehicles
         return vehicles.filter { it.available }
     }

@@ -13,13 +13,3 @@ data class User(
     }
 }
 
-data class UserFB(
-    var created: String,
-    var email: String,
-    var name: String,
-    var nickname: String,
-    var role: String,
-    var surname: String,
-    var userId: String,
-    var vehicles: List<Vehicle>
-)

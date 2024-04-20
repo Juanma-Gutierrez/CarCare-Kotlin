@@ -19,3 +19,4 @@ data class VehicleFB(
                 "Fecha de registro: ${registrationDate}\nCreado: $created\nID del vehículo: $vehicleId\nNº Gastos: ${spents.size}"
     }
 }
+

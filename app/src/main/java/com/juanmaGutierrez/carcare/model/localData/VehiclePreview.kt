@@ -1,11 +1,8 @@
 package com.juanmaGutierrez.carcare.model.localData
 
 import com.google.firebase.firestore.DocumentReference
-import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
-import java.util.Random
-import java.util.UUID
 
-data class Vehicle(
+data class VehiclePreview(
     var available: Boolean,
     var brand: String,
     var category: String,

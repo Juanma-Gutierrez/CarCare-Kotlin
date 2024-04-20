@@ -8,20 +8,25 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.ItemLog
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.Providers
 import com.juanmaGutierrez.carcare.model.localData.User
-import com.juanmaGutierrez.carcare.model.localData.UserFB
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.model.firebase.UserFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
-import java.time.LocalDateTime
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.tasks.await
 import java.util.concurrent.Executors
 
 class FirebaseService {
@@ -68,7 +73,7 @@ fun fbRegisterUserAuth(user: User) {
         .addOnCompleteListener(Executors.newSingleThreadExecutor()) { task ->
             if (task.isSuccessful) {
                 val uid = auth.currentUser?.uid ?: ""
-                saveToLog(LogType.INFO, auth, OperationLog.CREATEUSER, Constants.REGISTER_SUCCESSFULLY)
+                saveToLog(LogType.INFO, auth, OperationLog.CREATE_USER, Constants.REGISTER_SUCCESSFULLY)
                 fbCreateUser(user, uid)
                 fbCreateProviders(uid)
             } else {
@@ -98,10 +103,104 @@ fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
     val result = docRef.set(vehicle).addOnSuccessListener {
-            val fb = FirebaseService.getInstance()
-            saveToLog(LogType.INFO, fb.auth, OperationLog.CREATEVEHICLE, Constants.LOG_SET_VEHICLE)
-        }.addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
+        val fb = FirebaseService.getInstance()
+        saveToLog(LogType.INFO, fb.auth, OperationLog.SET_VEHICLE, Constants.LOG_SET_VEHICLE)
+    }.addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
     return result
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
+    val fb = FirebaseService.getInstance()
+    val db = FirebaseFirestore.getInstance()
+    val deferred = CompletableDeferred<Task<Void>>()
+    var filteredVehiclesList: List<VehiclePreview>
+    val docRef = db.collection(Constants.FB_COLLECTION_USER).document(fb.user!!.uid)
+    docRef.get()
+        .addOnSuccessListener { document ->
+            if (document.exists()) {
+                val existingVehiclesData = document.get("vehicles") as? List<HashMap<String, Any>>
+                val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
+                filteredVehiclesList = updateOrAddVehicleById(existingVehicles, vehicle)
+                val updateTask = docRef.update("vehicles", filteredVehiclesList)
+                updateTask.addOnSuccessListener {
+                    saveToLog(
+                        LogType.INFO,
+                        fb.auth,
+                        OperationLog.SET_VEHICLE,
+                        Constants.LOG_SET_VEHICLE
+                    )
+                    deferred.complete(updateTask)
+                }
+                updateTask.addOnFailureListener { e ->
+                    Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
+                    deferred.completeExceptionally(e)
+                }
+            }
+        }
+        .addOnFailureListener { e ->
+            Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
+            deferred.completeExceptionally(e)
+        }
+    return deferred.await()
+}
+
+fun mapHashVehiclesToList(existingVehiclesData: List<HashMap<String, Any>>): List<VehiclePreview> {
+    return existingVehiclesData.map { vehicleData ->
+        VehiclePreview(
+            vehicleData["available"] as Boolean,
+            vehicleData["brand"] as String,
+            vehicleData["category"] as String,
+            vehicleData["created"] as String,
+            vehicleData["model"] as String,
+            vehicleData["plate"] as String,
+            vehicleData["ref"] as DocumentReference,
+            vehicleData["registrationDate"] as String,
+            vehicleData["vehicleId"] as String
+        )
+    }
+}
+
+
+fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: VehicleFB): List<VehiclePreview> {
+    val filteredVehiclesList = mutableListOf<VehiclePreview>()
+    if (existingVehicles == null) {
+        return mutableListOf(mapVehicleToVehiclePreview(vehicle))
+    }
+    val existingVehicleIndex = existingVehicles.indexOfFirst { it.vehicleId == vehicle.vehicleId }
+    if (existingVehicleIndex != -1) {
+        for ((index, existingVehicle) in existingVehicles.withIndex()) {
+            if (index == existingVehicleIndex) {
+                val updatedVehicle = mapVehicleToVehiclePreview(vehicle)
+                filteredVehiclesList.add(updatedVehicle)
+            } else {
+                filteredVehiclesList.add(existingVehicle)
+            }
+        }
+    } else {
+        filteredVehiclesList.addAll(existingVehicles)
+        filteredVehiclesList.add(mapVehicleToVehiclePreview(vehicle))
+    }
+
+    return filteredVehiclesList
+}
+
+fun mapVehicleToVehiclePreview(vehicle: VehicleFB): VehiclePreview {
+    val vehiclePath = "/vehicle/${vehicle.vehicleId}"
+    val db = FirebaseFirestore.getInstance()
+    val docRef = db.document(vehiclePath)
+    return VehiclePreview(
+        vehicle.available,
+        vehicle.brand,
+        vehicle.category,
+        vehicle.created,
+        vehicle.model,
+        vehicle.plate,
+        docRef,
+        vehicle.registrationDate,
+        vehicle.vehicleId
+    )
 }
 
 

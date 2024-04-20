@@ -5,7 +5,7 @@ enum class LogType {
 }
 
 enum class OperationLog {
-    CREATEUSER, LOGIN, LOGOUT, CREATEVEHICLE, CREATEPROVIDER, CREATESPENT
+    CREATE_USER, LOGIN, LOGOUT, SET_VEHICLE, SET_PROVIDER, SET_SPENT
 }
 
 data class ItemLog(

@@ -106,9 +106,28 @@ fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
 }
 
 fun generateId(): String {
-    val length = 22
+    var formattedDate = formatDate(getTimestamp())
+    val length = 10
     val allowedChars = ('a'..'z') + ('0'..'9')
-    return (1..length)
+    return formattedDate + (1..length)
         .map { allowedChars.random() }
         .joinToString("")
+}
+
+fun formatDate(inputDate: String): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yyMMddHHmmss", Locale.getDefault())
+    val date: Date = inputFormat.parse(inputDate) ?: Date()
+    return outputFormat.format(date)
+}
+
+fun translateCategory(category: String): String {
+    val result = when (category) {
+        "Coche", "Car" -> "car"
+        "Motocicleta", "Motorcycle" -> "motorcycle"
+        "Furgoneta", "Van" -> "van"
+        "Camión", "Truck" -> "truck"
+        else -> ""
+    }
+    return result
 }

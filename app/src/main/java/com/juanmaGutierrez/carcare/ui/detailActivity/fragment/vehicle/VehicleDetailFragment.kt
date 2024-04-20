@@ -11,12 +11,10 @@ import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.Firebase
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
@@ -30,6 +28,7 @@ import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showDialogAccept
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
+import com.juanmaGutierrez.carcare.service.translateCategory
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 import java.util.Date
 
@@ -86,11 +85,10 @@ class VehicleDetailFragment : Fragment() {
             val fb = FirebaseService.getInstance()
             if (accept) {
                 try {
-                    saveVehicleToFB()
-                    saveVehiclePreviewToUser()
+                    val vehicle: VehicleFB = generateVehicle()
+                    viewModel.saveVehicleAndVehiclePreview(vehicle)
                     val message = requireActivity().getString(R.string.vehicle_createVehicle_successfully)
-                    showSnackBar(message, requireView())
-                    saveToLog(LogType.INFO, fb.auth, OperationLog.CREATEVEHICLE, message)
+                    saveToLog(LogType.INFO, fb.auth, OperationLog.SET_VEHICLE, message)
                     navigateToVehiclesList()
                 } catch (e: Error) {
                     Log.e(Constants.TAG_ERROR, "Error in vehicle creation: ${e.message}")
@@ -98,7 +96,7 @@ class VehicleDetailFragment : Fragment() {
             } else {
                 val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
                 showSnackBar(message, requireView())
-                saveToLog(LogType.ERROR, fb.auth, OperationLog.CREATEVEHICLE, message)
+                saveToLog(LogType.ERROR, fb.auth, OperationLog.SET_VEHICLE, message)
 
             }
         }
@@ -106,15 +104,9 @@ class VehicleDetailFragment : Fragment() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveVehicleToFB(): Boolean {
-        val vehicle: VehicleFB = generateVehicle()
+    private fun saveVehicleToFB(vehicle: VehicleFB): Boolean {
         val responseVehicle = fbSetVehicle(vehicle)
         return responseVehicle.isSuccessful
-    }
-
-    private fun saveVehiclePreviewToUser() {
-        // TODO HACER LA GRABACIÓN DE LA VISTA PREVIA
-        log("grabar la vista previa del vehículo")
     }
 
     private fun navigateToVehiclesList() {
@@ -128,7 +120,7 @@ class VehicleDetailFragment : Fragment() {
         return VehicleFB(
             binding.vdCbAvailable.isChecked,
             binding.vdAcBrand.text.toString(),
-            binding.vdAcCategory.text.toString(),
+            translateCategory(binding.vdAcCategory.text.toString()),
             Date().time.toString().convertDateMillisToDate(),
             binding.vdAcModel.text.toString(),
             binding.vdItPlate.text.toString(),

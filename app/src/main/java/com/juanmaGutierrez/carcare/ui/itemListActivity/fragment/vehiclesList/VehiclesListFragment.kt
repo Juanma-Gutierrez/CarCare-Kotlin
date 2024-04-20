@@ -13,7 +13,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ class VehiclesListFragment : Fragment() {
     private lateinit var viewModel: VehiclesListViewModel
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: FragmentVehiclesListBinding
-    private lateinit var vehiclesList: List<Vehicle>
+    private lateinit var vehiclesList: List<VehiclePreview>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +82,7 @@ class VehiclesListFragment : Fragment() {
         }
     }
 
-    private fun updateRecyclerView(vehiclesList: List<Vehicle>?, switch: Boolean) {
+    private fun updateRecyclerView(vehiclesList: List<VehiclePreview>?, switch: Boolean) {
         val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
         vehicleAdapter = VehicleAdapter(filteredList)
         vehicleAdapter.updateData(filteredList)

@@ -2,7 +2,7 @@ package com.juanmaGutierrez.carcare.mapping
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
     val vehicleEntities = vehicles.map { vehicleData ->
@@ -23,10 +23,10 @@ fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): Lis
     return vehicleEntities
 }
 
-fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Vehicle> {
+fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<VehiclePreview> {
     val vehiclesList = vehicles.map { vehicleData ->
         val docRef = FirebaseFirestore.getInstance().document(vehicleData.ref)
-        Vehicle(
+        VehiclePreview(
             available = vehicleData.available,
             brand = vehicleData.brand,
             category = vehicleData.category,

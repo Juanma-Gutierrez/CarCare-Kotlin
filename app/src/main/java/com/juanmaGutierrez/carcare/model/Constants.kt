@@ -38,6 +38,7 @@ class Constants {
         const val ERROR_CREATE_USER_WITH_EMAIL = "CreateUserWithEmail: failure"
         const val ERROR_EXCEPTION_PREFIX = "Get failed with:"
         const val ERROR_API_CALL = "Error occurred during API call:"
+        const val ERROR_DOCUMENT_DOESNT_EXISTS = "Error document doesn't exists"
 
         // Firebase Collections
         const val FB_COLLECTION_LOG = "log"

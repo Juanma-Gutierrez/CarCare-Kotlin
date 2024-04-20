@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.model.localData.Vehicle
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 
-class VehicleAdapter(private var vehicles: List<Vehicle>) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
+class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_vehicle, parent, false)
@@ -29,20 +30,28 @@ class VehicleAdapter(private var vehicles: List<Vehicle>) : RecyclerView.Adapter
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(vehicle: Vehicle) {
-            val vehicleName = "${vehicle.brand} ${vehicle.model}".toUpperCamelCase()
-            val plate = vehicle.plate.uppercase()
+        fun bind(vehicle: VehiclePreview) {
+            itemView.findViewById<ShapeableImageView>(R.id.iv_iv_iconCategory).setImageResource(
+                when (vehicle.category) {
+                    "car" -> R.drawable.icon_vehicle_car
+                    "motorcycle" -> R.drawable.icon_vehicle_motorcycle
+                    "van" -> R.drawable.icon_vehicle_van
+                    "truck" -> R.drawable.icon_vehicle_truck
+                    else -> R.drawable.icon_vehicle_stop
+                }
+            )
             itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked = vehicle.available
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_brandAndModel).text = vehicleName
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = plate
+            itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
+            itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
+            itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
             itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.vehicle_placeholder)
             itemView.setOnClickListener {
-                showSnackBar("Navegar a $vehicleName $plate", this.itemView)
+                showSnackBar("Navegar a ${vehicle.brand} ${vehicle.model} {vehicle.plate}", this.itemView)
             }
         }
     }
 
-    fun updateData(newVehicles: List<Vehicle>) {
+    fun updateData(newVehicles: List<VehiclePreview>) {
         vehicles = newVehicles
         notifyDataSetChanged()
     }

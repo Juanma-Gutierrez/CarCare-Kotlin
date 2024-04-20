@@ -1,6 +1,8 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +12,11 @@ import com.juanmaGutierrez.carcare.api.APIService
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
-import kotlinx.coroutines.launch
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.service.fbSetVehicle
+import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
+import com.juanmaGutierrez.carcare.service.log
+import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -77,5 +83,24 @@ class VehicleDetailViewModel : ViewModel() {
             Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
         }
         return data
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveVehicleAndVehiclePreview(vehicle: VehicleFB): Boolean {
+        var bothSuccessful = false
+        viewModelScope.launch {
+            val deferredVehicle = async { fbSetVehicle(vehicle) }
+            val deferredVehiclePreview = async { fbSetVehiclePreview(vehicle) }
+            val responseVehicle = deferredVehicle.await()
+            val responseVehiclePreview = deferredVehiclePreview.await()
+
+            bothSuccessful = responseVehicle.isSuccessful && responseVehiclePreview.isSuccessful
+            if (bothSuccessful) {
+                _snackbarMessage.value = "Grabado con éxito"
+            } else {
+                _snackbarMessage.value = "Error al guardar"
+            }
+        }
+        return bothSuccessful
     }
 }
