@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/iv_cl_card"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    style="@style/Widget.MaterialComponents.CardView"
     android:layout_margin="@dimen/marginXS"
     android:elevation="5dp">
 
@@ -25,7 +25,20 @@
             tools:src="@drawable/vehicle_placeholder" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/iv_tv_brandAndModel"
+            android:id="@+id/iv_tv_brand"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginS"
+            android:textColor="@color/md_theme_light_primary"
+            app:layout_constraintBottom_toTopOf="@+id/iv_tv_Model"
+            app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Seat" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iv_tv_Model"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,9 +46,9 @@
             android:textColor="@color/md_theme_light_primary"
             app:layout_constraintBottom_toTopOf="@+id/iv_tv_plate"
             app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_tv_brand"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Seat León" />
+            tools:text="León" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_plate"
@@ -43,19 +56,34 @@
             android:layout_height="wrap_content"
             android:textColor="@color/md_theme_light_primary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/iv_tv_brandAndModel"
-            app:layout_constraintTop_toBottomOf="@+id/iv_tv_brandAndModel"
+            app:layout_constraintStart_toStartOf="@+id/iv_tv_brand"
+            app:layout_constraintTop_toBottomOf="@+id/iv_tv_Model"
             tools:text="JM1122SL" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/iv_cb_available"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/marginXS"
             android:enabled="false"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/iv_iv_iconCategory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_iv_iconCategory"
+            android:src="@drawable/icon_vehicle_truck"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="@dimen/marginS"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/iv_cb_available"
+            app:layout_constraintStart_toStartOf="@+id/iv_cb_available"
+            app:layout_constraintTop_toBottomOf="@+id/iv_cb_available">
+
+        </com.google.android.material.imageview.ShapeableImageView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

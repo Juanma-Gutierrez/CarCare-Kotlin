@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
@@ -39,26 +38,22 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
 
 
     private fun openSelectedFragment() {
-        log(" en OpenselectedFragment: ${supportFragmentManager.backStackEntryCount}")
         val intent = intent
         val destinationFragment = intent.getStringExtra("destinationFragment")
         when (destinationFragment) {
             null, "vehiclesList" -> {
-                log("vehiculos")
                 viewModel.setToolbar(getString(R.string.menu_vehicles), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_vehicles
                 navigateToFragment(VehiclesListFragment())
             }
 
             "providersList" -> {
-                log("proveedores")
                 viewModel.setToolbar(getString(R.string.menu_providers), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_providers
                 navigateToFragment(ProvidersListFragment())
             }
 
             "spentsList" -> {
-                log("gastos")
                 viewModel.setToolbar(getString(R.string.menu_spents), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_spents
                 navigateToFragment(SpentsListFragment())
@@ -87,7 +82,6 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             }
         }
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_top_app_bar, menu)
