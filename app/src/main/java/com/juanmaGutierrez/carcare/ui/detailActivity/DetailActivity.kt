@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
@@ -17,11 +18,13 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var viewModel: DetailViewModel
     var activeFragment: String = ""
+    var itemID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        itemID = getIDFromItem()
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         val fragmentType = intent.getStringExtra("fragmentType")
         viewModel.init(this, fragmentType ?: "")
@@ -31,6 +34,11 @@ class DetailActivity : AppCompatActivity() {
             setBackButton()
         }
         viewModel.snackbarMessage.observe(this) { message -> showSnackBar(message, findViewById(android.R.id.content)) }
+        setNavigationAndTitle(fragmentType)
+
+    }
+
+    private fun setNavigationAndTitle(fragmentType: String?) {
         when (fragmentType) {
             "newVehicle" -> {
                 activeFragment = "newVehicle"
@@ -41,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
             "editVehicle" -> {
                 activeFragment = "editVehicle"
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToDetailFragment(VehicleDetailFragment()) // TODO Pasar el id del vehículo
+                navigateToDetailFragment(VehicleDetailFragment(), itemID) // TODO Pasar el id del vehículo
             }
 
             "newProvider" -> {
@@ -68,7 +76,11 @@ class DetailActivity : AppCompatActivity() {
                 navigateToDetailFragment(SpentDetailFragment())
             }
         }
+    }
 
+    private fun getIDFromItem(): String {
+        val itemID = intent.getStringExtra("itemID")
+        return itemID ?: ""
     }
 
     private fun setBackButton() {
@@ -79,9 +91,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    private fun navigateToDetailFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.itemDetail_fragment_container, fragment)
-        fragmentTransaction.commit()
+    private fun navigateToDetailFragment(fragment: Fragment, itemID: String = "") {
+        fragment.apply {
+            val bundle = Bundle()
+            bundle.putString("itemID", itemID)
+            arguments = bundle
+        }
+        supportFragmentManager.beginTransaction().replace(R.id.itemDetail_fragment_container, fragment).commit()
     }
 }

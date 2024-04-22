@@ -11,10 +11,14 @@ import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
@@ -30,13 +34,16 @@ import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.translateCategory
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class VehicleDetailFragment : Fragment() {
     private lateinit var binding: FragmentVehicleDetailBinding
     private lateinit var viewModel: VehicleDetailViewModel
     private lateinit var selectedCategory: String
     private lateinit var detailActivity: DetailActivity
+    private lateinit var itemID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
@@ -48,9 +55,59 @@ class VehicleDetailFragment : Fragment() {
     ): View {
         binding = FragmentVehicleDetailBinding.inflate(layoutInflater)
         detailActivity = activity as DetailActivity
+        checkNewOrEdit()
         return binding.root
     }
 
+    private fun checkNewOrEdit() {
+        itemID = arguments?.getString("itemID") ?: ""
+        if (itemID != "") {
+            val db = Firebase.firestore
+            val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
+            requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
+            docRef.get().addOnSuccessListener { document ->
+                if (document.data != null) {
+                    requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
+                    val vehicle = mapDocumentDataToVehicle(document)
+                    log(vehicle.toString())
+                    loadVehicleDataToForm(vehicle)
+                } else {
+                    Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
+                }
+            }.addOnFailureListener { exception ->
+                Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, exception)
+            }
+        } else {
+            showInfoNewVehicle()
+        }
+    }
+
+    private fun loadVehicleDataToForm(vehicle: VehicleFB) {
+        binding.vdAcCategory.setText(vehicle.category, false)
+        binding.vdAcBrand.setText(vehicle.brand, false)
+        binding.vdAcModel.setText(vehicle.model, false)
+        binding.vdItPlate.setText(vehicle.plate)
+        binding.vdCbAvailable.isChecked = vehicle.available
+// todo configurar fecha
+    }
+
+    private fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
+        val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
+        return VehicleFB(
+            data["available"] as Boolean,
+            data["brand"] as String,
+            data["category"] as String,
+            data["created"] as String,
+            data["model"] as String,
+            data["plate"] as String,
+            data["registrationDate"] as String,
+            data["spents"] as List<SpentFB>,
+            data["userId"] as String,
+            data["vehicleId"] as String,
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllBrandsFromAPI()
@@ -59,12 +116,12 @@ class VehicleDetailFragment : Fragment() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
-                true -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
-                false -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
+                true -> requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
             }
         }
         checkActiveFragment()
-        showInfoNewVehicle()
+
         binding.vdBtAccept.setOnClickListener {
             acceptVehicle()
         }
@@ -150,7 +207,7 @@ class VehicleDetailFragment : Fragment() {
     private fun checkActiveFragment() {
         when (detailActivity.activeFragment) {
             "newVehicle" -> binding.vdBtDelete.visibility = View.GONE
-            "editVehicle" -> showSnackBar("edición de vehículo", requireView())
+            "editVehicle" -> showSnackBar("edición de vehículo $itemID", requireView())
         }
     }
 

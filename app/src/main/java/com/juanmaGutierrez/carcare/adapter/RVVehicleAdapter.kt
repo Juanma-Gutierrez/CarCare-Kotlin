@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
+import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
@@ -37,7 +39,7 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
                     "motorcycle" -> R.drawable.icon_vehicle_motorcycle
                     "van" -> R.drawable.icon_vehicle_van
                     "truck" -> R.drawable.icon_vehicle_truck
-                    else -> R.drawable.icon_vehicle_stop
+                    else -> R.drawable.icon_vehicle_car
                 }
             )
             itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked = vehicle.available
@@ -45,8 +47,12 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
             itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.vehicle_placeholder)
+            val context = itemView.context
             itemView.setOnClickListener {
-                showSnackBar("Navegar a ${vehicle.brand} ${vehicle.model} {vehicle.plate}", this.itemView)
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("fragmentType", "editVehicle")
+                intent.putExtra("itemID", vehicle.vehicleId)
+                context.startActivity(intent)
             }
         }
     }
