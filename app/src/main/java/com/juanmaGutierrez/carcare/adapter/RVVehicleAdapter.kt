@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
-import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -42,7 +44,6 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
                     else -> R.drawable.icon_vehicle_car
                 }
             )
-            itemView.findViewById<MaterialCheckBox>(R.id.iv_cb_available).isChecked = vehicle.available
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
@@ -53,6 +54,9 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
                 intent.putExtra("fragmentType", "editVehicle")
                 intent.putExtra("itemID", vehicle.vehicleId)
                 context.startActivity(intent)
+            }
+            if (vehicle.available) {
+                itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.GONE
             }
         }
     }

@@ -59,8 +59,8 @@ class VehiclesListFragment : Fragment() {
         }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
-                true -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
-                false -> requireView().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
+                true -> requireView().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
+                false -> requireView().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
             }
         }
     }

@@ -60,30 +60,29 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_tv_Model"
             tools:text="JM1122SL" />
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/iv_cb_available"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/marginXS"
-            android:enabled="false"
-            app:layout_constraintBottom_toTopOf="@+id/iv_iv_iconCategory"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_iv_iconCategory"
-            android:src="@drawable/icon_vehicle_truck"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
+            android:src="@drawable/icon_vehicle_truck"
             app:cardCornerRadius="@dimen/marginS"
+            android:layout_marginEnd="@dimen/marginS"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/iv_cb_available"
-            app:layout_constraintStart_toStartOf="@+id/iv_cb_available"
-            app:layout_constraintTop_toBottomOf="@+id/iv_cb_available">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.imageview.ShapeableImageView>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/iv_tv_notAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bohemian_typewriter"
+            android:text="@string/item_vehicle_not_available"
+            android:textColor="@color/color_danger"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

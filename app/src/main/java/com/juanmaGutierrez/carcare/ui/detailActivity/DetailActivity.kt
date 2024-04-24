@@ -7,18 +7,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
-import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleEditFragment
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleNewFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var viewModel: DetailViewModel
-    var activeFragment: String = ""
-    var itemID: String = ""
+    private var itemID: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,43 +34,36 @@ class DetailActivity : AppCompatActivity() {
         }
         viewModel.snackbarMessage.observe(this) { message -> showSnackBar(message, findViewById(android.R.id.content)) }
         setNavigationAndTitle(fragmentType)
-
     }
 
     private fun setNavigationAndTitle(fragmentType: String?) {
         when (fragmentType) {
             "newVehicle" -> {
-                activeFragment = "newVehicle"
                 viewModel.setToolbarTitle(getString(R.string.new_vehicle))
-                navigateToDetailFragment(VehicleDetailFragment())
+                navigateToDetailFragment(VehicleNewFragment())
             }
 
             "editVehicle" -> {
-                activeFragment = "editVehicle"
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToDetailFragment(VehicleDetailFragment(), itemID) // TODO Pasar el id del vehículo
+                navigateToDetailFragment(VehicleEditFragment(), itemID)
             }
 
             "newProvider" -> {
-                activeFragment = "newProvider"
                 viewModel.setToolbarTitle(getString(R.string.new_provider))
                 navigateToDetailFragment(ProviderDetailFragment())
             }
 
             "editProvider" -> {
-                activeFragment = "editProvider"
                 viewModel.setToolbarTitle(getString(R.string.edit_provider))
                 navigateToDetailFragment(ProviderDetailFragment())
             }
 
             "newSpent" -> {
-                activeFragment = "newSpent"
                 viewModel.setToolbarTitle(getString(R.string.new_spent))
                 navigateToDetailFragment(SpentDetailFragment())
             }
 
             "editSpent" -> {
-                activeFragment = "editSpent"
                 viewModel.setToolbarTitle(getString(R.string.edit_spent))
                 navigateToDetailFragment(SpentDetailFragment())
             }

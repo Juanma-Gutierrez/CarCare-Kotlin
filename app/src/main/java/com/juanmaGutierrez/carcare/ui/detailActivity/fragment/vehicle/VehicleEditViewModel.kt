@@ -1,5 +1,12 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+class VehicleEditViewModel {
+}
+
+/*
+
+package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
+
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +22,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
+import com.juanmaGutierrez.carcare.databinding.FragmentVehicleNewBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
@@ -34,26 +41,24 @@ import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.translateCategory
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
-class VehicleDetailFragment : Fragment() {
-    private lateinit var binding: FragmentVehicleDetailBinding
-    private lateinit var viewModel: VehicleDetailViewModel
+class VehicleNewFragment : Fragment() {
+    private lateinit var binding: FragmentVehicleNewBinding
+    private lateinit var viewModel: VehicleNewViewModel
     private lateinit var selectedCategory: String
     private lateinit var detailActivity: DetailActivity
     private lateinit var itemID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
+        viewModel = ViewModelProvider(this)[VehicleNewViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentVehicleDetailBinding.inflate(layoutInflater)
+        binding = FragmentVehicleNewBinding.inflate(layoutInflater)
         detailActivity = activity as DetailActivity
         checkNewOrEdit()
         return binding.root
@@ -316,4 +321,4 @@ class VehicleDetailFragment : Fragment() {
             getString(R.string.vehicle_category_truck)
         )
     }
-}
+}*/

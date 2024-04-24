@@ -79,14 +79,14 @@
 
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_accept"
+                        android:id="@+id/vn_bt_accept"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/accept"
                         app:icon="@drawable/icon_check" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_cancel"
+                        android:id="@+id/vn_bt_cancel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                         app:icon="@drawable/icon_cancel" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_delete"
+                        android:id="@+id/ve_bt_delete"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"

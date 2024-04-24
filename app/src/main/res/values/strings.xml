@@ -70,13 +70,13 @@
     <!-- Vehicles List -->
     <string name="vehiclesList_noVehicles">You must add some vehicle to your database</string>
 
-    <!-- Vehicle detail -->
-    <string name="vehicleDetail_brand">Brand</string>
-    <string name="vehicleDetail_model">Model</string>
-    <string name="vehicleDetail_plate">Plate</string>
-    <string name="vehicleDetail_category">Category</string>
-    <string name="vehicleDetail_available">Available vehicle</string>
-    <string name="vehicleDetail_registrationDate">Registration date</string>
+    <!-- Vehicle -->
+    <string name="vehicle_brand">Brand</string>
+    <string name="vehicle_model">Model</string>
+    <string name="vehicle_plate">Plate</string>
+    <string name="vehicle_category">Category</string>
+    <string name="vehicle_available">Available vehicle</string>
+    <string name="vehicle_registrationDate">Registration date</string>
     <string name="vehicle_category_car">Car</string>
     <string name="vehicle_category_motorcycle">Motorcycle</string>
     <string name="vehicle_category_van">Van</string>
@@ -93,9 +93,11 @@
     <string name="alertDialog_logout_message">Do you want to log out and exit the application?</string>
     <string name="alertDialog_show_info_newVehicle_title">New vehicle</string>
     <string name="alertDialog_show_info_newVehicle_message">To create a new vehicle, enter the category, make, model and other data.</string>
+    <string name="alertDialog_confirm_message">Confirm</string>
     <string name="alertDialog_newVehicle_title">Create new vehicle</string>
     <string name="alertDialog_newVehicle_message">Are you sure to create this new vehicle?</string>
     <string name="alertDialog_editVehicle_title">Edit vehicle</string>
     <string name="alertDialog_editVehicle_message">Are you sure to save this vehicle?</string>
+    <string name="item_vehicle_not_available">Not available</string>
 
 </resources>

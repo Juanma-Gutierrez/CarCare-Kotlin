@@ -15,12 +15,11 @@ import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
-import com.juanmaGutierrez.carcare.service.log
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class VehicleDetailViewModel : ViewModel() {
+class VehicleNewViewModel : ViewModel() {
     private lateinit var apiService: APIService
     private val _modelsList = MutableLiveData<List<String>>()
     val modelsList: LiveData<List<String>> get() = _modelsList

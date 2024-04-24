@@ -45,12 +45,12 @@
     <string name="snackBar_showAll">Todos los vehículos</string>
     <string name="snackBar_showAvailables">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
-    <string name="vehicleDetail_brand">Marca</string>
-    <string name="vehicleDetail_model">Modelo</string>
-    <string name="vehicleDetail_plate">Matrícula</string>
-    <string name="vehicleDetail_category">Categoría</string>
-    <string name="vehicleDetail_available">Vehículo disponible</string>
-    <string name="vehicleDetail_registrationDate">Fecha de registro</string>
+    <string name="vehicle_brand">Marca</string>
+    <string name="vehicle_model">Modelo</string>
+    <string name="vehicle_plate">Matrícula</string>
+    <string name="vehicle_category">Categoría</string>
+    <string name="vehicle_available">Vehículo disponible</string>
+    <string name="vehicle_registrationDate">Fecha de registro</string>
     <string name="vehicle_category_car">Coche</string>
     <string name="vehicle_category_motorcycle">Motocicleta</string>
     <string name="vehicle_category_van">Furgoneta</string>
@@ -71,6 +71,8 @@
     <string name="vehicle_createVehicle_error">Error en la creación del vehículo</string>
     <string name="vehicle_editVehicle_successfully">Vehículo actualizado correctamente</string>
     <string name="vehicle_editVehicle_error">Error en la actualización del vehículo</string>
+    <string name="alertDialog_confirm_message">Confirmación</string>
+    <string name="item_vehicle_not_available">No disponible</string>
 
 
 </resources>

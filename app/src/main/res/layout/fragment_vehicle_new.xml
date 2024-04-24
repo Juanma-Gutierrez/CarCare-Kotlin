@@ -35,7 +35,7 @@
                     app:cardCornerRadius="@dimen/marginXL">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/vd_iv_vehicleImage"
+                        android:id="@+id/vn_iv_vehicleImage"
                         android:layout_width="@dimen/logoM"
                         android:layout_height="@dimen/logoM"
                         android:scaleType="fitXY"
@@ -67,10 +67,10 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicleDetail_category">
+                        android:hint="@string/vehicle_category">
 
                         <AutoCompleteTextView
-                            android:id="@+id/vd_ac_category"
+                            android:id="@+id/vn_ac_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none" />
@@ -81,10 +81,10 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicleDetail_brand">
+                        android:hint="@string/vehicle_brand">
 
                         <AutoCompleteTextView
-                            android:id="@+id/vd_ac_brand"
+                            android:id="@+id/vn_ac_brand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
@@ -95,10 +95,10 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicleDetail_model">
+                        android:hint="@string/vehicle_model">
 
                         <AutoCompleteTextView
-                            android:id="@+id/vd_ac_model"
+                            android:id="@+id/vn_ac_model"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:enabled="false"
@@ -108,10 +108,10 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicleDetail_plate">
+                        android:hint="@string/vehicle_plate">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/vd_it_plate"
+                            android:id="@+id/vn_it_plate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapCharacters"
@@ -119,45 +119,37 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.checkbox.MaterialCheckBox
-                        android:id="@+id/vd_cb_available"
+                        android:id="@+id/vn_cb_available"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="@string/vehicleDetail_available" />
+                        android:text="@string/vehicle_available" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/vehicleDetail_registrationDate" />
+                        android:text="@string/vehicle_registrationDate" />
 
                     <CalendarView
-                        android:id="@+id/vd_cv_registration_date"
+                        android:id="@+id/vn_cv_registration_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_accept"
+                        android:id="@+id/vn_bt_accept"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/accept"
                         app:icon="@drawable/icon_check" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_cancel"
+                        android:id="@+id/vn_bt_cancel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/cancel"
                         app:icon="@drawable/icon_cancel" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vd_bt_delete"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="@dimen/buttonL"
-                        android:layout_height="wrap_content"
-                        android:text="@string/delete"
-                        app:icon="@drawable/icon_trash" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
