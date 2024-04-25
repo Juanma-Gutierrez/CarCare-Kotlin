@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.imageview.ShapeableImageView
@@ -48,6 +49,15 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
             itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.vehicle_placeholder)
+            itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
+                when (vehicle.category) {
+                    "car" -> R.drawable.placeholder_car
+                    "motorcycle" -> R.drawable.placeholder_motorcycle
+                    "van" -> R.drawable.placeholder_van
+                    "truck" -> R.drawable.placeholder_truck
+                    else -> R.drawable.icon_vehicle_car
+                }
+            )
             val context = itemView.context
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
@@ -55,8 +65,9 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
                 intent.putExtra("itemID", vehicle.vehicleId)
                 context.startActivity(intent)
             }
-            if (vehicle.available) {
-                itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.GONE
+            if (!vehicle.available) {
+                itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.VISIBLE
+                itemView.findViewById<ShapeableImageView>(R.id.iv_iv_imageNotAvailable).visibility = View.VISIBLE
             }
         }
     }

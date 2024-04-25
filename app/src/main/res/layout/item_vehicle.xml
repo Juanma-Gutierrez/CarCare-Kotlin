@@ -22,33 +22,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            tools:src="@drawable/vehicle_placeholder" />
+            tools:src="@drawable/placeholder_car" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_iv_imageNotAvailable"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_not_available"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_brand"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginS"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/md_theme_light_primary"
             app:layout_constraintBottom_toTopOf="@+id/iv_tv_Model"
             app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Seat" />
+            tools:text="Harley-Davidson" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_Model"
             style="@style/TextAppearance.Material3.TitleMedium"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginS"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/md_theme_light_primary"
             app:layout_constraintBottom_toTopOf="@+id/iv_tv_plate"
             app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage"
             app:layout_constraintTop_toBottomOf="@+id/iv_tv_brand"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="León" />
+            tools:text="Sporster Iron 883" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_plate"
@@ -65,9 +80,9 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/marginS"
             android:src="@drawable/icon_vehicle_truck"
             app:cardCornerRadius="@dimen/marginS"
-            android:layout_marginEnd="@dimen/marginS"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,12 +92,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/bohemian_typewriter"
+            android:rotation="-20"
             android:text="@string/item_vehicle_not_available"
             android:textColor="@color/color_danger"
             android:textSize="30dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage" />
+            app:layout_constraintStart_toEndOf="@+id/iv_iv_vehicleImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="No disponible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
