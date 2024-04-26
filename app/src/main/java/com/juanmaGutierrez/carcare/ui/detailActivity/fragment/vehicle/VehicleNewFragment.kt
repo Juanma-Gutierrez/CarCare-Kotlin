@@ -11,13 +11,13 @@ import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleNewBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
+import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
@@ -26,7 +26,6 @@ import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.convertDateMillisToDate
-import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.saveToLog
@@ -54,11 +53,11 @@ class VehicleNewFragment : Fragment() {
     ): View {
         binding = FragmentVehicleNewBinding.inflate(layoutInflater)
         detailActivity = activity as DetailActivity
-        checkNewOrEdit()
+        init()
         return binding.root
     }
 
-    private fun checkNewOrEdit() {
+    private fun init() {
         itemID = arguments?.getString("itemID") ?: ""
         if (itemID != "") {
             val db = Firebase.firestore
@@ -69,7 +68,7 @@ class VehicleNewFragment : Fragment() {
                     requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
                     val vehicle = mapDocumentDataToVehicle(document)
                     log(vehicle.toString())
-                    loadVehicleDataToForm(vehicle)
+                    // loadVehicleDataToForm(vehicle) borrar, no se carga dato porque es nuevo vehiculo
                 } else {
                     Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
                 }
@@ -81,30 +80,7 @@ class VehicleNewFragment : Fragment() {
         }
     }
 
-    private fun loadVehicleDataToForm(vehicle: VehicleFB) {
-        binding.vnAcCategory.setText(vehicle.category, false)
-        binding.vnAcBrand.setText(vehicle.brand, false)
-        binding.vnAcModel.setText(vehicle.model, false)
-        binding.vnItPlate.setText(vehicle.plate)
-        binding.vnCbAvailable.isChecked = vehicle.available
-// todo configurar fecha
-    }
 
-    private fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
-        val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
-        return VehicleFB(
-            data["available"] as Boolean,
-            data["brand"] as String,
-            data["category"] as String,
-            data["created"] as String,
-            data["model"] as String,
-            data["plate"] as String,
-            data["registrationDate"] as String,
-            data["spents"] as List<SpentFB>,
-            data["userId"] as String,
-            data["vehicleId"] as String,
-        )
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

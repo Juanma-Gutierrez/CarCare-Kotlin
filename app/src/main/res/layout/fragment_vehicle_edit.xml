@@ -87,7 +87,6 @@
                             android:id="@+id/ve_ac_brand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false"
                             android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +100,6 @@
                             android:id="@+id/ve_ac_model"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:enabled="false"
                             android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,16 +123,36 @@
                         android:checked="true"
                         android:text="@string/vehicle_available" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/vehicle_registrationDate" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <CalendarView
-                        android:id="@+id/ve_cv_registration_date"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/ve_tv_titleDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/marginXS"
+                            android:text="@string/vehicle_registrationDate"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/ve_cb_date"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/marginXS"
+                            android:text="Fecha de registro"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/ve_bt_accept"

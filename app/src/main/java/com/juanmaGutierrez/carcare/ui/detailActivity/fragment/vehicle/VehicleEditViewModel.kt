@@ -1,6 +1,41 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
-class VehicleEditViewModel {
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.service.log
+
+class VehicleEditViewModel : ViewModel() {
+    val isLoadingVisible = MutableLiveData<Boolean>()
+    val vehicle = MutableLiveData<VehicleFB>()
+
+
+    fun init(itemID: String) {
+        val db = Firebase.firestore
+        val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
+        // requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
+        isLoadingVisible.value = true
+        docRef.get().addOnSuccessListener { document ->
+            if (document.data != null) {
+                // requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
+                isLoadingVisible.value = false
+                val vehicle = mapDocumentDataToVehicle(document)
+                log(vehicle.toString())
+                this.vehicle.value = vehicle
+                // loadVehicleDataToForm(vehicle)
+            } else {
+                Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
+            }
+        }.addOnFailureListener { exception ->
+            Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, exception)
+        }
+    }
 }
 
 /*

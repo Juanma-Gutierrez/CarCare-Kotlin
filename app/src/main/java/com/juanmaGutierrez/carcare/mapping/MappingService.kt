@@ -1,7 +1,10 @@
 package com.juanmaGutierrez.carcare.mapping
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.juanmaGutierrez.carcare.localData.entity.VehicleEntity
+import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
@@ -39,4 +42,20 @@ fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Veh
         )
     }
     return vehiclesList
+}
+
+ fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
+    val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
+    return VehicleFB(
+        data["available"] as Boolean,
+        data["brand"] as String,
+        data["category"] as String,
+        data["created"] as String,
+        data["model"] as String,
+        data["plate"] as String,
+        data["registrationDate"] as String,
+        data["spents"] as List<SpentFB>,
+        data["userId"] as String,
+        data["vehicleId"] as String,
+    )
 }

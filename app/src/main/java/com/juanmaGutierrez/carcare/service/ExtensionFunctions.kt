@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +15,10 @@ import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -23,17 +29,12 @@ import java.util.Locale
  */
 fun showSnackBar(message: String, view: View) {
     val snackBar = Snackbar.make(
-        view,
-        message,
-        Snackbar.LENGTH_SHORT
+        view, message, Snackbar.LENGTH_SHORT
     )
     val snackBarView = snackBar.view
     val layoutParams = snackBarView.layoutParams as ViewGroup.MarginLayoutParams
     layoutParams.setMargins(
-        layoutParams.leftMargin,
-        layoutParams.topMargin,
-        layoutParams.rightMargin,
-        250
+        layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, 250
     )
     snackBarView.layoutParams = layoutParams
     snackBar.show()
@@ -60,19 +61,11 @@ fun getTimestamp(): String {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun saveToLog(
-    type: LogType,
-    auth: FirebaseAuth?,
-    operation: OperationLog,
-    content: String,
-    onComplete: (() -> Unit)? = null
+    type: LogType, auth: FirebaseAuth?, operation: OperationLog, content: String, onComplete: (() -> Unit)? = null
 ) {
     fbSaveLog(
         fbCreateLog(
-            type,
-            auth?.currentUser!!,
-            auth.currentUser!!.uid,
-            operation,
-            content
+            type, auth?.currentUser!!, auth.currentUser!!.uid, operation, content
         )
     )
     onComplete?.invoke()
@@ -83,41 +76,32 @@ fun log(string: String, t: Throwable? = null) {
 }
 
 fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(ad.activity)
-        .setTitle(ad.title)
-        .setMessage(ad.message)
+    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message)
         .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
             callback(true)
-        }
-        .setNegativeButton(ad.activity.getString(R.string.cancel)) { _, _ ->
+        }.setNegativeButton(ad.activity.getString(R.string.cancel)) { _, _ ->
             callback(false)
-        }
-        .show()
+        }.show()
 }
 
 fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(ad.activity)
-        .setTitle(ad.title)
-        .setMessage(ad.message)
+    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message)
         .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
             callback(true)
-        }
-        .show()
+        }.show()
 }
 
 fun generateId(): String {
-    var formattedDate = formatDate(getTimestamp())
+    var formattedDate = getTimestamp().formatDate("yyMMddHHmmss")
     val length = 10
     val allowedChars = ('a'..'z') + ('0'..'9')
-    return formattedDate + (1..length)
-        .map { allowedChars.random() }
-        .joinToString("")
+    return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
-fun formatDate(inputDate: String): String {
+fun String.formatDate(format:String): String {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("yyMMddHHmmss", Locale.getDefault())
-    val date: Date = inputFormat.parse(inputDate) ?: Date()
+    val outputFormat = SimpleDateFormat(format, Locale.getDefault())
+    val date: Date = inputFormat.parse(this) ?: Date()
     return outputFormat.format(date)
 }
 
@@ -131,3 +115,24 @@ fun translateCategory(category: String): String {
     }
     return result
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun showDatePickerDialog(initialDate: String, title: String, fragmentManager: FragmentManager) {
+    val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val builder =
+        MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.stringToTimestamp())
+    val datePicker = builder.build()
+    datePicker.addOnPositiveButtonClickListener { selectedDate ->
+        val formattedDate = LocalDate.ofEpochDay(selectedDate / 86400000).format(dateFormat)
+        log(formattedDate)
+    }
+    datePicker.show(fragmentManager, "datePickerDialog")
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.stringToTimestamp(): Long {
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val localDate = LocalDate.parse(this, formatter)
+    return localDate.toEpochDay() * 24 * 60 * 60 * 1000
+}
+
