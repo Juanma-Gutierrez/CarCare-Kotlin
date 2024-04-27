@@ -11,15 +11,10 @@ import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleNewBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
-import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
@@ -27,7 +22,7 @@ import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.convertDateMillisToDate
 import com.juanmaGutierrez.carcare.service.generateId
-import com.juanmaGutierrez.carcare.service.log
+import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showDialogAccept
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
@@ -41,7 +36,6 @@ class VehicleNewFragment : Fragment() {
     private lateinit var viewModel: VehicleNewViewModel
     private lateinit var selectedCategory: String
     private lateinit var detailActivity: DetailActivity
-    private lateinit var itemID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleNewViewModel::class.java]
@@ -53,40 +47,20 @@ class VehicleNewFragment : Fragment() {
     ): View {
         binding = FragmentVehicleNewBinding.inflate(layoutInflater)
         detailActivity = activity as DetailActivity
-        init()
+        showInfoNewVehicle()
         return binding.root
     }
-
-    private fun init() {
-        itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            val db = Firebase.firestore
-            val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
-            requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
-            docRef.get().addOnSuccessListener { document ->
-                if (document.data != null) {
-                    requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
-                    val vehicle = mapDocumentDataToVehicle(document)
-                    log(vehicle.toString())
-                    // loadVehicleDataToForm(vehicle) borrar, no se carga dato porque es nuevo vehiculo
-                } else {
-                    Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
-                }
-            }.addOnFailureListener { exception ->
-                Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, exception)
-            }
-        } else {
-            showInfoNewVehicle()
-        }
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllBrandsFromAPI()
         loadCategoriesInSelectable()
-        viewModel.modelsList.observe(viewLifecycleOwner) { list -> loadModelsInSelectable(list) }
+        viewModel.modelsList.observe(viewLifecycleOwner) { list ->
+            loadDataInSelectable(
+                binding.vnAcModel, list, requireActivity()
+            )
+        }
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
@@ -97,6 +71,15 @@ class VehicleNewFragment : Fragment() {
         binding.vnBtAccept.setOnClickListener {
             acceptVehicle()
         }
+    }
+
+    private fun getCategories(): List<String> {
+        return listOf(
+            getString(R.string.vehicle_category_car),
+            getString(R.string.vehicle_category_motorcycle),
+            getString(R.string.vehicle_category_van),
+            getString(R.string.vehicle_category_truck)
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -111,39 +94,29 @@ class VehicleNewFragment : Fragment() {
             this.requireActivity().getString(R.string.alertDialog_editVehicle_message)
         )
         showDialogAcceptCancel(ad) { accept ->
-            val fb = FirebaseService.getInstance()
             if (accept) {
                 try {
                     val vehicle: VehicleFB = generateVehicle()
                     viewModel.saveVehicleAndVehiclePreview(vehicle)
                     val message = requireActivity().getString(R.string.vehicle_createVehicle_successfully)
-                    saveToLog(LogType.INFO, fb.auth, OperationLog.SET_VEHICLE, message)
+                    saveToLog(LogType.INFO, OperationLog.SET_VEHICLE, message)
                     navigateToVehiclesList()
                 } catch (e: Error) {
                     Log.e(Constants.TAG_ERROR, "Error in vehicle creation: ${e.message}")
                 }
             } else {
                 val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
-                showSnackBar(message, requireView()){}
-                saveToLog(LogType.ERROR, fb.auth, OperationLog.SET_VEHICLE, message)
+                showSnackBar(message, requireView()) {}
+                saveToLog(LogType.ERROR, OperationLog.SET_VEHICLE, message)
             }
         }
     }
 
-
-    /*    @RequiresApi(Build.VERSION_CODES.O)
-        private fun saveVehicleToFB(vehicle: VehicleFB): Boolean {
-            val responseVehicle = fbSetVehicle(vehicle)
-            return responseVehicle.isSuccessful
-        }*/
-
     private fun navigateToVehiclesList() {
-        // TODO HACER LA NAVEGACIÓN AL LISTADO DE VEHÍCULOS
-        requireActivity().onBackPressed()
-        log("navegar al listado de vehículos")
+        this.requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun generateVehicle(): VehicleFB {
         val fb = FirebaseService.getInstance()
         return VehicleFB(
@@ -189,24 +162,24 @@ class VehicleNewFragment : Fragment() {
             when (categoriesList[id.toInt()]) {
                 "Coche", "Car" -> {
                     selectedCategory = "car"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.carsList)
+                    loadDataInSelectable(brandsSelectable, VehicleBrandsService.carsList, requireActivity())
                 }
 
                 "Motocicleta", "Motorcycle" -> {
                     selectedCategory = "motorcycle"
-                    loadBrandsInSelectable(
-                        brandsSelectable, VehicleBrandsService.motorcyclesList
+                    loadDataInSelectable(
+                        brandsSelectable, VehicleBrandsService.motorcyclesList, requireActivity()
                     )
                 }
 
                 "Furgoneta", "Van" -> {
                     selectedCategory = "van"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.vansList)
+                    loadDataInSelectable(brandsSelectable, VehicleBrandsService.vansList, requireActivity())
                 }
 
                 "Camión", "Truck" -> {
                     selectedCategory = "truck"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.trucksList)
+                    loadDataInSelectable(brandsSelectable, VehicleBrandsService.trucksList, requireActivity())
                 }
             }
             loadModelsByBrand()
@@ -241,36 +214,14 @@ class VehicleNewFragment : Fragment() {
     private fun clearModels() {
         val modelsSelectable = binding.vnAcModel
         modelsSelectable.setText("")
-        loadModelsInSelectable(emptyList())
+        loadDataInSelectable(modelsSelectable, emptyList(), requireActivity())
     }
 
     private fun clearBrands() {
         val brandsSelectable = binding.vnAcBrand
         brandsSelectable.setText("")
         brandsSelectable.isEnabled = true
-        loadBrandsInSelectable(brandsSelectable, emptyList())
-    }
-
-    private fun loadBrandsInSelectable(selectable: AutoCompleteTextView, listItems: List<String>) {
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, listItems)
-        selectable.setAdapter(selectableAdapter)
-    }
-
-    private fun loadModelsInSelectable(modelsList: List<String>) {
-        val modelSelectable = binding.vnAcModel
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, modelsList)
-        modelSelectable.setAdapter(selectableAdapter)
-    }
-
-    private fun getCategories(): List<String> {
-        return listOf(
-            getString(R.string.vehicle_category_car),
-            getString(R.string.vehicle_category_motorcycle),
-            getString(R.string.vehicle_category_van),
-            getString(R.string.vehicle_category_truck)
-        )
+        loadDataInSelectable(brandsSelectable, emptyList(), requireActivity())
     }
 
     private fun showInfoNewVehicle() {

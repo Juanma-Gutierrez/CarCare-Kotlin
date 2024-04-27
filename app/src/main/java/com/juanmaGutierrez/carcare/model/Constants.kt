@@ -26,10 +26,29 @@ class Constants {
         const val LOGIN_FAILURE_SING_IN_WITH_EMAIL = "signInWithEmail:failure"
         const val LOGOUT_SUCCESSFULLY = "Logout successfully"
 
-        // Log
-        const val LOG_SET_VEHICLE = "Set vehicle succesfully"
-        const val LOG_SET_PROVIDER = "Set provider succesfully"
-        const val LOG_SET_SPENT = "Set spent succesfully"
+        // Log VEHICLE
+        const val LOG_VEHICLE_CREATION_SUCCESSFULLY = "Creation of vehicle successfully"
+        const val LOG_VEHICLE_CREATION_ERROR = "Error in vehicle creation"
+        const val LOG_VEHICLE_EDITION_SUCCESSFULLY = "Edition of vehicle successfully"
+        const val LOG_VEHICLE_EDITION_ERROR = "Error in vehicle edition"
+        const val LOG_VEHICLE_DELETION_SUCCESSFULLY = "Deletion of vehicle successfully"
+        const val LOG_VEHICLE_DELETION_ERROR = "Error in vehicle deletion"
+
+        // Log PROVIDER
+        const val LOG_PROVIDER_CREATION_SUCCESSFULLY = "Creation of provider successfully"
+        const val LOG_PROVIDER_CREATION_ERROR = "Error in provider creation"
+        const val LOG_PROVIDER_EDITION_SUCCESSFULLY = "Edition of provider successfully"
+        const val LOG_PROVIDER_EDITION_ERROR = "Error in provider edition"
+        const val LOG_PROVIDER_DELETION_SUCCESSFULLY = "Deletion of provider successfully"
+        const val LOG_PROVIDER_DELETION_ERROR = "Error in vehicle provider"
+
+        // Log SPENT
+        const val LOG_SPENT_CREATION_SUCCESSFULLY = "Creation of spent successfully"
+        const val LOG_SPENT_CREATION_ERROR = "Error in spent creation"
+        const val LOG_SPENT_EDITION_SUCCESSFULLY = "Edition of spent successfully"
+        const val LOG_SPENT_EDITION_ERROR = "Error in spent edition"
+        const val LOG_SPENT_DELETION_SUCCESSFULLY = "Deletion of spent successfully"
+        const val LOG_SPENT_DELETION_ERROR = "Error in spent deletion"
 
         // Register
         const val REGISTER_SUCCESSFULLY = "Register user successfully"

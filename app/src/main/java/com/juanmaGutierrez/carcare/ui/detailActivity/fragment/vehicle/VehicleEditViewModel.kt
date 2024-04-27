@@ -3,31 +3,70 @@ package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import com.juanmaGutierrez.carcare.api.APIClient
+import com.juanmaGutierrez.carcare.api.APIService
+import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
-import kotlinx.coroutines.async
+import com.juanmaGutierrez.carcare.service.log
+import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 class VehicleEditViewModel : ViewModel() {
-    val isLoadingVisible = MutableLiveData<Boolean>()
+    private lateinit var apiService: APIService
+    var selectedCategory: String = ""
     val vehicle = MutableLiveData<VehicleFB>()
+    val editVehicleSuccessful = MutableLiveData<Boolean>()
+    private val _modelsList = MutableLiveData<List<String>>()
+    val modelsList: LiveData<List<String>> get() = _modelsList
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun editVehicle(vehicle: VehicleFB) {
+        viewModelScope.launch {
+            try {
+                fbSetVehicle(vehicle).await()
+                fbSetVehiclePreview(vehicle).await()
+                saveToLog(LogType.INFO, OperationLog.SET_VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
+                editVehicleSuccessful.value = true
+            } catch (e: Exception) {
+                log("Error al editar el vehiculo")
+            }
+        }
+    }
+
+    fun deleteVehicle(vehicle: VehicleFB) {
+        // todo borrado de vehículos
+    }
 
     fun init(itemID: String) {
+        editVehicleSuccessful.value = false
         val db = Firebase.firestore
         val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
-        isLoadingVisible.value = true
+        _isLoading.value = true
         docRef.get().addOnSuccessListener { document ->
             if (document.data != null) {
-                isLoadingVisible.value = false
+                _isLoading.value = false
                 val vehicle = mapDocumentDataToVehicle(document)
                 this.vehicle.value = vehicle
             } else {
@@ -38,332 +77,58 @@ class VehicleEditViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun editVehicle(vehicle: VehicleFB) {
+    fun getAllBrandsFromAPI() {
+        val retrofit =
+            Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
+        apiService = retrofit.create(APIService::class.java)
         viewModelScope.launch {
-            fbSetVehicle(vehicle)
-            // val deferredVehiclePreview = async { fbSetVehiclePreview(vehicle) }
-
+            callBrandsFromAPI()
         }
+    }
+
+    private suspend fun callBrandsFromAPI() {
+        _isLoading.value = true
+        try {
+            val brandsResponse = APIClient.apiService.getAllBrands()
+            _isLoading.value = false
+            loadBrandsInLocalBrandsService(brandsResponse)
+        } catch (e: Exception) {
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
+        }
+    }
+
+    private fun loadBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
+        val vehiclesBrandSVC = VehicleBrandsService
+        vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
+        vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles.sorted()
+        vehiclesBrandSVC.vansList = brandsResponse.data.vans.sorted()
+        vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
+    }
+
+    fun loadModelsByBrand(brand: String) {
+        viewModelScope.launch {
+            getModelsByBrand(brand)
+        }
+    }
+
+    private suspend fun getModelsByBrand(brand: String) {
+        val retrofit =
+            Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
+        apiService = retrofit.create(APIService::class.java)
+        viewModelScope.launch {
+            _modelsList.value = callModelsFromAPI(brand)
+        }
+    }
+
+    private suspend fun callModelsFromAPI(brand: String): List<String> {
+        var data = emptyList<String>()
+        _isLoading.value = true
+        try {
+            data = APIClient.apiService.getModelsByBrand(selectedCategory, brand).models
+            _isLoading.value = false
+        } catch (e: Exception) {
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
+        }
+        return data
     }
 }
-
-/*
-
-package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
-
-import android.os.Build
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.firestore
-import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.databinding.FragmentVehicleNewBinding
-import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
-import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.firebase.SpentFB
-import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
-import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
-import com.juanmaGutierrez.carcare.model.localData.LogType
-import com.juanmaGutierrez.carcare.model.localData.OperationLog
-import com.juanmaGutierrez.carcare.service.FirebaseService
-import com.juanmaGutierrez.carcare.service.convertDateMillisToDate
-import com.juanmaGutierrez.carcare.service.fbSetVehicle
-import com.juanmaGutierrez.carcare.service.generateId
-import com.juanmaGutierrez.carcare.service.log
-import com.juanmaGutierrez.carcare.service.saveToLog
-import com.juanmaGutierrez.carcare.service.showDialogAccept
-import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
-import com.juanmaGutierrez.carcare.service.showSnackBar
-import com.juanmaGutierrez.carcare.service.translateCategory
-import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
-import java.util.Date
-
-class VehicleNewFragment : Fragment() {
-    private lateinit var binding: FragmentVehicleNewBinding
-    private lateinit var viewModel: VehicleNewViewModel
-    private lateinit var selectedCategory: String
-    private lateinit var detailActivity: DetailActivity
-    private lateinit var itemID: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[VehicleNewViewModel::class.java]
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentVehicleNewBinding.inflate(layoutInflater)
-        detailActivity = activity as DetailActivity
-        checkNewOrEdit()
-        return binding.root
-    }
-
-    private fun checkNewOrEdit() {
-        itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            val db = Firebase.firestore
-            val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
-            requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
-            docRef.get().addOnSuccessListener { document ->
-                if (document.data != null) {
-                    requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
-                    val vehicle = mapDocumentDataToVehicle(document)
-                    log(vehicle.toString())
-                    loadVehicleDataToForm(vehicle)
-                } else {
-                    Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
-                }
-            }.addOnFailureListener { exception ->
-                Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, exception)
-            }
-        } else {
-            showInfoNewVehicle()
-        }
-    }
-
-    private fun loadVehicleDataToForm(vehicle: VehicleFB) {
-        binding.vdAcCategory.setText(vehicle.category, false)
-        binding.vdAcBrand.setText(vehicle.brand, false)
-        binding.vdAcModel.setText(vehicle.model, false)
-        binding.vdItPlate.setText(vehicle.plate)
-        binding.vdCbAvailable.isChecked = vehicle.available
-// todo configurar fecha
-    }
-
-    private fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
-        val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
-        return VehicleFB(
-            data["available"] as Boolean,
-            data["brand"] as String,
-            data["category"] as String,
-            data["created"] as String,
-            data["model"] as String,
-            data["plate"] as String,
-            data["registrationDate"] as String,
-            data["spents"] as List<SpentFB>,
-            data["userId"] as String,
-            data["vehicleId"] as String,
-        )
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.getAllBrandsFromAPI()
-        loadCategoriesInSelectable()
-        viewModel.modelsList.observe(viewLifecycleOwner) { list -> loadModelsInSelectable(list) }
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) }
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            when (isLoading) {
-                true -> requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.VISIBLE
-                false -> requireActivity().findViewById<View>(R.id.vd_la_isLoading).visibility = View.GONE
-            }
-        }
-        checkActiveFragment()
-
-        binding.vdBtAccept.setOnClickListener {
-            acceptVehicle()
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun acceptVehicle() {
-        if (!checkAllFieldsValid()) {
-            showSnackBar("falta rellenar algún campo", requireView())
-            return
-        }
-        val ad = AlertDialogModel(
-            this.requireActivity(),
-            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
-        )
-        showDialogAcceptCancel(ad) { accept ->
-            val fb = FirebaseService.getInstance()
-            if (accept) {
-                try {
-                    val vehicle: VehicleFB = generateVehicle()
-                    viewModel.saveVehicleAndVehiclePreview(vehicle)
-                    val message = requireActivity().getString(R.string.vehicle_createVehicle_successfully)
-                    saveToLog(LogType.INFO, fb.auth, OperationLog.SET_VEHICLE, message)
-                    navigateToVehiclesList()
-                } catch (e: Error) {
-                    Log.e(Constants.TAG_ERROR, "Error in vehicle creation: ${e.message}")
-                }
-            } else {
-                val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
-                showSnackBar(message, requireView())
-                saveToLog(LogType.ERROR, fb.auth, OperationLog.SET_VEHICLE, message)
-
-            }
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveVehicleToFB(vehicle: VehicleFB): Boolean {
-        val responseVehicle = fbSetVehicle(vehicle)
-        return responseVehicle.isSuccessful
-    }
-
-    private fun navigateToVehiclesList() {
-        // TODO HACER LA NAVEGACIÓN AL LISTADO DE VEHÍCULOS
-        log("navegar al listado de vehículos")
-    }
-
-
-    private fun generateVehicle(): VehicleFB {
-        val fb = FirebaseService.getInstance()
-        return VehicleFB(
-            binding.vdCbAvailable.isChecked,
-            binding.vdAcBrand.text.toString(),
-            translateCategory(binding.vdAcCategory.text.toString()),
-            Date().time.toString().convertDateMillisToDate(),
-            binding.vdAcModel.text.toString(),
-            binding.vdItPlate.text.toString(),
-            binding.vdCvRegistrationDate.date.toString().convertDateMillisToDate(),
-            emptyList(),
-            fb.user!!.uid,
-            generateId()
-        )
-    }
-
-    private fun checkAllFieldsValid(): Boolean {
-        val validEditText = checkValidEditText()
-        val validDate = checkValidDate()
-        return validEditText && validDate
-    }
-
-    private fun checkValidEditText(): Boolean {
-        return listOf(
-            binding.vdAcCategory, binding.vdAcBrand, binding.vdAcModel, binding.vdItPlate
-        ).all { it.text.toString().isNotBlank() }
-    }
-
-    private fun checkValidDate(): Boolean {
-        return true
-    }
-
-    private fun checkActiveFragment() {
-        when (detailActivity.activeFragment) {
-            "newVehicle" -> binding.vdBtDelete.visibility = View.GONE
-            "editVehicle" -> showSnackBar("edición de vehículo $itemID", requireView())
-        }
-    }
-
-    private fun showInfoNewVehicle() {
-        val ad = AlertDialogModel(
-            this.requireActivity(),
-            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
-        )
-        showDialogAccept(ad) { }
-    }
-
-    private fun loadCategoriesInSelectable() {
-        val categorySelectable = binding.vdAcCategory
-        val categoriesList = getCategories()
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, categoriesList)
-        categorySelectable.setAdapter(selectableAdapter)
-        categorySelectable.setOnItemClickListener { _, _, _, id ->
-            val brandsSelectable = binding.vdAcBrand
-            val modelsSelectable = binding.vdAcModel
-            configureSelectables(brandsSelectable, modelsSelectable)
-            when (categoriesList[id.toInt()]) {
-                "Coche", "Car" -> {
-                    selectedCategory = "car"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.carsList)
-                }
-
-                "Motocicleta", "Motorcycle" -> {
-                    selectedCategory = "motorcycle"
-                    loadBrandsInSelectable(
-                        brandsSelectable, VehicleBrandsService.motorcyclesList
-                    )
-                }
-
-                "Furgoneta", "Van" -> {
-                    selectedCategory = "van"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.vansList)
-                }
-
-                "Camión", "Truck" -> {
-                    selectedCategory = "truck"
-                    loadBrandsInSelectable(brandsSelectable, VehicleBrandsService.trucksList)
-                }
-            }
-            loadModelsByBrand()
-        }
-    }
-
-    private fun loadModelsByBrand() {
-        val brandSelectable = binding.vdAcBrand
-        brandSelectable.setOnItemClickListener { _, _, _, id ->
-            val modelsSelectable = binding.vdAcModel
-            clearModels()
-            modelsSelectable.isEnabled = true
-            val vehicleRef = when (selectedCategory) {
-                "car" -> VehicleBrandsService.carsList[id.toInt()]
-                "motorcycle" -> VehicleBrandsService.motorcyclesList[id.toInt()]
-                "van" -> VehicleBrandsService.vansList[id.toInt()]
-                "truck" -> VehicleBrandsService.trucksList[id.toInt()]
-                else -> ""
-            }
-            viewModel.selectedCategory = selectedCategory
-            viewModel.loadModelsByBrand(vehicleRef)
-        }
-    }
-
-    private fun configureSelectables(brandsSelectable: AutoCompleteTextView, modelsSelectable: AutoCompleteTextView) {
-        brandsSelectable.isEnabled = true
-        modelsSelectable.isEnabled = false
-        clearBrands()
-        clearModels()
-    }
-
-    private fun clearModels() {
-        val modelsSelectable = binding.vdAcModel
-        modelsSelectable.setText("")
-        loadModelsInSelectable(emptyList())
-    }
-
-    private fun clearBrands() {
-        val brandsSelectable = binding.vdAcBrand
-        brandsSelectable.setText("")
-        brandsSelectable.isEnabled = true
-        loadBrandsInSelectable(brandsSelectable, emptyList())
-    }
-
-    private fun loadBrandsInSelectable(selectable: AutoCompleteTextView, listItems: List<String>) {
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, listItems)
-        selectable.setAdapter(selectableAdapter)
-    }
-
-    private fun loadModelsInSelectable(modelsList: List<String>) {
-        val modelSelectable = binding.vdAcModel
-        val selectableAdapter =
-            ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, modelsList)
-        modelSelectable.setAdapter(selectableAdapter)
-    }
-
-    private fun getCategories(): List<String> {
-        return listOf(
-            getString(R.string.vehicle_category_car),
-            getString(R.string.vehicle_category_motorcycle),
-            getString(R.string.vehicle_category_van),
-            getString(R.string.vehicle_category_truck)
-        )
-    }
-}*/

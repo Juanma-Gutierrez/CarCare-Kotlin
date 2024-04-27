@@ -83,8 +83,8 @@
     <string name="vehicle_category_truck">Truck</string>
     <string name="vehicle_createVehicle_successfully">Vehicle created successfully</string>
     <string name="vehicle_createVehicle_error">Error in vehicle creation</string>
-    <string name="vehicle_editVehicle_successfully">Vehicle updated successfully</string>
-    <string name="vehicle_editVehicle_error">Error in vehicle updating</string>
+    <string name="vehicle_editVehicle_successfully">Vehicle edited successfully</string>
+    <string name="vehicle_editVehicle_error">Error in vehicle edition</string>
     <string name="vehicle_editVehicle_calendarTitle">Select vehicle registration date</string>
 
     <!-- Generic add new item -->
@@ -98,7 +98,9 @@
     <string name="alertDialog_newVehicle_title">Create new vehicle</string>
     <string name="alertDialog_newVehicle_message">Are you sure to create this new vehicle?</string>
     <string name="alertDialog_editVehicle_title">Edit vehicle</string>
-    <string name="alertDialog_editVehicle_message">Are you sure to save this vehicle?</string>
+    <string name="alertDialog_editVehicle_message">Are you sure to edit this vehicle?</string>
+    <string name="alertDialog_deleteVehicle_title">Delete vehicle</string>
+    <string name="alertDialog_deleteVehicle_message">Are you sure to delete this vehicle?</string>
     <string name="item_vehicle_not_available">Not available</string>
 
 </resources>

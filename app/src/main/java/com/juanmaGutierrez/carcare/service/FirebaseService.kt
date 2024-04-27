@@ -71,9 +71,9 @@ fun fbRegisterUserAuth(user: User) {
         .addOnCompleteListener(Executors.newSingleThreadExecutor()) { task ->
             if (task.isSuccessful) {
                 val uid = auth.currentUser?.uid ?: ""
-                saveToLog(LogType.INFO, auth, OperationLog.CREATE_USER, Constants.REGISTER_SUCCESSFULLY)
                 fbCreateUser(user, uid)
                 fbCreateProviders(uid)
+                saveToLog(LogType.INFO, OperationLog.CREATE_USER, Constants.REGISTER_SUCCESSFULLY)
             } else {
                 Log.e(TAG, ERROR_CREATE_USER_WITH_EMAIL, task.exception)
             }
@@ -98,17 +98,16 @@ fun fbCreateProviders(uid: String) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
+    log("fbSetVehicle $vehicle")
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
-    val result = docRef.set(vehicle).addOnSuccessListener {
-        val fb = FirebaseService.getInstance()
-        saveToLog(LogType.INFO, fb.auth, OperationLog.SET_VEHICLE, Constants.LOG_SET_VEHICLE)
-    }.addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
-    return result
+    return docRef.set(vehicle)
+        .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
+    log("fbSetVehiclePreview $vehicle")
     val fb = FirebaseService.getInstance()
     val db = FirebaseFirestore.getInstance()
     val deferred = CompletableDeferred<Task<Void>>()
@@ -121,15 +120,7 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
                 val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
                 filteredVehiclesList = updateOrAddVehicleById(existingVehicles, vehicle)
                 val updateTask = docRef.update("vehicles", filteredVehiclesList)
-                updateTask.addOnSuccessListener {
-                    saveToLog(
-                        LogType.INFO,
-                        fb.auth,
-                        OperationLog.SET_VEHICLE,
-                        Constants.LOG_SET_VEHICLE
-                    )
-                    deferred.complete(updateTask)
-                }
+                updateTask.addOnSuccessListener { deferred.complete(updateTask) }
                 updateTask.addOnFailureListener { e ->
                     Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
                     deferred.completeExceptionally(e)

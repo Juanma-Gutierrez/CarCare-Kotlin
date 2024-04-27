@@ -21,13 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class VehicleNewViewModel : ViewModel() {
     private lateinit var apiService: APIService
+    var selectedCategory: String = ""
     private val _modelsList = MutableLiveData<List<String>>()
     val modelsList: LiveData<List<String>> get() = _modelsList
-    private val _snackbarMessage = MutableLiveData<String>()
-    val snackbarMessage: LiveData<String> get() = _snackbarMessage
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-    var selectedCategory: String = ""
+    private val _snackbarMessage = MutableLiveData<String>()
+    val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
     fun getAllBrandsFromAPI() {
         val retrofit =

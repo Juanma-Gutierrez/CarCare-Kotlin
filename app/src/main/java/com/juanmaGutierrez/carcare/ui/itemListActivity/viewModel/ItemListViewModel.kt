@@ -115,8 +115,7 @@ class ItemListViewModel : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun signOut() {
-        val auth = FirebaseAuth.getInstance()
-        saveToLog(LogType.INFO, auth, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
+        saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             FirebaseAuth.getInstance().signOut()
         }
     }

@@ -39,7 +39,7 @@
                         android:layout_width="@dimen/logoM"
                         android:layout_height="@dimen/logoM"
                         android:scaleType="fitXY"
-                        android:src="@drawable/vehicle_placeholder" />
+                        android:src="@drawable/placeholder_vehicle" />
                 </androidx.cardview.widget.CardView>
             </androidx.cardview.widget.CardView>
 

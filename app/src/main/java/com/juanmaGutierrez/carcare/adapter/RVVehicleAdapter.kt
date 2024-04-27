@@ -48,14 +48,14 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
-            itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.vehicle_placeholder)
+            itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.placeholder_vehicle)
             itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
                 when (vehicle.category) {
                     "car" -> R.drawable.placeholder_car
                     "motorcycle" -> R.drawable.placeholder_motorcycle
                     "van" -> R.drawable.placeholder_van
                     "truck" -> R.drawable.placeholder_truck
-                    else -> R.drawable.icon_vehicle_car
+                    else -> R.drawable.placeholder_vehicle
                 }
             )
             val context = itemView.context

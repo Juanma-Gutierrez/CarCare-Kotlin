@@ -1,9 +1,13 @@
 package com.juanmaGutierrez.carcare.service
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -68,11 +72,12 @@ fun getTimestamp(): String {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun saveToLog(
-    type: LogType, auth: FirebaseAuth?, operation: OperationLog, content: String, onComplete: (() -> Unit)? = null
+    type: LogType, operation: OperationLog, content: String, onComplete: (() -> Unit)? = null
 ) {
+    val auth = FirebaseAuth.getInstance()
     fbSaveLog(
         fbCreateLog(
-            type, auth?.currentUser!!, auth.currentUser!!.uid, operation, content
+            type, auth.currentUser!!, auth.currentUser!!.uid, operation, content
         )
     )
     onComplete?.invoke()
@@ -148,6 +153,22 @@ fun String.translateCategory(): String {
         else -> ""
     }
     return result
+}
+
+fun String.getCategoryTranslation(context: Context): String {
+    return when (this) {
+        "car" -> context.getString(R.string.vehicle_category_car)
+        "motorcycle" -> context.getString(R.string.vehicle_category_motorcycle)
+        "van" -> context.getString(R.string.vehicle_category_van)
+        "truck" -> context.getString(R.string.vehicle_category_truck)
+        else -> this
+    }
+}
+
+fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
+    val selectableAdapter =
+        ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems)
+    selectable.setAdapter(selectableAdapter)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

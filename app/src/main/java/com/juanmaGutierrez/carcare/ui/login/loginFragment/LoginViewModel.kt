@@ -15,6 +15,7 @@ import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
 import com.juanmaGutierrez.carcare.service.saveToLog
+import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 
@@ -43,16 +44,14 @@ class LoginViewModel : ViewModel() {
         }
         auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(fragment.requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) {
-                        fbSaveUserLocally(auth)
-                    }
-                    navigateItemList()
-                } else {
-                    _snackbarMessage.value = fragment.getString(R.string.snackBar_inputError)
-                    Log.e(Constants.TAG_ERROR, Constants.LOGIN_FAILURE_SING_IN_WITH_EMAIL, task.exception)
-                }
+            if (task.isSuccessful) {
+                saveToLog(LogType.INFO, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) { fbSaveUserLocally(auth) }
+                navigateItemList()
+            } else {
+                _snackbarMessage.value = fragment.getString(R.string.snackBar_inputError)
+                Log.e(Constants.TAG_ERROR, Constants.LOGIN_FAILURE_SING_IN_WITH_EMAIL, task.exception)
             }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

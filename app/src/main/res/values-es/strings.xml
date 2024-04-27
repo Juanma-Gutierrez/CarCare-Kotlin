@@ -74,6 +74,8 @@
     <string name="alertDialog_confirm_message">Confirmación</string>
     <string name="item_vehicle_not_available">No disponible</string>
     <string name="vehicle_editVehicle_calendarTitle">Selecciona la fecha de registro del vehículo</string>
+    <string name="alertDialog_deleteVehicle_title">Eliminar vehículo</string>
+    <string name="alertDialog_deleteVehicle_message">¿Seguro que quieres eliminar este vehículo?</string>
 
 
 </resources>

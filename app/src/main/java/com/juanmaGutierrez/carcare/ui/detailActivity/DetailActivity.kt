@@ -83,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setBackButton() {
         val toolbar: MaterialToolbar = findViewById(R.id.topAppBarDetail)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            this.onBackPressedDispatcher.onBackPressed()
         }
     }
 

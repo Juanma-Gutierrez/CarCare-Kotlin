@@ -49,7 +49,7 @@ fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Veh
     return vehiclesList
 }
 
- fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
+fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
     val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
     return VehicleFB(
         data["available"] as Boolean,
@@ -64,7 +64,6 @@ fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Veh
         data["vehicleId"] as String,
     )
 }
-
 
 fun mapVehicleToVehiclePreview(vehicle: VehicleFB): VehiclePreview {
     val vehiclePath = "/vehicle/${vehicle.vehicleId}"
