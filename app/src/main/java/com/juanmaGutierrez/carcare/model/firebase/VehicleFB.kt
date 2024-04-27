@@ -16,7 +16,7 @@ data class VehicleFB(
 ) {
     override fun toString(): String {
         return "Categoría: $category\nMarca: $brand\nModelo: $model\nMatrícula: $plate\nVehículo disponible: $available\n" +
-                "Fecha de registro: ${registrationDate}\nCreado: $created\nID del vehículo: $vehicleId\nNº Gastos: ${spents.size}"
+                "Fecha de registro: ${registrationDate}\nCreado: $created\nID del vehículo: $vehicleId\nNº Gastos: ${spents.size}\nUserID: $userId"
     }
 }
 

@@ -51,7 +51,7 @@ class VehiclesListFragment : Fragment() {
             checkSwitchAndUpdateRecylerView()
         }
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
-            showSnackBar(message, this.requireView())
+            showSnackBar(message, this.requireView()) {}
         }
         configureSwitchAllVehicles()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -74,9 +74,9 @@ class VehiclesListFragment : Fragment() {
         val switch = binding.vlSwSwitchAllVehicles
         switch.setOnCheckedChangeListener { _, _ ->
             if (switch.isChecked) {
-                showSnackBar(getString(R.string.snackBar_showAll), requireView())
+                showSnackBar(getString(R.string.snackBar_showAll), requireView()) {}
             } else {
-                showSnackBar(getString(R.string.snackBar_showAvailables), requireView())
+                showSnackBar(getString(R.string.snackBar_showAvailables), requireView()) {}
             }
             updateRecyclerView(this.vehiclesList, switch.isChecked)
         }

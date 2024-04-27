@@ -85,6 +85,7 @@
     <string name="vehicle_createVehicle_error">Error in vehicle creation</string>
     <string name="vehicle_editVehicle_successfully">Vehicle updated successfully</string>
     <string name="vehicle_editVehicle_error">Error in vehicle updating</string>
+    <string name="vehicle_editVehicle_calendarTitle">Select vehicle registration date</string>
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>

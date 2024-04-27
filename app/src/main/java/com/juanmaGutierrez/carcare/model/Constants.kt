@@ -7,6 +7,9 @@ class Constants {
         const val TAG = "Info-CarCare"
         const val TAG_ERROR = "Error-CarCare"
 
+        // App
+        const val LOCAL_DATE_FORMAT = "dd/MM/yyyy"
+
         // API
         const val API_URL = "https://jumang.pythonanywhere.com/"
 

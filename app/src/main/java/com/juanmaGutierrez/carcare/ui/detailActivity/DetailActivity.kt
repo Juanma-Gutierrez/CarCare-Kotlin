@@ -32,7 +32,12 @@ class DetailActivity : AppCompatActivity() {
             this.supportActionBar?.title = title
             setBackButton()
         }
-        viewModel.snackbarMessage.observe(this) { message -> showSnackBar(message, findViewById(android.R.id.content)) }
+        viewModel.snackbarMessage.observe(this) { message ->
+            showSnackBar(
+                message,
+                findViewById(android.R.id.content)
+            ) {}
+        }
         setNavigationAndTitle(fragmentType)
     }
 

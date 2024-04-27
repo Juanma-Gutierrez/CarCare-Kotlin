@@ -1,15 +1,20 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+import android.os.Build
 import android.util.Log
-import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
-import com.juanmaGutierrez.carcare.service.log
+import com.juanmaGutierrez.carcare.service.fbSetVehicle
+import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class VehicleEditViewModel : ViewModel() {
     val isLoadingVisible = MutableLiveData<Boolean>()
@@ -19,21 +24,26 @@ class VehicleEditViewModel : ViewModel() {
     fun init(itemID: String) {
         val db = Firebase.firestore
         val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(itemID)
-        // requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
         isLoadingVisible.value = true
         docRef.get().addOnSuccessListener { document ->
             if (document.data != null) {
-                // requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
                 isLoadingVisible.value = false
                 val vehicle = mapDocumentDataToVehicle(document)
-                log(vehicle.toString())
                 this.vehicle.value = vehicle
-                // loadVehicleDataToForm(vehicle)
             } else {
                 Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
             }
         }.addOnFailureListener { exception ->
             Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, exception)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun editVehicle(vehicle: VehicleFB) {
+        viewModelScope.launch {
+            fbSetVehicle(vehicle)
+            // val deferredVehiclePreview = async { fbSetVehiclePreview(vehicle) }
+
         }
     }
 }

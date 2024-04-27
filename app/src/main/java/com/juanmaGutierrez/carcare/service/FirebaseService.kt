@@ -8,9 +8,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
+import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
+import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.ItemLog
 import com.juanmaGutierrez.carcare.model.localData.LogType
@@ -20,11 +22,9 @@ import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
-import com.juanmaGutierrez.carcare.model.firebase.UserFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.tasks.await
 import java.util.concurrent.Executors
 
 class FirebaseService {
@@ -83,7 +83,7 @@ fun fbRegisterUserAuth(user: User) {
 fun fbCreateUser(user: User, uid: String) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_USER).document(uid)
-    val mappedUser = mapUser(user, uid)
+    val mappedUser = mapUserToUserFB(user, uid)
     docRef.set(mappedUser).addOnSuccessListener {}
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
@@ -106,7 +106,6 @@ fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
     }.addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
     return result
 }
-
 
 @RequiresApi(Build.VERSION_CODES.O)
 suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
@@ -144,22 +143,6 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     return deferred.await()
 }
 
-fun mapHashVehiclesToList(existingVehiclesData: List<HashMap<String, Any>>): List<VehiclePreview> {
-    return existingVehiclesData.map { vehicleData ->
-        VehiclePreview(
-            vehicleData["available"] as Boolean,
-            vehicleData["brand"] as String,
-            vehicleData["category"] as String,
-            vehicleData["created"] as String,
-            vehicleData["model"] as String,
-            vehicleData["plate"] as String,
-            vehicleData["ref"] as DocumentReference,
-            vehicleData["registrationDate"] as String,
-            vehicleData["vehicleId"] as String
-        )
-    }
-}
-
 
 fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: VehicleFB): List<VehiclePreview> {
     val filteredVehiclesList = mutableListOf<VehiclePreview>()
@@ -184,38 +167,6 @@ fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: Veh
     return filteredVehiclesList
 }
 
-fun mapVehicleToVehiclePreview(vehicle: VehicleFB): VehiclePreview {
-    val vehiclePath = "/vehicle/${vehicle.vehicleId}"
-    val db = FirebaseFirestore.getInstance()
-    val docRef = db.document(vehiclePath)
-    return VehiclePreview(
-        vehicle.available,
-        vehicle.brand,
-        vehicle.category,
-        vehicle.created,
-        vehicle.model,
-        vehicle.plate,
-        docRef,
-        vehicle.registrationDate,
-        vehicle.vehicleId
-    )
-}
-
-
-fun mapUser(user: User, uid: String): UserFB {
-    val currentTimeStamp = getTimestamp()
-    val data = UserFB(
-        currentTimeStamp,
-        user.email,
-        user.name,
-        user.username,
-        Constants.DEFAULT_ROLE,
-        user.surname,
-        uid,
-        emptyList(),
-    )
-    return data
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbCreateLog(

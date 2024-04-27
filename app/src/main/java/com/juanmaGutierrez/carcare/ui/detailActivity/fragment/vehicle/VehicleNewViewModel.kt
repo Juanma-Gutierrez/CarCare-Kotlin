@@ -92,7 +92,6 @@ class VehicleNewViewModel : ViewModel() {
             val deferredVehiclePreview = async { fbSetVehiclePreview(vehicle) }
             val responseVehicle = deferredVehicle.await()
             val responseVehiclePreview = deferredVehiclePreview.await()
-
             bothSuccessful = responseVehicle.isSuccessful && responseVehiclePreview.isSuccessful
             if (bothSuccessful) {
                 _snackbarMessage.value = "Grabado con éxito"

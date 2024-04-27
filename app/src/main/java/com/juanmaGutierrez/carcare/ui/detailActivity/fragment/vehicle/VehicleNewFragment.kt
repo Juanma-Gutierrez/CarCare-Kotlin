@@ -81,14 +81,13 @@ class VehicleNewFragment : Fragment() {
     }
 
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllBrandsFromAPI()
         loadCategoriesInSelectable()
         viewModel.modelsList.observe(viewLifecycleOwner) { list -> loadModelsInSelectable(list) }
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
                 true -> requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
@@ -103,7 +102,7 @@ class VehicleNewFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptVehicle() {
         if (!checkAllFieldsValid()) {
-            showSnackBar("falta rellenar algún campo", requireView())
+            showSnackBar("falta rellenar algún campo", requireView()) { }
             return
         }
         val ad = AlertDialogModel(
@@ -125,18 +124,18 @@ class VehicleNewFragment : Fragment() {
                 }
             } else {
                 val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
-                showSnackBar(message, requireView())
+                showSnackBar(message, requireView()){}
                 saveToLog(LogType.ERROR, fb.auth, OperationLog.SET_VEHICLE, message)
             }
         }
     }
 
 
-/*    @RequiresApi(Build.VERSION_CODES.O)
-    private fun saveVehicleToFB(vehicle: VehicleFB): Boolean {
-        val responseVehicle = fbSetVehicle(vehicle)
-        return responseVehicle.isSuccessful
-    }*/
+    /*    @RequiresApi(Build.VERSION_CODES.O)
+        private fun saveVehicleToFB(vehicle: VehicleFB): Boolean {
+            val responseVehicle = fbSetVehicle(vehicle)
+            return responseVehicle.isSuccessful
+        }*/
 
     private fun navigateToVehiclesList() {
         // TODO HACER LA NAVEGACIÓN AL LISTADO DE VEHÍCULOS
@@ -150,7 +149,7 @@ class VehicleNewFragment : Fragment() {
         return VehicleFB(
             binding.vnCbAvailable.isChecked,
             binding.vnAcBrand.text.toString(),
-            translateCategory(binding.vnAcCategory.text.toString()),
+            binding.vnAcCategory.text.toString().translateCategory(),
             Date().time.toString().convertDateMillisToDate(),
             binding.vnAcModel.text.toString(),
             binding.vnItPlate.text.toString(),

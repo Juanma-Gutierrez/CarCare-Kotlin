@@ -11,23 +11,24 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.Date
 import java.util.Locale
 
 
 /**
- * Usage: showSnackBar("Message", requireView())
- * Usage: showSnackBar("Message", findViewById(android.R.id.content))
+ * Usage: showSnackBar("Message", requireView()) { <function-after-snackbar> }
+ * Usage: showSnackBar("Message", findViewById(android.R.id.content)) { <function-after-snackbar> }
  */
-fun showSnackBar(message: String, view: View) {
+fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
     val snackBar = Snackbar.make(
         view, message, Snackbar.LENGTH_SHORT
     )
@@ -37,6 +38,12 @@ fun showSnackBar(message: String, view: View) {
         layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, 250
     )
     snackBarView.layoutParams = layoutParams
+    snackBar.addCallback((object : Snackbar.Callback() {
+        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+            super.onDismissed(transientBottomBar, event)
+            onDismiss()
+        }
+    }))
     snackBar.show()
 }
 
@@ -91,22 +98,49 @@ fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
         }.show()
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun generateId(): String {
-    var formattedDate = getTimestamp().formatDate("yyMMddHHmmss")
+    val formattedDate = getTimestamp().transformDateIsoToString("yyMMddHHmmss-")
     val length = 10
     val allowedChars = ('a'..'z') + ('0'..'9')
     return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
-fun String.formatDate(format:String): String {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-    val outputFormat = SimpleDateFormat(format, Locale.getDefault())
-    val date: Date = inputFormat.parse(this) ?: Date()
-    return outputFormat.format(date)
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
+    return try {
+        val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val parsedDate = LocalDateTime.parse(this, inputFormat)
+        val outputFormat = DateTimeFormatter.ofPattern(format)
+        return parsedDate.format(outputFormat)
+    } catch (e: DateTimeParseException) {
+        ""
+    }
 }
 
-fun translateCategory(category: String): String {
-    val result = when (category) {
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.transformStringToDateIso(): String {
+    log("en la transformación: $this")
+    return try {
+        val inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss")
+        val parsedDate = LocalDateTime.parse("${this}T00:00:00", inputFormat)
+        val outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        return parsedDate.format(outputFormat)
+    } catch (e: DateTimeParseException) {
+        ""
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.longToTimestamp(): Long {
+    val formatter = DateTimeFormatter.ofPattern(Constants.LOCAL_DATE_FORMAT)
+    val localDate = LocalDate.parse(this, formatter)
+    return localDate.toEpochDay() * 24 * 60 * 60 * 1000
+}
+
+
+fun String.translateCategory(): String {
+    val result = when (this) {
         "Coche", "Car" -> "car"
         "Motocicleta", "Motorcycle" -> "motorcycle"
         "Furgoneta", "Van" -> "van"
@@ -117,22 +151,21 @@ fun translateCategory(category: String): String {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun showDatePickerDialog(initialDate: String, title: String, fragmentManager: FragmentManager) {
-    val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+fun showDatePickerDialog(
+    initialDate: String,
+    title: String,
+    fragmentManager: FragmentManager,
+    onDateSelected: (String) -> Unit
+) {
+    val dateFormat = DateTimeFormatter.ofPattern(Constants.LOCAL_DATE_FORMAT)
     val builder =
-        MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.stringToTimestamp())
+        MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.longToTimestamp())
     val datePicker = builder.build()
     datePicker.addOnPositiveButtonClickListener { selectedDate ->
         val formattedDate = LocalDate.ofEpochDay(selectedDate / 86400000).format(dateFormat)
-        log(formattedDate)
+        onDateSelected(formattedDate)
     }
     datePicker.show(fragmentManager, "datePickerDialog")
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun String.stringToTimestamp(): Long {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val localDate = LocalDate.parse(this, formatter)
-    return localDate.toEpochDay() * 24 * 60 * 60 * 1000
-}
 

@@ -104,7 +104,10 @@ class ItemListViewModel : ViewModel() {
                 signOut()
                 this._signOut.value = true
             } else {
-                showSnackBar(activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content))
+                showSnackBar(
+                    activity.getString(R.string.cancel_message),
+                    activity.findViewById(android.R.id.content)
+                ) {}
             }
         }
     }

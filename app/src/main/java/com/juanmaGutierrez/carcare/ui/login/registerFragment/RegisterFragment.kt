@@ -30,7 +30,7 @@ class RegisterFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[RegisterViewModel::class.java]
         viewModel.init(activity as AppCompatActivity)
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message ->
-            showSnackBar(message, view)
+            showSnackBar(message, view) {}
         }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), ItemListActivity::class.java)

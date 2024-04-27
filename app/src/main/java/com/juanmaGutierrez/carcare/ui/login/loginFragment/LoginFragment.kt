@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view) }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view){} }
         viewModel.navigateToItemList.observe(viewLifecycleOwner) {
             val auth = FirebaseService.getInstance().auth
             saveToLog(LogType.INFO, auth, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY)
