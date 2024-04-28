@@ -29,6 +29,7 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.tasks.await
 import java.util.concurrent.Executors
 
 class FirebaseService {
@@ -125,7 +126,6 @@ fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSna
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
-    log("fbSetVehicle $vehicle")
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
     return docRef.set(vehicle)
@@ -134,7 +134,6 @@ fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
 
 @RequiresApi(Build.VERSION_CODES.O)
 suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
-    log("fbSetVehiclePreview $vehicle")
     val fb = FirebaseService.getInstance()
     val db = FirebaseFirestore.getInstance()
     val deferred = CompletableDeferred<Task<Void>>()
@@ -161,7 +160,6 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     return deferred.await()
 }
 
-
 fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: VehicleFB): List<VehiclePreview> {
     val filteredVehiclesList = mutableListOf<VehiclePreview>()
     if (existingVehicles == null) {
@@ -181,8 +179,37 @@ fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: Veh
         filteredVehiclesList.addAll(existingVehicles)
         filteredVehiclesList.add(mapVehicleToVehiclePreview(vehicle))
     }
-
     return filteredVehiclesList
+}
+
+suspend fun fbDeleteDocumentByID(collection: String, id: String) {
+    val db = FirebaseFirestore.getInstance()
+    val docRef = db.collection(collection).document(id)
+    try {
+        docRef.delete().await()
+    } catch (e: Exception) {
+        Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
+    }
+}
+
+
+suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
+    val db = FirebaseFirestore.getInstance()
+    try {
+        val docRef = db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId).get().await()
+        if (docRef.exists()) {
+            val existingVehiclesData = docRef.get("vehicles") as? List<HashMap<String, Any>>
+            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
+            val filtered = existingVehicles.filter { it.vehicleId != vehicle.vehicleId }
+            db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId)
+                .update("vehicles", filtered)
+                .await()
+        } else {
+            Log.e(Constants.TAG_ERROR, Constants.LOG_VEHICLE_DELETION_ERROR)
+        }
+    } catch (e: Exception) {
+        Log.e(Constants.TAG_ERROR, Constants.LOG_VEHICLE_DELETION_ERROR, e)
+    }
 }
 
 

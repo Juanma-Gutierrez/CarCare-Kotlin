@@ -204,14 +204,13 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureVehicleButtons(vehicle: VehicleFB) {
         binding.veBtAccept.setOnClickListener {
-            log("aceptar")
             editVehicle(vehicle)
         }
         binding.veBtDelete.setOnClickListener {
-            log("borrar")
-            // deleteVehicle(vehicle)
+            deleteVehicle(vehicle)
         }
     }
 
@@ -219,7 +218,7 @@ class VehicleEditFragment : Fragment() {
     private fun editVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
-            this.requireActivity().getString(R.string.alertDialog_confirm_message),
+            this.requireActivity().getString(R.string.alertDialog_editVehicle_title),
             this.requireActivity().getString(R.string.alertDialog_editVehicle_message)
         )
         showDialogAcceptCancel(ad) { accept ->
@@ -239,7 +238,6 @@ class VehicleEditFragment : Fragment() {
         viewModel.editVehicle(editedVehicle)
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                log("bien grabado que está")
                 showSnackBar(requireActivity().getString(R.string.vehicle_editVehicle_successfully), requireView()) {
                     closeFragment()
                 }
@@ -263,6 +261,29 @@ class VehicleEditFragment : Fragment() {
         )
         return vehicle
     }
+
+    private fun deleteVehicle(vehicle: VehicleFB) {
+        val ad = AlertDialogModel(
+            this.requireActivity(),
+            this.requireActivity().getString(R.string.alertDialog_deleteVehicle_title),
+            this.requireActivity().getString(R.string.alertDialog_deleteVehicle_message)
+        )
+        showDialogAcceptCancel(ad) { accept ->
+            if (accept) {
+                try {
+                    acceptDeleteVehicle(vehicle)
+                } catch (e: Exception) {
+                    Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
+                }
+            }
+        }
+    }
+
+    private fun acceptDeleteVehicle(vehicle: VehicleFB) {
+        viewModel.deleteVehicle(vehicle)
+        // delete preview
+    }
+
 
     private fun closeFragment() {
         if (isAdded) {

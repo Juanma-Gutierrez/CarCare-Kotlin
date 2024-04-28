@@ -16,10 +16,11 @@ import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.service.fbDeleteDocumentByID
+import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.getDocumentByIDFB
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -98,7 +99,6 @@ class VehicleEditViewModel : ViewModel() {
 
 
     private fun setIsLoading(status: Boolean) {
-        log("estado: $status")
         this._isLoading.value = status
     }
 
@@ -108,13 +108,11 @@ class VehicleEditViewModel : ViewModel() {
         apiService = retrofit.create(APIService::class.java)
         viewModelScope.launch {
             _modelsList.value = callModelsFromAPI(brand)
-            log("${_modelsList.value}, $brand")
         }
     }
 
     private suspend fun callModelsFromAPI(brand: String): List<String> {
         _isLoading.value = true
-        log("$selectedCategory, {response.models}")
         return try {
             val response = APIClient.apiService.getModelsByBrand(selectedCategory, brand)
             _isLoading.value = false
@@ -131,7 +129,7 @@ class VehicleEditViewModel : ViewModel() {
             try {
                 fbSetVehicle(vehicle).await()
                 fbSetVehiclePreview(vehicle).await()
-                saveToLog(LogType.INFO, OperationLog.SET_VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
+                saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
                 _editVehicleSuccessful.value = true
             } catch (e: Exception) {
                 Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL, e)
@@ -139,86 +137,18 @@ class VehicleEditViewModel : ViewModel() {
         }
     }
 
-
-}
-
-/*
-@RequiresApi(Build.VERSION_CODES.O)
-fun editVehicle(vehicle: VehicleFB) {
-    viewModelScope.launch {
-        try {
-            fbSetVehicle(vehicle).await()
-            fbSetVehiclePreview(vehicle).await()
-            saveToLog(LogType.INFO, OperationLog.SET_VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
-            editVehicleSuccessful.value = true
-        } catch (e: Exception) {
-            Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL, e)
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun deleteVehicle(vehicle: VehicleFB) {
+        viewModelScope.launch {
+            try {
+                fbDeleteDocumentByID(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId)
+                fbDeleteVehiclePreview(vehicle)
+                saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_DELETION_SUCCESSFULLY)
+                _editVehicleSuccessful.value = true
+            } catch (e: Exception) {
+                saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_DELETION_SUCCESSFULLY)
+                Log.e(Constants.TAG, Constants.LOG_VEHICLE_DELETION_ERROR, e)
+            }
         }
     }
 }
-
-fun deleteVehicle(vehicle: VehicleFB) {
-    // todo borrado de vehículos
-}
-
-
-
-
-
-
-fun getAllBrandsFromAPI() {
-    val retrofit =
-        Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
-    apiService = retrofit.create(APIService::class.java)
-    viewModelScope.launch {
-        callBrandsFromAPI()
-    }
-}
-
-private suspend fun callBrandsFromAPI() {
-    _isLoading.value = true
-    try {
-        val brandsResponse = APIClient.apiService.getAllBrands()
-        _isLoading.value = false
-        setBrandsInLocalBrandsService(brandsResponse)
-    } catch (e: Exception) {
-        Log.e(Constants.TAG_ERROR, "${Constants.ERROR_FIREBASE_CALL} ${e.message}")
-    }
-}
-
-private fun setBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
-    val vehiclesBrandSVC = VehicleBrandsService
-    vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
-    vehiclesBrandSVC.motorcyclesList = brandsResponse.data.motorcycles.sorted()
-    vehiclesBrandSVC.vansList = brandsResponse.data.vans.sorted()
-    vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
-}
-
-fun loadModelsByBrand(brand: String) {
-    viewModelScope.launch {
-        getModelsByBrand(brand)
-    }
-}
-
-private suspend fun getModelsByBrand(brand: String) {
-    val retrofit =
-        Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
-    apiService = retrofit.create(APIService::class.java)
-    viewModelScope.launch {
-        _modelsList.value = callModelsFromAPI(brand)
-    }
-}
-
-private suspend fun callModelsFromAPI(brand: String): List<String> {
-    var data = emptyList<String>()
-    _isLoading.value = true
-    try {
-        data = APIClient.apiService.getModelsByBrand(selectedCategory, brand).models
-        _isLoading.value = false
-    } catch (e: Exception) {
-        Log.e(Constants.TAG_ERROR, "${Constants.ERROR_FIREBASE_CALL} ${e.message}")
-    }
-    return data
-}
-}
-*/

@@ -3,6 +3,8 @@ package com.juanmaGutierrez.carcare.service
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +21,11 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Date
@@ -33,21 +37,18 @@ import java.util.Locale
  * Usage: showSnackBar("Message", findViewById(android.R.id.content)) { <function-after-snackbar> }
  */
 fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
-    val snackBar = Snackbar.make(
-        view, message, Snackbar.LENGTH_SHORT
-    )
+    val timeToShow = 2500
+    val snackBar = Snackbar.make(view, message, timeToShow)
     val snackBarView = snackBar.view
     val layoutParams = snackBarView.layoutParams as ViewGroup.MarginLayoutParams
-    layoutParams.setMargins(
-        layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, 250
-    )
+    layoutParams.setMargins(layoutParams.leftMargin, layoutParams.topMargin, layoutParams.rightMargin, 250)
     snackBarView.layoutParams = layoutParams
-    snackBar.addCallback((object : Snackbar.Callback() {
+    snackBar.addCallback(object : Snackbar.Callback() {
         override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
             super.onDismissed(transientBottomBar, event)
-            onDismiss()
+            Handler(Looper.getMainLooper()).postDelayed({ onDismiss() }, timeToShow.toLong())
         }
-    }))
+    })
     snackBar.show()
 }
 
@@ -83,6 +84,7 @@ fun saveToLog(
     onComplete?.invoke()
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun log(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
@@ -125,7 +127,6 @@ fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.transformStringToDateIso(): String {
-    log("en la transformación: $this")
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss")
         val parsedDate = LocalDateTime.parse("${this}T00:00:00", inputFormat)
@@ -166,17 +167,13 @@ fun String.getCategoryTranslation(context: Context): String {
 }
 
 fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
-    val selectableAdapter =
-        ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems)
+    val selectableAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems)
     selectable.setAdapter(selectableAdapter)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun showDatePickerDialog(
-    initialDate: String,
-    title: String,
-    fragmentManager: FragmentManager,
-    onDateSelected: (String) -> Unit
+    initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
 ) {
     val dateFormat = DateTimeFormatter.ofPattern(Constants.LOCAL_DATE_FORMAT)
     val builder =

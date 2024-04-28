@@ -82,8 +82,8 @@ class VehicleNewFragment : Fragment() {
         }
         val ad = AlertDialogModel(
             this.requireActivity(),
-            this.requireActivity().getString(R.string.alertDialog_confirm_message),
-            this.requireActivity().getString(R.string.alertDialog_editVehicle_message)
+            this.requireActivity().getString(R.string.alertDialog_newVehicle_title),
+            this.requireActivity().getString(R.string.alertDialog_newVehicle_message)
         )
         showDialogAcceptCancel(ad) { accept ->
             if (accept) {
@@ -91,7 +91,7 @@ class VehicleNewFragment : Fragment() {
                     val vehicle: VehicleFB = generateVehicle()
                     viewModel.saveVehicleAndVehiclePreview(vehicle)
                     val message = requireActivity().getString(R.string.vehicle_createVehicle_successfully)
-                    saveToLog(LogType.INFO, OperationLog.SET_VEHICLE, message)
+                    saveToLog(LogType.INFO, OperationLog.VEHICLE, message)
                     navigateToVehiclesList()
                 } catch (e: Error) {
                     Log.e(Constants.TAG_ERROR, "Error in vehicle creation: ${e.message}")
@@ -99,7 +99,7 @@ class VehicleNewFragment : Fragment() {
             } else {
                 val message = requireActivity().getString(R.string.vehicle_createVehicle_error)
                 showSnackBar(message, requireView()) {}
-                saveToLog(LogType.ERROR, OperationLog.SET_VEHICLE, message)
+                saveToLog(LogType.ERROR, OperationLog.VEHICLE, message)
             }
         }
     }
