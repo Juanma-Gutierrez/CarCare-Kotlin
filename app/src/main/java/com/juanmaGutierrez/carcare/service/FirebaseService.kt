@@ -3,13 +3,17 @@ package com.juanmaGutierrez.carcare.service
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
@@ -95,6 +99,29 @@ fun fbCreateProviders(uid: String) {
     docRef.set(providers).addOnSuccessListener {}
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
+
+fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
+    val db = Firebase.firestore
+    try {
+        val docRef = db.collection(collection).document(itemID)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    callback(document)
+                } else {
+                    Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
+                    callback(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, e)
+                callback(null)
+            }
+    } catch (e: Exception) {
+        Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, e)
+    }
+}
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {

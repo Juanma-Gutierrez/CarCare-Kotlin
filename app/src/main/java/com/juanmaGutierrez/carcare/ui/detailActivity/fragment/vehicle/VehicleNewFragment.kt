@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleNewBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
+import com.juanmaGutierrez.carcare.localData.getCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
@@ -71,15 +72,6 @@ class VehicleNewFragment : Fragment() {
         binding.vnBtAccept.setOnClickListener {
             acceptVehicle()
         }
-    }
-
-    private fun getCategories(): List<String> {
-        return listOf(
-            getString(R.string.vehicle_category_car),
-            getString(R.string.vehicle_category_motorcycle),
-            getString(R.string.vehicle_category_van),
-            getString(R.string.vehicle_category_truck)
-        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -151,7 +143,7 @@ class VehicleNewFragment : Fragment() {
 
     private fun loadCategoriesInSelectable() {
         val categorySelectable = binding.vnAcCategory
-        val categoriesList = getCategories()
+        val categoriesList = getCategories(requireActivity())
         val selectableAdapter =
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_dropdown_item, categoriesList)
         categorySelectable.setAdapter(selectableAdapter)

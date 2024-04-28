@@ -45,7 +45,7 @@ class VehicleNewViewModel : ViewModel() {
             _isLoading.value = false
             loadBrandsInLocalBrandsService(brandsResponse)
         } catch (e: Exception) {
-            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_FIREBASE_CALL} ${e.message}")
         }
     }
 
@@ -79,7 +79,7 @@ class VehicleNewViewModel : ViewModel() {
             data = APIClient.apiService.getModelsByBrand(selectedCategory, brand).models
             _isLoading.value = false
         } catch (e: Exception) {
-            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_API_CALL} ${e.message}")
+            Log.e(Constants.TAG_ERROR, "${Constants.ERROR_FIREBASE_CALL} ${e.message}")
         }
         return data
     }
