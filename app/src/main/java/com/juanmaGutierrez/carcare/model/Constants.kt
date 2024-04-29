@@ -9,6 +9,7 @@ class Constants {
 
         // App
         const val LOCAL_DATE_FORMAT = "dd/MM/yyyy"
+        const val REQUEST_CODE_PERMISSIONS = 42
 
         // API
         const val API_URL = "https://jumang.pythonanywhere.com/"

@@ -1,5 +1,7 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+import android.app.Activity
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
@@ -16,6 +20,7 @@ import com.juanmaGutierrez.carcare.localData.getCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
+import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.log
@@ -29,6 +34,7 @@ import com.juanmaGutierrez.carcare.service.translateCategory
 class VehicleEditFragment : Fragment() {
     private lateinit var binding: FragmentVehicleEditBinding
     private lateinit var viewModel: VehicleEditViewModel
+    private val cameraService = CameraService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleEditViewModel::class.java]
@@ -46,11 +52,45 @@ class VehicleEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getVehicleFromID()
+        configurePreviewImage()
+        configureCameraButton()
         configureVehicle()
         configureSelectables()
         configureUI()
         configureCancelButton()
         configureEditVehicleSuccessful()
+    }
+
+    private fun configurePreviewImage() {
+        val resourceId = resources.getIdentifier("placeholder_vehicle", "drawable", requireContext().packageName)
+        val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
+        binding.veIvVehicleImage.setImageDrawable(drawable)
+    }
+
+    private fun configureCameraButton() {
+        binding.veIvCameraButton.setOnClickListener {
+            if (cameraService.allPermissionGranted(requireActivity())) {
+                startCamera()
+            } else {
+                requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
+    ) {
+        if (requestCode == Constants.REQUEST_CODE_PERMISSIONS) {
+            if (cameraService.allPermissionGranted(requireActivity())) {
+                startCamera()
+            } else {
+                showSnackBar(getString(R.string.snackBar_camera_noPermissions), requireView()) {}
+            }
+        }
+    }
+
+    private fun startCamera() {
+        log("iniciamos la cámara")
     }
 
     private fun getVehicleFromID() {
@@ -59,7 +99,6 @@ class VehicleEditFragment : Fragment() {
             viewModel.getVehicleFromFB(itemID)
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureVehicle() {

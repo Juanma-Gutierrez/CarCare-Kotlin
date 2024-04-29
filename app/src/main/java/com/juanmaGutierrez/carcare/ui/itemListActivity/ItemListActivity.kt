@@ -63,8 +63,8 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
 
 
     override fun navigateToFragment(fragment: Fragment) {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.itemList_fragment_container, fragment).commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.itemList_fragment_container, fragment).commit()
     }
 
 

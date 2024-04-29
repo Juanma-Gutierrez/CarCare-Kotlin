@@ -2,6 +2,7 @@ package com.juanmaGutierrez.carcare.service
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -21,6 +23,7 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleEditFragment
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -35,6 +38,7 @@ import java.util.Locale
 /**
  * Usage: showSnackBar("Message", requireView()) { <function-after-snackbar> }
  * Usage: showSnackBar("Message", findViewById(android.R.id.content)) { <function-after-snackbar> }
+ * Usage: view?.let { showSnackBar("Message", it) {} }
  */
 fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
     val timeToShow = 2500

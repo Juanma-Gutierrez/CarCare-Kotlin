@@ -39,8 +39,8 @@
                         android:id="@+id/ve_iv_vehicleImage"
                         android:layout_width="@dimen/logoM"
                         android:layout_height="@dimen/logoM"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/placeholder_vehicle" />
+                        android:scaleType="fitXY" />
+
                 </androidx.cardview.widget.CardView>
             </androidx.cardview.widget.CardView>
 
@@ -59,10 +59,17 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/marginS"
-                    android:paddingTop="@dimen/placeholderMarginInfo"
+                    android:paddingTop="50dp"
                     android:paddingBottom="@dimen/marginM"
                     android:showDividers="middle">
 
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ve_iv_cameraButton"
+                        android:layout_width="@dimen/marginM"
+                        android:layout_height="@dimen/marginM"
+                        android:layout_marginStart="@dimen/marginL"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_camera" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -141,14 +148,14 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/ve_cb_date"
                             style="@style/Widget.Material3.Button.TonalButton"
-                            tools:text="01/02/2024"
                             android:layout_width="@dimen/buttonL"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/marginXS"
                             app:icon="@drawable/icon_calendar"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate" />
+                            app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate"
+                            tools:text="01/02/2024" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

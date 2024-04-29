@@ -23,16 +23,11 @@ class LoginActivity : AppCompatActivity(), OnRegisterButtonClickListener {
         val view = binding.root
         setContentView(view)
         viewModel.init(this)
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(binding.loginFragmentContainer.id, LoginFragment())
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction().replace(binding.loginFragmentContainer.id, LoginFragment()).commit()
     }
 
     override fun onRegisterButtonClicked() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.login_fragment_container, RegisterFragment())
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction().replace(R.id.login_fragment_container, RegisterFragment())
+            .addToBackStack(null).commit()
     }
 }

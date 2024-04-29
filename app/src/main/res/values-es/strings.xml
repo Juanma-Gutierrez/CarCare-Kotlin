@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="snackBar_camera_noPermissions">No se han concedido los permisos necesarios</string>
     <string name="next_button">Siguiente</string>
     <string name="get_started_button">Comenzar</string>
     <string name="onBoarding_title_carcare">CarCare</string>
