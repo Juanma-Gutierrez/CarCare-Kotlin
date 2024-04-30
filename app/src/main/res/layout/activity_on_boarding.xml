@@ -29,12 +29,13 @@
             app:tabIndicatorHeight="0dp" />
 
         <TextView
+            style="@style/MaterialAlertDialog.Material3.Title.Text"
             android:id="@+id/tv_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/marginS"
             android:text="@string/next_button"
-            android:textColor="@color/design_default_color_primary"
+            android:textColor="?attr/colorAccent"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

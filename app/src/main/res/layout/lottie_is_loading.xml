@@ -7,8 +7,8 @@
  android:gravity="center">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/de_la_isLoading"
-        android:backgroundTint="@color/md_theme_light_primaryContainer"
+        android:id="@+id/lottie_isLoading"
+        android:backgroundTint="?attr/colorPrimaryContainer"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="@dimen/logoL"
         android:layout_height="@dimen/logoL"

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
@@ -65,8 +66,8 @@ class VehicleNewFragment : Fragment() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
-                true -> requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
-                false -> requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
             }
         }
         binding.vnBtAccept.setOnClickListener {
@@ -83,7 +84,8 @@ class VehicleNewFragment : Fragment() {
         val ad = AlertDialogModel(
             this.requireActivity(),
             this.requireActivity().getString(R.string.alertDialog_newVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_newVehicle_message)
+            this.requireActivity().getString(R.string.alertDialog_newVehicle_message),
+            AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_plus)
         )
         showDialogAcceptCancel(ad) { accept ->
             if (accept) {
@@ -220,7 +222,8 @@ class VehicleNewFragment : Fragment() {
         val ad = AlertDialogModel(
             this.requireActivity(),
             this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message)
+            this.requireActivity().getString(R.string.alertDialog_show_info_newVehicle_message),
+            AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_exclamation)
         )
         showDialogAccept(ad) { }
     }

@@ -8,11 +8,11 @@
         android:id="@+id/topAppBarDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_primary"
+        android:background="?attr/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/icon_arrow_left"
-        app:navigationIconTint="@color/color_white"
-        app:titleTextColor="@color/color_white" />
+        app:navigationIconTint="?android:attr/colorBackground"
+        app:titleTextColor="?android:attr/colorBackground" />
 </androidx.constraintlayout.widget.ConstraintLayout>

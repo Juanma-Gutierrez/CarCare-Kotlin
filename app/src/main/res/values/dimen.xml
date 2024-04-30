@@ -19,8 +19,11 @@
     <dimen name="placeholderMarginTop">25dp</dimen>
     <dimen name="placeholderMarginBottom">-100dp</dimen>
     <dimen name="placeholderMarginInfo">100dp</dimen>
+    <dimen name="notAvailable">30sp</dimen>
 
     <!-- Buttons Size-->
+    <dimen name="buttonM">150dp</dimen>
     <dimen name="buttonL">175dp</dimen>
+    <dimen name="iconM">35dp</dimen>
 
 </resources>

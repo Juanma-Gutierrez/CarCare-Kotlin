@@ -18,7 +18,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="@dimen/logoM"
                 android:layout_height="@dimen/logoM"
@@ -31,7 +30,9 @@
                 style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginS">
+                android:layout_marginHorizontal="@dimen/marginS"
+                android:layout_marginTop="@dimen/marginS"
+                android:layout_marginBottom="@dimen/marginM">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,9 +110,9 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:endIconMode="password_toggle"
                         app:startIconContentDescription="Password"
-                        app:startIconDrawable="@drawable/icon_password"
-                        app:endIconMode="password_toggle">
+                        app:startIconDrawable="@drawable/icon_password">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/re_it_password"
@@ -124,9 +125,9 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:endIconMode="password_toggle"
                         app:startIconContentDescription="Repeat password"
-                        app:startIconDrawable="@drawable/icon_password"
-                        app:endIconMode="password_toggle">
+                        app:startIconDrawable="@drawable/icon_password">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/re_it_repeatPassword"
@@ -143,16 +144,17 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_register"
                         app:icon="@drawable/icon_file_edit" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/re_bt_login"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/goLogin_button" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/re_bt_login"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/marginS"
-                android:text="@string/goLogin_button" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

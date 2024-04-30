@@ -56,6 +56,22 @@ fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
     snackBar.show()
 }
 
+fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
+    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message).setIcon(ad.icon)
+        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
+            callback(true)
+        }.setNegativeButton(ad.activity.getString(R.string.cancel)) { _, _ ->
+            callback(false)
+        }.show()
+}
+
+fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
+    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message).setIcon(ad.icon)
+        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
+            callback(true)
+        }.show()
+}
+
 fun String.toUpperCamelCase(delimiter: String = " "): String {
     return split(delimiter).joinToString(delimiter) { word ->
         word.lowercase().replaceFirstChar(Char::uppercase)
@@ -92,21 +108,6 @@ fun log(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
 
-fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message)
-        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
-            callback(true)
-        }.setNegativeButton(ad.activity.getString(R.string.cancel)) { _, _ ->
-            callback(false)
-        }.show()
-}
-
-fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message)
-        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
-            callback(true)
-        }.show()
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun generateId(): String {

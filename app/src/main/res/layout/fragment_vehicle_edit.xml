@@ -7,7 +7,6 @@
     android:gravity="center">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,19 +14,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <!-- Vehicle image -->
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/placeholderOutter"
                 android:layout_height="@dimen/placeholderOutter"
-                android:layout_marginTop="@dimen/placeholderMarginTop"
-                android:layout_marginBottom="@dimen/placeholderMarginBottom"
-                app:cardCornerRadius="@dimen/marginXL">
+                android:layout_marginTop="@dimen/marginS"
+                app:cardCornerRadius="@dimen/marginXL"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="@dimen/placeholderInner"
@@ -50,82 +49,47 @@
                 style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/marginS">
+                android:layout_marginHorizontal="@dimen/marginS"
+                android:layout_marginTop="@dimen/marginXL"
+                android:layout_marginBottom="@dimen/marginM"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/empty_divider"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="@dimen/marginS"
-                    android:paddingTop="50dp"
-                    android:paddingBottom="@dimen/marginM"
-                    android:showDividers="middle">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:translationZ="100dp"                       >
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/ve_cv_trashCard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/marginM"
-                            app:layout_constraintEnd_toStartOf="@+id/ve_cv_cameraCard"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/ve_iv_trashButton"
-                                android:layout_width="@dimen/marginM"
-                                android:layout_height="@dimen/marginM"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/icon_trash"
-                                android:tint="?attr/colorAccent" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/ve_cv_cameraCard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/ve_cv_trashCard"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:id="@+id/ve_iv_cameraButton"
-                                android:layout_width="@dimen/marginM"
-                                android:layout_height="@dimen/marginM"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/icon_camera"
-                                android:tint="?attr/colorAccent"/>
-                        </com.google.android.material.card.MaterialCardView>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/marginS">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicle_category">
+                        android:layout_marginTop="@dimen/marginXL"
+                        android:hint="@string/vehicle_category"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <AutoCompleteTextView
                             android:id="@+id/ve_ac_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout2"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicle_brand">
+                        android:layout_marginTop="@dimen/marginS"
+                        android:hint="@string/vehicle_brand"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                         <AutoCompleteTextView
                             android:id="@+id/ve_ac_brand"
@@ -135,10 +99,15 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout3"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicle_model">
+                        android:layout_marginTop="@dimen/marginS"
+                        android:hint="@string/vehicle_model"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                         <AutoCompleteTextView
                             android:id="@+id/ve_ac_model"
@@ -148,9 +117,14 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/vehicle_plate">
+                        android:layout_marginTop="@dimen/marginS"
+                        android:hint="@string/vehicle_plate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/ve_it_plate"
@@ -164,66 +138,137 @@
                         android:id="@+id/ve_cb_available"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/marginS"
                         android:checked="true"
-                        android:text="@string/vehicle_available" />
+                        android:text="@string/vehicle_available"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ve_tv_titleDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginXS"
+                        android:layout_marginTop="@dimen/marginS"
+                        android:text="@string/vehicle_registrationDate"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ve_cb_available" />
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/ve_tv_titleDate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/marginXS"
-                            android:text="@string/vehicle_registrationDate"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/ve_cb_date"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="@dimen/buttonL"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/marginXS"
-                            app:icon="@drawable/icon_calendar"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate"
-                            tools:text="01/02/2024" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ve_cb_date"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="@dimen/buttonL"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginXS"
+                        app:icon="@drawable/icon_calendar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate"
+                        tools:text="01/02/2024" />
 
 
                     <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/ve_dv_divider1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/marginS"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ve_cb_date" />
+
                     <!-- Buttons -->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/ve_bt_accept"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/marginS"
                         android:text="@string/accept"
-                        app:icon="@drawable/icon_check" />
+                        app:icon="@drawable/icon_check"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ve_dv_divider1" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/ve_bt_cancel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/marginS"
                         android:text="@string/cancel"
-                        app:icon="@drawable/icon_cancel" />
+                        app:icon="@drawable/icon_cancel"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ve_bt_accept" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/ve_bt_delete"
-                        style="?attr/materialButtonOutlinedStyle"
+                        style="?attr/itemFillColor"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/marginS"
+                        android:layout_marginBottom="@dimen/marginM"
+                        android:backgroundTint="?attr/colorError"
+                        android:drawableTint="?android:attr/colorBackground"
                         android:text="@string/delete"
-                        app:icon="@drawable/icon_trash" />
+                        app:icon="@drawable/icon_trash"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ve_bt_cancel" />
 
-                </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="125dp"
+                android:elevation="@dimen/marginS"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ve_cv_trashCard"
+                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:layout_width="@dimen/marginM"
+                    android:layout_height="@dimen/marginM"
+                    app:layout_constraintEnd_toStartOf="@+id/ve_cv_cameraCard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ve_iv_deleteImageButton"
+                        android:layout_width="@dimen/iconM"
+                        android:layout_height="@dimen/iconM"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/icon_trash"
+                        android:tint="?attr/colorAccent" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/ve_cv_cameraCard"
+                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    android:layout_width="@dimen/marginM"
+                    android:layout_height="@dimen/marginM"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ve_cv_trashCard"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ve_iv_cameraButton"
+                        android:layout_width="@dimen/iconM"
+                        android:layout_height="@dimen/iconM"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="center"
+                        android:src="@drawable/icon_camera"
+                        android:tint="?attr/colorAccent" />
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,9 +8,10 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/marginL"
+        app:itemIconTint="?attr/colorAccent"
+        app:itemTextColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_bottom_bar" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

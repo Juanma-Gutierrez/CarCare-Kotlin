@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -54,6 +55,7 @@ class VehicleEditFragment : Fragment() {
         getVehicleFromID()
         configurePreviewImage()
         configureCameraButton()
+        configureDeleteImageButton()
         configureVehicle()
         configureSelectables()
         configureUI()
@@ -77,6 +79,19 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
+    private fun configureDeleteImageButton() {
+        binding.veIvDeleteImageButton.setOnClickListener {
+            val cameraService = CameraService()
+            cameraService.image_uri = null
+            binding.veIvVehicleImage.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.placeholder_vehicle
+                )
+            )
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
@@ -95,7 +110,6 @@ class VehicleEditFragment : Fragment() {
         if (activityResult.resultCode == RESULT_OK) {
             binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
         }
-        showSnackBar("Imagen cambiada", requireView()) {}
     }
 
     private fun getVehicleFromID() {
@@ -225,8 +239,8 @@ class VehicleEditFragment : Fragment() {
     private fun configureUI() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
-                true -> requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.VISIBLE
-                false -> requireActivity().findViewById<View>(R.id.de_la_isLoading).visibility = View.GONE
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
             }
         }
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
@@ -263,7 +277,8 @@ class VehicleEditFragment : Fragment() {
         val ad = AlertDialogModel(
             this.requireActivity(),
             this.requireActivity().getString(R.string.alertDialog_editVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_editVehicle_message)
+            this.requireActivity().getString(R.string.alertDialog_editVehicle_message),
+            AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_edit)
         )
         showDialogAcceptCancel(ad) { accept ->
             if (accept) {
@@ -310,7 +325,8 @@ class VehicleEditFragment : Fragment() {
         val ad = AlertDialogModel(
             this.requireActivity(),
             this.requireActivity().getString(R.string.alertDialog_deleteVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_deleteVehicle_message)
+            this.requireActivity().getString(R.string.alertDialog_deleteVehicle_message),
+            AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_trash)
         )
         showDialogAcceptCancel(ad) { accept ->
             if (accept) {

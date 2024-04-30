@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -97,7 +98,10 @@ class ItemListViewModel : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun setSignOutDialog() {
         val ad = AlertDialogModel(
-            activity, activity.getString(R.string.logout_title), activity.getString(R.string.alertDialog_logout_message)
+            activity,
+            activity.getString(R.string.logout_title),
+            activity.getString(R.string.alertDialog_logout_message),
+            AppCompatResources.getDrawable(activity, R.drawable.icon_sign_out)
         )
         showDialogAcceptCancel(ad) { accept ->
             if (accept) {
