@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,13 +63,49 @@
                     android:paddingBottom="@dimen/marginM"
                     android:showDividers="middle">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/ve_iv_cameraButton"
-                        android:layout_width="@dimen/marginM"
-                        android:layout_height="@dimen/marginM"
-                        android:layout_marginStart="@dimen/marginL"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/icon_camera" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:translationZ="100dp"                       >
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/ve_cv_trashCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/marginM"
+                            app:layout_constraintEnd_toStartOf="@+id/ve_cv_cameraCard"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/ve_iv_trashButton"
+                                android:layout_width="@dimen/marginM"
+                                android:layout_height="@dimen/marginM"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/icon_trash"
+                                android:tint="?attr/colorAccent" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/ve_cv_cameraCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/ve_cv_trashCard"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/ve_iv_cameraButton"
+                                android:layout_width="@dimen/marginM"
+                                android:layout_height="@dimen/marginM"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/icon_camera"
+                                android:tint="?attr/colorAccent"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -189,5 +225,5 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

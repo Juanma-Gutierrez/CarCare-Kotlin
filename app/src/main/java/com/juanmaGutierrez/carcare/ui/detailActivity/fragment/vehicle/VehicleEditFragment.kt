@@ -1,15 +1,16 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
-import android.app.Activity
-import android.graphics.drawable.BitmapDrawable
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,7 +24,6 @@ import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -70,7 +70,7 @@ class VehicleEditFragment : Fragment() {
     private fun configureCameraButton() {
         binding.veIvCameraButton.setOnClickListener {
             if (cameraService.allPermissionGranted(requireActivity())) {
-                startCamera()
+                cameraService.startCamera(requireActivity(), cameraARL)
             } else {
                 requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
             }
@@ -82,15 +82,20 @@ class VehicleEditFragment : Fragment() {
     ) {
         if (requestCode == Constants.REQUEST_CODE_PERMISSIONS) {
             if (cameraService.allPermissionGranted(requireActivity())) {
-                startCamera()
+                cameraService.startCamera(requireActivity(), cameraARL)
             } else {
                 showSnackBar(getString(R.string.snackBar_camera_noPermissions), requireView()) {}
             }
         }
     }
 
-    private fun startCamera() {
-        log("iniciamos la cámara")
+    var cameraARL: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { activityResult ->
+        if (activityResult.resultCode == RESULT_OK) {
+            binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
+        }
+        showSnackBar("Imagen cambiada", requireView()) {}
     }
 
     private fun getVehicleFromID() {

@@ -88,7 +88,6 @@ fun saveToLog(
     onComplete?.invoke()
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun log(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
