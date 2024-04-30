@@ -8,13 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleEditBinding
 import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
@@ -25,6 +28,7 @@ import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -36,6 +40,7 @@ class VehicleEditFragment : Fragment() {
     private lateinit var binding: FragmentVehicleEditBinding
     private lateinit var viewModel: VehicleEditViewModel
     private val cameraService = CameraService()
+    private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleEditViewModel::class.java]
@@ -54,7 +59,7 @@ class VehicleEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getVehicleFromID()
         configurePreviewImage()
-        configureCameraButton()
+        configureImageButton()
         configureDeleteImageButton()
         configureVehicle()
         configureSelectables()
@@ -69,13 +74,36 @@ class VehicleEditFragment : Fragment() {
         binding.veIvVehicleImage.setImageDrawable(drawable)
     }
 
-    private fun configureCameraButton() {
+    private fun configureImageButton() {
         binding.veIvCameraButton.setOnClickListener {
-            if (cameraService.allPermissionGranted(requireActivity())) {
-                cameraService.startCamera(requireActivity(), cameraARL)
-            } else {
-                requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
+            val cameraIcon = ImageView(requireContext())
+            cameraIcon.setImageResource(R.drawable.icon_camera)
+            val galleryIcon = ImageView(requireContext())
+            galleryIcon.setImageResource(R.drawable.icon_sign_out)
+            val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null)
+            dialogView.findViewById<ImageView>(R.id.camera_icon).setOnClickListener {
+                checkCameraPermissions()
+                alertDialog?.dismiss()
             }
+            dialogView.findViewById<ImageView>(R.id.gallery_icon).setOnClickListener {
+                checkGalleryPermissions()
+                alertDialog?.dismiss()
+            }
+            alertDialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogView)
+                .show()
+        }
+    }
+
+    private fun checkGalleryPermissions() {
+        log("Galeria")
+    }
+
+    private fun checkCameraPermissions() {
+        if (cameraService.allPermissionGranted(requireActivity())) {
+            cameraService.startCamera(requireActivity(), cameraARL)
+        } else {
+            requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
         }
     }
 
@@ -306,7 +334,7 @@ class VehicleEditFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDataFromForm(v: VehicleFB): VehicleFB {
-        val vehicle = VehicleFB(
+        return VehicleFB(
             binding.veCbAvailable.isChecked,
             binding.veAcBrand.text.toString(),
             binding.veAcCategory.text.toString().translateCategory(),
@@ -318,9 +346,9 @@ class VehicleEditFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
-        return vehicle
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun deleteVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
@@ -339,11 +367,10 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptDeleteVehicle(vehicle: VehicleFB) {
         viewModel.deleteVehicle(vehicle)
-        // delete preview
     }
-
 
     private fun closeFragment() {
         if (isAdded) {
