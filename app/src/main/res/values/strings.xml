@@ -72,6 +72,8 @@
     <string name="vehiclesList_noVehicles">You must add some vehicle to your database</string>
 
     <!-- Vehicle -->
+    <string name="vehicle_tab_availableVehicles">Available vehicles</string>
+    <string name="vehicle_tab_allVehicles">All vehicles</string>
     <string name="vehicle_brand">Brand</string>
     <string name="vehicle_model">Model</string>
     <string name="vehicle_plate">Plate</string>

@@ -77,6 +77,8 @@
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
     <string name="alertDialog_icon_camera">Cámara</string>
     <string name="alertDialog_icon_gallery">Galería</string>
+    <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
+    <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
 
 
 </resources>

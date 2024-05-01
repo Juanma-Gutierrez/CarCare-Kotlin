@@ -6,24 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment">
 
-    <LinearLayout
-        android:id="@+id/vl_fl_submenu"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/vl_tl_availables"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryContainer"
+        android:background="?attr/colorPrimaryFixedDim"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/vl_sw_switchAllVehicles"
-            android:layout_width="match_parent"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/marginXS"
-            android:checked="false"
-            android:text="@string/sw_showAllVehicles"
-            android:textAlignment="viewEnd" />
-    </LinearLayout>
+            android:text="@string/vehicle_tab_availableVehicles" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vehicle_tab_allVehicles" />
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vl_rv_vehicles"
@@ -32,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vl_fl_submenu"
+        app:layout_constraintTop_toBottomOf="@id/vl_tl_availables"
         tools:listitem="@layout/item_vehicle" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

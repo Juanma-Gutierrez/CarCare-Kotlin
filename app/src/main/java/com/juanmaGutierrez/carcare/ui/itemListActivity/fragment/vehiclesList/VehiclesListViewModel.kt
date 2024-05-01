@@ -52,7 +52,7 @@ class VehiclesListViewModel(
         }
     }
 
-    fun saveFBVehiclesToRoom() {
+    fun getFBVehiclesAndSaveFBVehiclesToRoom() {
         viewModelScope.launch {
             withContext(dispatcher) {
                 val fb = FirebaseService.getInstance()
