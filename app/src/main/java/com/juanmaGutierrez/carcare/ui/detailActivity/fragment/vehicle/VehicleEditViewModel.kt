@@ -151,4 +151,6 @@ class VehicleEditViewModel : ViewModel() {
             }
         }
     }
+
+
 }

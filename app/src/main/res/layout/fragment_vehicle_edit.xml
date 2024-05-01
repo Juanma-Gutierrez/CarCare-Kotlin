@@ -242,8 +242,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ve_iv_deleteImageButton"
-                        android:layout_width="@dimen/iconM"
-                        android:layout_height="@dimen/iconM"
+                        android:layout_width="@dimen/iconS"
+                        android:layout_height="@dimen/iconS"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_trash"
@@ -261,8 +261,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ve_iv_cameraButton"
-                        android:layout_width="@dimen/iconM"
-                        android:layout_height="@dimen/iconM"
+                        android:layout_width="@dimen/iconS"
+                        android:layout_height="@dimen/iconS"
                         android:scaleType="fitXY"
                         android:layout_gravity="center"
                         android:src="@drawable/icon_camera"

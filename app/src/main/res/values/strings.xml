@@ -34,7 +34,7 @@
     <string name="snackBar_inputError">Unable to log in</string>
     <string name="snackBar_registerUser_Successfully">User registered successfully</string>
     <string name="snackBar_selectCategoryBrandModel">Select category, brand and model</string>
-    <string name="snackBar_camera_noPermissions">The necessary permissions have not been granted</string>
+    <string name="snackBar_noPermissions">The necessary permissions have not been granted</string>
 
     <!-- onBoarding -->
     <string name="next_button">Next</string>
@@ -87,6 +87,7 @@
     <string name="vehicle_editVehicle_successfully">Vehicle edited successfully</string>
     <string name="vehicle_editVehicle_error">Error in vehicle edition</string>
     <string name="vehicle_editVehicle_calendarTitle">Select vehicle registration date</string>
+    <string name="item_vehicle_not_available">Not available</string>
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>
@@ -102,6 +103,7 @@
     <string name="alertDialog_editVehicle_message">Are you sure to edit this vehicle?</string>
     <string name="alertDialog_deleteVehicle_title">Delete vehicle</string>
     <string name="alertDialog_deleteVehicle_message">Are you sure to delete this vehicle?</string>
-    <string name="item_vehicle_not_available">Not available</string>
+    <string name="alertDialog_icon_camera">Camera</string>
+    <string name="alertDialog_icon_gallery">Gallery</string>
 
 </resources>

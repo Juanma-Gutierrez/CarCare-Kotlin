@@ -1,0 +1,55 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingVertical="@dimen/marginS"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/camera_icon"
+        android:layout_width="@dimen/iconM"
+        android:layout_height="@dimen/iconM"
+        android:src="@drawable/icon_camera"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/gallery_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="?attr/colorAccent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alertDialog_icon_camera"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/camera_icon"
+        app:layout_constraintStart_toStartOf="@+id/camera_icon"
+        app:layout_constraintTop_toBottomOf="@+id/camera_icon" />
+
+    <ImageView
+        android:id="@+id/gallery_icon"
+        android:layout_width="@dimen/iconM"
+        android:layout_height="@dimen/iconM"
+        android:src="@drawable/icon_image"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/camera_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="?attr/colorAccent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alertDialog_icon_gallery"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/gallery_icon"
+        app:layout_constraintStart_toStartOf="@+id/gallery_icon"
+        app:layout_constraintTop_toBottomOf="@+id/gallery_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

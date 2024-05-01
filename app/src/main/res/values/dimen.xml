@@ -24,6 +24,7 @@
     <!-- Buttons Size-->
     <dimen name="buttonM">150dp</dimen>
     <dimen name="buttonL">175dp</dimen>
-    <dimen name="iconM">35dp</dimen>
+    <dimen name="iconS">35dp</dimen>
+    <dimen name="iconM">50dp</dimen>
 
 </resources>

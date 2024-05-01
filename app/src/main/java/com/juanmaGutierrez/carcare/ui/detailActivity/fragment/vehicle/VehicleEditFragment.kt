@@ -1,9 +1,13 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +32,6 @@ import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -76,28 +79,19 @@ class VehicleEditFragment : Fragment() {
 
     private fun configureImageButton() {
         binding.veIvCameraButton.setOnClickListener {
-            val cameraIcon = ImageView(requireContext())
-            cameraIcon.setImageResource(R.drawable.icon_camera)
-            val galleryIcon = ImageView(requireContext())
-            galleryIcon.setImageResource(R.drawable.icon_sign_out)
-            val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null)
+            val dialogView = layoutInflater.inflate(R.layout.dialog_camera_gallery, null)
             dialogView.findViewById<ImageView>(R.id.camera_icon).setOnClickListener {
                 checkCameraPermissions()
                 alertDialog?.dismiss()
             }
             dialogView.findViewById<ImageView>(R.id.gallery_icon).setOnClickListener {
-                checkGalleryPermissions()
+                checkPermissionAndOpenGallery()
                 alertDialog?.dismiss()
             }
-            alertDialog = MaterialAlertDialogBuilder(requireContext())
-                .setView(dialogView)
-                .show()
+            alertDialog = MaterialAlertDialogBuilder(requireContext()).setView(dialogView).show()
         }
     }
 
-    private fun checkGalleryPermissions() {
-        log("Galeria")
-    }
 
     private fun checkCameraPermissions() {
         if (cameraService.allPermissionGranted(requireActivity())) {
@@ -113,8 +107,7 @@ class VehicleEditFragment : Fragment() {
             cameraService.image_uri = null
             binding.veIvVehicleImage.setImageDrawable(
                 AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.placeholder_vehicle
+                    requireContext(), R.drawable.placeholder_vehicle
                 )
             )
         }
@@ -127,7 +120,7 @@ class VehicleEditFragment : Fragment() {
             if (cameraService.allPermissionGranted(requireActivity())) {
                 cameraService.startCamera(requireActivity(), cameraARL)
             } else {
-                showSnackBar(getString(R.string.snackBar_camera_noPermissions), requireView()) {}
+                showSnackBar(getString(R.string.snackBar_noPermissions), requireView()) {}
             }
         }
     }
@@ -145,6 +138,52 @@ class VehicleEditFragment : Fragment() {
         if (itemID != "") {
             viewModel.getVehicleFromFB(itemID)
         }
+    }
+
+    /**
+     * Gallery config
+     */
+    private val requestGalleryPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions[Manifest.permission.READ_MEDIA_IMAGES] == true) {
+                openGallery()
+            } else {
+                showSnackBar(getString(R.string.snackBar_noPermissions), requireView()) {}
+            }
+        }
+
+    private val pickGalleryImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                data?.data?.let { _imageurl ->
+                    cameraService.image_uri = _imageurl
+                    binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
+                }
+            }
+        }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkPermissionAndOpenGallery() {
+        val permissionsToRequest = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+        val permissionsNeeded = mutableListOf<String>()
+
+        for (permission in permissionsToRequest) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsNeeded.add(permission)
+            }
+        }
+
+        if (permissionsNeeded.isNotEmpty()) {
+            requestGalleryPermissionLauncher.launch(permissionsNeeded.toTypedArray())
+        } else {
+            openGallery()
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickGalleryImageLauncher.launch(intent)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
