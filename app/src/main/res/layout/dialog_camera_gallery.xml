@@ -2,20 +2,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingVertical="@dimen/marginS"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/marginS">
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/camera_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:text="@string/alertDialog_select_action" />
 
     <ImageView
         android:id="@+id/camera_icon"
         android:layout_width="@dimen/iconM"
         android:layout_height="@dimen/iconM"
+        android:layout_marginTop="@dimen/marginS"
         android:src="@drawable/icon_camera"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/gallery_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
         app:tint="?attr/colorAccent" />
 
     <TextView
@@ -34,10 +47,11 @@
         android:layout_width="@dimen/iconM"
         android:layout_height="@dimen/iconM"
         android:src="@drawable/icon_image"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toBottomOf="@+id/camera_icon"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/camera_icon"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/camera_icon"
         app:layout_constraintVertical_chainStyle="packed"
         app:tint="?attr/colorAccent" />
 

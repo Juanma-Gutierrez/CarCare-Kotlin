@@ -105,6 +105,8 @@
     <string name="alertDialog_editVehicle_message">Are you sure to edit this vehicle?</string>
     <string name="alertDialog_deleteVehicle_title">Delete vehicle</string>
     <string name="alertDialog_deleteVehicle_message">Are you sure to delete this vehicle?</string>
+    <string name="alertDialog_select_action">Select an action</string>
+    <string name="alertDialog_deleteImage">Are you sure to delete the image?</string>
     <string name="alertDialog_icon_camera">Camera</string>
     <string name="alertDialog_icon_gallery">Gallery</string>
 

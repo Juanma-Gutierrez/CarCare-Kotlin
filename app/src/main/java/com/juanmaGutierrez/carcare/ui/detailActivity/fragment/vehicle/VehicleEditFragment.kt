@@ -97,13 +97,27 @@ class VehicleEditFragment : Fragment() {
 
     private fun configureDeleteImageButton() {
         binding.veIvDeleteImageButton.setOnClickListener {
-            val cameraService = CameraService()
-            cameraService.image_uri = null
-            binding.veIvVehicleImage.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(), R.drawable.placeholder_vehicle
-                )
+            val ad = AlertDialogModel(
+                this.requireActivity(),
+                this.requireActivity().getString(R.string.alertDialog_confirm_message),
+                this.requireActivity().getString(R.string.alertDialog_deleteImage),
+                AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_trash)
             )
+            showDialogAcceptCancel(ad) { accept ->
+                if (accept) {
+                    try {
+                        val cameraService = CameraService()
+                        cameraService.image_uri = null
+                        binding.veIvVehicleImage.setImageDrawable(
+                            AppCompatResources.getDrawable(
+                                requireContext(), R.drawable.placeholder_vehicle
+                            )
+                        )
+                    } catch (e: Exception) {
+                        Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
+                    }
+                }
+            }
         }
     }
 

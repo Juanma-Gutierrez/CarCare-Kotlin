@@ -79,6 +79,8 @@
     <string name="alertDialog_icon_gallery">Galería</string>
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
+    <string name="alertDialog_select_action">Selecciona una acción</string>
+    <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
 
 
 </resources>
