@@ -42,9 +42,9 @@ android {
 
 dependencies {
     // ViewModels in fragments
-    implementation (libs.androidx.activity.ktx)
-    implementation (libs.androidx.fragment.ktx)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     // Retrofit
     val rfVersion = "2.11.0"
     implementation("com.squareup.retrofit2:retrofit:$rfVersion")
@@ -60,12 +60,14 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     // Add the dependency for the Firebase Authentication library
     implementation("com.google.firebase:firebase-auth")
+    // Add the dependency for the Firebase Cloud Storage
+    implementation("com.google.firebase:firebase-storage")
     // Navigation graph
     // implementation(libs.androidx.navigation.fragment.ktx)
     // implementation(libs.androidx.navigation.ui.ktx)
     val navVersion = "2.7.7"
-    implementation ("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation ("androidx.navigation:navigation-ui-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     // Room
     val roomVersion = "2.6.0"
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -73,7 +75,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     // Lottie
     val lottieVersion = "6.3.0"
-    implementation ("com.airbnb.android:lottie:$lottieVersion")
+    implementation("com.airbnb.android:lottie:$lottieVersion")
     // Camera
     val cameraVersion = "1.3.3"
     implementation("androidx.camera:camera-core:$cameraVersion")

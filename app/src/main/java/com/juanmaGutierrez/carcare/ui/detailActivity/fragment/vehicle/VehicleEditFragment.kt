@@ -27,8 +27,10 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
+import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -75,7 +77,7 @@ class VehicleEditFragment : Fragment() {
     }
 
     private fun configurePreviewImage() {
-        val resourceId = resources.getIdentifier("placeholder_vehicle", "drawable", requireContext().packageName)
+        val resourceId = R.drawable.placeholder_vehicle
         val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
         binding.veIvVehicleImage.setImageDrawable(drawable)
     }
@@ -106,8 +108,7 @@ class VehicleEditFragment : Fragment() {
             showDialogAcceptCancel(ad) { accept ->
                 if (accept) {
                     try {
-                        val cameraService = CameraService()
-                        cameraService.image_uri = null
+                        CameraService.image_uri = null
                         binding.veIvVehicleImage.setImageDrawable(
                             AppCompatResources.getDrawable(
                                 requireContext(), R.drawable.placeholder_vehicle
@@ -191,7 +192,7 @@ class VehicleEditFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
         if (activityResult.resultCode == RESULT_OK) {
-            binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
+            binding.veIvVehicleImage.setImageURI(CameraService.image_uri)
         }
     }
 
@@ -212,8 +213,8 @@ class VehicleEditFragment : Fragment() {
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
                 data?.data?.let { _imageurl ->
-                    cameraService.image_uri = _imageurl
-                    binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
+                    CameraService.image_uri = _imageurl
+                    binding.veIvVehicleImage.setImageURI(CameraService.image_uri)
                 }
             }
         }
@@ -365,6 +366,21 @@ class VehicleEditFragment : Fragment() {
     }
 
     private fun acceptEditVehicle(vehicle: VehicleFB) {
+        saveVehicleImageToFB()
+        saveVehicleToFB(vehicle)
+    }
+    // ************************************************************
+
+    private fun saveVehicleImageToFB() {
+        log("saveVehicleImageToFB")
+        val imageRef = CameraService.image_uri
+        if (imageRef != null) {
+            fbSaveImage(imageRef)
+        }
+    }
+
+    // ************************************************************
+    private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)
         viewModel.editVehicle(editedVehicle)
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->

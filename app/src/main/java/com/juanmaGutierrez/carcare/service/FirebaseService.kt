@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.service
 
+import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
@@ -100,16 +102,16 @@ fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSna
     try {
         val docRef = db.collection(collection).document(itemID)
         docRef.get().addOnSuccessListener { document ->
-                if (document.exists()) {
-                    callback(document)
-                } else {
-                    Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
-                    callback(null)
-                }
-            }.addOnFailureListener { e ->
-                Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, e)
+            if (document.exists()) {
+                callback(document)
+            } else {
+                Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
                 callback(null)
             }
+        }.addOnFailureListener { e ->
+            Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, e)
+            callback(null)
+        }
     } catch (e: Exception) {
         Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, e)
     }
@@ -130,21 +132,21 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     var filteredVehiclesList: List<VehiclePreview>
     val docRef = db.collection(Constants.FB_COLLECTION_USER).document(fb.user!!.uid)
     docRef.get().addOnSuccessListener { document ->
-            if (document.exists()) {
-                val existingVehiclesData = document.get("vehicles") as? List<HashMap<String, Any>>
-                val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
-                filteredVehiclesList = updateOrAddVehicleById(existingVehicles, vehicle)
-                val updateTask = docRef.update("vehicles", filteredVehiclesList)
-                updateTask.addOnSuccessListener { deferred.complete(updateTask) }
-                updateTask.addOnFailureListener { e ->
-                    Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
-                    deferred.completeExceptionally(e)
-                }
+        if (document.exists()) {
+            val existingVehiclesData = document.get("vehicles") as? List<HashMap<String, Any>>
+            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
+            filteredVehiclesList = updateOrAddVehicleById(existingVehicles, vehicle)
+            val updateTask = docRef.update("vehicles", filteredVehiclesList)
+            updateTask.addOnSuccessListener { deferred.complete(updateTask) }
+            updateTask.addOnFailureListener { e ->
+                Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
+                deferred.completeExceptionally(e)
             }
-        }.addOnFailureListener { e ->
-            Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
-            deferred.completeExceptionally(e)
         }
+    }.addOnFailureListener { e ->
+        Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
+        deferred.completeExceptionally(e)
+    }
     return deferred.await()
 }
 
@@ -221,4 +223,18 @@ fun fbSaveUserLocally(auth: FirebaseAuth): FirebaseUser? {
 fun fbGetUserLogged(): FirebaseUser? {
     val fb = FirebaseService.getInstance()
     return fb.user
+}
+
+fun fbSaveImage(uri: Uri) {
+    val storageRef = Firebase.storage.reference
+    val name = generateId()
+    val imageRef = storageRef.child("vehicleImages/$name.jpg")
+    val uploadTask = imageRef.putFile(uri)
+    uploadTask.addOnSuccessListener { taskSnapshot ->
+        log("Imagen subida correctamente")
+        log("Identificador: ${taskSnapshot.metadata?.name}")
+    }.addOnFailureListener { exception ->
+        log("error en la subida")
+        Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, exception)
+    }
 }
