@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -57,7 +54,6 @@ class VehicleEditFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getVehicleFromID()
@@ -69,6 +65,13 @@ class VehicleEditFragment : Fragment() {
         configureUI()
         configureCancelButton()
         configureEditVehicleSuccessful()
+    }
+
+    private fun getVehicleFromID() {
+        val itemID = arguments?.getString("itemID") ?: ""
+        if (itemID != "") {
+            viewModel.getVehicleFromFB(itemID)
+        }
     }
 
     private fun configurePreviewImage() {
@@ -92,15 +95,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-
-    private fun checkCameraPermissions() {
-        if (cameraService.allPermissionGranted(requireActivity())) {
-            cameraService.startCamera(requireActivity(), cameraARL)
-        } else {
-            requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
-        }
-    }
-
     private fun configureDeleteImageButton() {
         binding.veIvDeleteImageButton.setOnClickListener {
             val cameraService = CameraService()
@@ -110,6 +104,60 @@ class VehicleEditFragment : Fragment() {
                     requireContext(), R.drawable.placeholder_vehicle
                 )
             )
+        }
+    }
+
+    private fun configureVehicle() {
+        viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
+            loadVehicleDataToForm(vehicle)
+            viewModel.setCategories(getCategories(requireActivity()))
+            viewModel.selectedCategory = binding.veAcCategory.text.toString().translateCategory()
+            viewModel.getBrandsFromAPI(vehicle.category)
+            viewModel.getModelsFromBrandAPI(vehicle.brand)
+            configureDateButton(vehicle)
+            configureVehicleButtons(vehicle)
+        }
+    }
+
+    private fun configureSelectables() {
+        configureSelectablesObservers()
+        configureSelectablesActions()
+    }
+
+    private fun configureUI() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
+            }
+        }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
+    }
+
+    private fun configureCancelButton() {
+        binding.veBtCancel.setOnClickListener {
+            closeFragment()
+        }
+    }
+
+    private fun configureEditVehicleSuccessful() {
+        viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
+            if (isSuccessful) {
+                showSnackBar(requireActivity().getString(R.string.vehicle_editVehicle_successfully), requireView()) {
+                    closeFragment()
+                }
+            }
+        }
+    }
+
+    /**
+     * Camera settings
+     */
+    private fun checkCameraPermissions() {
+        if (cameraService.allPermissionGranted(requireActivity())) {
+            cameraService.startCamera(requireActivity(), cameraARL)
+        } else {
+            requestPermissions(CameraService.REQUIRED_PERMISSIONS, Constants.REQUEST_CODE_PERMISSIONS)
         }
     }
 
@@ -130,13 +178,6 @@ class VehicleEditFragment : Fragment() {
     ) { activityResult ->
         if (activityResult.resultCode == RESULT_OK) {
             binding.veIvVehicleImage.setImageURI(cameraService.image_uri)
-        }
-    }
-
-    private fun getVehicleFromID() {
-        val itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            viewModel.getVehicleFromFB(itemID)
         }
     }
 
@@ -163,7 +204,6 @@ class VehicleEditFragment : Fragment() {
             }
         }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkPermissionAndOpenGallery() {
         val permissionsToRequest = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
         val permissionsNeeded = mutableListOf<String>()
@@ -186,20 +226,6 @@ class VehicleEditFragment : Fragment() {
         pickGalleryImageLauncher.launch(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun configureVehicle() {
-        viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
-            loadVehicleDataToForm(vehicle)
-            viewModel.setCategories(getCategories(requireActivity()))
-            viewModel.selectedCategory = binding.veAcCategory.text.toString().translateCategory()
-            viewModel.getBrandsFromAPI(vehicle.category)
-            viewModel.getModelsFromBrandAPI(vehicle.brand)
-            configureDateButton(vehicle)
-            configureVehicleButtons(vehicle)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun loadVehicleDataToForm(vehicle: VehicleFB) {
         val category = vehicle.category.getCategoryTranslation(requireContext())
         binding.veAcCategory.setText(category, false)
@@ -210,22 +236,16 @@ class VehicleEditFragment : Fragment() {
         binding.veCbDate.text = vehicle.registrationDate.transformDateIsoToString()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureDateButton(vehicle: VehicleFB) {
         binding.veCbDate.setOnClickListener {
             showDatePickerDialog(
-                vehicle.registrationDate.transformDateIsoToString(Constants.LOCAL_DATE_FORMAT),
+                vehicle.registrationDate.transformDateIsoToString(Constants.DATE_FORMAT_LOCAL),
                 requireActivity().getString(R.string.vehicle_editVehicle_calendarTitle),
                 childFragmentManager
             ) { selectedDate ->
                 binding.veCbDate.text = selectedDate
             }
         }
-    }
-
-    private fun configureSelectables() {
-        configureSelectablesObservers()
-        configureSelectablesActions()
     }
 
     private fun configureSelectablesObservers() {
@@ -303,33 +323,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    private fun configureUI() {
-        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            when (isLoading) {
-                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
-                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
-            }
-        }
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
-    }
-
-    private fun configureCancelButton() {
-        binding.veBtCancel.setOnClickListener {
-            closeFragment()
-        }
-    }
-
-    private fun configureEditVehicleSuccessful() {
-        viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
-            if (isSuccessful) {
-                showSnackBar(requireActivity().getString(R.string.vehicle_editVehicle_successfully), requireView()) {
-                    closeFragment()
-                }
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureVehicleButtons(vehicle: VehicleFB) {
         binding.veBtAccept.setOnClickListener {
             editVehicle(vehicle)
@@ -339,7 +332,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun editVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
@@ -358,7 +350,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptEditVehicle(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)
         viewModel.editVehicle(editedVehicle)
@@ -371,7 +362,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun getDataFromForm(v: VehicleFB): VehicleFB {
         return VehicleFB(
             binding.veCbAvailable.isChecked,
@@ -387,7 +377,6 @@ class VehicleEditFragment : Fragment() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun deleteVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
@@ -406,7 +395,6 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptDeleteVehicle(vehicle: VehicleFB) {
         viewModel.deleteVehicle(vehicle)
     }

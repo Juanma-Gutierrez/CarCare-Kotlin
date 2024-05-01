@@ -8,7 +8,8 @@ class Constants {
         const val TAG_ERROR = "Error-CarCare"
 
         // App
-        const val LOCAL_DATE_FORMAT = "dd/MM/yyyy"
+        const val DATE_FORMAT_LOCAL = "dd/MM/yyyy"
+        const val DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val REQUEST_CODE_PERMISSIONS = 42
 
         // API

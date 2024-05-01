@@ -1,10 +1,8 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,8 +20,6 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
     private lateinit var binding: ActivityItemListBinding
     private lateinit var viewModel: ItemListViewModel
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         super.onCreate(savedInstanceState)
@@ -67,8 +63,6 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             .replace(R.id.itemList_fragment_container, fragment).commit()
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureTopToolbar() {
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
         binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->

@@ -1,8 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -84,7 +82,6 @@ class VehicleNewViewModel : ViewModel() {
         return data
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun saveVehicleAndVehiclePreview(vehicle: VehicleFB): Boolean {
         var bothSuccessful = false
         viewModelScope.launch {

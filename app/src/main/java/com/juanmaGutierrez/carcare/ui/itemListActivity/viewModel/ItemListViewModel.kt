@@ -1,7 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -36,11 +34,9 @@ class ItemListViewModel : ViewModel() {
         fun navigateToFragment(fragment: Fragment)
     }
 
-
     fun setNavigationListener(listener: NavigationListener) {
         navigationListener = listener
     }
-
 
     fun initItemListEnvironment(
         activity: AppCompatActivity,
@@ -51,12 +47,10 @@ class ItemListViewModel : ViewModel() {
         this._signOut.value = false
     }
 
-
     fun setToolbar(title: String, activity: AppCompatActivity) {
         activity.setSupportActionBar(activity.findViewById(R.id.topAppBar))
         activity.supportActionBar?.title = title
     }
-
 
     fun setNavigationBottombar(
         bottomNavigationView: BottomNavigationView, activity: AppCompatActivity
@@ -80,7 +74,6 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
-
     private fun replaceFragment(
         fragment: Fragment, title: String
     ): Boolean {
@@ -89,13 +82,10 @@ class ItemListViewModel : ViewModel() {
         return true
     }
 
-
     private fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setSignOutDialog() {
         val ad = AlertDialogModel(
             activity,
@@ -109,15 +99,12 @@ class ItemListViewModel : ViewModel() {
                 this._signOut.value = true
             } else {
                 showSnackBar(
-                    activity.getString(R.string.cancel_message),
-                    activity.findViewById(android.R.id.content)
+                    activity.getString(R.string.cancel_message), activity.findViewById(android.R.id.content)
                 ) {}
             }
         }
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun signOut() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             FirebaseAuth.getInstance().signOut()

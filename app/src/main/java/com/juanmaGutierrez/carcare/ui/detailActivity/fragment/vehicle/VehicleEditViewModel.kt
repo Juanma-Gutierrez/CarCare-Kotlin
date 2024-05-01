@@ -1,8 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -97,7 +95,6 @@ class VehicleEditViewModel : ViewModel() {
         vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
     }
 
-
     private fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
@@ -123,7 +120,6 @@ class VehicleEditViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun editVehicle(vehicle: VehicleFB) {
         viewModelScope.launch {
             try {
@@ -137,7 +133,6 @@ class VehicleEditViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun deleteVehicle(vehicle: VehicleFB) {
         viewModelScope.launch {
             try {
@@ -151,6 +146,4 @@ class VehicleEditViewModel : ViewModel() {
             }
         }
     }
-
-
 }

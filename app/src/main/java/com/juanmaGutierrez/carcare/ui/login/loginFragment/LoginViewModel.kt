@@ -1,8 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.login.loginFragment
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +13,6 @@ import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.fbSaveUserLocally
 import com.juanmaGutierrez.carcare.service.saveToLog
-import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 
@@ -27,7 +24,6 @@ class LoginViewModel : ViewModel() {
     private val _navigateToItemList = MutableLiveData<Boolean>()
     val navigateToItemList: LiveData<Boolean> get() = _navigateToItemList
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun init(activity: LoginActivity) {
         this.activity = activity
     }
@@ -36,7 +32,6 @@ class LoginViewModel : ViewModel() {
         _navigateToItemList.value = true
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun login(fragment: LoginFragment, email: String, password: String) {
         if (!validInputs(email, password)) {
             _snackbarMessage.value = fragment.getString(R.string.snackBar_fieldsEmpty)
@@ -54,7 +49,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun checkUserIsLogged() {
         if (userIsLogged()) {
             Log.i(Constants.TAG, Constants.LOGIN_USER_LOGGED)
@@ -62,7 +56,6 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun userIsLogged(): Boolean {
         auth = Firebase.auth
         if (auth.currentUser != null) {

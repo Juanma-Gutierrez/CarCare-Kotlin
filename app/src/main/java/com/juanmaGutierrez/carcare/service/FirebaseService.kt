@@ -1,9 +1,6 @@
 package com.juanmaGutierrez.carcare.service
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +10,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
@@ -57,7 +53,6 @@ class FirebaseService {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun fbSaveLog(itemLog: ItemLog) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.COLLECTION_LOG).document(Constants.COLLECTION_LOG_DOC)
@@ -69,7 +64,6 @@ fun fbSaveLog(itemLog: ItemLog) {
         }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun fbRegisterUserAuth(user: User) {
     val auth = Firebase.auth
     auth.createUserWithEmailAndPassword(user.email, user.password)
@@ -105,16 +99,14 @@ fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSna
     val db = Firebase.firestore
     try {
         val docRef = db.collection(collection).document(itemID)
-        docRef.get()
-            .addOnSuccessListener { document ->
+        docRef.get().addOnSuccessListener { document ->
                 if (document.exists()) {
                     callback(document)
                 } else {
                     Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
                     callback(null)
                 }
-            }
-            .addOnFailureListener { e ->
+            }.addOnFailureListener { e ->
                 Log.e(Constants.TAG_ERROR, Constants.ERROR_EXCEPTION_PREFIX, e)
                 callback(null)
             }
@@ -124,7 +116,6 @@ fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSna
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
@@ -132,15 +123,13 @@ fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     val fb = FirebaseService.getInstance()
     val db = FirebaseFirestore.getInstance()
     val deferred = CompletableDeferred<Task<Void>>()
     var filteredVehiclesList: List<VehiclePreview>
     val docRef = db.collection(Constants.FB_COLLECTION_USER).document(fb.user!!.uid)
-    docRef.get()
-        .addOnSuccessListener { document ->
+    docRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
                 val existingVehiclesData = document.get("vehicles") as? List<HashMap<String, Any>>
                 val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
@@ -152,8 +141,7 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
                     deferred.completeExceptionally(e)
                 }
             }
-        }
-        .addOnFailureListener { e ->
+        }.addOnFailureListener { e ->
             Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e)
             deferred.completeExceptionally(e)
         }
@@ -201,9 +189,7 @@ suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
             val existingVehiclesData = docRef.get("vehicles") as? List<HashMap<String, Any>>
             val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
             val filtered = existingVehicles.filter { it.vehicleId != vehicle.vehicleId }
-            db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId)
-                .update("vehicles", filtered)
-                .await()
+            db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId).update("vehicles", filtered).await()
         } else {
             Log.e(Constants.TAG_ERROR, Constants.LOG_VEHICLE_DELETION_ERROR)
         }
@@ -213,7 +199,6 @@ suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun fbCreateLog(
     type: LogType,
     currentUser: FirebaseUser?,

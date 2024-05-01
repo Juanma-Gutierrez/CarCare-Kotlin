@@ -1,6 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -53,7 +51,6 @@ class VehicleNewFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllBrandsFromAPI()
@@ -75,7 +72,6 @@ class VehicleNewFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptVehicle() {
         if (!checkAllFieldsValid()) {
             showSnackBar("falta rellenar algún campo", requireView()) { }
@@ -110,7 +106,6 @@ class VehicleNewFragment : Fragment() {
         this.requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun generateVehicle(): VehicleFB {
         val fb = FirebaseService.getInstance()
         return VehicleFB(

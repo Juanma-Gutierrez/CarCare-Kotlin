@@ -2,8 +2,6 @@ package com.juanmaGutierrez.carcare.service
 
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -11,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,12 +19,9 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
-import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleEditFragment
-import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.Date
@@ -81,17 +74,16 @@ fun String.toUpperCamelCase(delimiter: String = " "): String {
 fun String.convertDateMillisToDate(): String {
     val timestamp = this.toLong()
     val date = Date(timestamp)
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
     return dateFormat.format(date)
 }
 
 fun getTimestamp(): String {
     val currentTimestamp = Date()
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
     return dateFormat.format(currentTimestamp)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun saveToLog(
     type: LogType, operation: OperationLog, content: String, onComplete: (() -> Unit)? = null
 ) {
@@ -109,7 +101,6 @@ fun log(string: String, t: Throwable? = null) {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun generateId(): String {
     val formattedDate = getTimestamp().transformDateIsoToString("yyMMddHHmmss-")
     val length = 10
@@ -117,7 +108,6 @@ fun generateId(): String {
     return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -129,7 +119,6 @@ fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun String.transformStringToDateIso(): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss")
@@ -141,9 +130,8 @@ fun String.transformStringToDateIso(): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun String.longToTimestamp(): Long {
-    val formatter = DateTimeFormatter.ofPattern(Constants.LOCAL_DATE_FORMAT)
+    val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
     val localDate = LocalDate.parse(this, formatter)
     return localDate.toEpochDay() * 24 * 60 * 60 * 1000
 }
@@ -175,11 +163,10 @@ fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<Strin
     selectable.setAdapter(selectableAdapter)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun showDatePickerDialog(
     initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
 ) {
-    val dateFormat = DateTimeFormatter.ofPattern(Constants.LOCAL_DATE_FORMAT)
+    val dateFormat = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
     val builder =
         MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.longToTimestamp())
     val datePicker = builder.build()

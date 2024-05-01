@@ -1,7 +1,5 @@
 package com.juanmaGutierrez.carcare.model.firebase
 
-import com.juanmaGutierrez.carcare.service.convertDateMillisToDate
-
 data class VehicleFB(
     val available: Boolean,
     val brand: String,
