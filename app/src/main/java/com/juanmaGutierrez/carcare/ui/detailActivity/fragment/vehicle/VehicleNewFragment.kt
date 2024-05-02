@@ -113,6 +113,7 @@ class VehicleNewFragment : Fragment() {
             binding.vnAcBrand.text.toString(),
             binding.vnAcCategory.text.toString().translateCategory(),
             Date().time.toString().convertDateMillisToDate(),
+            null, // cargar url de la imagen
             binding.vnAcModel.text.toString(),
             binding.vnItPlate.text.toString(),
             binding.vnCvRegistrationDate.date.toString().convertDateMillisToDate(),

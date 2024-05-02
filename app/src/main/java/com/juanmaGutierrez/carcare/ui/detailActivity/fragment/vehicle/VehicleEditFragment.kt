@@ -18,6 +18,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleEditBinding
@@ -43,6 +44,7 @@ class VehicleEditFragment : Fragment() {
     private lateinit var viewModel: VehicleEditViewModel
     private val cameraService = CameraService()
     private var alertDialog: AlertDialog? = null
+    private var imageURL: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleEditViewModel::class.java]
@@ -125,6 +127,7 @@ class VehicleEditFragment : Fragment() {
     private fun configureVehicle() {
         viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
             loadVehicleDataToForm(vehicle)
+            loadVehicleImageToForm()
             viewModel.setCategories(getCategories(requireActivity()))
             viewModel.selectedCategory = binding.veAcCategory.text.toString().translateCategory()
             viewModel.getBrandsFromAPI(vehicle.category)
@@ -133,6 +136,7 @@ class VehicleEditFragment : Fragment() {
             configureVehicleButtons(vehicle)
         }
     }
+
 
     private fun configureSelectables() {
         configureSelectablesObservers()
@@ -215,6 +219,7 @@ class VehicleEditFragment : Fragment() {
                 data?.data?.let { _imageurl ->
                     CameraService.image_uri = _imageurl
                     binding.veIvVehicleImage.setImageURI(CameraService.image_uri)
+
                 }
             }
         }
@@ -249,6 +254,12 @@ class VehicleEditFragment : Fragment() {
         binding.veItPlate.setText(vehicle.plate)
         binding.veCbAvailable.isChecked = vehicle.available
         binding.veCbDate.text = vehicle.registrationDate.transformDateIsoToString()
+    }
+
+    private fun loadVehicleImageToForm() {
+        viewModel.vehicleImage.observe(viewLifecycleOwner) { url ->
+            binding.veIvVehicleImage.load(url)
+        }
     }
 
     private fun configureDateButton(vehicle: VehicleFB) {
@@ -369,17 +380,14 @@ class VehicleEditFragment : Fragment() {
         saveVehicleImageToFB()
         saveVehicleToFB(vehicle)
     }
-    // ************************************************************
 
     private fun saveVehicleImageToFB() {
-        log("saveVehicleImageToFB")
         val imageRef = CameraService.image_uri
         if (imageRef != null) {
-            fbSaveImage(imageRef)
+            imageURL = fbSaveImage(imageRef)
         }
     }
 
-    // ************************************************************
     private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)
         viewModel.editVehicle(editedVehicle)
@@ -393,11 +401,12 @@ class VehicleEditFragment : Fragment() {
     }
 
     private fun getDataFromForm(v: VehicleFB): VehicleFB {
-        return VehicleFB(
+        val vehicle = VehicleFB(
             binding.veCbAvailable.isChecked,
             binding.veAcBrand.text.toString(),
             binding.veAcCategory.text.toString().translateCategory(),
             v.created,
+            imageURL,
             binding.veAcModel.text.toString(),
             binding.veItPlate.text.toString(),
             binding.veCbDate.text.toString().transformStringToDateIso(),
@@ -405,6 +414,8 @@ class VehicleEditFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
+        log(vehicle.toString())
+        return vehicle
     }
 
     private fun deleteVehicle(vehicle: VehicleFB) {

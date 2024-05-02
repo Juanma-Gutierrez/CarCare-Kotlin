@@ -11,20 +11,21 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
+import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
+import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.ItemLog
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.Providers
 import com.juanmaGutierrez.carcare.model.localData.User
-import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_WITH_EMAIL
-import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
-import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
-import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.tasks.await
@@ -225,16 +226,33 @@ fun fbGetUserLogged(): FirebaseUser? {
     return fb.user
 }
 
-fun fbSaveImage(uri: Uri) {
+fun fbSaveImage(uri: Uri): String {
     val storageRef = Firebase.storage.reference
     val name = generateId()
-    val imageRef = storageRef.child("vehicleImages/$name.jpg")
+    val userID = Firebase.auth.uid
+    val formattedURL = "vehicleImages/$userID/$name.jpg"
+    val imageRef = storageRef.child(formattedURL)
     val uploadTask = imageRef.putFile(uri)
     uploadTask.addOnSuccessListener { taskSnapshot ->
-        log("Imagen subida correctamente")
         log("Identificador: ${taskSnapshot.metadata?.name}")
     }.addOnFailureListener { exception ->
-        log("error en la subida")
         Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, exception)
+    }
+    return formattedURL
+}
+
+fun fbGetImage(vehicle: VehicleFB, callback: (String) -> Unit) {
+    if (!vehicle.imageURL.isNullOrEmpty()) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val pathReference = storageRef.child(vehicle.imageURL)
+        storageRef.child(pathReference.path).downloadUrl.addOnSuccessListener { url ->
+            callback(url.toString())
+        }.addOnFailureListener {
+            // Handle any errors
+            callback("")
+        }
+    } else {
+        callback("")
     }
 }

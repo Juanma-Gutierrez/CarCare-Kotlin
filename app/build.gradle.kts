@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.firebase.storage.ktx)
     // Retrofit
     val rfVersion = "2.11.0"
     implementation("com.squareup.retrofit2:retrofit:$rfVersion")
@@ -84,6 +85,10 @@ dependencies {
     implementation("androidx.camera:camera-video:$cameraVersion")
     implementation("androidx.camera:camera-view:$cameraVersion")
     implementation("androidx.camera:camera-extensions:$cameraVersion")
+    // Coil
+    val coilVersion = "2.5.0"
+    implementation("io.coil-kt:coil:$coilVersion")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

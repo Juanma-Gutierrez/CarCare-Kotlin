@@ -7,9 +7,10 @@ data class VehiclePreview(
     var brand: String,
     var category: String,
     var created: String,
+    var imageURL: String? = null,
     var model: String,
     var plate: String,
     var ref: DocumentReference,
     var registrationDate: String,
-    var vehicleId: String
+    var vehicleId: String,
 )

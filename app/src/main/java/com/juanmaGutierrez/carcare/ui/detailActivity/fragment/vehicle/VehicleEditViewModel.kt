@@ -16,9 +16,11 @@ import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.fbDeleteDocumentByID
 import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
+import com.juanmaGutierrez.carcare.service.fbGetImage
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.getDocumentByIDFB
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -31,6 +33,8 @@ class VehicleEditViewModel : ViewModel() {
     var selectedCategory: String = ""
     private val _vehicle = MutableLiveData<VehicleFB>()
     val vehicle: LiveData<VehicleFB> get() = _vehicle
+    private val _vehicleImage = MutableLiveData<String>()
+    val vehicleImage: LiveData<String> get() = _vehicleImage
     private val _editVehicleSuccessful = MutableLiveData<Boolean>()
     val editVehicleSuccessful: LiveData<Boolean> get() = _editVehicleSuccessful
     private val _categoriesList = MutableLiveData<List<String>>()
@@ -51,6 +55,7 @@ class VehicleEditViewModel : ViewModel() {
                 setIsLoading(false)
                 if (document != null) {
                     _vehicle.value = mapDocumentDataToVehicle(document)
+                    getVehicleImageURL(_vehicle.value!!)
                 }
             }
         }
@@ -105,6 +110,14 @@ class VehicleEditViewModel : ViewModel() {
         apiService = retrofit.create(APIService::class.java)
         viewModelScope.launch {
             _modelsList.value = callModelsFromAPI(brand)
+        }
+    }
+
+    fun getVehicleImageURL(vehicle: VehicleFB) {
+        viewModelScope.launch {
+            fbGetImage(vehicle) { imageURL ->
+                _vehicleImage.value = imageURL
+            }
         }
     }
 
