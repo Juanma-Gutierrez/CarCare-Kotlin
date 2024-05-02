@@ -2,8 +2,10 @@ package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -26,9 +28,11 @@ import com.juanmaGutierrez.carcare.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.localData.getCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.fbSaveImage
+import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.log
@@ -377,16 +381,25 @@ class VehicleEditFragment : Fragment() {
     }
 
     private fun acceptEditVehicle(vehicle: VehicleFB) {
-        saveVehicleImageToFB()
+        val name = if (vehicle.vehicleId.isNotEmpty()) vehicle.vehicleId else generateId()
+        saveVehicleImageToFB(name, vehicle)
         saveVehicleToFB(vehicle)
     }
 
-    private fun saveVehicleImageToFB() {
-        val imageRef = CameraService.image_uri
-        if (imageRef != null) {
-            imageURL = fbSaveImage(imageRef)
+    private fun saveVehicleImageToFB(name: String, vehicle: VehicleFB) {
+        val uri = CameraService.image_uri
+        if (uri != null) {
+            val imagePack = VehicleImagePackToFB(
+                requireContext(),
+                uri,
+                name,
+                vehicle
+            )
+            imageURL = fbSaveImage(imagePack)
         }
     }
+
+
 
     private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)

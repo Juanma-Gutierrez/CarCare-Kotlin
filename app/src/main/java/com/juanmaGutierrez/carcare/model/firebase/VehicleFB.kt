@@ -1,5 +1,8 @@
 package com.juanmaGutierrez.carcare.model.firebase
 
+import android.content.Context
+import android.net.Uri
+
 data class VehicleFB(
     val available: Boolean,
     val brand: String,
@@ -19,3 +22,9 @@ data class VehicleFB(
     }
 }
 
+data class VehicleImagePackToFB(
+    val context: Context,
+    val uri: Uri,
+    val name: String,
+    val vehicle: VehicleFB,
+)

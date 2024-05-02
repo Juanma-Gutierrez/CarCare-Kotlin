@@ -1,6 +1,7 @@
 package com.juanmaGutierrez.carcare.service
 
-import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
@@ -21,6 +22,7 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_CREATE_USER_W
 import com.juanmaGutierrez.carcare.model.Constants.Companion.ERROR_DATABASE
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
 import com.juanmaGutierrez.carcare.model.localData.ItemLog
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
@@ -29,6 +31,7 @@ import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.concurrent.Executors
 
 class FirebaseService {
@@ -226,19 +229,28 @@ fun fbGetUserLogged(): FirebaseUser? {
     return fb.user
 }
 
-fun fbSaveImage(uri: Uri): String {
+//fun fbSaveImage(uri: Uri, name: String, context: Context): String {
+fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     val storageRef = Firebase.storage.reference
-    val name = generateId()
     val userID = Firebase.auth.uid
-    val formattedURL = "vehicleImages/$userID/$name.jpg"
+    val formattedURL = "vehicleImages/$userID/${imagePack.name}.jpg"
     val imageRef = storageRef.child(formattedURL)
-    val uploadTask = imageRef.putFile(uri)
+    val inputStream = imagePack.context.contentResolver.openInputStream(imagePack.uri)
+    val bitmap = BitmapFactory.decodeStream(inputStream)
+    val compressedData = compressBitmap(bitmap, 50)
+    val uploadTask = imageRef.putBytes(compressedData)
     uploadTask.addOnSuccessListener { taskSnapshot ->
         log("Identificador: ${taskSnapshot.metadata?.name}")
     }.addOnFailureListener { exception ->
         Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, exception)
     }
     return formattedURL
+}
+
+fun compressBitmap(bitmap: Bitmap, quality: Int): ByteArray {
+    val stream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+    return stream.toByteArray()
 }
 
 fun fbGetImageURL(imageURL: String, callback: (String) -> Unit) {
