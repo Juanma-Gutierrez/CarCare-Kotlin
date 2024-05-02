@@ -21,7 +21,7 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val layoutResourceId = if (ConfigService.vehicleListFormat == "normal") {
+        val layoutResourceId = if (!ConfigService.vehicleListFormatDetail) {
             R.layout.item_vehicle_list
         } else {
             R.layout.item_vehicle

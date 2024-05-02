@@ -47,7 +47,7 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
         dialogView.findViewById<ImageView>(R.id.camera_icon_temporal).setOnClickListener {
             log("camara")
-            ConfigService.vehicleListFormat = "detail"
+            ConfigService.vehicleListFormatDetail = !ConfigService.vehicleListFormatDetail
             recreate()
             alertDialog?.dismiss()
         }
