@@ -241,15 +241,14 @@ fun fbSaveImage(uri: Uri): String {
     return formattedURL
 }
 
-fun fbGetImage(vehicle: VehicleFB, callback: (String) -> Unit) {
-    if (!vehicle.imageURL.isNullOrEmpty()) {
+fun fbGetImageURL(imageURL: String, callback: (String) -> Unit) {
+    if (imageURL.isNotEmpty()) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
-        val pathReference = storageRef.child(vehicle.imageURL)
+        val pathReference = storageRef.child(imageURL)
         storageRef.child(pathReference.path).downloadUrl.addOnSuccessListener { url ->
             callback(url.toString())
         }.addOnFailureListener {
-            // Handle any errors
             callback("")
         }
     } else {

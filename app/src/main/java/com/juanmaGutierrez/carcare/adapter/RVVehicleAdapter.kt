@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -44,16 +46,24 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
-            itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).setImageResource(R.drawable.placeholder_vehicle)
-            itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
-                when (vehicle.category) {
-                    "car" -> R.drawable.placeholder_car
-                    "motorcycle" -> R.drawable.placeholder_motorcycle
-                    "van" -> R.drawable.placeholder_van
-                    "truck" -> R.drawable.placeholder_truck
-                    else -> R.drawable.placeholder_vehicle
+            if (vehicle.imageURL.equals("")) {
+                itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
+                    when (vehicle.category) {
+                        "car" -> R.drawable.placeholder_car
+                        "motorcycle" -> R.drawable.placeholder_motorcycle
+                        "van" -> R.drawable.placeholder_van
+                        "truck" -> R.drawable.placeholder_truck
+                        else -> R.drawable.placeholder_vehicle
+                    }
+                )
+            } else {
+                vehicle.imageURL?.let {
+                    fbGetImageURL(it) { url ->
+                        itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).load(url)
+                    }
                 }
-            )
+
+            }
             val context = itemView.context
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)

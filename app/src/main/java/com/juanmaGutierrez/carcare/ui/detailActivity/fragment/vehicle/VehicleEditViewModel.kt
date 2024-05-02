@@ -16,11 +16,10 @@ import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.service.fbDeleteDocumentByID
 import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
-import com.juanmaGutierrez.carcare.service.fbGetImage
+import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.getDocumentByIDFB
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -115,8 +114,10 @@ class VehicleEditViewModel : ViewModel() {
 
     fun getVehicleImageURL(vehicle: VehicleFB) {
         viewModelScope.launch {
-            fbGetImage(vehicle) { imageURL ->
-                _vehicleImage.value = imageURL
+            vehicle.imageURL?.let {
+                fbGetImageURL(it) { imageURL ->
+                    _vehicleImage.value = imageURL
+                }
             }
         }
     }
