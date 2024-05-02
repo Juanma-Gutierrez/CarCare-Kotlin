@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
 
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -26,6 +27,8 @@ class ItemListViewModel : ViewModel() {
     lateinit var activity: AppCompatActivity
     private val _toolbarTitle = MutableLiveData<String>()
     val toolbarTitle: LiveData<String> get() = _toolbarTitle
+    private val _openSettingsDialog = MutableLiveData<Boolean>()
+    val openSettingsDialog: LiveData<Boolean> get() = _openSettingsDialog
     private val _signOut = MutableLiveData<Boolean>()
     val signOut: LiveData<Boolean> get() = _signOut
     private var navigationListener: NavigationListener? = null
@@ -109,5 +112,9 @@ class ItemListViewModel : ViewModel() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             FirebaseAuth.getInstance().signOut()
         }
+    }
+
+    fun setSettingsDialog() {
+        _openSettingsDialog.value = true
     }
 }

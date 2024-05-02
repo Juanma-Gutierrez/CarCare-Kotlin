@@ -89,7 +89,6 @@ dependencies {
     val coilVersion = "2.5.0"
     implementation("io.coil-kt:coil:$coilVersion")
 
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

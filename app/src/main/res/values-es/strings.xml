@@ -81,6 +81,10 @@
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
     <string name="alertDialog_select_action">Selecciona una acción</string>
     <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
+    <string name="settings_title">Configuración</string>
+    <string name="settings_list_format">Formato del listado de vehículos</string>
+    <string name="settings_list_format_normal">Normal</string>
+    <string name="settings_list_format_detail">Detallado</string>
 
 
 </resources>

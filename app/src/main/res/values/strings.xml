@@ -9,7 +9,13 @@
     <string name="delete">Delete</string>
     <string name="cancel_message">Operation cancelled</string>
 
+    <!-- Settings -->
+    <string name="settings_list_format">Vehicle list format</string>
+    <string name="settings_list_format_normal">Normal</string>
+    <string name="settings_list_format_detail">Detail</string>
+
     <!-- TopAppBar -->
+    <string name="settings_title">Settings</string>
     <string name="logout_title">Close session</string>
 
     <!-- Detail Toolbar -->

@@ -7,6 +7,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/tb_it_settings"
+        android:contentDescription="@string/settings_title"
+        android:title="@string/settings_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/tb_it_logout"
         android:contentDescription="@string/logout_title"
         android:title="@string/logout_title"

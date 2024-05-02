@@ -2,6 +2,7 @@ package com.juanmaGutierrez.carcare.service
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
@@ -229,7 +230,6 @@ fun fbGetUserLogged(): FirebaseUser? {
     return fb.user
 }
 
-//fun fbSaveImage(uri: Uri, name: String, context: Context): String {
 fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     val storageRef = Firebase.storage.reference
     val userID = Firebase.auth.uid
@@ -237,7 +237,8 @@ fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     val imageRef = storageRef.child(formattedURL)
     val inputStream = imagePack.context.contentResolver.openInputStream(imagePack.uri)
     val bitmap = BitmapFactory.decodeStream(inputStream)
-    val compressedData = compressBitmap(bitmap, 50)
+    val bitmapResized = resizeBitmap(bitmap)
+    val compressedData = compressBitmap(bitmapResized, 50)
     val uploadTask = imageRef.putBytes(compressedData)
     uploadTask.addOnSuccessListener { taskSnapshot ->
         log("Identificador: ${taskSnapshot.metadata?.name}")
@@ -246,6 +247,18 @@ fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     }
     return formattedURL
 }
+
+private fun resizeBitmap(bitmap: Bitmap): Bitmap {
+    val newWidth = 500
+    val width = bitmap.width
+    val height = bitmap.height
+    val aspectRatio = width.toFloat() / height
+    val newHeight = (newWidth / aspectRatio).toInt()
+    val matrix = Matrix()
+    matrix.postScale(newWidth.toFloat() / width, newHeight.toFloat() / height)
+    return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
+}
+
 
 fun compressBitmap(bitmap: Bitmap, quality: Int): ByteArray {
     val stream = ByteArrayOutputStream()

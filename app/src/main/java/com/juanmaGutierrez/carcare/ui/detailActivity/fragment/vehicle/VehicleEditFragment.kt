@@ -2,10 +2,8 @@ package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -140,7 +138,6 @@ class VehicleEditFragment : Fragment() {
             configureVehicleButtons(vehicle)
         }
     }
-
 
     private fun configureSelectables() {
         configureSelectablesObservers()
@@ -398,8 +395,6 @@ class VehicleEditFragment : Fragment() {
             imageURL = fbSaveImage(imagePack)
         }
     }
-
-
 
     private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)

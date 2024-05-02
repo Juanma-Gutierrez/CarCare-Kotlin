@@ -20,6 +20,7 @@
     <dimen name="placeholderMarginBottom">-100dp</dimen>
     <dimen name="placeholderMarginInfo">100dp</dimen>
     <dimen name="notAvailable">20sp</dimen>
+    <dimen name="imageNotAvailable">200dp</dimen>
 
     <!-- Buttons Size-->
     <dimen name="buttonM">150dp</dimen>

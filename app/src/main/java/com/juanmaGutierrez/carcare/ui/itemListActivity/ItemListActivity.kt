@@ -2,13 +2,19 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
+import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
@@ -19,6 +25,7 @@ import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListener {
     private lateinit var binding: ActivityItemListBinding
     private lateinit var viewModel: ItemListViewModel
+    private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
@@ -30,6 +37,21 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         signOutAccepted()
         configureTopToolbar()
         viewModel.setNavigationListener(this)
+        viewModel.openSettingsDialog.observe(this) { openSettings ->
+            log("open: $openSettings")
+            openSettingsDialog()
+        }
+    }
+
+    private fun openSettingsDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+        dialogView.findViewById<ImageView>(R.id.camera_icon_temporal).setOnClickListener {
+            log("camara")
+            ConfigService.vehicleListFormat = "detail"
+            recreate()
+            alertDialog?.dismiss()
+        }
+        alertDialog = MaterialAlertDialogBuilder(this).setView(dialogView).show()
     }
 
 
@@ -59,14 +81,18 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
 
 
     override fun navigateToFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.itemList_fragment_container, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment).commit()
     }
 
     private fun configureTopToolbar() {
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
         binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.tb_it_settings -> {
+                    viewModel.setSettingsDialog()
+                    true
+                }
+
                 R.id.tb_it_logout -> {
                     viewModel.setSignOutDialog()
                     true

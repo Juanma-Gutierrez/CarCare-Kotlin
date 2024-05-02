@@ -12,6 +12,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
@@ -19,7 +20,13 @@ import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_vehicle, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val layoutResourceId = if (ConfigService.vehicleListFormat == "normal") {
+            R.layout.item_vehicle_list
+        } else {
+            R.layout.item_vehicle
+        }
+        val view = inflater.inflate(layoutResourceId, parent, false)
         return ViewHolder(view)
     }
 
