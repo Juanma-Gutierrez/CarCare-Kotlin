@@ -2,7 +2,6 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
 import com.juanmaGutierrez.carcare.service.log
@@ -47,7 +47,10 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
         dialogView.findViewById<ImageView>(R.id.camera_icon_temporal).setOnClickListener {
             log("camara")
-            ConfigService.vehicleListFormatDetail = !ConfigService.vehicleListFormatDetail
+            val listSetting = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_FORMAT)
+            ConfigService().savePrefDataBool(this, Constants.SETTINGS_VEHICLES_LIST_FORMAT, !listSetting)
+            ConfigService.vehicleListFormatDetail =
+                ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_FORMAT)
             recreate()
             alertDialog?.dismiss()
         }

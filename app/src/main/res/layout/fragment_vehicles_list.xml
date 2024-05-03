@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vl_tl_availables"
-        tools:listitem="@layout/item_vehicle" />
+        tools:listitem="@layout/item_vehicle_detail" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/vl_fab_addVehicle"

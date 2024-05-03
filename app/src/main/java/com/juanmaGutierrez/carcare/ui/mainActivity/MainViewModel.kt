@@ -2,15 +2,13 @@ package com.juanmaGutierrez.carcare.ui.mainActivity
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import com.juanmaGutierrez.carcare.api.APIService
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 import com.juanmaGutierrez.carcare.ui.onBoarding.OnBoardingActivity
 
 class MainViewModel : ViewModel() {
-    private lateinit var apiService: APIService
-    private var sharedPreferences: SharedPreferences? = null
 
     fun init(context: Context) {
         if (!isFirstTimeRun(context)) {
@@ -27,7 +25,6 @@ class MainViewModel : ViewModel() {
     }
 
     private fun isFirstTimeRun(context: Context): Boolean {
-        sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        return sharedPreferences!!.getBoolean("isFirstTimeRun", true)
+        return ConfigService().getPreferencesBoolean(context, Constants.SETTINGS_IS_FIRST_TIME_RUN)
     }
 }

@@ -24,7 +24,7 @@ class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.
         val layoutResourceId = if (!ConfigService.vehicleListFormatDetail) {
             R.layout.item_vehicle_list
         } else {
-            R.layout.item_vehicle
+            R.layout.item_vehicle_detail
         }
         val view = inflater.inflate(layoutResourceId, parent, false)
         return ViewHolder(view)

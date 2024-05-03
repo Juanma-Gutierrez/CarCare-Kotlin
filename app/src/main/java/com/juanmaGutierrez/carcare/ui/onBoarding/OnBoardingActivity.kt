@@ -1,8 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.onBoarding
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +8,11 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
-import com.juanmaGutierrez.carcare.localData.getOnBoardingDataValues
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding
+import com.juanmaGutierrez.carcare.localData.getOnBoardingDataValues
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.OnBoardingData
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 class OnBoardingActivity : AppCompatActivity() {
@@ -22,7 +22,6 @@ class OnBoardingActivity : AppCompatActivity() {
     private var onBoardingViewPager: ViewPager? = null
     private var next: TextView? = null
     private var position = 0
-    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +71,8 @@ class OnBoardingActivity : AppCompatActivity() {
         }
     }
 
-    fun savePrefData() {
-        sharedPreferences = applicationContext.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
-        editor.putBoolean("isFirstTimeRun", false)
-        editor.apply()
+    private fun savePrefData() {
+        ConfigService().savePrefDataBool(applicationContext, Constants.SETTINGS_IS_FIRST_TIME_RUN, false)
     }
 
     private fun setOnBoardingViewPagerAdapter(onBoardingData: List<OnBoardingData>) {

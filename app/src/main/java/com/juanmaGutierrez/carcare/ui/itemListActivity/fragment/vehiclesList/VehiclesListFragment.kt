@@ -13,7 +13,9 @@ import com.google.android.material.tabs.TabLayout.Tab
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
@@ -39,7 +41,13 @@ class VehiclesListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.vlTlAvailables.getTabAt(0)?.select()
+        loadListViewConfigFromSharedPreferences()
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
+    }
+
+    private fun loadListViewConfigFromSharedPreferences() {
+        ConfigService.vehicleListFormatDetail =
+            ConfigService().getPreferencesBoolean(requireContext(), Constants.SETTINGS_VEHICLES_LIST_FORMAT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
