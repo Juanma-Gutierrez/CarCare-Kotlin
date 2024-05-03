@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="@dimen/marginS"
     android:paddingVertical="@dimen/marginS">
 
     <TextView
@@ -18,16 +19,67 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <ImageView
-        android:id="@+id/camera_icon_temporal"
-        android:layout_width="@dimen/iconM"
-        android:layout_height="@dimen/iconM"
-        android:src="@drawable/icon_vehicle_car"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/marginS"
         app:layout_constraintTop_toBottomOf="@+id/ds_tv_title"
-        app:tint="?attr/colorAccent" />
+        tools:layout_editor_absoluteX="25dp" />
 
+    <TextView
+        android:id="@+id/ds_rg_vehicleListFormatTitle"
+        style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginS"
+        android:ellipsize="none"
+        android:text="@string/settings_list_format"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider1" />
+
+    <RadioGroup
+        android:id="@+id/ds_rg_vehicleListFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/marginS"
+        android:checkedButton="@+id/ds_rb_vehicleList_compact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ds_rg_vehicleListFormatTitle">
+
+        <RadioButton
+            android:id="@+id/ds_rb_vehicleList_compact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_list_format_normal" />
+
+        <RadioButton
+            android:id="@+id/ds_rb_vehicleList_detailed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/settings_list_format_detail" />
+
+    </RadioGroup>
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/marginS"
+        app:layout_constraintTop_toBottomOf="@+id/ds_rg_vehicleListFormat"
+        tools:layout_editor_absoluteX="25dp" />
+
+    <TextView
+        android:id="@+id/ds_tv_close"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginS"
+        android:text="@string/close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -96,7 +96,7 @@ fun saveToLog(
     onComplete?.invoke()
 }
 
-fun log(string: String, t: Throwable? = null) {
+fun milog(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
 

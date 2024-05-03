@@ -63,37 +63,34 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_tv_brand"
             tools:text="Sporster Iron 883" />
 
-        <com.google.android.material.card.MaterialCardView
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_iv_iconCategory"
             android:layout_width="@dimen/iconM"
             android:layout_height="@dimen/iconM"
-            android:layout_margin="@dimen/marginXS"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/marginS"
+            android:src="@drawable/icon_vehicle_truck"
+            android:tint="?attr/colorAccent"
+            app:cardCornerRadius="@dimen/marginS"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/iv_iv_vehicleImage" />
 
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_iv_iconCategory"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_vehicle_truck"
-                android:tint="?attr/colorAccent"
-                app:cardCornerRadius="@dimen/marginS"
-                tools:layout_editor_absoluteX="59dp"
-                tools:layout_editor_absoluteY="224dp" />
-        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_iv_imageNotAvailable"
-            android:layout_width="@dimen/imageNotAvailable"
-            android:layout_height="@dimen/imageNotAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_not_available"
+            android:src="@drawable/custom_background"
+            android:tintMode="multiply"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/iv_iv_vehicleImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#66644B4B" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_notAvailable"
@@ -105,11 +102,11 @@
             android:textColor="?attr/colorError"
             android:textSize="@dimen/notAvailable"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_iv_vehicleImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_iv_vehicleImage"
+            app:layout_constraintTop_toTopOf="@+id/iv_iv_vehicleImage"
             tools:text="No disponible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

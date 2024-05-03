@@ -33,7 +33,6 @@ import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.log
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -422,7 +421,6 @@ class VehicleEditFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
-        log(vehicle.toString())
         return vehicle
     }
 

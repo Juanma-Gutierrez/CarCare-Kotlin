@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -11,17 +12,22 @@ import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
-class VehicleAdapter(private var vehicles: List<VehiclePreview>) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
+class VehicleAdapter(
+    private var vehicles: List<VehiclePreview>,
+    private val context: Context
+) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val layoutResourceId = if (!ConfigService.vehicleListFormatDetail) {
+        val compactFormat = ConfigService().getPreferencesBoolean(context, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
+        val layoutResourceId = if (compactFormat) {
             R.layout.item_vehicle_list
         } else {
             R.layout.item_vehicle_detail

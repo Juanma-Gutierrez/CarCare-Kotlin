@@ -21,10 +21,10 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class VehiclesListFragment : Fragment() {
-    private lateinit var viewModel: VehiclesListViewModel
-    private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var binding: FragmentVehiclesListBinding
+    private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var vehiclesList: List<VehiclePreview>
+    private lateinit var viewModel: VehiclesListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,14 +41,14 @@ class VehiclesListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.vlTlAvailables.getTabAt(0)?.select()
-        loadListViewConfigFromSharedPreferences()
+        // loadListViewConfigFromSharedPreferences()
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
     }
 
-    private fun loadListViewConfigFromSharedPreferences() {
+/*    private fun loadListViewConfigFromSharedPreferences() {
         ConfigService.vehicleListFormatDetail =
-            ConfigService().getPreferencesBoolean(requireContext(), Constants.SETTINGS_VEHICLES_LIST_FORMAT)
-    }
+            ConfigService().getPreferencesBoolean(requireContext(), Constants.SETTINGS_VEHICLES_LIST_COMPACT)
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -104,7 +104,7 @@ class VehiclesListFragment : Fragment() {
 
     private fun updateRecyclerView(vehiclesList: List<VehiclePreview>?, switch: Boolean) {
         val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
-        vehicleAdapter = VehicleAdapter(filteredList)
+        vehicleAdapter = VehicleAdapter(filteredList, requireContext())
         vehicleAdapter.updateData(filteredList)
         binding.vlRvVehicles.layoutManager = LinearLayoutManager(requireContext())
         binding.vlRvVehicles.adapter = vehicleAdapter

@@ -1,18 +1,18 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">NEW FRAGMENT CREATED</string>
 
     <!-- App -->
     <string name="app_name" translatable="false">CarCare</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <string name="delete">Delete</string>
     <string name="cancel_message">Operation cancelled</string>
 
     <!-- Settings -->
-    <string name="settings_list_format">Vehicle list format</string>
-    <string name="settings_list_format_normal">Normal</string>
-    <string name="settings_list_format_detail">Detail</string>
+    <string name="settings_list_format">Vehicle list</string>
+    <string name="settings_list_format_normal">Compact card</string>
+    <string name="settings_list_format_detail">Big card</string>
 
     <!-- TopAppBar -->
     <string name="settings_title">Settings</string>

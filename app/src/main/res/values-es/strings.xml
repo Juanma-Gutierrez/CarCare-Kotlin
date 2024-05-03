@@ -3,17 +3,22 @@
     <string name="accept">Aceptar</string>
     <string name="add_new_item">Crear un nuevo elemento</string>
     <string name="alertDialog_confirm_message">Confirmación</string>
+    <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
     <string name="alertDialog_deleteVehicle_message">¿Seguro que quieres eliminar este vehículo?</string>
     <string name="alertDialog_deleteVehicle_title">Eliminar vehículo</string>
     <string name="alertDialog_editVehicle_message">¿Seguro que quieres editar este vehículo?</string>
     <string name="alertDialog_editVehicle_title">Editar vehículo</string>
+    <string name="alertDialog_icon_camera">Cámara</string>
+    <string name="alertDialog_icon_gallery">Galería</string>
     <string name="alertDialog_logout_message">¿Quieres cerrar sesión y salir de la aplicación?</string>
     <string name="alertDialog_newVehicle_message">¿Seguro que quieres crear este vehículo?</string>
     <string name="alertDialog_newVehicle_title">Nuevo vehículo</string>
+    <string name="alertDialog_select_action">Selecciona una acción</string>
     <string name="alertDialog_show_info_newVehicle_message">Para crear un nuevo vehículo, introduce la categoría, la marca, el modelo y el resto de datos.</string>
     <string name="alertDialog_show_info_newVehicle_title">Nuevo vehículo</string>
     <string name="cancel">Cancelar</string>
     <string name="cancel_message">Operación cancelada</string>
+    <string name="close">Cerrar</string>
     <string name="delete">Eliminar</string>
     <string name="edit_provider">Editar proveedor</string>
     <string name="edit_spent">Editar gasto</string>
@@ -50,9 +55,13 @@
     <string name="onBoarding_title2">Proveedores</string>
     <string name="onBoarding_title3">Gastos</string>
     <string name="onBoarding_title_carcare">CarCare</string>
-    <string name="snackBar_noPermissions">No se han concedido los permisos necesarios</string>
+    <string name="settings_list_format">Listado de vehículos</string>
+    <string name="settings_list_format_detail">Tarjeta amplia</string>
+    <string name="settings_list_format_normal">Tarjeta compacta</string>
+    <string name="settings_title">Configuración</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_inputError">No se ha podido iniciar sesión</string>
+    <string name="snackBar_noPermissions">No se han concedido los permisos necesarios</string>
     <string name="snackBar_registerUser_Successfully">Usuario registrado con éxito</string>
     <string name="snackBar_selectCategoryBrandModel">Selecciona una categoría, una marca y un modelo</string>
     <string name="snackBar_showAll">Todos los vehículos</string>
@@ -74,17 +83,9 @@
     <string name="vehicle_model">Modelo</string>
     <string name="vehicle_plate">Matrícula</string>
     <string name="vehicle_registrationDate">Fecha de registro</string>
-    <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
-    <string name="alertDialog_icon_camera">Cámara</string>
-    <string name="alertDialog_icon_gallery">Galería</string>
-    <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
-    <string name="alertDialog_select_action">Selecciona una acción</string>
-    <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
-    <string name="settings_title">Configuración</string>
-    <string name="settings_list_format">Formato del listado de vehículos</string>
-    <string name="settings_list_format_normal">Normal</string>
-    <string name="settings_list_format_detail">Detallado</string>
+    <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
+    <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
 
 
 </resources>

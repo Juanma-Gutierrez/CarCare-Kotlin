@@ -241,7 +241,7 @@ fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     val compressedData = compressBitmap(bitmapResized, 50)
     val uploadTask = imageRef.putBytes(compressedData)
     uploadTask.addOnSuccessListener { taskSnapshot ->
-        log("Identificador: ${taskSnapshot.metadata?.name}")
+        Log.i(TAG, "Image saved to Firestore storage: ${taskSnapshot.metadata?.name}")
     }.addOnFailureListener { exception ->
         Log.e(Constants.TAG_ERROR, Constants.ERROR_FIREBASE_CALL, exception)
     }
@@ -258,7 +258,6 @@ private fun resizeBitmap(bitmap: Bitmap): Bitmap {
     matrix.postScale(newWidth.toFloat() / width, newHeight.toFloat() / height)
     return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
 }
-
 
 fun compressBitmap(bitmap: Bitmap, quality: Int): ByteArray {
     val stream = ByteArrayOutputStream()

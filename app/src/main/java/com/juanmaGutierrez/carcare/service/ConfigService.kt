@@ -8,10 +8,6 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 class ConfigService {
     private var sharedPreferences: SharedPreferences? = null
 
-    companion object {
-        var vehicleListFormatDetail = false
-    }
-
     fun savePrefDataBool(context: Context, key: String, value: Any) {
         sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
