@@ -13,9 +13,7 @@ import com.google.android.material.tabs.TabLayout.Tab
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
-import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
-import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
@@ -44,11 +42,6 @@ class VehiclesListFragment : Fragment() {
         // loadListViewConfigFromSharedPreferences()
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
     }
-
-/*    private fun loadListViewConfigFromSharedPreferences() {
-        ConfigService.vehicleListFormatDetail =
-            ConfigService().getPreferencesBoolean(requireContext(), Constants.SETTINGS_VEHICLES_LIST_COMPACT)
-    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,8 +90,13 @@ class VehiclesListFragment : Fragment() {
                 }
             }
 
-            override fun onTabReselected(tab: Tab?) {}
-            override fun onTabUnselected(tab: Tab?) {}
+            override fun onTabReselected(tab: Tab?) {
+                // not implemented
+            }
+
+            override fun onTabUnselected(tab: Tab?) {
+                // not implemented
+            }
         })
     }
 

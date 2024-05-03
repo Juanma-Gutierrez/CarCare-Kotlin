@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/iv_cl_card"
-    app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:layout_margin="@dimen/marginXS"
+    app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
     app:cardElevation="@dimen/marginXS">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,14 +26,16 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_iv_imageNotAvailable"
-            android:layout_width="128dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_not_available"
+            android:src="@color/color_white"
+            android:tintMode="multiply"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/notAvailablevehicle" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/iv_tv_brand"

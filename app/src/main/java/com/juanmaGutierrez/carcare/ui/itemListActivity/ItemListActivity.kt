@@ -37,9 +37,7 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         signOutAccepted()
         configureTopToolbar()
         viewModel.setNavigationListener(this)
-        viewModel.openSettingsDialog.observe(this) { openSettings ->
-            openSettingsDialog()
-        }
+        viewModel.openSettingsDialog.observe(this) { _ -> openSettingsDialog() }
     }
 
     private fun openSettingsDialog() {

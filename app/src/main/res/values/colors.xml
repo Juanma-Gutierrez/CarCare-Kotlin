@@ -4,9 +4,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>-->
-
-
 <resources>
+    <color name="notAvailablevehicle">#66644B4B</color>
     <color name="seed">#38608f</color>
     <color name="md_theme_light_primary">#1360A5</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

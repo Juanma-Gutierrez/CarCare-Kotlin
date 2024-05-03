@@ -17,7 +17,7 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
-interface OnRegisterButtonClickListener {
+fun interface OnRegisterButtonClickListener {
     fun onRegisterButtonClicked()
 }
 

@@ -1,6 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
 
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -33,7 +32,7 @@ class ItemListViewModel : ViewModel() {
     val signOut: LiveData<Boolean> get() = _signOut
     private var navigationListener: NavigationListener? = null
 
-    interface NavigationListener {
+    fun interface NavigationListener {
         fun navigateToFragment(fragment: Fragment)
     }
 
