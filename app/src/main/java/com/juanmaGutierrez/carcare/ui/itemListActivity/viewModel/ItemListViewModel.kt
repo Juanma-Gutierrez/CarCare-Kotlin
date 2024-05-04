@@ -23,7 +23,9 @@ import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.Pr
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ItemListViewModel : ViewModel() {
     private lateinit var binding: ActivityItemListBinding
@@ -126,6 +128,7 @@ class ItemListViewModel : ViewModel() {
             callback()
         }
     }
+
 
     fun setSettingsDialog() {
         _openSettingsDialog.value = true
