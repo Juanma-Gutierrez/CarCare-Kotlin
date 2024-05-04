@@ -33,6 +33,7 @@ import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -112,6 +113,7 @@ class VehicleEditFragment : Fragment() {
                 if (accept) {
                     try {
                         CameraService.image_uri = null
+                        imageURL = null
                         binding.veIvVehicleImage.setImageDrawable(
                             AppCompatResources.getDrawable(
                                 requireContext(), R.drawable.placeholder_vehicle
@@ -127,6 +129,7 @@ class VehicleEditFragment : Fragment() {
 
     private fun configureVehicle() {
         viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
+            imageURL = vehicle.imageURL
             loadVehicleDataToForm(vehicle)
             loadVehicleImageToForm()
             viewModel.setCategories(getCategories(requireActivity()))
@@ -420,6 +423,7 @@ class VehicleEditFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
+        milog(vehicle.toString())
         return vehicle
     }
 

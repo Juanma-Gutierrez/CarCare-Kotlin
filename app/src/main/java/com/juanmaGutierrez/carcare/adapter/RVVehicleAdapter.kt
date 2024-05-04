@@ -60,9 +60,7 @@ class VehicleAdapter(
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
-            milog("url: ${vehicle.imageURL}")
             if (vehicle.imageURL.isNullOrEmpty() || vehicle.imageURL == "null") {
-                milog("entra: ${vehicle.category}")
                 itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
                     when (vehicle.category) {
                         "car" -> R.drawable.placeholder_car
