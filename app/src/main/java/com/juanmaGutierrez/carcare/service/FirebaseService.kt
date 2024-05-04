@@ -71,7 +71,7 @@ fun fbSaveLog(itemLog: ItemLog) {
         }
 }
 
-fun fbRegisterUserAuth(user: User) {
+fun fbRegisterUserAuth(user: User, callback: (Boolean) -> Unit) {
     val auth = Firebase.auth
     auth.createUserWithEmailAndPassword(user.email, user.password)
         .addOnCompleteListener(Executors.newSingleThreadExecutor()) { task ->
@@ -80,8 +80,10 @@ fun fbRegisterUserAuth(user: User) {
                 fbCreateUser(user, uid)
                 fbCreateProviders(uid)
                 saveToLog(LogType.INFO, OperationLog.CREATE_USER, Constants.REGISTER_SUCCESSFULLY)
+                callback.invoke(true)
             } else {
                 Log.e(TAG, ERROR_CREATE_USER_WITH_EMAIL, task.exception)
+                callback.invoke(false)
             }
         }
 }

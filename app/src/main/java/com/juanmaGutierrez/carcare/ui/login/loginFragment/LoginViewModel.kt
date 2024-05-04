@@ -17,7 +17,7 @@ import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 
 class LoginViewModel : ViewModel() {
-    private lateinit var auth: FirebaseAuth
+    // private lateinit var auth: FirebaseAuth
     private lateinit var activity: LoginActivity
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
@@ -37,7 +37,7 @@ class LoginViewModel : ViewModel() {
             _snackbarMessage.value = fragment.getString(R.string.snackBar_fieldsEmpty)
             return
         }
-        auth = Firebase.auth
+        val auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(fragment.requireActivity()) { task ->
             if (task.isSuccessful) {
                 saveToLog(LogType.INFO, OperationLog.LOGIN, Constants.LOGIN_SUCCESFULLY) { fbSaveUserLocally(auth) }
@@ -57,7 +57,7 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun userIsLogged(): Boolean {
-        auth = Firebase.auth
+        val auth = Firebase.auth
         if (auth.currentUser != null) {
             fbSaveUserLocally(auth)
             Log.i(Constants.TAG, Constants.LOGIN_SUCCESFULLY)

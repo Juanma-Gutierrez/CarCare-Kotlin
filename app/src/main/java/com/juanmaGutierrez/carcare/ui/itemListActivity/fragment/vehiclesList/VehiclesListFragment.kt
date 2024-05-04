@@ -24,6 +24,7 @@ class VehiclesListFragment : Fragment() {
     private lateinit var vehicleAdapter: VehicleAdapter
     private lateinit var vehiclesList: List<VehiclePreview>
     private lateinit var viewModel: VehiclesListViewModel
+    private var step = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class VehiclesListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+        step = 0
         viewModel = ViewModelProvider(this)[VehiclesListViewModel::class.java]
         binding = FragmentVehiclesListBinding.inflate(layoutInflater)
         return binding.root
@@ -39,6 +41,7 @@ class VehiclesListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        step = 0
         binding.vlTlAvailables.getTabAt(0)?.select()
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
     }
@@ -55,7 +58,10 @@ class VehiclesListFragment : Fragment() {
         viewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
             this.vehiclesList = vehiclesList
             checkSwitchAndUpdateRecylerView()
-            milog("paso x ${vehiclesList.size}")
+            step++
+            if (step >= 3 && vehiclesList.isEmpty()) {
+                showSnackBar(getString(R.string.vehiclesList_noVehicles), requireView()) {}
+            }
         }
     }
 

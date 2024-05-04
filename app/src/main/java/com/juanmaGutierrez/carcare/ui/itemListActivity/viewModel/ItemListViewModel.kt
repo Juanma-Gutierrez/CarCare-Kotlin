@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -8,10 +9,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
@@ -116,7 +120,28 @@ class ItemListViewModel : ViewModel() {
     private fun signOut() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             clearRoomDatabase {
-                FirebaseAuth.getInstance().signOut()
+                try {
+                    FirebaseAuth.getInstance().signOut()
+                    Log.i(TAG, "Logout successfully")
+                    milog("exito")
+                    Firebase.firestore.clearPersistence().addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            milog("cache borrada oki")
+                        } else {
+                            milog("cache borrada oki")
+                            Log.e(TAG, "Error clearing cache: ${task.exception}")
+                        }
+                    }
+                    FirebaseAuth.getInstance().addAuthStateListener { auth ->
+                        if (auth.currentUser == null) {
+                            // El usuario ha cerrado sesión, elimina los datos del usuario anterior
+                            milog("autenticación currentuser null")
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error closing session: ${e.message}", e)
+                    milog("fracaso")
+                }
             }
         }
     }
