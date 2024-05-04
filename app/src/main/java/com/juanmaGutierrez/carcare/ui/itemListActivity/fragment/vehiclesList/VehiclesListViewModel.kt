@@ -45,7 +45,6 @@ class VehiclesListViewModel(
             if (vehicles.isNotEmpty()) {
                 _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehicles)
             } else {
-                _snackbarMessage.value = context.getString(R.string.vehiclesList_noVehicles)
                 _vehicleList.value = emptyList()
             }
             _isLoading.value = false

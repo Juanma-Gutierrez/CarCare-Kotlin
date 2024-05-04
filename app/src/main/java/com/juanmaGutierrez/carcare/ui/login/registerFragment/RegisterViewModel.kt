@@ -33,23 +33,14 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         else
             try {
                 fbRegisterUserAuth(user)
-                clearRoomDatabase {
-                    navigateItemList()
-                }
+                navigateItemList()
+
             } catch (e: Error) {
                 Log.e(TAG, Constants.REGISTER_USER_ERROR)
             }
     }
 
-    private fun clearRoomDatabase(callback: () -> Unit) {
-        val vehicleDao = MainActivity.database.vehicleDao()
-        viewModelScope.launch {
-            vehicleDao.clearVehicles()
-            callback()
-        }
-    }
-
-    private fun validUserData(user: User): Boolean {
+     private fun validUserData(user: User): Boolean {
         if (someFieldEmpty(user)) {
             _snackbarMessage.value = getApplication<Application>().getString(R.string.error_emptyFields)
             return false

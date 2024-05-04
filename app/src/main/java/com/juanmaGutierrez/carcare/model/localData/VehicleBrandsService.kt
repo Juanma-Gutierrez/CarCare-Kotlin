@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.localData
+package com.juanmaGutierrez.carcare.model.localData
 
 object VehicleBrandsService {
     var carsList: List<String> = emptyList()

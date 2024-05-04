@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
@@ -14,12 +15,15 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
+import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
+import kotlinx.coroutines.launch
 
 class ItemListViewModel : ViewModel() {
     private lateinit var binding: ActivityItemListBinding
@@ -109,7 +113,17 @@ class ItemListViewModel : ViewModel() {
 
     private fun signOut() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
-            FirebaseAuth.getInstance().signOut()
+            clearRoomDatabase {
+                FirebaseAuth.getInstance().signOut()
+            }
+        }
+    }
+
+    private fun clearRoomDatabase(callback: () -> Unit) {
+        val vehicleDao = MainActivity.database.vehicleDao()
+        viewModelScope.launch {
+            vehicleDao.clearVehicles()
+            callback()
         }
     }
 

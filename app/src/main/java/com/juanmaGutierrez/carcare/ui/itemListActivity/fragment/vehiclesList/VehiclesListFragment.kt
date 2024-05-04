@@ -15,6 +15,7 @@ import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -39,7 +40,6 @@ class VehiclesListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.vlTlAvailables.getTabAt(0)?.select()
-        // loadListViewConfigFromSharedPreferences()
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
     }
 
@@ -54,8 +54,8 @@ class VehiclesListFragment : Fragment() {
         viewModel.loadLocalVehicles(requireContext())
         viewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
             this.vehiclesList = vehiclesList
-            updateRecyclerView(vehiclesList, false)
             checkSwitchAndUpdateRecylerView()
+            milog("paso x ${vehiclesList.size}")
         }
     }
 
@@ -80,6 +80,7 @@ class VehiclesListFragment : Fragment() {
 
     private fun checkSwitchAndUpdateRecylerView() {
         val tab = binding.vlTlAvailables
+        updateRecyclerView(vehiclesList, false)
         tab.addOnTabSelectedListener(object : OnTabSelectedListener {
 
             override fun onTabSelected(tab: Tab?) {
