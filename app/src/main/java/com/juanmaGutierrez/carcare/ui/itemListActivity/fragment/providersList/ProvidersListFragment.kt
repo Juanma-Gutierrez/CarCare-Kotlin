@@ -17,10 +17,6 @@ class ProvidersListFragment : Fragment() {
     private lateinit var viewModel: ProvidersListViewModel
     private lateinit var binding: FragmentProvidersListBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

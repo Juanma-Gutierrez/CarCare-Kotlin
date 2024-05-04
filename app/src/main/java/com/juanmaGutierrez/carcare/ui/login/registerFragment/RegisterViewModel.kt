@@ -12,7 +12,6 @@ import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
-import com.juanmaGutierrez.carcare.service.milog
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var activity: AppCompatActivity
@@ -30,7 +29,6 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         else
             try {
                 fbRegisterUserAuth(user) { success ->
-                    milog("entra")
                     if (success) {
                         FirebaseAuth.getInstance().addAuthStateListener { auth ->
                             if (auth.currentUser != null) {

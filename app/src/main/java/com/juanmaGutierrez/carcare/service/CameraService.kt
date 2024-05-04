@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 
-class CameraService() {
+class CameraService {
 
     companion object {
         var image_uri: Uri? = null
@@ -28,7 +28,7 @@ class CameraService() {
 
     fun startCamera(activity: Activity, cameraARL: ActivityResultLauncher<Intent>) {
         val values = ContentValues()
-        image_uri = activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        image_uri = activity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri)
         cameraARL.launch(cameraIntent)

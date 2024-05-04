@@ -15,7 +15,6 @@ import com.juanmaGutierrez.carcare.adapter.VehicleAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentVehiclesListBinding
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -25,10 +24,6 @@ class VehiclesListFragment : Fragment() {
     private lateinit var vehiclesList: List<VehiclePreview>
     private lateinit var viewModel: VehiclesListViewModel
     private var step = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

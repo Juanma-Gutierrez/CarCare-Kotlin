@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.api.APIClient
 import com.juanmaGutierrez.carcare.api.APIService
-import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.service.fbDeleteDocumentByID
 import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
@@ -142,7 +142,7 @@ class VehicleEditViewModel : ViewModel() {
                 saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
                 _editVehicleSuccessful.value = true
             } catch (e: Exception) {
-                Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL, e)
+                saveToLog(LogType.ERROR, OperationLog.VEHICLE, Constants.LOG_VEHICLE_EDITION_ERROR)
             }
         }
     }
@@ -155,8 +155,7 @@ class VehicleEditViewModel : ViewModel() {
                 saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_DELETION_SUCCESSFULLY)
                 _editVehicleSuccessful.value = true
             } catch (e: Exception) {
-                saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_DELETION_SUCCESSFULLY)
-                Log.e(Constants.TAG, Constants.LOG_VEHICLE_DELETION_ERROR, e)
+                saveToLog(LogType.ERROR, OperationLog.VEHICLE, Constants.LOG_VEHICLE_DELETION_SUCCESSFULLY)
             }
         }
     }

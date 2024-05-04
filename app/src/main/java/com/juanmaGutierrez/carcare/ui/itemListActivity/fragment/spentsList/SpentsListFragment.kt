@@ -16,10 +16,6 @@ class SpentsListFragment : Fragment() {
     private lateinit var viewModel: SpentsListViewModel
     private lateinit var binding: FragmentSpentsListBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

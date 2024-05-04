@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
 import com.juanmaGutierrez.carcare.model.localData.User
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 
 class RegisterFragment : Fragment() {
