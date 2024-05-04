@@ -219,7 +219,6 @@ class VehicleEditFragment : Fragment() {
                 data?.data?.let { _imageurl ->
                     CameraService.image_uri = _imageurl
                     binding.veIvVehicleImage.setImageURI(CameraService.image_uri)
-
                 }
             }
         }

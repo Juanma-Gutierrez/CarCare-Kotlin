@@ -267,7 +267,7 @@ fun compressBitmap(bitmap: Bitmap, quality: Int): ByteArray {
     return stream.toByteArray()
 }
 
-fun fbGetImageURL(imageURL: String, callback: (String) -> Unit) {
+fun fbGetImageURL(imageURL: String, callback: (String?) -> Unit) {
     if (imageURL.isNotEmpty()) {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -275,9 +275,9 @@ fun fbGetImageURL(imageURL: String, callback: (String) -> Unit) {
         storageRef.child(pathReference.path).downloadUrl.addOnSuccessListener { url ->
             callback(url.toString())
         }.addOnFailureListener {
-            callback("")
+            callback(null)
         }
     } else {
-        callback("")
+        callback(null)
     }
 }

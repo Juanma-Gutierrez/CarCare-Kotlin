@@ -16,6 +16,7 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -59,7 +60,9 @@ class VehicleAdapter(
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
             itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
-            if (vehicle.imageURL.equals("")) {
+            milog("url: ${vehicle.imageURL}")
+            if (vehicle.imageURL.isNullOrEmpty() || vehicle.imageURL == "null") {
+                milog("entra: ${vehicle.category}")
                 itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
                     when (vehicle.category) {
                         "car" -> R.drawable.placeholder_car
