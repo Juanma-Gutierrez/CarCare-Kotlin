@@ -86,6 +86,7 @@
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
+    <string name="item_vehicle_not_all_fields">Rellena todos los campos</string>
 
 
 </resources>

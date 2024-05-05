@@ -9,3 +9,8 @@ data class AlertDialogModel(
     val message: String,
     val icon: Drawable?
 )
+
+data class AlertDialogMessageModel(
+    var title: String?,
+    var message: String?,
+)

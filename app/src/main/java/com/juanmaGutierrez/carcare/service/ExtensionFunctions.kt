@@ -100,7 +100,6 @@ fun milog(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
 
-
 fun generateId(): String {
     val formattedDate = getTimestamp().transformDateIsoToString("yyMMddHHmmss-")
     val length = 10

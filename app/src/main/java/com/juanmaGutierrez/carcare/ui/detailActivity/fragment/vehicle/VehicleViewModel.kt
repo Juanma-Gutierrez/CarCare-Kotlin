@@ -27,7 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class VehicleEditViewModel : ViewModel() {
+class VehicleViewModel : ViewModel() {
     private lateinit var apiService: APIService
     var selectedCategory: String = ""
     private val _vehicle = MutableLiveData<VehicleFB>()

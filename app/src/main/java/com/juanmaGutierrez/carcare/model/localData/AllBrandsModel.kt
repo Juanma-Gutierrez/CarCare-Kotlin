@@ -1,6 +1,6 @@
 package com.juanmaGutierrez.carcare.model.localData
 
-class AllBrands {
+class AllBrandsModel {
     var carsBrands: List<String>? = null
     var motorcyclesBrands: List<String>? = null
     var vansBrands: List<String>? = null

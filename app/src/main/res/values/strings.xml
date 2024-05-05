@@ -96,6 +96,7 @@
     <string name="vehicle_editVehicle_error">Error in vehicle edition</string>
     <string name="vehicle_editVehicle_calendarTitle">Select vehicle registration date</string>
     <string name="item_vehicle_not_available">Not available</string>
+    <string name="item_vehicle_not_all_fields">Complete all fields</string>
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>

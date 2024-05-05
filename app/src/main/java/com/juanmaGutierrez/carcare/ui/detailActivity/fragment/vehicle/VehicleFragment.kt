@@ -20,20 +20,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.databinding.FragmentVehicleEditBinding
+import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.localData.getCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogMessageModel
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getCategoryTranslation
+import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -41,43 +43,103 @@ import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 import com.juanmaGutierrez.carcare.service.translateCategory
 
-class VehicleEditFragment : Fragment() {
-    private lateinit var binding: FragmentVehicleEditBinding
-    private lateinit var viewModel: VehicleEditViewModel
+class VehicleFragment : Fragment() {
+    private lateinit var binding: FragmentVehicleDetailBinding
+    private lateinit var viewModel: VehicleViewModel
     private val cameraService = CameraService()
     private var alertDialog: AlertDialog? = null
     private var imageURL: String? = null
+    private var alertDialogMessage: AlertDialogMessageModel = AlertDialogMessageModel(null, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[VehicleEditViewModel::class.java]
+        viewModel = ViewModelProvider(this)[VehicleViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentVehicleEditBinding.inflate(layoutInflater)
+        binding = FragmentVehicleDetailBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getVehicleFromID()
-        configurePreviewImage()
+
         configureImageButton()
         configureDeleteImageButton()
-        configureVehicle()
+        configureCategorySelectable()
         configureSelectables()
         configureUI()
         configureCancelButton()
         configureEditVehicleSuccessful()
+        checkNewOrCreate()
     }
 
-    private fun getVehicleFromID() {
+    private fun checkNewOrCreate() {
+        when (getVehicleFromID()) {
+            "new" -> {
+                viewModel.setCategories(getCategories(requireActivity()))
+                binding.veAcBrand.isEnabled = false
+                binding.veAcModel.isEnabled = false
+                val date = getTimestamp().transformDateIsoToString()
+                binding.veCbDate.text = date
+                binding.veBtDelete.visibility = View.GONE
+                configureDateButton(date)
+                requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
+                resetVehicleImage()
+                val vehicle = getDataFromForm(generateNewEmptyVehicle())
+                configureAcceptButton(vehicle)
+                configureMessage("new")
+            }
+
+            "edit" -> {
+                getVehicleFromID()
+                configurePreviewImage()
+                configureVehicle()
+                configureMessage("edit")
+            }
+        }
+    }
+
+    private fun configureMessage(mode: String) {
+        when (mode) {
+            "new" -> {
+                alertDialogMessage.title = getString(R.string.alertDialog_newVehicle_title)
+                alertDialogMessage.message = getString(R.string.alertDialog_newVehicle_message)
+            }
+
+            "edit" -> {
+                alertDialogMessage.title = getString(R.string.alertDialog_editVehicle_title)
+                alertDialogMessage.message = getString(R.string.alertDialog_editVehicle_message)
+            }
+        }
+    }
+
+    private fun generateNewEmptyVehicle(): VehicleFB {
+        val auth = FirebaseAuth.getInstance()
+        return VehicleFB(
+            true,
+            "",
+            "",
+            getTimestamp().transformDateIsoToString(),
+            null,
+            "",
+            "",
+            getTimestamp().transformDateIsoToString(),
+            emptyList(),
+            auth.currentUser!!.uid,
+            generateId()
+        )
+    }
+
+    private fun getVehicleFromID(): String {
         val itemID = arguments?.getString("itemID") ?: ""
         if (itemID != "") {
             viewModel.getVehicleFromFB(itemID)
+            return "edit"
         }
+        return "new"
     }
 
     private fun configurePreviewImage() {
@@ -114,17 +176,21 @@ class VehicleEditFragment : Fragment() {
                     try {
                         CameraService.image_uri = null
                         imageURL = null
-                        binding.veIvVehicleImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(), R.drawable.placeholder_vehicle
-                            )
-                        )
+                        resetVehicleImage()
                     } catch (e: Exception) {
                         Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
                     }
                 }
             }
         }
+    }
+
+    private fun resetVehicleImage() {
+        binding.veIvVehicleImage.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(), R.drawable.placeholder_vehicle
+            )
+        )
     }
 
     private fun configureVehicle() {
@@ -136,8 +202,9 @@ class VehicleEditFragment : Fragment() {
             viewModel.selectedCategory = binding.veAcCategory.text.toString().translateCategory()
             viewModel.getBrandsFromAPI(vehicle.category)
             viewModel.getModelsFromBrandAPI(vehicle.brand)
-            configureDateButton(vehicle)
-            configureVehicleButtons(vehicle)
+            configureDateButton(vehicle.registrationDate.transformDateIsoToString(Constants.DATE_FORMAT_LOCAL))
+            configureAcceptButton(vehicle)
+            configureDeleteButton(vehicle)
         }
     }
 
@@ -264,11 +331,10 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    private fun configureDateButton(vehicle: VehicleFB) {
+    private fun configureDateButton(date: String) {
         binding.veCbDate.setOnClickListener {
             showDatePickerDialog(
-                vehicle.registrationDate.transformDateIsoToString(Constants.DATE_FORMAT_LOCAL),
-                requireActivity().getString(R.string.vehicle_editVehicle_calendarTitle),
+                date, requireActivity().getString(R.string.vehicle_editVehicle_calendarTitle),
                 childFragmentManager
             ) { selectedDate ->
                 binding.veCbDate.text = selectedDate
@@ -297,6 +363,7 @@ class VehicleEditFragment : Fragment() {
         val categorySelectable = binding.veAcCategory
         val categoriesList = getCategories(requireActivity())
         categorySelectable.setOnItemClickListener { _, _, _, id ->
+            binding.veAcBrand.isEnabled = true
             clearBrandSelectable()
             clearModelSelectable()
             when (categoriesList[id.toInt()]) {
@@ -323,6 +390,8 @@ class VehicleEditFragment : Fragment() {
                 }
             }
         }
+        viewModel.getBrandsFromAPI(viewModel.selectedCategory)
+        binding.veAcBrand.isEnabled = true
     }
 
     private fun clearBrandSelectable() {
@@ -351,20 +420,35 @@ class VehicleEditFragment : Fragment() {
         }
     }
 
-    private fun configureVehicleButtons(vehicle: VehicleFB) {
+    private fun configureAcceptButton(vehicle: VehicleFB) {
         binding.veBtAccept.setOnClickListener {
-            editVehicle(vehicle)
+            if (allFieldsValid()) {
+                acceptVehicle(vehicle)
+            } else {
+                showSnackBar(getString(R.string.item_vehicle_not_all_fields), requireView()) {}
+            }
         }
+    }
+
+    private fun allFieldsValid(): Boolean {
+        if (binding.veAcCategory.text.isNullOrEmpty()) return false
+        if (binding.veAcBrand.text.isNullOrEmpty()) return false
+        if (binding.veAcModel.text.isNullOrEmpty()) return false
+        if (binding.veItPlate.text.isNullOrEmpty()) return false
+        return true
+    }
+
+    private fun configureDeleteButton(vehicle: VehicleFB) {
         binding.veBtDelete.setOnClickListener {
             deleteVehicle(vehicle)
         }
     }
 
-    private fun editVehicle(vehicle: VehicleFB) {
+    private fun acceptVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
-            this.requireActivity().getString(R.string.alertDialog_editVehicle_title),
-            this.requireActivity().getString(R.string.alertDialog_editVehicle_message),
+            alertDialogMessage.title ?: "",
+            alertDialogMessage.message ?: "",
             AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_edit)
         )
         showDialogAcceptCancel(ad) { accept ->
@@ -423,7 +507,6 @@ class VehicleEditFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
-        milog(vehicle.toString())
         return vehicle
     }
 

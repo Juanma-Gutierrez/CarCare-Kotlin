@@ -8,7 +8,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -197,10 +197,12 @@
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/marginS"
+                        android:layout_marginBottom="@dimen/marginS"
                         android:text="@string/cancel"
                         app:icon="@drawable/icon_cancel"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/ve_bt_delete"
                         app:layout_constraintTop_toBottomOf="@id/ve_bt_accept" />
 
                     <com.google.android.material.button.MaterialButton
@@ -208,16 +210,17 @@
                         style="?attr/itemFillColor"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/marginS"
                         android:layout_marginBottom="@dimen/marginM"
                         android:backgroundTint="?attr/colorError"
                         android:drawableTint="?android:attr/colorBackground"
                         android:text="@string/delete"
+                        android:visibility="visible"
                         app:icon="@drawable/icon_trash"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ve_bt_cancel" />
+                        app:layout_constraintTop_toBottomOf="@id/ve_bt_cancel"
+                        app:layout_constraintVertical_bias="0.0" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
