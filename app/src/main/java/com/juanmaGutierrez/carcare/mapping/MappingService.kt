@@ -25,7 +25,6 @@ fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): Lis
             plate = vehicleData["plate"].toString(),
             ref = refVehicle,
             registrationDate = vehicleData["registrationDate"].toString(),
-            userId = vehicleData["userId"].toString(),
             vehicleId = vehicleData["vehicleId"].toString(),
         )
     }

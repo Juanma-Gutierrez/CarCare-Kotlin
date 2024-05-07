@@ -15,5 +15,4 @@ data class VehicleEntity(
     val plate: String,
     val ref: String,
     val registrationDate: String,
-    val userId: String,
 )
