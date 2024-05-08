@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.milog
 
-class RVProviderAdapter(
+class ProviderAdapter(
     private var providers: List<Provider>, private val context: Context
-) : RecyclerView.Adapter<RVProviderAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ProviderAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerName)
         var category: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerCategory)
         var phone: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerPhone)
-        var card: MaterialTextView = itemView.findViewById(R.id.ip_cv_providerItem)
+        var card: MaterialCardView = itemView.findViewById(R.id.ip_cv_providerItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
