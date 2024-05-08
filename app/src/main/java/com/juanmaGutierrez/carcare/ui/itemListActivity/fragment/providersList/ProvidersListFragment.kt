@@ -2,10 +2,10 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentProvidersListBinding
@@ -18,8 +18,7 @@ class ProvidersListFragment : Fragment() {
     private lateinit var binding: FragmentProvidersListBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(this)[ProvidersListViewModel::class.java]
         binding = FragmentProvidersListBinding.inflate(layoutInflater)
@@ -30,5 +29,6 @@ class ProvidersListFragment : Fragment() {
             intent.putExtra("fragmentType", "newProvider")
             startActivity(intent)
         }
-        return binding.root    }
+        return binding.root
+    }
 }

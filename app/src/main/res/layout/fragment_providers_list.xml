@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.itemListActivity.fragment.providersList.ProvidersListFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="LISTADO DE PROVEEDORES" />
+        android:background="?attr/colorPrimaryContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_provider" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/pl_fab_addProvider"
@@ -22,11 +26,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/icon_plus" />
 
-    <include
-        layout="@layout/lottie_is_loading"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

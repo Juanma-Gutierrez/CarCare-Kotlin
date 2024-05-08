@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ip_cv_providerItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/marginXS"
+    app:cardCornerRadius="@dimen/marginXS"
+    app:cardElevation="@dimen/marginXS">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/marginS">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ip_tv_providerName"
+            style="@style/ItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerCategory"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Línea Directa Aseguradora" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ip_tv_providerCategory"
+            style="@style/ItemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/ip_tv_providerName"
+            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerName"
+            tools:text="Aseguradora" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ip_tv_providerPhone"
+            style="@style/ItemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="902112233" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -250,7 +250,7 @@
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:src="@drawable/icon_trash"
-                        android:tint="?attr/colorAccent" />
+                        android:tint="?attr/colorPrimary" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
@@ -269,7 +269,7 @@
                         android:scaleType="fitXY"
                         android:layout_gravity="center"
                         android:src="@drawable/icon_camera"
-                        android:tint="?attr/colorAccent" />
+                        android:tint="?attr/colorPrimary" />
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
