@@ -98,6 +98,14 @@
     <string name="item_vehicle_not_available">Not available</string>
     <string name="item_vehicle_not_all_fields">Complete all fields</string>
 
+    <!-- Provider -->
+    <string name="provider_category_workshop">Workshop</string>
+    <string name="provider_category_gasStation">Gas station</string>
+    <string name="provider_category_insuranceCompany">Insurance company</string>
+    <string name="provider_category_ITV">ITV</string>
+    <string name="provider_category_towTruck">Tow truck</string>
+    <string name="provider_category_other">Other</string>
+
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>
 

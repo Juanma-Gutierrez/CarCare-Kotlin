@@ -118,3 +118,17 @@ fun mapUserToUserFB(user: User, uid: String): UserFB {
     return data
 }
 
+fun mapProviderFBtoProvider(data: Map<String, List<Map<String, String>>>): List<Provider> {
+    val providersList = mutableListOf<Provider>()
+    val providersData = data["providers"]
+    providersData?.forEach { providerData ->
+        val provider = Provider()
+        provider.category = providerData["category"].toString()
+        provider.created = providerData["created"].toString()
+        provider.name = providerData["name"].toString()
+        provider.phone = providerData["phone"].toString()
+        provider.providerId = providerData["providerId"].toString()
+        providersList.add(provider)
+    }
+    return providersList
+}

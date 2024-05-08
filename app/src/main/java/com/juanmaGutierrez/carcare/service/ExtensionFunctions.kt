@@ -136,7 +136,7 @@ fun String.longToTimestamp(): Long {
 }
 
 
-fun String.translateCategory(): String {
+fun String.translateVehicleCategory(): String {
     val result = when (this) {
         "Coche", "Car" -> "car"
         "Motocicleta", "Motorcycle" -> "motorcycle"
@@ -147,12 +147,24 @@ fun String.translateCategory(): String {
     return result
 }
 
-fun String.getCategoryTranslation(context: Context): String {
+fun String.getVehicleCategoryTranslation(context: Context): String {
     return when (this) {
         "car" -> context.getString(R.string.vehicle_category_car)
         "motorcycle" -> context.getString(R.string.vehicle_category_motorcycle)
         "van" -> context.getString(R.string.vehicle_category_van)
         "truck" -> context.getString(R.string.vehicle_category_truck)
+        else -> this
+    }
+}
+
+fun String.getProviderCategoryTranslation(context: Context): String {
+    return when (this) {
+        "workshop" -> context.getString(R.string.provider_category_workshop)
+        "gasStation" -> context.getString(R.string.provider_category_gasStation)
+        "insuranceCompany" -> context.getString(R.string.provider_category_insuranceCompany)
+        "ITV" -> context.getString(R.string.provider_category_ITV)
+        "towTruck" -> context.getString(R.string.provider_category_towTruck)
+        "other" -> context.getString(R.string.provider_category_other)
         else -> this
     }
 }

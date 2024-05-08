@@ -87,6 +87,12 @@
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
     <string name="item_vehicle_not_all_fields">Rellena todos los campos</string>
+    <string name="provider_category_workshop">Taller</string>
+    <string name="provider_category_gasStation">Gasolinera</string>
+    <string name="provider_category_insuranceCompany">Compañía de seguros</string>
+    <string name="provider_category_ITV">ITV</string>
+    <string name="provider_category_towTruck">Grúa</string>
+    <string name="provider_category_other">Otros</string>
 
 
 </resources>

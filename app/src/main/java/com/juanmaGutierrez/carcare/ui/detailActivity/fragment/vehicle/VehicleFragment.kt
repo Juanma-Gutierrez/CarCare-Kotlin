@@ -33,7 +33,7 @@ import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.generateId
-import com.juanmaGutierrez.carcare.service.getCategoryTranslation
+import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
@@ -41,7 +41,7 @@ import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
-import com.juanmaGutierrez.carcare.service.translateCategory
+import com.juanmaGutierrez.carcare.service.translateVehicleCategory
 
 class VehicleFragment : Fragment() {
     private lateinit var binding: FragmentVehicleDetailBinding
@@ -199,7 +199,7 @@ class VehicleFragment : Fragment() {
             loadVehicleDataToForm(vehicle)
             loadVehicleImageToForm()
             viewModel.setCategories(getCategories(requireActivity()))
-            viewModel.selectedCategory = binding.veAcCategory.text.toString().translateCategory()
+            viewModel.selectedCategory = binding.veAcCategory.text.toString().translateVehicleCategory()
             viewModel.getBrandsFromAPI(vehicle.category)
             viewModel.getModelsFromBrandAPI(vehicle.brand)
             configureDateButton(vehicle.registrationDate.transformDateIsoToString(Constants.DATE_FORMAT_LOCAL))
@@ -316,7 +316,7 @@ class VehicleFragment : Fragment() {
     }
 
     private fun loadVehicleDataToForm(vehicle: VehicleFB) {
-        val category = vehicle.category.getCategoryTranslation(requireContext())
+        val category = vehicle.category.getVehicleCategoryTranslation(requireContext())
         binding.veAcCategory.setText(category, false)
         binding.veAcBrand.setText(vehicle.brand, false)
         binding.veAcModel.setText(vehicle.model, false)
@@ -497,7 +497,7 @@ class VehicleFragment : Fragment() {
         val vehicle = VehicleFB(
             binding.veCbAvailable.isChecked,
             binding.veAcBrand.text.toString(),
-            binding.veAcCategory.text.toString().translateCategory(),
+            binding.veAcCategory.text.toString().translateVehicleCategory(),
             v.created,
             imageURL,
             binding.veAcModel.text.toString(),

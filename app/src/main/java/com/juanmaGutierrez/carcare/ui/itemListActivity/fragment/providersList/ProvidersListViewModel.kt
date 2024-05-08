@@ -1,13 +1,16 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.mapping.mapProviderFBtoProvider
+import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
-import com.juanmaGutierrez.carcare.service.fbGetDocumentByIDFB
+import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.milog
 import kotlinx.coroutines.launch
 
@@ -24,18 +27,16 @@ class ProvidersListViewModel : ViewModel() {
         viewModelScope.launch {
             val userID = fbGetAuthUserUID()
             milog(userID)
-            fbGetDocumentByIDFB(userID, "provider") { providers ->
-                milog(providers?.data.toString())
-                _providersList.value = mapProviderFBtoProvider(providers?.data)
-                _providersList.value = providers?.data.map { provider -> mapProviderFBtoProvider(provider) }
-                _isLoading.value = false
+            fbGetDocumentByID(userID, "provider") { providers ->
+                milog("Providers: ${providers?.data}")
+                val data = providers?.data as? Map<String, List<Map<String, String>>>
+                if (data != null) {
+                    _providersList.value = mapProviderFBtoProvider(data)
+                    _isLoading.value = false
+                } else {
+                    Log.e(TAG, Constants.ERROR_FIREBASE_CALL)
+                }
             }
-
         }
-    }
-
-    private fun mapProviderFBtoProvider(p: Map.Entry<String, Any>): Provider {
-// TODO rellenar el provider antes de devolverlo
-        // val provider = Provider()
     }
 }
