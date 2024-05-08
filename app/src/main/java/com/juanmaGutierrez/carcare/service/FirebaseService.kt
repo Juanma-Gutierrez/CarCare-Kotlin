@@ -104,7 +104,7 @@ fun fbCreateProviders(uid: String) {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
-fun getDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
+fun fbGetDocumentByIDFB(itemID: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
     val db = Firebase.firestore
     try {
         val docRef = db.collection(collection).document(itemID)
@@ -189,7 +189,6 @@ suspend fun fbDeleteDocumentByID(collection: String, id: String) {
     }
 }
 
-
 suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
     val db = FirebaseFirestore.getInstance()
     try {
@@ -206,7 +205,6 @@ suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
         Log.e(Constants.TAG_ERROR, Constants.LOG_VEHICLE_DELETION_ERROR, e)
     }
 }
-
 
 fun fbCreateLog(
     type: LogType,
@@ -280,4 +278,9 @@ fun fbGetImageURL(imageURL: String, callback: (String?) -> Unit) {
     } else {
         callback(null)
     }
+}
+
+fun fbGetAuthUserUID(): String {
+    val user = FirebaseService.getInstance()
+    return user.auth?.uid.toString()
 }

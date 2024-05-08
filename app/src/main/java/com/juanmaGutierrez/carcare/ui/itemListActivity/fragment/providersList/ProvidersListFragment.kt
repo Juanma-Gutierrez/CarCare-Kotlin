@@ -13,6 +13,7 @@ import com.juanmaGutierrez.carcare.adapter.ProviderAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentProvidersListBinding
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.ToolbarService
+import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 
@@ -20,22 +21,37 @@ class ProvidersListFragment : Fragment() {
     private lateinit var viewModel: ProvidersListViewModel
     private lateinit var binding: FragmentProvidersListBinding
     private lateinit var providersAdapter: ProviderAdapter
-    private lateinit var providersList: List<Provider>
+    private var providersList: List<Provider> = emptyList()
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         configureUI()
+        configureObservers()
         configureAddButton()
         getProvidersList()
-        loadProviderInRV()
+        loadProvidersListInRV()
         return binding.root
     }
 
     private fun configureUI() {
         viewModel = ViewModelProvider(this)[ProvidersListViewModel::class.java]
         binding = FragmentProvidersListBinding.inflate(layoutInflater)
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
+            }
+        }
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
+    }
+
+    private fun configureObservers() {
+        viewModel.providersList.observe(viewLifecycleOwner) { providers ->
+            providersList = providers
+            loadProvidersListInRV()
+        }
     }
 
     private fun configureAddButton() {
@@ -48,16 +64,10 @@ class ProvidersListFragment : Fragment() {
     }
 
     private fun getProvidersList() {
-        providersList = listOf(
-            Provider("Categoría 1", "2024-05-08", "Proveedor 1", "123456789", "id1"),
-            Provider("Categoría 2", "2024-05-08", "Proveedor 2", "987654321", "id2"),
-            Provider("Categoría 3", "2024-05-08", "Proveedor 3", "456123789", "id3"),
-            Provider("Categoría 1", "2024-05-08", "Proveedor 4", "789456123", "id4"),
-            Provider("Categoría 2", "2024-05-08", "Proveedor 5", "321654987", "id5")
-        )
+        viewModel.getProvidersListFromFB()
     }
 
-    private fun loadProviderInRV() {
+    private fun loadProvidersListInRV() {
         providersAdapter = ProviderAdapter(providersList, requireContext())
         binding.plRvProviders.layoutManager = LinearLayoutManager(requireContext())
         binding.plRvProviders.adapter = providersAdapter

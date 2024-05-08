@@ -8,6 +8,7 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.UserFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.getTimestamp

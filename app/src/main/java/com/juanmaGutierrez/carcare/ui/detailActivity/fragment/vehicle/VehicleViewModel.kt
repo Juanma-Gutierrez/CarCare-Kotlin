@@ -19,7 +19,7 @@ import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.fbSetVehicle
 import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
-import com.juanmaGutierrez.carcare.service.getDocumentByIDFB
+import com.juanmaGutierrez.carcare.service.fbGetDocumentByIDFB
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -50,7 +50,7 @@ class VehicleViewModel : ViewModel() {
     fun getVehicleFromFB(itemID: String) {
         setIsLoading(true)
         viewModelScope.launch {
-            getDocumentByIDFB(itemID, Constants.FB_COLLECTION_VEHICLE) { document ->
+            fbGetDocumentByIDFB(itemID, Constants.FB_COLLECTION_VEHICLE) { document ->
                 setIsLoading(false)
                 if (document != null) {
                     _vehicle.value = mapDocumentDataToVehicle(document)
