@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.getProviderCategoryTranslation
 import com.juanmaGutierrez.carcare.service.milog
 
@@ -18,7 +20,14 @@ class ProviderAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_provider, parent, false)
+        val providersGridFormat =
+            ConfigService().getPreferencesBoolean(context, Constants.SETTINGS_PROVIDERS_GRID_FORMAT)
+        val layoutResourceId = if (providersGridFormat) {
+            R.layout.item_provider_grid
+        } else {
+            R.layout.item_provider_list
+        }
+        val view = inflater.inflate(layoutResourceId, parent, false)
         return ViewHolder(view)
     }
 

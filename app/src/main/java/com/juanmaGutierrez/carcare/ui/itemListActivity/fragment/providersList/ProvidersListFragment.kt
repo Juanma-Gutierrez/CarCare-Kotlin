@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.ProviderAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentProvidersListBinding
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
@@ -69,7 +72,13 @@ class ProvidersListFragment : Fragment() {
 
     private fun loadProvidersListInRV() {
         providersAdapter = ProviderAdapter(providersList, requireContext())
-        binding.plRvProviders.layoutManager = LinearLayoutManager(requireContext())
+        val providersGridFormat =
+            ConfigService().getPreferencesBoolean(requireContext(), Constants.SETTINGS_PROVIDERS_GRID_FORMAT)
+        if (providersGridFormat) {
+            binding.plRvProviders.layoutManager = GridLayoutManager(requireContext(), 2)
+        } else {
+            binding.plRvProviders.layoutManager = LinearLayoutManager(requireContext())
+        }
         binding.plRvProviders.adapter = providersAdapter
     }
 }

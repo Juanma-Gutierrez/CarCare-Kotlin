@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -42,8 +43,15 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
 
     private fun openSettingsDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-        val compactFormat =
-            ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
+        configureVehiclesListFormat(dialogView)
+        configureProvidersListFormat(dialogView)
+        configureCloseButton(dialogView)
+        alertDialog = MaterialAlertDialogBuilder(this).setView(dialogView).show()
+    }
+
+
+    private fun configureVehiclesListFormat(dialogView: View) {
+        val compactFormat = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
         when (compactFormat) {
             true -> dialogView.findViewById<RadioGroup>(R.id.ds_rg_vehicleListFormat)
                 .check(R.id.ds_rb_vehicleList_compact)
@@ -51,22 +59,43 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             false -> dialogView.findViewById<RadioGroup>(R.id.ds_rg_vehicleListFormat)
                 .check(R.id.ds_rb_vehicleList_detailed)
         }
-        dialogView.findViewById<RadioGroup>(R.id.ds_rg_vehicleListFormat)
-            .setOnCheckedChangeListener { _, checkedId ->
-                val compact = when (checkedId) {
-                    R.id.ds_rb_vehicleList_compact -> true
-                    R.id.ds_rb_vehicleList_detailed -> false
-                    else -> false
-                }
-                ConfigService().savePrefDataBool(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT, compact)
-                recreate()
+        dialogView.findViewById<RadioGroup>(R.id.ds_rg_vehicleListFormat).setOnCheckedChangeListener { _, checkedId ->
+            val compact = when (checkedId) {
+                R.id.ds_rb_vehicleList_compact -> true
+                R.id.ds_rb_vehicleList_detailed -> false
+                else -> false
             }
-        dialogView.findViewById<TextView>(R.id.ds_tv_close).setOnClickListener {
-            alertDialog?.dismiss()
+            ConfigService().savePrefDataBool(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT, compact)
         }
-        alertDialog = MaterialAlertDialogBuilder(this).setView(dialogView).show()
     }
 
+    private fun configureProvidersListFormat(dialogView: View) {
+        val compactFormat = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_PROVIDERS_GRID_FORMAT)
+        when (compactFormat) {
+            true -> dialogView.findViewById<RadioGroup>(R.id.ds_rg_providersGridListFormat)
+                .check(R.id.ds_rb_providers_list_grid)
+
+            false -> dialogView.findViewById<RadioGroup>(R.id.ds_rg_providersGridListFormat)
+                .check(R.id.ds_rb_providers_list_linear)
+        }
+        dialogView.findViewById<RadioGroup>(R.id.ds_rg_providersGridListFormat)
+            .setOnCheckedChangeListener { _, checkedId ->
+                val compact = when (checkedId) {
+                    R.id.ds_rb_providers_list_grid -> true
+                    R.id.ds_rb_providers_list_linear -> false
+                    else -> false
+                }
+                ConfigService().savePrefDataBool(this, Constants.SETTINGS_PROVIDERS_GRID_FORMAT, compact)
+            }
+    }
+
+    private fun configureCloseButton(dialogView: View) {
+        dialogView.findViewById<TextView>(R.id.ds_tv_close).setOnClickListener {
+            alertDialog?.dismiss()
+            startActivity(Intent(this, ItemListActivity::class.java))
+            finish()
+        }
+    }
 
     private fun openSelectedFragment() {
         val intent = intent

@@ -11,8 +11,9 @@ class Constants {
         const val DATE_FORMAT_LOCAL = "dd/MM/yyyy"
         const val DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val REQUEST_CODE_PERMISSIONS = 42
-        const val SETTINGS_VEHICLES_LIST_COMPACT = "settings_format_list_compact"
+        const val SETTINGS_VEHICLES_LIST_COMPACT = "settings_vehicles_list_compact"
         const val SETTINGS_IS_FIRST_TIME_RUN = "isFirstTimeRun"
+        const val SETTINGS_PROVIDERS_GRID_FORMAT = "settings_providers_list_grid_format"
 
         // API
         const val API_URL = "https://jumang.pythonanywhere.com/"
