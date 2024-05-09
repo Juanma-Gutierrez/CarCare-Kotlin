@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -46,8 +45,14 @@ class VehicleAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val icon: ShapeableImageView = itemView.findViewById(R.id.iv_iv_iconCategory)
+        private val brand: MaterialTextView = itemView.findViewById(R.id.iv_tv_brand)
+        private val model: MaterialTextView = itemView.findViewById(R.id.iv_tv_Model)
+        private val plate: MaterialTextView = itemView.findViewById(R.id.iv_tv_plate)
+        private val vehicleImage: ShapeableImageView = itemView.findViewById(R.id.iv_iv_vehicleImage)
+
         fun bind(vehicle: VehiclePreview) {
-            itemView.findViewById<ShapeableImageView>(R.id.iv_iv_iconCategory).setImageResource(
+            icon.setImageResource(
                 when (vehicle.category) {
                     "car" -> R.drawable.icon_vehicle_car
                     "motorcycle" -> R.drawable.icon_vehicle_motorcycle
@@ -56,11 +61,11 @@ class VehicleAdapter(
                     else -> R.drawable.icon_vehicle_car
                 }
             )
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_brand).text = vehicle.brand.toUpperCamelCase()
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_Model).text = vehicle.model.toUpperCamelCase()
-            itemView.findViewById<MaterialTextView>(R.id.iv_tv_plate).text = vehicle.plate.uppercase()
+            brand.text = vehicle.brand.toUpperCamelCase()
+            model.text = vehicle.model.toUpperCamelCase()
+            plate.text = vehicle.plate.uppercase()
             if (vehicle.imageURL.isNullOrEmpty() || vehicle.imageURL == "null") {
-                itemView.findViewById<ShapeableImageView>(R.id.iv_iv_vehicleImage).setImageResource(
+                vehicleImage.setImageResource(
                     when (vehicle.category) {
                         "car" -> R.drawable.placeholder_car
                         "motorcycle" -> R.drawable.placeholder_motorcycle
@@ -70,12 +75,7 @@ class VehicleAdapter(
                     }
                 )
             } else {
-                vehicle.imageURL?.let {
-                    fbGetImageURL(it) { url ->
-                        itemView.findViewById<ImageView>(R.id.iv_iv_vehicleImage).load(url)
-                    }
-                }
-
+                vehicle.imageURL?.let { fbGetImageURL(it) { url -> vehicleImage.load(url) } }
             }
             val context = itemView.context
             itemView.setOnClickListener {

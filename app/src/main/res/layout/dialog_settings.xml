@@ -64,14 +64,16 @@
                     style="@style/ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/settings_vehicles_list_format_normal" />
+                    android:text="@string/settings_vehicles_list_format_normal"
+                    app:buttonTint="?attr/colorPrimary" />
 
                 <RadioButton
                     android:id="@+id/ds_rb_vehicleList_detailed"
                     style="@style/ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/settings_vehicles_list_format_detail" />
+                    android:text="@string/settings_vehicles_list_format_detail"
+                    app:buttonTint="?attr/colorPrimary" />
 
             </RadioGroup>
 
@@ -107,14 +109,16 @@
                     style="@style/ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/settings_providers_list_format_grid" />
+                    android:text="@string/settings_providers_list_format_grid"
+                    app:buttonTint="?attr/colorPrimary" />
 
                 <RadioButton
                     android:id="@+id/ds_rb_providers_list_linear"
                     style="@style/ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/settings_providers_list_format_linear" />
+                    android:text="@string/settings_providers_list_format_linear"
+                    app:buttonTint="?attr/colorPrimary" />
 
             </RadioGroup>
 

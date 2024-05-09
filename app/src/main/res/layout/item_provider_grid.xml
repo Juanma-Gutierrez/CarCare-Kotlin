@@ -15,12 +15,13 @@
         android:layout_height="match_parent"
         android:padding="@dimen/marginS">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ip_iv_providerCategoryIcon"
+        <ImageView
+            android:id="@+id/ip_iv_providerIcon"
             android:layout_width="@dimen/iconM"
             android:layout_height="@dimen/iconM"
             android:src="@drawable/icon_vehicle_car"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorPrimary" />
@@ -30,9 +31,14 @@
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerPhone"
-            app:layout_constraintTop_toBottomOf="@id/ip_iv_providerCategoryIcon"
+            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerCategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ip_iv_providerIcon"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Línea Directa Aseguradora" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -40,9 +46,12 @@
             style="@style/ItemText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/ip_tv_providerPhone"
-            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerPhone"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerName"
             tools:text="Aseguradora" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -50,9 +59,12 @@
             style="@style/ItemText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerCategory"
-            app:layout_constraintStart_toStartOf="@+id/ip_tv_providerName"
-            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerName"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerCategory"
             tools:text="902112233" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

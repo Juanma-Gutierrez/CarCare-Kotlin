@@ -56,8 +56,8 @@
     <string name="onBoarding_title3">Gastos</string>
     <string name="onBoarding_title_carcare">CarCare</string>
     <string name="settings_vehicles_list_format">Listado de vehículos</string>
-    <string name="settings_vehicles_list_format_detail">Tarjeta amplia</string>
-    <string name="settings_vehicles_list_format_normal">Tarjeta compacta</string>
+    <string name="settings_vehicles_list_format_detail">Vista ampliada</string>
+    <string name="settings_vehicles_list_format_normal">Vista compacta</string>
     <string name="settings_title">Configuración</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_inputError">No se ha podido iniciar sesión</string>
@@ -93,6 +93,9 @@
     <string name="provider_category_ITV">ITV</string>
     <string name="provider_category_towTruck">Grúa</string>
     <string name="provider_category_other">Otros</string>
+    <string name="settings_providers_list_format">Listado de proveedores</string>
+    <string name="settings_providers_list_format_grid">Vista rejilla</string>
+    <string name="settings_providers_list_format_linear">Vista lista</string>
 
 
 </resources>
