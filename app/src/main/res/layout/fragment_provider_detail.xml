@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.detailActivity.fragment.provider.ProviderDetailFragment">
 
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -45,7 +44,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nombre">
+                        android:hint="@string/provider_name">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/pd_tv_name"
@@ -56,7 +55,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Teléfono">
+                        android:hint="@string/provider_phone">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/pd_tv_phone"
@@ -75,7 +74,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Buttons -->
@@ -96,9 +94,11 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/ve_bt_delete"
-                        style="?attr/materialButtonOutlinedStyle"
+                        style="?attr/itemFillColor"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/marginM"
+                        android:backgroundTint="?attr/colorError"
                         android:text="@string/delete"
                         app:icon="@drawable/icon_trash" />
 
@@ -106,13 +106,5 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
-
-    <include
-        layout="@layout/lottie_is_loading"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </FrameLayout>

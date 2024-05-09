@@ -1,7 +1,7 @@
 package com.juanmaGutierrez.carcare.model.localData
 
 data class Provider(
-    var category: String = "car",
+    var category: String = "gasStation",
     var created: String = "",
     var name: String = "",
     var phone: String = "",

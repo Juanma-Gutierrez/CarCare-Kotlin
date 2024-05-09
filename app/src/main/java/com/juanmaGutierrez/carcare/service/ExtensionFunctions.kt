@@ -2,6 +2,7 @@ package com.juanmaGutierrez.carcare.service
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -170,10 +172,11 @@ fun String.getProviderCategoryTranslation(context: Context): String {
 }
 
 fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
-    val selectableAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems)
-    selectable.setAdapter(selectableAdapter)
+    val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems.sorted())
+    selectable.setAdapter(adapter)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun showDatePickerDialog(
     initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
 ) {

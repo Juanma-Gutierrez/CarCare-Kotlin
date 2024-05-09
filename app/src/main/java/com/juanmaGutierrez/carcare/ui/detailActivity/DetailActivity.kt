@@ -59,7 +59,7 @@ class DetailActivity : AppCompatActivity() {
 
             "editProvider" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_provider))
-                navigateToDetailFragment(ProviderDetailFragment())
+                navigateToDetailFragment(ProviderDetailFragment(), itemID)
             }
 
             "newSpent" -> {

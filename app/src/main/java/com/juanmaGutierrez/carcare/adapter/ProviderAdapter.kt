@@ -1,6 +1,7 @@
 package com.juanmaGutierrez.carcare.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,8 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.getProviderCategoryTranslation
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
+import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class ProviderAdapter(
     private var providers: List<Provider>, private val context: Context
@@ -67,7 +68,10 @@ class ProviderAdapter(
             )
 
             card.setOnClickListener {
-                milog("Entra en el listener ${provider.providerId}")
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra("fragmentType", "editProvider")
+                intent.putExtra("itemID", provider.providerId)
+                context.startActivity(intent)
             }
         }
 

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="accept">Aceptar</string>
+    <string name="provider_name">Nombre</string>
+    <string name="provider_category">Categoría</string>
     <string name="add_new_item">Crear un nuevo elemento</string>
     <string name="alertDialog_confirm_message">Confirmación</string>
     <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
@@ -96,6 +98,7 @@
     <string name="settings_providers_list_format">Listado de proveedores</string>
     <string name="settings_providers_list_format_grid">Vista rejilla</string>
     <string name="settings_providers_list_format_linear">Vista lista</string>
+    <string name="provider_phone">Teléfono</string>
 
 
 </resources>

@@ -105,6 +105,10 @@
     <string name="provider_category_ITV">ITV</string>
     <string name="provider_category_towTruck">Tow truck</string>
     <string name="provider_category_other">Other</string>
+    <string name="provider_name">Name</string>
+    <string name="provider_category">Category</string>
+    <string name="provider_phone">Phone</string>
+
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>

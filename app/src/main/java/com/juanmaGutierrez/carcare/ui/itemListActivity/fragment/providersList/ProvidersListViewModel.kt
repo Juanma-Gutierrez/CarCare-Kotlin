@@ -11,7 +11,6 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
-import com.juanmaGutierrez.carcare.service.milog
 import kotlinx.coroutines.launch
 
 class ProvidersListViewModel : ViewModel() {
@@ -26,9 +25,7 @@ class ProvidersListViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             val userID = fbGetAuthUserUID()
-            milog(userID)
             fbGetDocumentByID(userID, "provider") { providers ->
-                milog("Providers: ${providers?.data}")
                 val data = providers?.data as? Map<String, List<Map<String, String>>>
                 if (data != null) {
                     _providersList.value = mapProviderFBtoProvider(data)

@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
 import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
-import com.juanmaGutierrez.carcare.localData.getCategories
+import com.juanmaGutierrez.carcare.localData.getVehicleCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
@@ -36,6 +36,7 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -65,7 +66,6 @@ class VehicleDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         configureImageButton()
         configureDeleteImageButton()
         configureCategorySelectable()
@@ -73,13 +73,13 @@ class VehicleDetailFragment : Fragment() {
         configureUI()
         configureCancelButton()
         configureEditVehicleSuccessful()
-        checkNewOrCreate()
+        checkNewOrEdit()
     }
 
-    private fun checkNewOrCreate() {
+    private fun checkNewOrEdit() {
         when (getVehicleFromID()) {
             "new" -> {
-                viewModel.setCategories(getCategories(requireActivity()))
+                viewModel.setCategories(getVehicleCategories(requireActivity()))
                 binding.veAcBrand.isEnabled = false
                 binding.veAcModel.isEnabled = false
                 val date = getTimestamp().transformDateIsoToString()
@@ -198,7 +198,7 @@ class VehicleDetailFragment : Fragment() {
             imageURL = vehicle.imageURL
             loadVehicleDataToForm(vehicle)
             loadVehicleImageToForm()
-            viewModel.setCategories(getCategories(requireActivity()))
+            viewModel.setCategories(getVehicleCategories(requireActivity()))
             viewModel.selectedCategory = binding.veAcCategory.text.toString().translateVehicleCategory()
             viewModel.getBrandsFromAPI(vehicle.category)
             viewModel.getModelsFromBrandAPI(vehicle.brand)
@@ -361,7 +361,7 @@ class VehicleDetailFragment : Fragment() {
 
     private fun configureCategorySelectable() {
         val categorySelectable = binding.veAcCategory
-        val categoriesList = getCategories(requireActivity())
+        val categoriesList = getVehicleCategories(requireActivity())
         categorySelectable.setOnItemClickListener { _, _, _, id ->
             binding.veAcBrand.isEnabled = true
             clearBrandSelectable()
