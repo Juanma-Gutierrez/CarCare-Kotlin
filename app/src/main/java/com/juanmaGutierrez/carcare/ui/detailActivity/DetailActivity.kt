@@ -10,7 +10,7 @@ import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
-import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleFragment
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -44,12 +44,12 @@ class DetailActivity : AppCompatActivity() {
         when (fragmentType) {
             "newVehicle" -> {
                 viewModel.setToolbarTitle(getString(R.string.new_vehicle))
-                navigateToDetailFragment(VehicleFragment())
+                navigateToDetailFragment(VehicleDetailFragment())
             }
 
             "editVehicle" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToDetailFragment(VehicleFragment(), itemID)
+                navigateToDetailFragment(VehicleDetailFragment(), itemID)
             }
 
             "newProvider" -> {

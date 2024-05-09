@@ -43,16 +43,16 @@ import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 import com.juanmaGutierrez.carcare.service.translateVehicleCategory
 
-class VehicleFragment : Fragment() {
+class VehicleDetailFragment : Fragment() {
     private lateinit var binding: FragmentVehicleDetailBinding
-    private lateinit var viewModel: VehicleViewModel
+    private lateinit var viewModel: VehicleDetailViewModel
     private val cameraService = CameraService()
     private var alertDialog: AlertDialog? = null
     private var imageURL: String? = null
     private var alertDialogMessage: AlertDialogMessageModel = AlertDialogMessageModel(null, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[VehicleViewModel::class.java]
+        viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
         super.onCreate(savedInstanceState)
     }
 

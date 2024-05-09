@@ -1,18 +1,26 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.juanmaGutierrez.carcare.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.juanmaGutierrez.carcare.databinding.FragmentProviderDetailBinding
 
 class ProviderDetailFragment : Fragment() {
+    private lateinit var binding: FragmentProviderDetailBinding
+    private lateinit var viewModel: ProviderDetailViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_provider_detail, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentProviderDetailBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(this)[ProviderDetailViewModel::class.java]
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }
