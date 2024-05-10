@@ -8,4 +8,8 @@ data class SpentFB(
     val providerId: String,
     val providerName: String,
     val spentId: String
-)
+) {
+    override fun toString(): String {
+        return "Amount: $amount\nCreated: $created\nDate: $date\nObservations: $observations\nProviderId: $providerId\nProviderName: $providerName\nSpentId: $spentId"
+    }
+}

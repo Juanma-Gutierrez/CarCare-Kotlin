@@ -11,4 +11,8 @@ data class UserFB(
     var surname: String,
     var userId: String,
     var vehicles: List<VehiclePreview>
-)
+) {
+    override fun toString(): String {
+        return "Created: $created\nEmail: $email\nName: $name\nNickname: $nickname\nRole: $role\nSurname: $surname\nUserId: $userId\nVehicles: $vehicles"
+    }
+}

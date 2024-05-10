@@ -13,4 +13,10 @@ data class VehiclePreview(
     var ref: DocumentReference,
     var registrationDate: String,
     var vehicleId: String,
-)
+){
+    override fun toString(): String {
+        return "Available: $available\nBrand: $brand\nCategory: $category\nCreated: $created\nImageURL: $imageURL\nModel: $model\nPlate: $plate\nRef: $ref\nRegistrationDate: $registrationDate\nVehicleId: $vehicleId"
+    }
+}
+
+

@@ -15,4 +15,8 @@ data class ItemLog(
     val currentUser: String? = "",
     val uid: String? = "",
     val content: String,
-)
+){
+    override fun toString(): String {
+        return "DateTime: $dateTime\nType: $type\nOperationLog: $operationLog\nCurrentUser: $currentUser\nUid: $uid\nContent: $content"
+    }
+}

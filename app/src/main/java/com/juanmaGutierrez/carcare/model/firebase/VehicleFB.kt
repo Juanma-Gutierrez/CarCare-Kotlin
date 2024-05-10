@@ -17,8 +17,7 @@ data class VehicleFB(
     val vehicleId: String
 ) {
     override fun toString(): String {
-        return "Categoría: $category\nMarca: $brand\nModelo: $model\nMatrícula: $plate\nVehículo disponible: $available\n" +
-                "Fecha de registro: ${registrationDate}\nCreado: $created\nImageURL: $imageURL\nID del vehículo: $vehicleId\nNº Gastos: ${spents.size}\nUserID: $userId"
+        return "Category: $category\nBrand: $brand\nModel: $model\nPlate: $plate\nAvailable: $available\nRegistration date: ${registrationDate}\nCreated: $created\nImageURL: $imageURL\nVehicle ID: $vehicleId\nNº Spents: ${spents.size}\nUserID: $userId"
     }
 }
 
@@ -27,4 +26,8 @@ data class VehicleImagePackToFB(
     val uri: Uri,
     val name: String,
     val vehicle: VehicleFB,
-)
+) {
+    override fun toString(): String {
+        return "Context: $context\nUri: $uri\nName: $name\nVehicle: $vehicle"
+    }
+}
