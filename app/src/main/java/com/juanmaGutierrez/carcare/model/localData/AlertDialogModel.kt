@@ -12,10 +12,12 @@ data class AlertDialogModel(
 }
 
 data class AlertDialogMessageModel(
-    var title: String?,
-    var message: String?,
+    var title: String? = null,
+    var message: String? = null,
+    var logContentSuccessMessage: String? = null,
+    var logContentErrorMessage: String? = null,
 ) {
     override fun toString(): String {
-        return "Title: $title\nMessage: $message"
+        return "Title: $title\nMessage: $message\nLogContentSuccessMessage: $logContentSuccessMessage\nLogContentErrorMessage: $logContentErrorMessage"
     }
 }

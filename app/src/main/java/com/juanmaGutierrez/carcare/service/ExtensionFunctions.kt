@@ -36,7 +36,7 @@ import java.util.Locale
  * Usage: view?.let { showSnackBar("Message", it) {} }
  */
 fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
-    val timeToShow = 2500
+    val timeToShow = 1000
     val snackBar = Snackbar.make(view, message, timeToShow)
     val snackBarView = snackBar.view
     val layoutParams = snackBarView.layoutParams as ViewGroup.MarginLayoutParams
@@ -102,6 +102,7 @@ fun milog(string: String, t: Throwable? = null) {
     Log.d("jumang", string, t)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun generateId(): String {
     val formattedDate = getTimestamp().transformDateIsoToString("yyMMddHHmmss-")
     val length = 10
@@ -109,6 +110,7 @@ fun generateId(): String {
     return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -120,6 +122,7 @@ fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun String.transformStringToDateIso(): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss")
@@ -157,6 +160,19 @@ fun String.getVehicleCategoryTranslation(context: Context): String {
         "truck" -> context.getString(R.string.vehicle_category_truck)
         else -> this
     }
+}
+
+fun String.translateProviderCategory(): String {
+    val result = when (this) {
+        "Taller", "Workshop" -> "workshop"
+        "Gasolinera", "Gas station" -> "gasStation"
+        "Compañía de seguros", "Insurance company" -> "insuranceCompany"
+        "ITV" -> "ITV"
+        "Grúa", "Tow truck" -> "towTruck"
+        "Otro", "Other" -> "other"
+        else -> ""
+    }
+    return result
 }
 
 fun String.getProviderCategoryTranslation(context: Context): String {

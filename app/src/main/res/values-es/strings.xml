@@ -99,6 +99,18 @@
     <string name="settings_providers_list_format_grid">Vista rejilla</string>
     <string name="settings_providers_list_format_linear">Vista lista</string>
     <string name="provider_phone">Teléfono</string>
+    <string name="alertDialog_newProvider_title">Nuevo proveedor</string>
+    <string name="alertDialog_newProvider_message">¿Seguro que quieres crear este nuevo proveedor?</string>
+    <string name="alertDialog_editProvider_title">Editar proveedor</string>
+    <string name="alertDialog_editProvider_message">¿Seguro que quieres editar este proveedor?</string>
+    <string name="alertDialog_deleteProvider_title">Borrar proveedor</string>
+    <string name="alertDialog_deleteProvider_message">¿Seguro que quieres eliminar este proveedor?</string>
+    <string name="alertDialog_newSpent_title">Nuevo gasto</string>
+    <string name="alertDialog_newSpent_message">¿Seguro que quieres crear este gasto?</string>
+    <string name="alertDialog_editSpent_title">Editar gasto</string>
+    <string name="alertDialog_editSpent_message">¿Seguro que quieres editar este gasto?</string>
+    <string name="alertDialog_deleteSpent_title">Borrar gasto</string>
+    <string name="alertDialog_deleteSpent_message">¿Seguro que quieres eliminar este gasto?</string>
 
 
 </resources>

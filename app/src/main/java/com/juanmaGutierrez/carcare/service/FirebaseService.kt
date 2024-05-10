@@ -124,11 +124,10 @@ fun fbGetDocumentByID(itemID: String, collection: String, callback: (DocumentSna
     }
 }
 
-
-fun fbSetVehicle(vehicle: VehicleFB): Task<Void> {
+fun fbSetDocument(collection: String, documentId: String, document: Any): Task<Void> {
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection(Constants.FB_COLLECTION_VEHICLE).document(vehicle.vehicleId)
-    return docRef.set(vehicle)
+    val docRef = db.collection(collection).document(documentId)
+    return docRef.set(document)
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 

@@ -50,7 +50,7 @@ class VehicleDetailFragment : Fragment() {
     private val cameraService = CameraService()
     private var alertDialog: AlertDialog? = null
     private var imageURL: String? = null
-    private var alertDialogMessage: AlertDialogMessageModel = AlertDialogMessageModel(null, null)
+    private var alertDialogMessage: AlertDialogMessageModel = AlertDialogMessageModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]

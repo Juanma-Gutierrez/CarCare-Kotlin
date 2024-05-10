@@ -23,7 +23,7 @@
 
             <!-- Form card -->
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/sd_spentCardView"
+                android:id="@+id/pd_spentCardView"
                 style="@style/Widget.Material3.CardView.Elevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:divider="@drawable/empty_divider"
                     android:gravity="center"
@@ -78,26 +78,27 @@
 
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vn_bt_accept"
+                        android:id="@+id/pd_bt_accept"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/accept"
                         app:icon="@drawable/icon_check" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vn_bt_cancel"
+                        android:id="@+id/pd_bt_cancel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
+                        android:layout_marginBottom="@dimen/marginS"
                         android:layout_height="wrap_content"
                         android:text="@string/cancel"
                         app:icon="@drawable/icon_cancel" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/ve_bt_delete"
+                        android:id="@+id/pd_bt_delete"
                         style="?attr/itemFillColor"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/marginM"
+                        android:layout_marginBottom="@dimen/marginS"
                         android:backgroundTint="?attr/colorError"
                         android:text="@string/delete"
                         app:icon="@drawable/icon_trash" />

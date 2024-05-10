@@ -16,10 +16,10 @@ import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.service.fbDeleteDocumentByID
 import com.juanmaGutierrez.carcare.service.fbDeleteVehiclePreview
-import com.juanmaGutierrez.carcare.service.fbGetImageURL
-import com.juanmaGutierrez.carcare.service.fbSetVehicle
-import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
+import com.juanmaGutierrez.carcare.service.fbGetImageURL
+import com.juanmaGutierrez.carcare.service.fbSetDocument
+import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -137,7 +137,7 @@ class VehicleDetailViewModel : ViewModel() {
     fun editVehicle(vehicle: VehicleFB) {
         viewModelScope.launch {
             try {
-                fbSetVehicle(vehicle).await()
+                fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
                 fbSetVehiclePreview(vehicle).await()
                 saveToLog(LogType.INFO, OperationLog.VEHICLE, Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY)
                 _editVehicleSuccessful.value = true

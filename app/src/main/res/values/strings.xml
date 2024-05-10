@@ -128,6 +128,21 @@
     <string name="alertDialog_deleteImage">Are you sure to delete the image?</string>
     <string name="alertDialog_icon_camera">Camera</string>
     <string name="alertDialog_icon_gallery">Gallery</string>
+
+    <string name="alertDialog_newProvider_title">Create new provider</string>
+    <string name="alertDialog_newProvider_message">Are you sure to create this new provider?</string>
+    <string name="alertDialog_editProvider_title">Edit provider</string>
+    <string name="alertDialog_editProvider_message">Are you sure to edit this provider?</string>
+    <string name="alertDialog_deleteProvider_title">Delete provider</string>
+    <string name="alertDialog_deleteProvider_message">Are you sure to delete this provider?</string>
+
+    <string name="alertDialog_newSpent_title">Create new spent</string>
+    <string name="alertDialog_newSpent_message">Are you sure to create this new spent?</string>
+    <string name="alertDialog_editSpent_title">Edit spent</string>
+    <string name="alertDialog_editSpent_message">Are you sure to edit this spent?</string>
+    <string name="alertDialog_deleteSpent_title">Delete spent</string>
+    <string name="alertDialog_deleteSpent_message">Are you sure to delete this spent?</string>
+
     <string name="settings_providers_list_format">Providers list</string>
     <string name="settings_providers_list_format_grid">Grid view</string>
     <string name="settings_providers_list_format_linear">List view</string>
