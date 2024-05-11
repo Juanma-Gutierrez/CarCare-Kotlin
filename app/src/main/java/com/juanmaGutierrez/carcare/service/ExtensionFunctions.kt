@@ -140,7 +140,6 @@ fun String.longToTimestamp(): Long {
     return localDate.toEpochDay() * 24 * 60 * 60 * 1000
 }
 
-
 fun String.translateVehicleCategory(): String {
     val result = when (this) {
         "Coche", "Car" -> "car"

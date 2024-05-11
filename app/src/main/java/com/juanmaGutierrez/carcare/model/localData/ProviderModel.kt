@@ -1,8 +1,11 @@
 package com.juanmaGutierrez.carcare.model.localData
 
+import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.transformStringToDateIso
+
 data class Provider(
     var category: String = "gasStation",
-    var created: String = "",
+    var created: String = getTimestamp().transformStringToDateIso(),
     var name: String = "",
     var phone: String = "",
     var providerId: String = "",

@@ -9,7 +9,7 @@ fun getVehicleCategories(activity: Activity): List<String> {
         activity.getString(R.string.vehicle_category_motorcycle),
         activity.getString(R.string.vehicle_category_van),
         activity.getString(R.string.vehicle_category_truck)
-    )
+    ).sorted()
 }
 
 fun getProviderCategories(activity: Activity): List<String> {
@@ -20,5 +20,5 @@ fun getProviderCategories(activity: Activity): List<String> {
         activity.getString(R.string.provider_category_towTruck),
         activity.getString(R.string.provider_category_ITV),
         activity.getString(R.string.provider_category_other)
-    )
+    ).sorted()
 }

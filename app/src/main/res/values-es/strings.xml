@@ -3,6 +3,10 @@
     <string name="accept">Aceptar</string>
     <string name="provider_name">Nombre</string>
     <string name="provider_category">Categoría</string>
+    <string name="provider_createProvider_successfully">Proveedor creado correctamente</string>
+    <string name="provider_createProvider_error">Error en la creación del proveedor</string>
+    <string name="provider_editProvider_successfully">Proveedor editado correctamente</string>
+    <string name="provider_editProvider_error">Error en la edición del proveedor</string>
     <string name="add_new_item">Crear un nuevo elemento</string>
     <string name="alertDialog_confirm_message">Confirmación</string>
     <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
@@ -79,6 +83,8 @@
     <string name="vehicle_category_van">Furgoneta</string>
     <string name="vehicle_createVehicle_error">Error en la creación del vehículo</string>
     <string name="vehicle_createVehicle_successfully">Vehículo creado correctamente</string>
+    <string name="vehicle_deleteVehicle_successfully">Vehículo borrado correctamente</string>
+    <string name="vehicle_deleteVehicle_error">Error en el borrado del vehículo</string>
     <string name="vehicle_editVehicle_calendarTitle">Selecciona la fecha de registro del vehículo</string>
     <string name="vehicle_editVehicle_error">Error en la actualización del vehículo</string>
     <string name="vehicle_editVehicle_successfully">Vehículo actualizado correctamente</string>
@@ -111,6 +117,8 @@
     <string name="alertDialog_editSpent_message">¿Seguro que quieres editar este gasto?</string>
     <string name="alertDialog_deleteSpent_title">Borrar gasto</string>
     <string name="alertDialog_deleteSpent_message">¿Seguro que quieres eliminar este gasto?</string>
+    <string name="provider_deleteProvider_successfully">Proveedor borrado correctamente</string>
+    <string name="provider_deleteProvider_error">Error en el borrado del proveedor</string>
 
 
 </resources>

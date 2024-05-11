@@ -28,7 +28,7 @@ import com.juanmaGutierrez.carcare.localData.getVehicleCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
-import com.juanmaGutierrez.carcare.model.localData.AlertDialogMessageModel
+import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.fbSaveImage
@@ -36,7 +36,6 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -50,7 +49,7 @@ class VehicleDetailFragment : Fragment() {
     private val cameraService = CameraService()
     private var alertDialog: AlertDialog? = null
     private var imageURL: String? = null
-    private var alertDialogMessage: AlertDialogMessageModel = AlertDialogMessageModel()
+    private var uiUM: UIUserMessages = UIUserMessages()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
@@ -66,6 +65,7 @@ class VehicleDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureUIMessages()
         configureImageButton()
         configureDeleteImageButton()
         configureCategorySelectable()
@@ -74,6 +74,11 @@ class VehicleDetailFragment : Fragment() {
         configureCancelButton()
         configureEditVehicleSuccessful()
         checkNewOrEdit()
+    }
+
+    private fun configureUIMessages() {
+        uiUM.snackbarMessages.deleteSuccessful = getString(R.string.vehicle_deleteVehicle_successfully)
+        uiUM.snackbarMessages.deletionError = getString(R.string.vehicle_deleteVehicle_error)
     }
 
     private fun checkNewOrEdit() {
@@ -105,13 +110,21 @@ class VehicleDetailFragment : Fragment() {
     private fun configureMessage(mode: String) {
         when (mode) {
             "new" -> {
-                alertDialogMessage.title = getString(R.string.alertDialog_newVehicle_title)
-                alertDialogMessage.message = getString(R.string.alertDialog_newVehicle_message)
+                uiUM.alertDialog.title = getString(R.string.alertDialog_newVehicle_title)
+                uiUM.alertDialog.message = getString(R.string.alertDialog_newVehicle_message)
+                uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.vehicle_createVehicle_successfully)
+                uiUM.snackbarMessages.createOrEditError = getString(R.string.vehicle_createVehicle_error)
+                uiUM.logMessages.success = Constants.LOG_VEHICLE_CREATION_SUCCESSFULLY
+                uiUM.logMessages.error = Constants.LOG_VEHICLE_CREATION_ERROR
             }
 
             "edit" -> {
-                alertDialogMessage.title = getString(R.string.alertDialog_editVehicle_title)
-                alertDialogMessage.message = getString(R.string.alertDialog_editVehicle_message)
+                uiUM.alertDialog.title = getString(R.string.alertDialog_editVehicle_title)
+                uiUM.alertDialog.message = getString(R.string.alertDialog_editVehicle_message)
+                uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.vehicle_editVehicle_successfully)
+                uiUM.snackbarMessages.createOrEditError = getString(R.string.vehicle_editVehicle_error)
+                uiUM.logMessages.success = Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY
+                uiUM.logMessages.error = Constants.LOG_VEHICLE_EDITION_ERROR
             }
         }
     }
@@ -232,7 +245,7 @@ class VehicleDetailFragment : Fragment() {
     private fun configureEditVehicleSuccessful() {
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                showSnackBar(requireActivity().getString(R.string.vehicle_editVehicle_successfully), requireView()) {
+                showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {
                     closeFragment()
                 }
             }
@@ -334,8 +347,7 @@ class VehicleDetailFragment : Fragment() {
     private fun configureDateButton(date: String) {
         binding.veCbDate.setOnClickListener {
             showDatePickerDialog(
-                date, requireActivity().getString(R.string.vehicle_editVehicle_calendarTitle),
-                childFragmentManager
+                date, requireActivity().getString(R.string.vehicle_editVehicle_calendarTitle), childFragmentManager
             ) { selectedDate ->
                 binding.veCbDate.text = selectedDate
             }
@@ -447,8 +459,8 @@ class VehicleDetailFragment : Fragment() {
     private fun acceptVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
-            alertDialogMessage.title ?: "",
-            alertDialogMessage.message ?: "",
+            uiUM.alertDialog.title,
+            uiUM.alertDialog.message,
             AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_edit)
         )
         showDialogAcceptCancel(ad) { accept ->
@@ -472,10 +484,7 @@ class VehicleDetailFragment : Fragment() {
         val uri = CameraService.image_uri
         if (uri != null) {
             val imagePack = VehicleImagePackToFB(
-                requireContext(),
-                uri,
-                name,
-                vehicle
+                requireContext(), uri, name, vehicle
             )
             imageURL = fbSaveImage(imagePack)
         }
@@ -486,7 +495,7 @@ class VehicleDetailFragment : Fragment() {
         viewModel.editVehicle(editedVehicle)
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                showSnackBar(requireActivity().getString(R.string.vehicle_editVehicle_successfully), requireView()) {
+                showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {
                     closeFragment()
                 }
             }

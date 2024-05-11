@@ -9,18 +9,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.mapping.mapProviderFBtoProvider
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.ProviderFB
-import com.juanmaGutierrez.carcare.model.localData.AlertDialogMessageModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
-import com.juanmaGutierrez.carcare.service.fbSetVehiclePreview
 import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class ProviderDetailViewModel : ViewModel() {
     private val _provider = MutableLiveData<Provider>()
@@ -32,7 +30,7 @@ class ProviderDetailViewModel : ViewModel() {
     private val _editProviderSuccessful = MutableLiveData<Boolean>()
     val editProviderSuccessful: LiveData<Boolean> get() = _editProviderSuccessful
     lateinit var providers: ProviderFB
-    lateinit var alertDialogMessage: AlertDialogMessageModel
+    lateinit var alertDialogMessage: UIUserMessages
 
     fun getProviderFromFB(itemID: String) {
         _isLoading.postValue(true)
@@ -60,17 +58,16 @@ class ProviderDetailViewModel : ViewModel() {
             try {
                 val auth = FirebaseAuth.getInstance()
                 auth.uid?.let { uid -> fbSetDocument(Constants.FB_COLLECTION_PROVIDER, uid, providers) }
-                saveToLog(LogType.INFO, OperationLog.PROVIDER, alertDialogMessage.logContentSuccessMessage ?: "")
+                saveToLog(LogType.INFO, OperationLog.PROVIDER, alertDialogMessage.logMessages.success)
                 _editProviderSuccessful.value = true
             } catch (e: Exception) {
-                saveToLog(LogType.ERROR, OperationLog.PROVIDER, alertDialogMessage.logContentErrorMessage ?: "")
+                saveToLog(LogType.ERROR, OperationLog.PROVIDER, alertDialogMessage.logMessages.error)
             }
             setIsLoading(false)
         }
     }
 
     private fun updateLocalProvidersList(provider: Provider) {
-        milog("todos los proveedores: $providers")
         val existingProviderIndex = providers.providers.indexOfFirst { it.providerId == provider.providerId }
         if (existingProviderIndex != -1) {
             providers.providers[existingProviderIndex] = provider
@@ -80,7 +77,7 @@ class ProviderDetailViewModel : ViewModel() {
         milog("todos los proveedores actualizados: $providers")
     }
 
-    private fun setIsLoading(status: Boolean) {
+    internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
 }
