@@ -58,11 +58,7 @@ class ProviderDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createEmptyProvider() {
         this.provider = Provider(
-            "gasStation",
-            getTimestamp(),
-            "",
-            "",
-            generateId()
+            "gasStation", getTimestamp(), "", "", generateId()
         )
     }
 
@@ -150,8 +146,11 @@ class ProviderDetailFragment : Fragment() {
     }
 
     private fun acceptButtonClicked() {
-        viewModel.setProviderToFB(provider)
-
+        if (fragmentType == "new") {
+            viewModel.createNewProvider(provider)
+        } else {
+            viewModel.setProviderToFB(provider)
+        }
     }
 
     private fun checkValidForm(provider: Provider): Boolean {

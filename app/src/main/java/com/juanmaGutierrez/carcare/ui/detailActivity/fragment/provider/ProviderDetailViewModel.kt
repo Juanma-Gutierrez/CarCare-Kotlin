@@ -32,6 +32,10 @@ class ProviderDetailViewModel : ViewModel() {
     lateinit var providers: ProviderFB
     lateinit var alertDialogMessage: UIUserMessages
 
+    fun init() {
+        providers = ProviderFB(mutableListOf())
+    }
+
     fun getProviderFromFB(itemID: String) {
         _isLoading.postValue(true)
         viewModelScope.launch {
@@ -79,5 +83,40 @@ class ProviderDetailViewModel : ViewModel() {
 
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
+    }
+
+    fun createNewProvider(provider: Provider) {
+        setIsLoading(true)
+        getProvidersList { providersList ->
+            providersList.add(provider)
+            providers = ProviderFB(mutableListOf())
+            milog("providers antes  : $providers")
+            providers.providers = providersList
+            milog("providers despues: $providers")
+            viewModelScope.launch {
+                try {
+                    val auth = FirebaseAuth.getInstance()
+                    auth.uid?.let { uid -> fbSetDocument(Constants.FB_COLLECTION_PROVIDER, uid, providers) }
+                    saveToLog(LogType.INFO, OperationLog.PROVIDER, alertDialogMessage.logMessages.success)
+                    _editProviderSuccessful.value = true
+                } catch (e: Exception) {
+                    saveToLog(LogType.ERROR, OperationLog.PROVIDER, alertDialogMessage.logMessages.error)
+                }
+                setIsLoading(false)
+            }
+        }
+    }
+
+    private fun getProvidersList(callback: (MutableList<Provider>) -> Unit) {
+        var providersList = mutableListOf<Provider>()
+        _isLoading.postValue(true)
+        viewModelScope.launch {
+            val uid = FirebaseService.getInstance().auth?.uid.toString()
+            fbGetDocumentByID(uid, "provider") { p ->
+                val data = p?.data as? Map<String, List<Map<String, String>>>
+                if (data != null) providersList = mapProviderFBtoProvider(data)
+                callback(providersList)
+            }
+        }
     }
 }
