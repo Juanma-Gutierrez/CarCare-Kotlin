@@ -177,7 +177,6 @@ class ProviderDetailFragment : Fragment() {
             binding.pdTvPhone.text.toString(),
             this.provider.providerId
         )
-        milog(provider.toString())
         return provider
     }
 

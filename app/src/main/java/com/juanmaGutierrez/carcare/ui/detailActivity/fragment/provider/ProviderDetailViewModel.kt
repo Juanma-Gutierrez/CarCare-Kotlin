@@ -16,7 +16,6 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 
@@ -76,9 +75,8 @@ class ProviderDetailViewModel : ViewModel() {
         if (existingProviderIndex != -1) {
             providers.providers[existingProviderIndex] = provider
         } else {
-            milog("Proveedor no encontrado en la lista: $provider")
+            Log.e(Constants.TAG_ERROR, Constants.ERROR_DOCUMENT_DOESNT_EXISTS)
         }
-        milog("todos los proveedores actualizados: $providers")
     }
 
     internal fun setIsLoading(status: Boolean) {
@@ -90,9 +88,7 @@ class ProviderDetailViewModel : ViewModel() {
         getProvidersList { providersList ->
             providersList.add(provider)
             providers = ProviderFB(mutableListOf())
-            milog("providers antes  : $providers")
             providers.providers = providersList
-            milog("providers despues: $providers")
             viewModelScope.launch {
                 try {
                     val auth = FirebaseAuth.getInstance()
