@@ -86,7 +86,6 @@ class VehicleAdapter(
             }
             if (!vehicle.available) {
                 itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.VISIBLE
-                itemView.findViewById<ShapeableImageView>(R.id.iv_iv_imageNotAvailable).visibility = View.VISIBLE
             }
         }
     }
