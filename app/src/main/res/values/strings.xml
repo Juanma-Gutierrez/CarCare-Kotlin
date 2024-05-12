@@ -153,5 +153,6 @@
     <string name="settings_providers_list_format">Providers list</string>
     <string name="settings_providers_list_format_grid">Grid view</string>
     <string name="settings_providers_list_format_linear">List view</string>
+    <string name="content_description_vehicle_image">Vehicle image</string>
 
 </resources>

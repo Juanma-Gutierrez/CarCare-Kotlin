@@ -86,19 +86,19 @@ fun mapVehicleToVehiclePreview(vehicle: VehicleFB): VehiclePreview {
     )
 }
 
-fun mapHashVehiclesToList(existingVehiclesData: List<HashMap<String, Any>>): List<VehiclePreview> {
-    return existingVehiclesData.map { vehicleData ->
+fun mapHashVehiclesToList(vehiclesList: List<HashMap<String, Any>>): List<VehiclePreview> {
+    return vehiclesList.map { data ->
         VehiclePreview(
-            vehicleData["available"] as Boolean,
-            vehicleData["brand"] as String,
-            vehicleData["category"] as String,
-            vehicleData["created"] as String,
-            vehicleData["imageURL"] as String?,
-            vehicleData["model"] as String,
-            vehicleData["plate"] as String,
-            vehicleData["ref"] as DocumentReference,
-            vehicleData["registrationDate"] as String,
-            vehicleData["vehicleId"] as String
+            data["available"] as Boolean,
+            data["brand"] as String,
+            data["category"] as String,
+            data["created"] as String,
+            data["imageURL"] as String?,
+            data["model"] as String,
+            data["plate"] as String,
+            data["ref"] as DocumentReference,
+            data["registrationDate"] as String,
+            data["vehicleId"] as String
         )
     }
 }

@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/lottie_isLoading"
-        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:backgroundTint="?attr/colorPrimaryFixedDim"
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="@dimen/logoL"
         android:layout_height="@dimen/logoL"

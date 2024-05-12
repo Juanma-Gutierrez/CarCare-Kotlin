@@ -2,24 +2,36 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ivs_cv_vehicleInSpentsListCard"
     android:layout_width="@dimen/vehicle_card_width"
     android:layout_height="@dimen/vehicle_card_height"
     android:layout_margin="@dimen/marginXS"
-    app:cardElevation="@dimen/cardview_elevation"
-    app:cardCornerRadius="@dimen/cardview_radius">
+    app:cardCornerRadius="@dimen/cardview_radius"
+    app:cardElevation="@dimen/cardview_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ivs_cl_containerImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@drawable/placeholder_real_vehicle">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivs_iv_vehicleImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_real_vehicle"
+            android:contentDescription="@string/content_description_vehicle_image" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/vehicle_card_info_block"
+            android:layout_height="wrap_content"
             android:background="@color/transparent_bg_primary"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingVertical="@dimen/marginXS"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -31,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="?attr/colorPrimaryInverse"
+                android:textColor="@color/color_white"
                 tools:text="Harley-Davidson" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -39,7 +51,7 @@
                 style="@style/ItemText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorPrimaryInverse"
+                android:textColor="@color/color_white"
                 tools:text="Springer softail" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

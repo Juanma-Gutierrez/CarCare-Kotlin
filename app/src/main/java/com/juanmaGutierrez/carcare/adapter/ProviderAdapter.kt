@@ -43,11 +43,11 @@ class ProviderAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerName)
-        var category: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerCategory)
-        var phone: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerPhone)
-        var card: MaterialCardView = itemView.findViewById(R.id.ip_cv_providerItem)
-        var icon: ImageView = itemView.findViewById(R.id.ip_iv_providerIcon)
+        private val name: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerName)
+        private val category: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerCategory)
+        private val phone: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerPhone)
+        private val card: MaterialCardView = itemView.findViewById(R.id.ip_cv_providerItem)
+        private val icon: ImageView = itemView.findViewById(R.id.ip_iv_providerIcon)
 
         fun bind(provider: Provider) {
             name.text = provider.name.toUpperCamelCase()
