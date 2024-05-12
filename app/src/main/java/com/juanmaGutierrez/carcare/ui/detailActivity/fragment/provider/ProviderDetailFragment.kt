@@ -65,6 +65,8 @@ class ProviderDetailFragment : Fragment() {
     private fun configureUIMessages() {
         uiUM.snackbarMessages.deleteSuccessful = getString(R.string.provider_deleteProvider_successfully)
         uiUM.snackbarMessages.deletionError = getString(R.string.provider_deleteProvider_error)
+        uiUM.logMessages.deleteSuccess = Constants.LOG_PROVIDER_DELETION_SUCCESSFULLY
+        uiUM.logMessages.deleteError = Constants.LOG_PROVIDER_DELETION_ERROR
     }
 
     private fun checkNewOrCreate() {
@@ -73,28 +75,30 @@ class ProviderDetailFragment : Fragment() {
             "new" -> configureNewProviderUI()
             "edit" -> configureEditProviderUI()
         }
-        viewModel.alertDialogMessage = uiUM
+        viewModel.uiUM = uiUM
     }
 
     private fun configureNewProviderUI() {
+        milog("entra en new provider")
         viewModel.setIsLoading(false)
         binding.pdBtDelete.visibility = View.GONE
         uiUM.alertDialog.title = getString(R.string.alertDialog_newProvider_title)
         uiUM.alertDialog.message = getString(R.string.alertDialog_newProvider_message)
         uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.provider_createProvider_successfully)
         uiUM.snackbarMessages.createOrEditError = getString(R.string.provider_createProvider_error)
-        uiUM.logMessages.success = Constants.LOG_PROVIDER_CREATION_SUCCESSFULLY
-        uiUM.logMessages.error = Constants.LOG_PROVIDER_CREATION_ERROR
+        uiUM.logMessages.createOrEditionSuccess = Constants.LOG_PROVIDER_CREATION_SUCCESSFULLY
+        uiUM.logMessages.createOrEditionError = Constants.LOG_PROVIDER_CREATION_ERROR
     }
 
     private fun configureEditProviderUI() {
+        milog("entra en edit provider")
         binding.pdBtDelete.visibility = View.VISIBLE
         uiUM.alertDialog.title = getString(R.string.alertDialog_editProvider_title)
         uiUM.alertDialog.message = getString(R.string.alertDialog_editProvider_message)
         uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.provider_editProvider_successfully)
         uiUM.snackbarMessages.createOrEditError = getString(R.string.provider_editProvider_error)
-        uiUM.logMessages.success = Constants.LOG_PROVIDER_EDITION_SUCCESSFULLY
-        uiUM.logMessages.error = Constants.LOG_PROVIDER_EDITION_ERROR
+        uiUM.logMessages.createOrEditionSuccess = Constants.LOG_PROVIDER_EDITION_SUCCESSFULLY
+        uiUM.logMessages.createOrEditionError = Constants.LOG_PROVIDER_EDITION_ERROR
     }
 
     private fun configureUI() {
@@ -141,7 +145,7 @@ class ProviderDetailFragment : Fragment() {
                 }
             }
         } else {
-            showSnackBar("completa los datos", requireView()) {}
+            showSnackBar(getString(R.string.error_emptyFields), requireView()) {}
         }
     }
 
@@ -166,7 +170,23 @@ class ProviderDetailFragment : Fragment() {
     }
 
     private fun buttonDeletePressed() {
-        milog("eliminar")
+        val title = getString(R.string.alertDialog_deleteProvider_title)
+        val message = getString(R.string.alertDialog_deleteProvider_message)
+        val icon = AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_trash)
+        val ad = AlertDialogModel(this.requireActivity(), title, message, icon)
+        showDialogAcceptCancel(ad) { accept ->
+            if (accept) {
+                try {
+                    deleteButtonClicked()
+                } catch (e: Exception) {
+                    Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
+                }
+            }
+        }
+    }
+
+    private fun deleteButtonClicked() {
+        viewModel.deleteProvider(provider)
     }
 
     private fun getProviderFromForm(): Provider {
@@ -203,18 +223,14 @@ class ProviderDetailFragment : Fragment() {
     private fun configureEditProviderObserver() {
         viewModel.editProviderSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
-                showSnackBar(
-                    requireActivity().getString(R.string.provider_editProvider_successfully), requireView()
-                ) { closeFragmentAndRestart() }
+                showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) { closeFragmentAndRestart() }
             }
         }
     }
 
     private fun closeFragmentAndRestart() {
-        requireActivity().finish()
-        val intent = Intent(requireContext(), ItemListActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra("destinationFragment", "providersList")
-        startActivity(intent)
+        if (isAdded) {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 }

@@ -168,7 +168,7 @@ fun String.translateProviderCategory(): String {
         "Compañía de seguros", "Insurance company" -> "insuranceCompany"
         "ITV" -> "ITV"
         "Grúa", "Tow truck" -> "towTruck"
-        "Otro", "Other" -> "other"
+        "Otros", "Other" -> "other"
         else -> ""
     }
     return result

@@ -29,7 +29,7 @@ class ProviderDetailViewModel : ViewModel() {
     private val _editProviderSuccessful = MutableLiveData<Boolean>()
     val editProviderSuccessful: LiveData<Boolean> get() = _editProviderSuccessful
     lateinit var providers: ProviderFB
-    lateinit var alertDialogMessage: UIUserMessages
+    lateinit var uiUM: UIUserMessages
 
     fun init() {
         providers = ProviderFB(mutableListOf())
@@ -61,10 +61,10 @@ class ProviderDetailViewModel : ViewModel() {
             try {
                 val auth = FirebaseAuth.getInstance()
                 auth.uid?.let { uid -> fbSetDocument(Constants.FB_COLLECTION_PROVIDER, uid, providers) }
-                saveToLog(LogType.INFO, OperationLog.PROVIDER, alertDialogMessage.logMessages.success)
+                saveToLog(LogType.INFO, OperationLog.PROVIDER, uiUM.logMessages.createOrEditionSuccess)
                 _editProviderSuccessful.value = true
             } catch (e: Exception) {
-                saveToLog(LogType.ERROR, OperationLog.PROVIDER, alertDialogMessage.logMessages.error)
+                saveToLog(LogType.ERROR, OperationLog.PROVIDER, uiUM.logMessages.createOrEditionError)
             }
             setIsLoading(false)
         }
@@ -89,17 +89,23 @@ class ProviderDetailViewModel : ViewModel() {
             providersList.add(provider)
             providers = ProviderFB(mutableListOf())
             providers.providers = providersList
-            viewModelScope.launch {
-                try {
-                    val auth = FirebaseAuth.getInstance()
-                    auth.uid?.let { uid -> fbSetDocument(Constants.FB_COLLECTION_PROVIDER, uid, providers) }
-                    saveToLog(LogType.INFO, OperationLog.PROVIDER, alertDialogMessage.logMessages.success)
-                    _editProviderSuccessful.value = true
-                } catch (e: Exception) {
-                    saveToLog(LogType.ERROR, OperationLog.PROVIDER, alertDialogMessage.logMessages.error)
-                }
-                setIsLoading(false)
+            saveProvidersListToFB(
+                uiUM.logMessages.createOrEditionSuccess, uiUM.logMessages.createOrEditionError
+            )
+        }
+    }
+
+    private fun saveProvidersListToFB(success: String, error: String) {
+        viewModelScope.launch {
+            try {
+                val auth = FirebaseAuth.getInstance()
+                auth.uid?.let { uid -> fbSetDocument(Constants.FB_COLLECTION_PROVIDER, uid, providers) }
+                saveToLog(LogType.INFO, OperationLog.PROVIDER, success)
+                _editProviderSuccessful.value = true
+            } catch (e: Exception) {
+                saveToLog(LogType.ERROR, OperationLog.PROVIDER, error)
             }
+            setIsLoading(false)
         }
     }
 
@@ -113,6 +119,15 @@ class ProviderDetailViewModel : ViewModel() {
                 if (data != null) providersList = mapProviderFBtoProvider(data)
                 callback(providersList)
             }
+        }
+    }
+
+    fun deleteProvider(provider: Provider) {
+        setIsLoading(true)
+        getProvidersList { providersList ->
+            val updatedList = providersList.filter { it.providerId != provider.providerId } as MutableList<Provider>
+            providers.providers = updatedList
+            saveProvidersListToFB(uiUM.logMessages.deleteSuccess, uiUM.logMessages.deleteError)
         }
     }
 }

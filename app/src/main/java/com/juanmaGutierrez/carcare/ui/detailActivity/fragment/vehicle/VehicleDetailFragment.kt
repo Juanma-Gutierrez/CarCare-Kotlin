@@ -114,8 +114,8 @@ class VehicleDetailFragment : Fragment() {
                 uiUM.alertDialog.message = getString(R.string.alertDialog_newVehicle_message)
                 uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.vehicle_createVehicle_successfully)
                 uiUM.snackbarMessages.createOrEditError = getString(R.string.vehicle_createVehicle_error)
-                uiUM.logMessages.success = Constants.LOG_VEHICLE_CREATION_SUCCESSFULLY
-                uiUM.logMessages.error = Constants.LOG_VEHICLE_CREATION_ERROR
+                uiUM.logMessages.createOrEditionSuccess = Constants.LOG_VEHICLE_CREATION_SUCCESSFULLY
+                uiUM.logMessages.createOrEditionError = Constants.LOG_VEHICLE_CREATION_ERROR
             }
 
             "edit" -> {
@@ -123,8 +123,8 @@ class VehicleDetailFragment : Fragment() {
                 uiUM.alertDialog.message = getString(R.string.alertDialog_editVehicle_message)
                 uiUM.snackbarMessages.createOrEditSuccessful = getString(R.string.vehicle_editVehicle_successfully)
                 uiUM.snackbarMessages.createOrEditError = getString(R.string.vehicle_editVehicle_error)
-                uiUM.logMessages.success = Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY
-                uiUM.logMessages.error = Constants.LOG_VEHICLE_EDITION_ERROR
+                uiUM.logMessages.createOrEditionSuccess = Constants.LOG_VEHICLE_EDITION_SUCCESSFULLY
+                uiUM.logMessages.createOrEditionError = Constants.LOG_VEHICLE_EDITION_ERROR
             }
         }
     }
@@ -238,7 +238,7 @@ class VehicleDetailFragment : Fragment() {
 
     private fun configureCancelButton() {
         binding.veBtCancel.setOnClickListener {
-            closeFragment()
+            closeFragmentAndRestart()
         }
     }
 
@@ -246,7 +246,7 @@ class VehicleDetailFragment : Fragment() {
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {
-                    closeFragment()
+                    closeFragmentAndRestart()
                 }
             }
         }
@@ -496,7 +496,7 @@ class VehicleDetailFragment : Fragment() {
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
                 showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {
-                    closeFragment()
+                    closeFragmentAndRestart()
                 }
             }
         }
@@ -541,7 +541,7 @@ class VehicleDetailFragment : Fragment() {
         viewModel.deleteVehicle(vehicle)
     }
 
-    private fun closeFragment() {
+    private fun closeFragmentAndRestart() {
         if (isAdded) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }

@@ -112,7 +112,7 @@
     <string name="provider_phone">Phone</string>
     <string name="provider_createProvider_successfully">Provider created successfully</string>
     <string name="provider_createProvider_error">Error in provider creation</string>
-    <string name="provider_editProvider_successfully">Provider edition successfully</string>
+    <string name="provider_editProvider_successfully">Provider edited successfully</string>
     <string name="provider_editProvider_error">Error in provider edition</string>
     <string name="provider_deleteProvider_successfully">Provider deleted successfully</string>
     <string name="provider_deleteProvider_error">Error in provider deletion</string>
