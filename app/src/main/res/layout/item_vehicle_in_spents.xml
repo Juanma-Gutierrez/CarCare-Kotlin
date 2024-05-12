@@ -2,11 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/vehicleCardWidth"
-    app:cardCornerRadius="@dimen/marginXS"
-    android:elevation="@dimen/marginS"
+    android:layout_width="@dimen/vehicle_card_width"
+    android:layout_height="@dimen/vehicle_card_height"
     android:layout_margin="@dimen/marginXS"
-    android:layout_height="@dimen/vehicleCardHeight">
+    app:cardElevation="@dimen/cardview_elevation"
+    app:cardCornerRadius="@dimen/cardview_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ivs_cl_containerImage"
@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/vehicleCardInfoBlock"
+            android:layout_height="@dimen/vehicle_card_info_block"
             android:background="@color/transparent_bg_primary"
             android:gravity="center"
             android:orientation="vertical"

@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/onBoardingContentWidth"
-        android:layout_height="@dimen/onBoardingContentWidth"
+        android:layout_width="@dimen/onBoarding_content_width"
+        android:layout_height="@dimen/onBoarding_content_width"
         android:layout_marginBottom="@dimen/marginM"
         app:layout_constraintBottom_toTopOf="@+id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/tv_desc"
-        android:layout_width="@dimen/onBoardingContentWidth"
+        android:layout_width="@dimen/onBoarding_content_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginS"
         android:textAlignment="center"

@@ -20,19 +20,19 @@
 
             <!-- Vehicle image -->
             <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/placeholderOutter"
-                android:layout_height="@dimen/placeholderOutter"
+                android:layout_width="@dimen/placeholder_outter"
+                android:layout_height="@dimen/placeholder_outter"
                 android:layout_marginTop="@dimen/marginS"
-                app:cardCornerRadius="@dimen/marginXL"
+                app:cardCornerRadius="@dimen/cardview_circle_radius"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="@dimen/placeholderInner"
-                    android:layout_height="@dimen/placeholderInner"
+                    android:layout_width="@dimen/placeholder_inner"
+                    android:layout_height="@dimen/placeholder_inner"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="@dimen/marginXL">
+                    app:cardCornerRadius="@dimen/cardview_circle_radius">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/ve_iv_vehicleImage"
@@ -229,7 +229,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="125dp"
-                android:elevation="@dimen/marginS"
+                android:elevation="@dimen/cardview_zAxis_elevation"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

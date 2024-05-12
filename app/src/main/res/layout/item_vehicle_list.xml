@@ -7,7 +7,7 @@
     android:layout_height="120dp"
     android:layout_margin="@dimen/marginXS"
     app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
-    app:cardElevation="@dimen/marginXS">
+    app:cardElevation="@dimen/cardview_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +21,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
             tools:src="@drawable/placeholder_car" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -85,7 +84,7 @@
             android:layout_marginEnd="@dimen/marginS"
             android:src="@drawable/icon_vehicle_truck"
             android:tint="?attr/colorPrimary"
-            app:cardCornerRadius="@dimen/marginS"
+            app:cardCornerRadius="@dimen/cardview_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +97,7 @@
             android:rotation="-20"
             android:text="@string/item_vehicle_not_available"
             android:textColor="?attr/colorError"
-            android:textSize="@dimen/notAvailable"
+            android:textSize="@dimen/not_available"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

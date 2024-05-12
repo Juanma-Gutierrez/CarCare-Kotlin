@@ -48,7 +48,6 @@
         android:src="@drawable/icon_image"
         app:layout_constraintBottom_toBottomOf="@+id/camera_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/camera_icon"
         app:layout_constraintTop_toTopOf="@+id/camera_icon"
         app:layout_constraintVertical_chainStyle="packed"

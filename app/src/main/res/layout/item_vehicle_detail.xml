@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:layout_margin="@dimen/marginS"
     app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
-    app:cardElevation="@dimen/marginS">
+    app:cardElevation="@dimen/cardview_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:layout_margin="@dimen/marginS"
             android:src="@drawable/icon_vehicle_truck"
             android:tint="?attr/colorPrimary"
-            app:cardCornerRadius="@dimen/marginS"
+            app:cardCornerRadius="@dimen/cardview_radius"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_iv_vehicleImage" />
@@ -100,11 +100,10 @@
             android:rotation="-20"
             android:text="@string/item_vehicle_not_available"
             android:textColor="?attr/colorError"
-            android:textSize="@dimen/notAvailable"
+            android:textSize="@dimen/not_available"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/iv_iv_vehicleImage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iv_iv_vehicleImage"
             tools:text="No disponible" />

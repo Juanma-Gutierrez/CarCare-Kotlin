@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginXS"
-    app:cardCornerRadius="@dimen/marginXS"
-    app:cardElevation="@dimen/marginXS">
+    app:cardElevation="@dimen/cardview_elevation"
+    app:cardCornerRadius="@dimen/cardview_radius">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
             app:tint="?attr/colorPrimary" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -31,10 +30,10 @@
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginS"
             android:ellipsize="end"
             android:lines="1"
             android:textStyle="bold"
-            android:layout_marginStart="@dimen/marginS"
             app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerPhone"
             app:layout_constraintStart_toEndOf="@+id/ip_iv_providerIcon"
             app:layout_constraintTop_toTopOf="parent"
