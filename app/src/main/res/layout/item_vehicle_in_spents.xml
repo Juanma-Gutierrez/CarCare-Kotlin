@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/vehicleCardWidth"
+    app:cardCornerRadius="@dimen/marginXS"
+    android:elevation="@dimen/marginS"
+    android:layout_margin="@dimen/marginXS"
+    android:layout_height="@dimen/vehicleCardHeight">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ivs_cl_containerImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@drawable/placeholder_real_vehicle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vehicleCardInfoBlock"
+            android:background="@color/transparent_bg_primary"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ivs_tv_brand"
+                style="@style/ItemTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="?attr/colorPrimaryInverse"
+                tools:text="Harley-Davidson" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ivs_tv_model"
+                style="@style/ItemText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorPrimaryInverse"
+                tools:text="Springer softail" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
