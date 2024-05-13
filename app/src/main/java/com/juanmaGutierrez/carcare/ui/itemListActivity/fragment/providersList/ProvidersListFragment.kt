@@ -38,23 +38,40 @@ class ProvidersListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        getProvidersList()
+    }
+
     private fun configureUI() {
         viewModel = ViewModelProvider(this)[ProvidersListViewModel::class.java]
         binding = FragmentProvidersListBinding.inflate(layoutInflater)
+    }
+
+    private fun configureObservers() {
+        configureProvidersListObserver()
+        configureIsLoadingObserver()
+        configureSnackbarMessageObserver()
+    }
+
+    private fun configureProvidersListObserver() {
+        viewModel.providersList.observe(viewLifecycleOwner) { providers ->
+            providersList = providers
+            loadProvidersListInRV()
+        }
+    }
+
+    private fun configureIsLoadingObserver() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
                 true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
                 false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
             }
         }
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
     }
 
-    private fun configureObservers() {
-        viewModel.providersList.observe(viewLifecycleOwner) { providers ->
-            providersList = providers
-            loadProvidersListInRV()
-        }
+    private fun configureSnackbarMessageObserver() {
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
     }
 
     private fun configureAddButton() {
