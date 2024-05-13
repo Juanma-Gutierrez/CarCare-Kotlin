@@ -9,13 +9,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sl_rv_vehiclesInSpentList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryContainer"
-        android:orientation="horizontal"
+        android:layout_height="100dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_vehicle_in_spents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_vehicle_in_spents" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sl_cl_spentsContainer"

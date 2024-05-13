@@ -41,6 +41,7 @@
     <string name="snackBar_registerUser_Successfully">User registered successfully</string>
     <string name="snackBar_selectCategoryBrandModel">Select category, brand and model</string>
     <string name="snackBar_noPermissions">The necessary permissions have not been granted</string>
+    <string name="snackBar_callPermissionGranted">Call permission granted</string>
 
     <!-- onBoarding -->
     <string name="next_button">Next</string>

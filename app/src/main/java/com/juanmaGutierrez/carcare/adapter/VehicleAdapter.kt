@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
@@ -19,8 +21,7 @@ import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class VehicleAdapter(
-    private var vehicles: List<VehiclePreview>,
-    private val context: Context
+    private var vehicles: List<VehiclePreview>, private val context: Context
 ) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,6 +53,14 @@ class VehicleAdapter(
         private val vehicleImage: ShapeableImageView = itemView.findViewById(R.id.iv_iv_vehicleImage)
 
         fun bind(vehicle: VehiclePreview) {
+            configureIcon(vehicle)
+            configureData(vehicle)
+            configureImage(vehicle)
+            configureListeners(vehicle)
+            configureNotAvailable(vehicle)
+        }
+
+        private fun configureIcon(vehicle: VehiclePreview) {
             icon.setImageResource(
                 when (vehicle.category) {
                     "car" -> R.drawable.icon_vehicle_car
@@ -61,9 +70,15 @@ class VehicleAdapter(
                     else -> R.drawable.icon_vehicle_car
                 }
             )
+        }
+
+        private fun configureData(vehicle: VehiclePreview) {
             brand.text = vehicle.brand.toUpperCamelCase()
             model.text = vehicle.model.toUpperCamelCase()
             plate.text = vehicle.plate.uppercase()
+        }
+
+        private fun configureImage(vehicle: VehiclePreview) {
             if (vehicle.imageURL.isNullOrEmpty() || vehicle.imageURL == "null") {
                 vehicleImage.setImageResource(
                     when (vehicle.category) {
@@ -77,6 +92,9 @@ class VehicleAdapter(
             } else {
                 vehicle.imageURL?.let { fbGetImageURL(it) { url -> vehicleImage.load(url) } }
             }
+        }
+
+        private fun configureListeners(vehicle: VehiclePreview) {
             val context = itemView.context
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
@@ -84,8 +102,14 @@ class VehicleAdapter(
                 intent.putExtra("itemID", vehicle.vehicleId)
                 context.startActivity(intent)
             }
+        }
+
+        private fun configureNotAvailable(vehicle: VehiclePreview) {
             if (!vehicle.available) {
                 itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.VISIBLE
+                val colorNotAvailable = ContextCompat.getColor(context, R.color.transparent_bg_error)
+                itemView.findViewById<ConstraintLayout>(R.id.iv_cl_vehicleTitleContainer)
+                    .setBackgroundColor(colorNotAvailable)
             }
         }
     }

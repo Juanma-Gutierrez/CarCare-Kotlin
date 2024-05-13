@@ -22,7 +22,7 @@
             tools:src="@drawable/placeholder_car" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/iv_cl_vehicleTitleContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent_bg_primary"
@@ -100,7 +100,7 @@
             android:shadowDy="0"
             android:shadowRadius="5"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintBottom_toTopOf="@+id/iv_cl_vehicleTitleContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/iv_iv_vehicleImage"

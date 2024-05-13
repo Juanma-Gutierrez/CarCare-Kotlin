@@ -120,6 +120,7 @@
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
     <string name="content_description_vehicle_image">Vehicle image</string>
+    <string name="snackBar_callPermissionGranted">Permiso aceptado para realizar llamadas</string>
 
 
 </resources>

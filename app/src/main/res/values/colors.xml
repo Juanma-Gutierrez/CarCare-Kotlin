@@ -65,4 +65,5 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_black">#000000</color>
     <color name="transparent_bg_primary">#801360A5</color>
+    <color name="transparent_bg_error">#80FF0000</color>
 </resources>

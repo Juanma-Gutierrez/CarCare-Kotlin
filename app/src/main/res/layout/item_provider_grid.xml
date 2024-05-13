@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/marginXS"
-    app:cardElevation="@dimen/cardview_elevation"
-    app:cardCornerRadius="@dimen/cardview_radius">
+    app:cardCornerRadius="@dimen/cardview_radius"
+    app:cardElevation="@dimen/cardview_elevation">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,12 +17,14 @@
 
         <ImageView
             android:id="@+id/ip_iv_providerIcon"
-            android:layout_width="@dimen/iconM"
-            android:layout_height="@dimen/iconM"
+            android:layout_width="@dimen/iconS"
+            android:layout_height="@dimen/iconS"
             android:src="@drawable/icon_vehicle_car"
+            app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             app:tint="?attr/colorPrimary" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -30,13 +32,14 @@
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textAlignment="center"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/ip_tv_providerCategory"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ip_iv_providerIcon"
-            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Línea Directa Aseguradora" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -57,12 +60,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ip_iv_phoneButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerCategory"
             tools:text="902112233" />
 
+        <ImageView
+            android:id="@+id/ip_iv_phoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_phone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ip_tv_providerPhone"
+            app:tint="?attr/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

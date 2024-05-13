@@ -2,21 +2,16 @@ package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.HorizontalScrollView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.carousel.CarouselLayoutManager
 import com.juanmaGutierrez.carcare.R
-import com.juanmaGutierrez.carcare.adapter.ProviderAdapter
 import com.juanmaGutierrez.carcare.adapter.VehicleInSpentsListAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
-import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
-import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
@@ -64,8 +59,7 @@ class SpentsListFragment : Fragment() {
 
     private fun loadVehiclesInRV(vehicles: List<VehiclePreview>) {
         vehiclesAdapter = VehicleInSpentsListAdapter(vehicles, requireContext())
-        binding.slRvVehiclesInSpentList.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.slRvVehiclesInSpentList.setLayoutManager(CarouselLayoutManager())
         binding.slRvVehiclesInSpentList.adapter = vehiclesAdapter
     }
 

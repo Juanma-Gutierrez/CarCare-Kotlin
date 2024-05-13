@@ -1,6 +1,7 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -98,4 +99,14 @@ class ProvidersListFragment : Fragment() {
         }
         binding.plRvProviders.adapter = providersAdapter
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            showSnackBar(getString(R.string.snackBar_callPermissionGranted), requireView()) {}
+        } else {
+            showSnackBar(getString(R.string.snackBar_noPermissions), requireView()) {}
+        }
+    }
+
 }

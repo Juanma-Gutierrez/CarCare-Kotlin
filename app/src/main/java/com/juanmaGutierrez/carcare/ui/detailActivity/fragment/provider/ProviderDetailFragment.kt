@@ -79,7 +79,6 @@ class ProviderDetailFragment : Fragment() {
     }
 
     private fun configureNewProviderUI() {
-        milog("entra en new provider")
         viewModel.setIsLoading(false)
         binding.pdBtDelete.visibility = View.GONE
         uiUM.alertDialog.title = getString(R.string.alertDialog_newProvider_title)
@@ -91,7 +90,6 @@ class ProviderDetailFragment : Fragment() {
     }
 
     private fun configureEditProviderUI() {
-        milog("entra en edit provider")
         binding.pdBtDelete.visibility = View.VISIBLE
         uiUM.alertDialog.title = getString(R.string.alertDialog_editProvider_title)
         uiUM.alertDialog.message = getString(R.string.alertDialog_editProvider_message)
