@@ -12,7 +12,6 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
-import com.juanmaGutierrez.carcare.service.milog
 import kotlinx.coroutines.launch
 
 class SpentsListViewModel : ViewModel() {
@@ -30,7 +29,6 @@ class SpentsListViewModel : ViewModel() {
 
 
     fun getVehiclesListFromFB() {
-        milog("Viewmodel GetVehicles list")
         _isLoading.postValue(true)
         viewModelScope.launch {
             val uid = FirebaseService.getInstance().auth?.uid.toString()
@@ -39,7 +37,6 @@ class SpentsListViewModel : ViewModel() {
                 if (data != null) {
                     val rawVehicles = data["vehicles"] as List<HashMap<String, Any>>
                     val vehiclePreviewList = mapHashVehiclesToList(rawVehicles)
-                    milog("$vehiclePreviewList")
                     _vehicles.value = vehiclePreviewList
                 } else {
                     Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL)

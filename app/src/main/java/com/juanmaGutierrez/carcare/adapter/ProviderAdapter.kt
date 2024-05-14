@@ -6,10 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +19,12 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogMessage
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.getProviderCategoryTranslation
+import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -113,11 +118,19 @@ class ProviderAdapter(
                 val callIntent = Intent(Intent.ACTION_CALL)
                 callIntent.data = Uri.parse("tel:$phoneNumber")
                 if (ContextCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.CALL_PHONE
+                        context, Manifest.permission.CALL_PHONE
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    context.startActivity(callIntent)
+                    val title = itemView.context.getString(R.string.alertDialog_confirm_message)
+                    val message =
+                        itemView.context.getString(R.string.alertDialog_provider_confirm_call, provider.name)
+                    val icon = AppCompatResources.getDrawable(itemView.context, R.drawable.icon_phone)
+                    val ad = AlertDialogModel(context as Activity, title, message, icon)
+                    showDialogAcceptCancel(ad) { accept ->
+                        if (accept) {
+                            context.startActivity(callIntent)
+                        }
+                    }
                 } else {
                     ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.CALL_PHONE), 1)
                 }

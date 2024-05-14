@@ -136,6 +136,7 @@
     <string name="alertDialog_deleteImage">Are you sure to delete the image?</string>
     <string name="alertDialog_icon_camera">Camera</string>
     <string name="alertDialog_icon_gallery">Gallery</string>
+    <string name="alertDialog_provider_confirm_call">Sure you want to call %1$s?</string>
 
     <string name="alertDialog_newProvider_title">Create new provider</string>
     <string name="alertDialog_newProvider_message">Are you sure to create this new provider?</string>
@@ -155,5 +156,6 @@
     <string name="settings_providers_list_format_grid">Grid view</string>
     <string name="settings_providers_list_format_linear">List view</string>
     <string name="content_description_vehicle_image">Vehicle image</string>
+    <string name="spents_list_vehicleSelected">Select a vehicle</string>
 
 </resources>

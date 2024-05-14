@@ -10,14 +10,14 @@
     app:shapeAppearance="?attr/shapeAppearanceCornerLarge">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/vehicle_card_width"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/ivs_iv_vehicleImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="Vehicle Image"
+            android:contentDescription="@string/content_description_vehicle_image"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,10 +12,10 @@
         android:layout_height="100dp"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_vehicle_in_spents"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_vehicle_in_spents" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sl_cl_spentsContainer"
@@ -29,21 +29,34 @@
         app:layout_constraintTop_toBottomOf="@id/sl_rv_vehiclesInSpentList">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sl_tv_numSpents"
-            style="@style/ItemTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nº Gastos: 6" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sl_tv_totalSpents"
+            android:id="@+id/sl_tv_vehicleSelected"
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/spents_list_vehicleSelected"
+            tools:text="Harley-Davidson Springer Softail" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/sl_tv_numSpents"
+            style="@style/ItemText"
+            android:layout_marginTop="@dimen/marginXS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sl_tv_vehicleSelected"
+            tools:text="Nº Gastos: 6" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/sl_tv_totalSpents"
+            style="@style/ItemText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/sl_tv_numSpents"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sl_tv_numSpents"
             tools:text="Total gastos: 325,75€" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

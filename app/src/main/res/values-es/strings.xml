@@ -25,12 +25,14 @@
     <string name="alertDialog_newSpent_title">Nuevo gasto</string>
     <string name="alertDialog_newVehicle_message">¿Seguro que quieres crear este vehículo?</string>
     <string name="alertDialog_newVehicle_title">Nuevo vehículo</string>
+    <string name="alertDialog_provider_confirm_call">¿Seguro que quieres llamar a %1$s?</string>
     <string name="alertDialog_select_action">Selecciona una acción</string>
     <string name="alertDialog_show_info_newVehicle_message">Para crear un nuevo vehículo, introduce la categoría, la marca, el modelo y el resto de datos.</string>
     <string name="alertDialog_show_info_newVehicle_title">Nuevo vehículo</string>
     <string name="cancel">Cancelar</string>
     <string name="cancel_message">Operación cancelada</string>
     <string name="close">Cerrar</string>
+    <string name="content_description_vehicle_image">Vehicle image</string>
     <string name="delete">Eliminar</string>
     <string name="edit_provider">Editar proveedor</string>
     <string name="edit_spent">Editar gasto</string>
@@ -90,6 +92,7 @@
     <string name="settings_vehicles_list_format">Listado de vehículos</string>
     <string name="settings_vehicles_list_format_detail">Vista ampliada</string>
     <string name="settings_vehicles_list_format_normal">Vista compacta</string>
+    <string name="snackBar_callPermissionGranted">Permiso aceptado para realizar llamadas</string>
     <string name="snackBar_fieldsEmpty">Debes rellenar correctamente los campos</string>
     <string name="snackBar_inputError">No se ha podido iniciar sesión</string>
     <string name="snackBar_noPermissions">No se han concedido los permisos necesarios</string>
@@ -119,8 +122,7 @@
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
-    <string name="content_description_vehicle_image">Vehicle image</string>
-    <string name="snackBar_callPermissionGranted">Permiso aceptado para realizar llamadas</string>
+    <string name="spents_list_vehicleSelected">Selecciona un vehículo</string>
 
 
 </resources>

@@ -16,9 +16,15 @@ import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.milog
 
+interface OnVehicleClickListener {
+    fun onVehicleClick(vehicle: VehiclePreview)
+}
+
 class VehicleInSpentsListAdapter(
     private val vehicles: List<VehiclePreview>, private val context: Context
 ) : RecyclerView.Adapter<VehicleInSpentsListAdapter.ViewHolder>() {
+
+    private var onVehicleClickListener: OnVehicleClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleInSpentsListAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -32,6 +38,10 @@ class VehicleInSpentsListAdapter(
 
     override fun getItemCount(): Int {
         return vehicles.size
+    }
+
+    fun setOnVehicleClickListener(listener: OnVehicleClickListener) {
+        onVehicleClickListener = listener
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -73,10 +83,9 @@ class VehicleInSpentsListAdapter(
             }
         }
 
+
         private fun configureOnClickListeners(vehicle: VehiclePreview) {
-            card.setOnClickListener {
-                milog("Pulsado: ${vehicle.vehicleId}")
-            }
+            card.setOnClickListener { onVehicleClickListener?.onVehicleClick(vehicle) }
         }
     }
 }

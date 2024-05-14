@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.juanmaGutierrez.carcare.R
+import com.juanmaGutierrez.carcare.adapter.OnVehicleClickListener
 import com.juanmaGutierrez.carcare.adapter.VehicleInSpentsListAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
@@ -16,7 +17,7 @@ import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
-class SpentsListFragment : Fragment() {
+class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var viewModel: SpentsListViewModel
     private lateinit var binding: FragmentSpentsListBinding
     private lateinit var vehiclesAdapter: VehicleInSpentsListAdapter
@@ -36,18 +37,20 @@ class SpentsListFragment : Fragment() {
         configureObservers()
     }
 
+    override fun onVehicleClick(vehicle: VehiclePreview) {
+        val vehicleSelected = "${vehicle.brand} ${vehicle.model}"
+        binding.slTvVehicleSelected.text = vehicleSelected
+    }
+
     private fun getVehiclesFromFB() {
-        milog("obtener vehiculos")
         viewModel.getVehiclesListFromFB()
     }
 
     private fun configureUI() {
-        milog("configurar UI")
         configureFabButton()
     }
 
     private fun configureObservers() {
-        milog("configurar observers")
         configureVehicleListObserver()
     }
 
@@ -59,6 +62,7 @@ class SpentsListFragment : Fragment() {
 
     private fun loadVehiclesInRV(vehicles: List<VehiclePreview>) {
         vehiclesAdapter = VehicleInSpentsListAdapter(vehicles, requireContext())
+        vehiclesAdapter.setOnVehicleClickListener(this)
         binding.slRvVehiclesInSpentList.setLayoutManager(CarouselLayoutManager())
         binding.slRvVehiclesInSpentList.adapter = vehiclesAdapter
     }

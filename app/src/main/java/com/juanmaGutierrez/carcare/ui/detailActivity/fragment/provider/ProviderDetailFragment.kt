@@ -1,6 +1,5 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -22,12 +21,10 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getProviderCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.service.translateProviderCategory
-import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 
 class ProviderDetailFragment : Fragment() {
     private lateinit var binding: FragmentProviderDetailBinding
