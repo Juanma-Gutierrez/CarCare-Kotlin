@@ -71,7 +71,7 @@ class SpentsListViewModel : ViewModel() {
     }
 
     private fun calculateNumSpents() {
-        _numSpents.value = _spents.value?.size ?: 0
+        _numSpents.value = _spentsList.value?.size ?: 0
     }
 
     private fun calculateTotalSpents() {
