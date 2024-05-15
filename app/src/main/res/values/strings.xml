@@ -118,6 +118,10 @@
     <string name="provider_deleteProvider_successfully">Provider deleted successfully</string>
     <string name="provider_deleteProvider_error">Error in provider deletion</string>
 
+    <!-- Spents -->
+    <string name="spents_numSpents">Nº Spents: %d</string>
+    <string name="spents_totalSpents">Total spents: %.2f €</string>
+
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>
 

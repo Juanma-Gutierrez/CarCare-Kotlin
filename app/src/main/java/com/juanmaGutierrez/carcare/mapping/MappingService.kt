@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.mapping
 
+import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,6 +13,7 @@ import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.milog
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
     val vehicleEntities = vehicles.map { vehicleData ->
@@ -105,7 +107,7 @@ fun mapHashVehiclesToList(vehiclesList: List<HashMap<String, Any>>): List<Vehicl
 
 fun mapUserToUserFB(user: User, uid: String): UserFB {
     val currentTimeStamp = getTimestamp()
-    val data = UserFB(
+    return UserFB(
         currentTimeStamp,
         user.email,
         user.name,
@@ -115,7 +117,6 @@ fun mapUserToUserFB(user: User, uid: String): UserFB {
         uid,
         emptyList(),
     )
-    return data
 }
 
 fun mapProviderFBtoProvider(data: Map<String, List<Map<String, String>>>): MutableList<Provider> {
@@ -131,4 +132,23 @@ fun mapProviderFBtoProvider(data: Map<String, List<Map<String, String>>>): Mutab
         providersList.add(provider)
     }
     return providersList
+}
+
+fun mapSpentListFBToSpentList(rawSpents: List<Map<String, Any>>): List<SpentFB> {
+    return rawSpents.mapNotNull { rawSpent ->
+        try {
+            SpentFB(
+                (rawSpent["amount"] as? Number)?.toDouble() ?: 0.0,
+                rawSpent["created"]?.toString() ?: "",
+                rawSpent["date"]?.toString() ?: "",
+                rawSpent["observations"]?.toString() ?: "",
+                rawSpent["providerId"]?.toString() ?: "",
+                rawSpent["providerName"]?.toString() ?: "",
+                rawSpent["spentId"]?.toString() ?: ""
+            )
+        } catch (e: Exception) {
+            Log.e(Constants.TAG_ERROR, "Error mapping spent: ${e.message}")
+            null
+        }
+    }
 }

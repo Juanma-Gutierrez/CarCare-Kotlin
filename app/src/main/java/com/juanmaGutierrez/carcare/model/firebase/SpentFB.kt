@@ -1,7 +1,7 @@
 package com.juanmaGutierrez.carcare.model.firebase
 
 data class SpentFB(
-    val amount: Int,
+    val amount: Double,
     val created: String,
     val date: String,
     val observations: String,

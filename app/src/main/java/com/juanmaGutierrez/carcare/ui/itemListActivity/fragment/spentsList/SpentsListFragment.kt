@@ -38,8 +38,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     }
 
     override fun onVehicleClick(vehicle: VehiclePreview) {
-        val vehicleSelected = "${vehicle.brand} ${vehicle.model}"
-        binding.slTvVehicleSelected.text = vehicleSelected
+        viewModel.vehicleClicked(vehicle)
     }
 
     private fun getVehiclesFromFB() {
@@ -52,11 +51,34 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     private fun configureObservers() {
         configureVehicleListObserver()
+        configureSelectedVehicleTitleObserver()
+        configureNumSpentsObserver()
+        configureTotalSpentsObserver()
     }
+
+
 
     private fun configureVehicleListObserver() {
         viewModel.vehicles.observe(viewLifecycleOwner) { vehicles ->
             loadVehiclesInRV(vehicles)
+        }
+    }
+
+    private fun configureSelectedVehicleTitleObserver() {
+        viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
+            binding.slTvVehicleSelected.text = "${vehicle.brand} ${vehicle.model}"
+        }
+    }
+
+    private fun configureNumSpentsObserver() {
+        viewModel.numSpents.observe(viewLifecycleOwner) { numSpents ->
+            binding.slTvNumSpents.text = getString(R.string.spents_numSpents, numSpents)
+        }
+    }
+
+    private fun configureTotalSpentsObserver() {
+        viewModel.totalSpents.observe(viewLifecycleOwner) { totalSpents ->
+            binding.slTvTotalSpents.text = getString(R.string.spents_totalSpents, totalSpents)
         }
     }
 

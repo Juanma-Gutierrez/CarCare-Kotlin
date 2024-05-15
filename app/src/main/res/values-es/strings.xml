@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="accept">Aceptar</string>
+    <string name="spents_numSpents">Nº Gastos: %d</string>
     <string name="add_new_item">Crear un nuevo elemento</string>
     <string name="alertDialog_confirm_message">Confirmación</string>
     <string name="alertDialog_deleteImage">¿Seguro que deseas borrar la imagen?</string>
@@ -123,6 +124,7 @@
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
     <string name="spents_list_vehicleSelected">Selecciona un vehículo</string>
+    <string name="spents_totalSpents">Gastos totales: %.2f €</string>
 
 
 </resources>
