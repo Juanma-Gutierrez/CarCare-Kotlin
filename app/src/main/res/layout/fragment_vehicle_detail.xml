@@ -38,7 +38,7 @@
                         android:id="@+id/ve_iv_vehicleImage"
                         android:layout_width="@dimen/logoM"
                         android:layout_height="@dimen/logoM"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="fitCenter" />
 
                 </androidx.cardview.widget.CardView>
             </androidx.cardview.widget.CardView>

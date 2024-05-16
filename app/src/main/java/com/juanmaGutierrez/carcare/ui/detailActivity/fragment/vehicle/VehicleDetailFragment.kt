@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -36,6 +38,7 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -129,13 +132,15 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun generateNewEmptyVehicle(): VehicleFB {
         val auth = FirebaseAuth.getInstance()
+        val createTime = getTimestamp()
         return VehicleFB(
             true,
             "",
             "",
-            getTimestamp().transformDateIsoToString(),
+            createTime,
             null,
             "",
             "",
@@ -206,6 +211,7 @@ class VehicleDetailFragment : Fragment() {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureVehicle() {
         viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
             imageURL = vehicle.imageURL
@@ -328,6 +334,7 @@ class VehicleDetailFragment : Fragment() {
         pickGalleryImageLauncher.launch(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun loadVehicleDataToForm(vehicle: VehicleFB) {
         val category = vehicle.category.getVehicleCategoryTranslation(requireContext())
         binding.veAcCategory.setText(category, false)
@@ -344,6 +351,7 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureDateButton(date: String) {
         binding.veCbDate.setOnClickListener {
             showDatePickerDialog(
@@ -490,6 +498,7 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)
         viewModel.editVehicle(editedVehicle)
@@ -502,8 +511,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getDataFromForm(v: VehicleFB): VehicleFB {
-        val vehicle = VehicleFB(
+        return VehicleFB(
             binding.veCbAvailable.isChecked,
             binding.veAcBrand.text.toString(),
             binding.veAcCategory.text.toString().translateVehicleCategory(),
@@ -516,7 +526,6 @@ class VehicleDetailFragment : Fragment() {
             v.userId,
             v.vehicleId
         )
-        return vehicle
     }
 
     private fun deleteVehicle(vehicle: VehicleFB) {
