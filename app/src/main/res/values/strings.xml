@@ -70,6 +70,7 @@
     <string name="label_repeatPassword">Repeat password</string>
     <string name="goLogin_button">Login</string>
     <string name="error_emptyFields">You can\'t leave empty fields</string>
+    <string name="error_emailInvalid">Email not valid</string>
     <string name="error_passwordNotMatch">The password do not match</string>
     <string name="error_passwordWeak">The password is too weak</string>
     <string name="snackBar_showAll">All vehicles</string>

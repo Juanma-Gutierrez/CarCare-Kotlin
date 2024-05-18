@@ -125,6 +125,7 @@
     <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
     <string name="spents_list_vehicleSelected">Selecciona un vehículo</string>
     <string name="spents_totalSpents">Gastos totales: %.2f €</string>
+    <string name="error_emailInvalid">Email no válido</string>
 
 
 </resources>

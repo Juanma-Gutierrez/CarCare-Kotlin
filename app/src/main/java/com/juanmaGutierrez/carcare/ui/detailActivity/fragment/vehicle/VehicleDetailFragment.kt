@@ -134,19 +134,17 @@ class VehicleDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun generateNewEmptyVehicle(): VehicleFB {
-        val auth = FirebaseAuth.getInstance()
-        val createTime = getTimestamp()
         return VehicleFB(
             true,
             "",
             "",
-            createTime,
+            getTimestamp(),
             null,
             "",
             "",
             getTimestamp().transformDateIsoToString(),
             emptyList(),
-            auth.currentUser!!.uid,
+            FirebaseAuth.getInstance().currentUser!!.uid,
             generateId()
         )
     }

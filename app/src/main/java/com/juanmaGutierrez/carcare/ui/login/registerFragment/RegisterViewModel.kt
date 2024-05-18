@@ -26,28 +26,34 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     fun register(user: User) {
         if (!validUserData(user)) return
-        else
-            try {
-                fbRegisterUserAuth(user) { success ->
-                    if (success) {
-                        FirebaseAuth.getInstance().addAuthStateListener { auth ->
-                            if (auth.currentUser != null) {
-                                _navigateToItemList.value = true
-                            }
+        else try {
+            fbRegisterUserAuth(user) { success ->
+                if (success) {
+                    FirebaseAuth.getInstance().addAuthStateListener { auth ->
+                        if (auth.currentUser != null) {
+                            _navigateToItemList.value = true
                         }
                     }
                 }
-            } catch (e: Error) {
-                Log.e(TAG, Constants.REGISTER_USER_ERROR)
             }
+        } catch (e: Error) {
+            Log.e(TAG, Constants.REGISTER_USER_ERROR)
+        }
     }
 
     private fun validUserData(user: User): Boolean {
-        if (someFieldEmpty(user)) {
-            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_emptyFields)
+        if (!allFieldsFilled(user)) return false
+        if (!emailIsValid(user)) return false
+        if (!passwordIsValid(user)) return false
+        return true
+    }
+
+    private fun emailIsValid(user: User): Boolean {
+        val regex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+        if (!user.email.matches(regex.toRegex())) {
+            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_emailInvalid)
             return false
         }
-        if (!passwordIsValid(user)) return false
         return true
     }
 
@@ -68,11 +74,13 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         return pattern.matches(password)
     }
 
-    private fun someFieldEmpty(user: User): Boolean {
-        return (user.name.isEmpty() or
-                user.surname.isEmpty() or
-                user.username.isEmpty() or
-                user.email.isEmpty() or
-                user.password.isEmpty())
+    private fun allFieldsFilled(user: User): Boolean {
+        val invalid =
+            user.name.isEmpty() or user.surname.isEmpty() or user.username.isEmpty() or user.email.isEmpty() or user.password.isEmpty()
+        if (invalid) {
+            _snackbarMessage.value = getApplication<Application>().getString(R.string.error_emptyFields)
+            return false
+        }
+        return true
     }
 }
