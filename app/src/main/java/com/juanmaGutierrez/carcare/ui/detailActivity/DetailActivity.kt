@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
@@ -69,7 +70,7 @@ class DetailActivity : AppCompatActivity() {
 
             "editSpent" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_spent))
-                navigateToDetailFragment(SpentDetailFragment())
+                navigateToDetailFragment(SpentDetailFragment(), itemID)
             }
         }
     }

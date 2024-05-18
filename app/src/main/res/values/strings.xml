@@ -122,6 +122,12 @@
     <!-- Spents -->
     <string name="spents_numSpents">Nº Spents: %d</string>
     <string name="spents_totalSpents">Total spents: %.2f €</string>
+    <string name="spent_createSpent_successfully">Spent created successfully</string>
+    <string name="spent_createSpent_error">Error in spent creation</string>
+    <string name="spent_editSpent_successfully">Spent edited successfully</string>
+    <string name="spent_editSpent_error">Error in spent edition</string>
+    <string name="spent_deleteSpent_successfully">Spent deleted successfully</string>
+    <string name="spent_deleteSpent_error">Error in spent deletion</string>
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>

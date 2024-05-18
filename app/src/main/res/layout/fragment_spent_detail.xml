@@ -94,8 +94,10 @@
                         app:icon="@drawable/icon_cancel" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/ve_bt_delete"
-                        style="?attr/materialButtonOutlinedStyle"
+                        android:id="@+id/sd_bt_delete"
+                        style="?attr/itemFillColor"
+                        android:backgroundTint="?attr/colorError"
+                        android:drawableTint="?android:attr/colorBackground"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/delete"

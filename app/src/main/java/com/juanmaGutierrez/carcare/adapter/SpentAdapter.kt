@@ -11,6 +11,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -47,7 +48,6 @@ class SpentAdapter(private var spents: List<SpentFB>, private val context: Conte
         @SuppressLint("NewApi")
         private fun configureData(spent: SpentFB) {
             name.text = spent.providerName
-            // todo arreglar en Angular la grabación de la fecha del gasto a ISO
             date.text = spent.date.transformDateIsoToString()
             observations.text = spent.observations
             amount.text = String.format("%.2f €", spent.amount)

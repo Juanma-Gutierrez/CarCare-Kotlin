@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.milog
 
 class SpentDetailViewModel : ViewModel() {
     private val _vehicles = MutableLiveData<List<VehiclePreview>>()
@@ -19,5 +20,13 @@ class SpentDetailViewModel : ViewModel() {
     private val _editSpentSuccessful = MutableLiveData<Boolean>()
     val editSpentSuccessful: LiveData<Boolean> get() = _editSpentSuccessful
     lateinit var uiUM: UIUserMessages
+
+    fun getSpentFromFB(itemID: String) {
+        milog("entra en getSpentFromFB: $itemID")
+    }
+
+    internal fun setIsLoading(status: Boolean) {
+        this._isLoading.value = status
+    }
 
 }
