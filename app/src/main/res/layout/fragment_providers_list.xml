@@ -8,10 +8,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pl_rv_providers"
-        android:padding="@dimen/marginXS"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorPrimaryContainer"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/marginXS"
+        android:paddingTop="@dimen/marginXS"
+        android:paddingBottom="@dimen/paddingBottom_recyclerView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

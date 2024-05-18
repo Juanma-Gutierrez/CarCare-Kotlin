@@ -11,6 +11,7 @@
     <dimen name="marginM">50dp</dimen>
     <dimen name="marginS">25dp</dimen>
     <dimen name="marginXS">8dp</dimen>
+    <dimen name="paddingBottom_recyclerView">90dp</dimen>
     <dimen name="divider_separator">20dp</dimen>
     <dimen name="cardview_radius">20dp</dimen>
     <dimen name="cardview_circle_radius">200dp</dimen>

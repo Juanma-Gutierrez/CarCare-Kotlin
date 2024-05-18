@@ -33,18 +33,18 @@
             style="@style/ItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/spents_list_vehicleSelected"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/spents_list_vehicleSelected"
             tools:text="Harley-Davidson Springer Softail" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sl_tv_numSpents"
             style="@style/ItemText"
-            android:layout_marginTop="@dimen/marginXS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginXS"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sl_tv_vehicleSelected"
             tools:text="Nº Gastos: 6" />
@@ -65,6 +65,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="?attr/colorPrimaryContainer"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/marginXS"
+        android:paddingHorizontal="@dimen/marginXS"
+        android:paddingBottom="@dimen/paddingBottom_recyclerView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sl_fab_addSpent"
         app:layout_constraintStart_toStartOf="parent"

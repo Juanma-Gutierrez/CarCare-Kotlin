@@ -5,8 +5,7 @@
     android:id="@+id/iv_cl_card"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/marginS"
+    android:layout_margin="@dimen/marginXS"
     app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
     app:cardElevation="@dimen/cardview_elevation">
 
