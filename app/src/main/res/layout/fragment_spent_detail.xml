@@ -7,7 +7,6 @@
     tools:context=".ui.detailActivity.fragment.spent.SpentDetailFragment">
 
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,8 +31,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:divider="@drawable/empty_divider"
                     android:layout_gravity="center"
+                    android:divider="@drawable/empty_divider"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingHorizontal="@dimen/marginS"
@@ -63,7 +62,7 @@
                             android:id="@+id/sd_tv_amount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"/>
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -74,19 +73,19 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/sd_tv_observations"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vn_bt_accept"
+                        android:id="@+id/sd_bt_accept"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
                         android:text="@string/accept"
                         app:icon="@drawable/icon_check" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/vn_bt_cancel"
+                        android:id="@+id/sd_bt_cancel"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
@@ -96,10 +95,10 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/sd_bt_delete"
                         style="?attr/itemFillColor"
-                        android:backgroundTint="?attr/colorError"
-                        android:drawableTint="?android:attr/colorBackground"
                         android:layout_width="@dimen/buttonL"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/colorError"
+                        android:drawableTint="?android:attr/colorBackground"
                         android:text="@string/delete"
                         app:icon="@drawable/icon_trash" />
 
@@ -107,13 +106,4 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
-
-    <include
-        layout="@layout/lottie_is_loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
-
 </FrameLayout>

@@ -13,7 +13,6 @@ import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.getTimestamp
-import com.juanmaGutierrez.carcare.service.milog
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
     val vehicleEntities = vehicles.map { vehicleData ->
@@ -151,4 +150,16 @@ fun mapSpentListFBToSpentList(rawSpents: List<Map<String, Any>>): List<SpentFB> 
             null
         }
     }
+}
+
+fun mapProvidersListRawToProvidersList(providers: List<Map<String, Any>>): MutableList<Provider> {
+    return providers.map { p ->
+        Provider(
+            category = p["category"] as String,
+            created = p["created"] as String,
+            name = p["name"] as String,
+            phone = p["phone"] as String,
+            providerId = p["providerId"] as String
+        )
+    }.toMutableList()
 }

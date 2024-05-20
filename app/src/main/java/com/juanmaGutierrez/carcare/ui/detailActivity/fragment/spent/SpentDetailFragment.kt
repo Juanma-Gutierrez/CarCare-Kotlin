@@ -16,7 +16,10 @@ import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.milog
+import com.juanmaGutierrez.carcare.service.showSnackBar
+import java.security.Security.getProviders
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -37,24 +40,19 @@ class SpentDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.init()
         createEmptySpent()
         configureUIMessages()
         checkNewOrCreate()
-        // configureUI()
-        // configureSelectables()
-        // configureObservers()
+        configureUI()
+        configureSelectables()
+        configureObservers()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createEmptySpent() {
         this.spent = Spent(
-            0.0,
-            getTimestamp(),
-            getTimestamp(),
-            "",
-            "",
-            "",
-            generateId()
+            0.0, getTimestamp(), getTimestamp(), "", "", "", generateId()
         )
     }
 
@@ -72,6 +70,30 @@ class SpentDetailFragment : Fragment() {
             "edit" -> configureEditSpentUI()
         }
         viewModel.uiUM = uiUM
+    }
+
+    private fun configureUI() {
+        binding.sdBtAccept.setOnClickListener { buttonAcceptPressed() }
+        binding.sdBtCancel.setOnClickListener { buttonCancelPressed() }
+        binding.sdBtDelete.setOnClickListener { buttonDeletePressed() }
+    }
+
+    private fun configureSelectables() {
+        viewModel.getProviders()
+    }
+
+    private fun configureObservers() {
+        configureSelectableObservers()
+        configureIsLoadingObserver()
+        configureSpentObserver()
+        configureEditSpentObserver()
+    }
+
+    private fun configureSelectableObservers() {
+        viewModel.providersSelectableList.observe(viewLifecycleOwner) { providers ->
+            milog("proveedores: $providers")
+            loadDataInSelectable(binding.sdAcProvider, providers, requireActivity())
+        }
     }
 
 
@@ -105,5 +127,32 @@ class SpentDetailFragment : Fragment() {
         uiUM.logMessages.createOrEditionError = Constants.LOG_SPENT_EDITION_ERROR
     }
 
+    private fun buttonAcceptPressed() {
+        showSnackBar("pulsado botón aceptar", requireView()) {}
+    }
 
+    private fun buttonCancelPressed() {
+        showSnackBar("pulsado botón cancelar", requireView()) {}
+    }
+
+    private fun buttonDeletePressed() {
+        showSnackBar("pulsado botón borrar", requireView()) {}
+    }
+
+    private fun configureIsLoadingObserver() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
+            }
+        }
+    }
+
+    private fun configureSpentObserver() {
+        // configurar configureSpentObserver
+    }
+
+    private fun configureEditSpentObserver() {
+        // configurar configureEditSpentObserver
+    }
 }
