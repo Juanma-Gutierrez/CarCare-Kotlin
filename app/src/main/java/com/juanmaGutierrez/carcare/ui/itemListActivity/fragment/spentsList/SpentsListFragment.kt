@@ -73,7 +73,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     private fun configureSelectedVehicleTitleObserver() {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
-            binding.slTvVehicleSelected.text = "${vehicle.brand} ${vehicle.model}"
+            binding.slTvVehicleSelected.text = String.format("%1s, %2s", vehicle.brand, vehicle.model)
         }
     }
 
@@ -96,7 +96,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     }
 
     private fun loadSpentsInRV(spentsList: List<SpentFB>) {
-        spentsAdapter = SpentAdapter(spentsList, requireContext())
+        spentsAdapter = SpentAdapter(spentsList, requireContext(), viewModel.selectedVehicle.value!!.vehicleId)
         binding.slRvSpents.layoutManager = LinearLayoutManager(requireContext())
         binding.slRvSpents.adapter = spentsAdapter
     }

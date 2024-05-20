@@ -17,8 +17,8 @@ import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
 
 class SpentDetailViewModel : ViewModel() {
-    private val _spents = MutableLiveData<List<Spent>>()
-    val spents: LiveData<List<Spent>> get() = _spents
+    private val _spent = MutableLiveData<Spent>()
+    val spent: LiveData<Spent> get() = _spent
     private val _providersSelectableList = MutableLiveData<List<String>>()
     val providersSelectableList: LiveData<List<String>> get() = _providersSelectableList
     private val _isLoading = MutableLiveData<Boolean>()
@@ -30,11 +30,18 @@ class SpentDetailViewModel : ViewModel() {
     lateinit var uiUM: UIUserMessages
 
     fun init() {
-        _spents.value = mutableListOf()
+        _spent.value = Spent()
     }
 
-    fun getSpentFromFB(itemID: String) {
-        milog("entra en getSpentFromFB: $itemID")
+    fun getSpentFromFB(itemID: String, vehicleID: String) {
+        viewModelScope.launch {
+            fbGetDocumentByID(itemID, Constants.FB_COLLECTION_VEHICLE) { vehicle ->
+                if (vehicle != null) {
+                    val vehicleSelected = vehicle.get("providers") as List<Map<String, Any>>
+                    milog("selectedVehicle: $vehicleSelected")
+                }
+            }
+        }
     }
 
 
@@ -46,12 +53,12 @@ class SpentDetailViewModel : ViewModel() {
             fbGetDocumentByID(uid, Constants.FB_COLLECTION_PROVIDER) { provider ->
                 val providers = provider?.get("providers") as List<Map<String, Any>>
                 providersListRaw = mapProvidersListRawToProvidersList(providers)
-                _providersSelectableList.value = providersListRaw.map { it.name.toUpperCamelCase() }.sorted().toMutableList()
+                _providersSelectableList.value =
+                    providersListRaw.map { it.name.toUpperCamelCase() }.sorted().toMutableList()
                 setIsLoading(false)
             }
         }
     }
-
 
 
     internal fun setIsLoading(status: Boolean) {

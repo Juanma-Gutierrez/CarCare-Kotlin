@@ -91,16 +91,17 @@ class SpentDetailFragment : Fragment() {
 
     private fun configureSelectableObservers() {
         viewModel.providersSelectableList.observe(viewLifecycleOwner) { providers ->
-            milog("proveedores: $providers")
             loadDataInSelectable(binding.sdAcProvider, providers, requireActivity())
         }
     }
 
-
+    // todo ACABA DE PASAR EL itemID (id del gasto) y el vehicleID al viewmodel para que recupere el gasto de Firebase
+    //  hay que cargar los datos en los campos del formulario
     private fun getSpentFromID(): String {
         itemID = arguments?.getString("itemID") ?: ""
         if (itemID != "") {
-            viewModel.getSpentFromFB(itemID)
+            val vehicleID = arguments?.getString("vehicleID") ?: ""
+            viewModel.getSpentFromFB(itemID, vehicleID)
             return "edit"
         }
         return "new"
@@ -149,10 +150,14 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun configureSpentObserver() {
-        // configurar configureSpentObserver
+        viewModel.spent.observe(viewLifecycleOwner) { spent ->
+            milog("Configurar observador de gastos: $spent")
+        }
     }
 
     private fun configureEditSpentObserver() {
-        // configurar configureEditSpentObserver
+        viewModel.editSpentSuccessful.observe(viewLifecycleOwner) { edit ->
+            milog("Configurar observador de editSpentSuccessful: $edit")
+        }
     }
 }

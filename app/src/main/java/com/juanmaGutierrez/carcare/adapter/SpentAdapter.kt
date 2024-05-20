@@ -1,11 +1,12 @@
 package com.juanmaGutierrez.carcare.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
@@ -15,7 +16,7 @@ import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
-class SpentAdapter(private var spents: List<SpentFB>, private val context: Context) :
+class SpentAdapter(private var spents: List<SpentFB>, private val context: Context, private val vehicleId: String) :
     RecyclerView.Adapter<SpentAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +29,7 @@ class SpentAdapter(private var spents: List<SpentFB>, private val context: Conte
         return spents.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(spents[position])
     }
@@ -40,12 +42,13 @@ class SpentAdapter(private var spents: List<SpentFB>, private val context: Conte
         private val amount: MaterialTextView = itemView.findViewById(R.id.si_tv_spentAmount)
         private val card: MaterialCardView = itemView.findViewById(R.id.si_cv_spentItem)
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(spent: SpentFB) {
             configureData(spent)
             configureListeners(spent)
         }
 
-        @SuppressLint("NewApi")
+        @RequiresApi(Build.VERSION_CODES.O)
         private fun configureData(spent: SpentFB) {
             name.text = spent.providerName
             date.text = spent.date.transformDateIsoToString()
@@ -57,6 +60,7 @@ class SpentAdapter(private var spents: List<SpentFB>, private val context: Conte
             card.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("fragmentType", "editSpent")
+                intent.putExtra("vehicleID", vehicleId)
                 intent.putExtra("itemID", spent.spentId)
                 context.startActivity(intent)
             }

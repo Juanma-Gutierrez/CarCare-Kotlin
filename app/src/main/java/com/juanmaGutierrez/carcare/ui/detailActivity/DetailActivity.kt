@@ -70,7 +70,8 @@ class DetailActivity : AppCompatActivity() {
 
             "editSpent" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_spent))
-                navigateToDetailFragment(SpentDetailFragment(), itemID)
+                val vehicleID = intent.getStringExtra("vehicleID")
+                navigateToDetailFragment(SpentDetailFragment(), itemID, vehicleID)
             }
         }
     }
@@ -87,11 +88,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun navigateToDetailFragment(fragment: Fragment, itemID: String = "") {
+    private fun navigateToDetailFragment(fragment: Fragment, itemID: String = "", vehicleID: String? = "") {
         fragment.apply {
             val bundle = Bundle()
             bundle.putString("itemID", itemID)
+            bundle.putString("vehicleID", vehicleID)
             arguments = bundle
         }
         supportFragmentManager.beginTransaction().replace(R.id.itemDetail_fragment_container, fragment).commit()
