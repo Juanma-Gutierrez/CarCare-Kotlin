@@ -44,7 +44,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Nombre del proveedor">
+                        android:hint="@string/spent_input_providerName">
 
                         <AutoCompleteTextView
                             android:id="@+id/sd_ac_provider"
@@ -56,7 +56,7 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Importe">
+                        android:hint="@string/spent_input_amount">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/sd_tv_amount"
@@ -68,13 +68,40 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Observaciones">
+                        android:hint="@string/spent_input_observations">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/sd_tv_observations"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginXS"
+                        android:layout_marginTop="@dimen/marginS"
+                        android:text="@string/spent_input_spentDateButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sd_bt_date"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="@dimen/buttonL"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/marginXS"
+                        android:layout_marginTop="-20dp"
+                        app:icon="@drawable/icon_calendar"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ve_tv_titleDate"
+                        tools:text="01/02/2024" />
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <!-- Buttons -->
                     <com.google.android.material.button.MaterialButton

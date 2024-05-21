@@ -12,7 +12,10 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.service.euroFormat
 import com.juanmaGutierrez.carcare.service.milog
+import com.juanmaGutierrez.carcare.service.toCapitalizeString
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -50,18 +53,18 @@ class SpentAdapter(private var spents: List<SpentFB>, private val context: Conte
 
         @RequiresApi(Build.VERSION_CODES.O)
         private fun configureData(spent: SpentFB) {
-            name.text = spent.providerName
+            name.text = spent.providerName.toUpperCamelCase()
             date.text = spent.date.transformDateIsoToString()
-            observations.text = spent.observations
-            amount.text = String.format("%.2f €", spent.amount)
+            observations.text = spent.observations.toCapitalizeString()
+            amount.text = spent.amount.euroFormat()
         }
 
         private fun configureListeners(spent: SpentFB) {
             card.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("fragmentType", "editSpent")
-                intent.putExtra("vehicleID", vehicleId)
-                intent.putExtra("itemID", spent.spentId)
+                intent.putExtra("vehicleId", vehicleId)
+                intent.putExtra("itemId", spent.spentId)
                 context.startActivity(intent)
             }
         }

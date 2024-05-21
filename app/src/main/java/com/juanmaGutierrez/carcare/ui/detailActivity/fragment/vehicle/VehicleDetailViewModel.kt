@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juanmaGutierrez.carcare.api.APIClient
 import com.juanmaGutierrez.carcare.api.APIService
-import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
+import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.api.BrandsResponseAPI
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
@@ -47,13 +47,13 @@ class VehicleDetailViewModel : ViewModel() {
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
-    fun getVehicleFromFB(itemID: String) {
+    fun getVehicleFromFB(itemId: String) {
         setIsLoading(true)
         viewModelScope.launch {
-            fbGetDocumentByID(itemID, Constants.FB_COLLECTION_VEHICLE) { document ->
+            fbGetDocumentByID(itemId, Constants.FB_COLLECTION_VEHICLE) { document ->
                 setIsLoading(false)
                 if (document != null) {
-                    _vehicle.value = mapDocumentDataToVehicle(document)
+                    _vehicle.value = mapVehicleFBToVehicle(document)
                     getVehicleImageURL(_vehicle.value!!)
                 }
             }

@@ -67,17 +67,25 @@ fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
         }.show()
 }
 
-fun String.toUpperCamelCase(delimiter: String = " "): String {
-    return split(delimiter).joinToString(delimiter) { word ->
-        word.lowercase().replaceFirstChar(Char::uppercase)
-    }
+
+fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
+    val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems.sorted())
+    selectable.setAdapter(adapter)
 }
 
-fun String.convertDateMillisToDate(): String {
-    val timestamp = this.toLong()
-    val date = Date(timestamp)
-    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
-    return dateFormat.format(date)
+@RequiresApi(Build.VERSION_CODES.O)
+fun showDatePickerDialog(
+    initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
+) {
+    val dateFormat = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
+    val builder =
+        MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.longToTimestamp())
+    val datePicker = builder.build()
+    datePicker.addOnPositiveButtonClickListener { selectedDate ->
+        val formattedDate = LocalDate.ofEpochDay(selectedDate / 86400000).format(dateFormat)
+        onDateSelected(formattedDate)
+    }
+    datePicker.show(fragmentManager, "datePickerDialog")
 }
 
 fun getTimestamp(): String {
@@ -110,6 +118,36 @@ fun generateId(): String {
     return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
+fun String.toUpperCamelCase(delimiter: String = " "): String {
+    return split(delimiter).joinToString(delimiter) { word ->
+        word.lowercase().replaceFirstChar(Char::uppercase)
+    }
+}
+
+fun Double.euroFormat(): String {
+    return String.format("%.2f €", this)
+}
+
+fun Double.moneyInputFormat(): String {
+    return String.format("%.2f", this)
+}
+
+fun String.toCapitalizeString(): String {
+    return if (isNotEmpty()) {
+        this[0].uppercaseChar() + substring(1).lowercase()
+    } else {
+        this
+    }
+}
+
+
+fun String.convertDateMillisToDate(): String {
+    val timestamp = this.toLong()
+    val date = Date(timestamp)
+    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
+    return dateFormat.format(date)
+}
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     return try {
@@ -134,6 +172,7 @@ fun String.transformStringToDateIso(): String {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun String.longToTimestamp(): Long {
     val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
     val localDate = LocalDate.parse(this, formatter)
@@ -184,24 +223,4 @@ fun String.getProviderCategoryTranslation(context: Context): String {
         "other" -> context.getString(R.string.provider_category_other)
         else -> this
     }
-}
-
-fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
-    val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems.sorted())
-    selectable.setAdapter(adapter)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-fun showDatePickerDialog(
-    initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
-) {
-    val dateFormat = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
-    val builder =
-        MaterialDatePicker.Builder.datePicker().setTitleText(title).setSelection(initialDate.longToTimestamp())
-    val datePicker = builder.build()
-    datePicker.addOnPositiveButtonClickListener { selectedDate ->
-        val formattedDate = LocalDate.ofEpochDay(selectedDate / 86400000).format(dateFormat)
-        onDateSelected(formattedDate)
-    }
-    datePicker.show(fragmentManager, "datePickerDialog")
 }

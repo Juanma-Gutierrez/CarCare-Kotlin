@@ -128,6 +128,11 @@
     <string name="spent_editSpent_error">Error in spent edition</string>
     <string name="spent_deleteSpent_successfully">Spent deleted successfully</string>
     <string name="spent_deleteSpent_error">Error in spent deletion</string>
+    <string name="spent_input_providerName">Provider name</string>
+    <string name="spent_input_amount">Amount</string>
+    <string name="spent_input_observations">Observations</string>
+    <string name="spent_input_spentDateButton">Spent date</string>
+
 
     <!-- Generic add new item -->
     <string name="add_new_item">Add new item</string>
@@ -168,5 +173,6 @@
     <string name="settings_providers_list_format_linear">List view</string>
     <string name="content_description_vehicle_image">Vehicle image</string>
     <string name="spents_list_vehicleSelected">Select a vehicle</string>
+    <string name="spent_createProvider_error">Error in provider creation</string>
 
 </resources>

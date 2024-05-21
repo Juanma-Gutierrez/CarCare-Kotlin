@@ -35,7 +35,7 @@ class ProviderDetailViewModel : ViewModel() {
         providers = ProviderFB(mutableListOf())
     }
 
-    fun getProviderFromFB(itemID: String) {
+    fun getProviderFromFB(itemId: String) {
         _isLoading.postValue(true)
         viewModelScope.launch {
             val uid = FirebaseService.getInstance().auth?.uid.toString()
@@ -44,7 +44,7 @@ class ProviderDetailViewModel : ViewModel() {
                 if (data != null) {
                     val providersList = mapProviderFBtoProvider(data)
                     providers = ProviderFB(providersList)
-                    val providerToAssign = providersList.find { it.providerId == itemID }
+                    val providerToAssign = providersList.find { it.providerId == itemId }
                     providerToAssign?.let { _provider.postValue(it) }
                 } else {
                     Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL)

@@ -127,7 +127,12 @@
     <string name="spents_totalSpents">Gastos totales: %.2f €</string>
     <string name="error_emailInvalid">Email no válido</string>
     <string name="spent_createSpent_successfully">Gasto creado correctamente</string>
+    <string name="spent_input_providerName">Nombre del proveedor</string>
+    <string name="spent_input_amount">Importe</string>
+    <string name="spent_input_observations">Observaciones</string>
+    <string name="spent_input_spentDateButton">Fecha del gasto</string>
     <string name="spent_createProvider_error">Error en la creación del gasto</string>
+    <string name="spent_createSpent_error">Error en la creación del gasto</string>
     <string name="spent_editSpent_successfully">Gasto editado correctamente</string>
     <string name="spent_editSpent_error">Error en la edición del gasto</string>
     <string name="spent_deleteSpent_successfully">Gasto borrado correctamente</string>

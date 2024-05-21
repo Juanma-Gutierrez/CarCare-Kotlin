@@ -104,10 +104,10 @@ fun fbCreateProviders(uid: String) {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
-fun fbGetDocumentByID(itemID: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
+fun fbGetDocumentByID(itemId: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
     val db = Firebase.firestore
     try {
-        val docRef = db.collection(collection).document(itemID)
+        val docRef = db.collection(collection).document(itemId)
         docRef.get().addOnSuccessListener { document ->
             if (document.exists()) {
                 callback(document)

@@ -107,7 +107,7 @@ class ProviderAdapter(
             card.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("fragmentType", "editProvider")
-                intent.putExtra("itemID", provider.providerId)
+                intent.putExtra("itemId", provider.providerId)
                 context.startActivity(intent)
             }
         }

@@ -11,21 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentDetailBinding
 import com.juanmaGutierrez.carcare.model.Constants
-import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
+import com.juanmaGutierrez.carcare.service.euroFormat
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
+import com.juanmaGutierrez.carcare.service.moneyInputFormat
 import com.juanmaGutierrez.carcare.service.showSnackBar
-import java.security.Security.getProviders
+import com.juanmaGutierrez.carcare.service.toCapitalizeString
+import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
     private lateinit var viewModel: SpentDetailViewModel
     private lateinit var spent: Spent
-    private var itemID = ""
+    private var itemId = ""
     private var fragmentType = "new"
     private var uiUM: UIUserMessages = UIUserMessages()
 
@@ -95,13 +96,11 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
-    // todo ACABA DE PASAR EL itemID (id del gasto) y el vehicleID al viewmodel para que recupere el gasto de Firebase
-    //  hay que cargar los datos en los campos del formulario
     private fun getSpentFromID(): String {
-        itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            val vehicleID = arguments?.getString("vehicleID") ?: ""
-            viewModel.getSpentFromFB(itemID, vehicleID)
+        itemId = arguments?.getString("itemId") ?: ""
+        if (itemId != "") {
+            val vehicleId = arguments?.getString("vehicleId") ?: ""
+            viewModel.getSpentFromFB(itemId, vehicleId)
             return "edit"
         }
         return "new"
@@ -149,15 +148,24 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureSpentObserver() {
         viewModel.spent.observe(viewLifecycleOwner) { spent ->
-            milog("Configurar observador de gastos: $spent")
+            loadSpentDataInForm(spent)
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun loadSpentDataInForm(spent: Spent) {
+        binding.sdAcProvider.setText(spent.providerName, false)
+        binding.sdTvAmount.setText(spent.amount.moneyInputFormat())
+        binding.sdTvObservations.setText(spent.observations.toCapitalizeString())
+        binding.sdBtDate.text = spent.date.transformDateIsoToString()
+    }
+
     private fun configureEditSpentObserver() {
-        viewModel.editSpentSuccessful.observe(viewLifecycleOwner) { edit ->
-            milog("Configurar observador de editSpentSuccessful: $edit")
+        viewModel.editSpentSuccessful.observe(viewLifecycleOwner) {
+            showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {}
         }
     }
 }

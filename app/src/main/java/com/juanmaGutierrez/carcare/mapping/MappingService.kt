@@ -10,6 +10,7 @@ import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.UserFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.getTimestamp
@@ -52,7 +53,7 @@ fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Veh
     return vehiclesList
 }
 
-fun mapDocumentDataToVehicle(document: DocumentSnapshot): VehicleFB {
+fun mapVehicleFBToVehicle(document: DocumentSnapshot): VehicleFB {
     val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
     return VehicleFB(
         data["available"] as Boolean,
@@ -133,8 +134,8 @@ fun mapProviderFBtoProvider(data: Map<String, List<Map<String, String>>>): Mutab
     return providersList
 }
 
-fun mapSpentListFBToSpentList(rawSpents: List<Map<String, Any>>): List<SpentFB> {
-    return rawSpents.mapNotNull { rawSpent ->
+fun mapSpentListFBToSpentList(hashMapSpent: List<Map<String, Any>>): List<SpentFB> {
+    return hashMapSpent.mapNotNull { rawSpent ->
         try {
             SpentFB(
                 (rawSpent["amount"] as? Number)?.toDouble() ?: 0.0,
@@ -162,4 +163,16 @@ fun mapProvidersListRawToProvidersList(providers: List<Map<String, Any>>): Mutab
             providerId = p["providerId"] as String
         )
     }.toMutableList()
+}
+
+fun mapSpentFBToSpent(spentFB: SpentFB): Spent {
+    return Spent(
+        spentFB.amount,
+        spentFB.created,
+        spentFB.date,
+        spentFB.observations,
+        spentFB.providerId,
+        spentFB.providerName,
+        spentFB.spentId
+    )
 }

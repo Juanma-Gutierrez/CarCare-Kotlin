@@ -6,11 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
-import com.juanmaGutierrez.carcare.mapping.mapDocumentDataToVehicle
+import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
-import com.juanmaGutierrez.carcare.mapping.mapVehiclesListRawToVehicleEntityList
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
@@ -72,7 +71,7 @@ class SpentsListViewModel : ViewModel() {
     }
 
     private fun saveSelectedVehicle(vehicleSnapshot: DocumentSnapshot) {
-        val vehicleFB = mapDocumentDataToVehicle(vehicleSnapshot)
+        val vehicleFB = mapVehicleFBToVehicle(vehicleSnapshot)
         val vehiclePreview = mapVehicleToVehiclePreview(vehicleFB)
         _selectedVehicle.value = vehiclePreview
     }

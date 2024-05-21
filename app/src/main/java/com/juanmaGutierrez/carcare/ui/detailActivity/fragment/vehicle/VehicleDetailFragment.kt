@@ -38,7 +38,6 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -150,9 +149,9 @@ class VehicleDetailFragment : Fragment() {
     }
 
     private fun getVehicleFromID(): String {
-        val itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            viewModel.getVehicleFromFB(itemID)
+        val itemId = arguments?.getString("itemId") ?: ""
+        if (itemId != "") {
+            viewModel.getVehicleFromFB(itemId)
             return "edit"
         }
         return "new"

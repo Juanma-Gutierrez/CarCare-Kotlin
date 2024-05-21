@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityDetailBinding
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
@@ -17,13 +16,13 @@ import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var viewModel: DetailViewModel
-    private var itemID: String = ""
+    private var itemId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        itemID = getIDFromItem()
+        itemId = getIdFromItem()
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
         val fragmentType = intent.getStringExtra("fragmentType")
         viewModel.init(this, fragmentType ?: "")
@@ -50,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
 
             "editVehicle" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_vehicle))
-                navigateToDetailFragment(VehicleDetailFragment(), itemID)
+                navigateToDetailFragment(VehicleDetailFragment(), itemId)
             }
 
             "newProvider" -> {
@@ -60,7 +59,7 @@ class DetailActivity : AppCompatActivity() {
 
             "editProvider" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_provider))
-                navigateToDetailFragment(ProviderDetailFragment(), itemID)
+                navigateToDetailFragment(ProviderDetailFragment(), itemId)
             }
 
             "newSpent" -> {
@@ -70,15 +69,15 @@ class DetailActivity : AppCompatActivity() {
 
             "editSpent" -> {
                 viewModel.setToolbarTitle(getString(R.string.edit_spent))
-                val vehicleID = intent.getStringExtra("vehicleID")
-                navigateToDetailFragment(SpentDetailFragment(), itemID, vehicleID)
+                val vehicleId = intent.getStringExtra("vehicleId")
+                navigateToDetailFragment(SpentDetailFragment(), itemId, vehicleId)
             }
         }
     }
 
-    private fun getIDFromItem(): String {
-        val itemID = intent.getStringExtra("itemID")
-        return itemID ?: ""
+    private fun getIdFromItem(): String {
+        val itemId = intent.getStringExtra("itemId")
+        return itemId ?: ""
     }
 
     private fun setBackButton() {
@@ -88,11 +87,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToDetailFragment(fragment: Fragment, itemID: String = "", vehicleID: String? = "") {
+    private fun navigateToDetailFragment(fragment: Fragment, itemId: String = "", vehicleID: String? = "") {
         fragment.apply {
             val bundle = Bundle()
-            bundle.putString("itemID", itemID)
-            bundle.putString("vehicleID", vehicleID)
+            bundle.putString("itemId", itemId)
+            bundle.putString("vehicleId", vehicleID)
             arguments = bundle
         }
         supportFragmentManager.beginTransaction().replace(R.id.itemDetail_fragment_container, fragment).commit()

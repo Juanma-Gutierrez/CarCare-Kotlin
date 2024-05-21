@@ -99,7 +99,7 @@ class VehicleAdapter(
             itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra("fragmentType", "editVehicle")
-                intent.putExtra("itemID", vehicle.vehicleId)
+                intent.putExtra("itemId", vehicle.vehicleId)
                 context.startActivity(intent)
             }
         }

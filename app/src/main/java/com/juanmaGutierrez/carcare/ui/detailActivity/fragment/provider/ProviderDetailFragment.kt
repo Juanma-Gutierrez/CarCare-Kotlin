@@ -30,7 +30,7 @@ class ProviderDetailFragment : Fragment() {
     private lateinit var binding: FragmentProviderDetailBinding
     private lateinit var viewModel: ProviderDetailViewModel
     private lateinit var provider: Provider
-    private var itemID = ""
+    private var itemId = ""
     private var fragmentType = "new"
     private var uiUM: UIUserMessages = UIUserMessages()
 
@@ -115,9 +115,9 @@ class ProviderDetailFragment : Fragment() {
     }
 
     private fun getProviderFromID(): String {
-        itemID = arguments?.getString("itemID") ?: ""
-        if (itemID != "") {
-            viewModel.getProviderFromFB(itemID)
+        itemId = arguments?.getString("itemId") ?: ""
+        if (itemId != "") {
+            viewModel.getProviderFromFB(itemId)
             return "edit"
         }
         return "new"
