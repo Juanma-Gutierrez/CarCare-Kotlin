@@ -54,7 +54,7 @@ fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<Veh
 }
 
 fun mapVehicleFBToVehicle(document: DocumentSnapshot): VehicleFB {
-    val data = document.data ?: throw IllegalArgumentException("Document data was null or empty")
+    val data = document.data!!
     return VehicleFB(
         data["available"] as Boolean,
         data["brand"] as String,

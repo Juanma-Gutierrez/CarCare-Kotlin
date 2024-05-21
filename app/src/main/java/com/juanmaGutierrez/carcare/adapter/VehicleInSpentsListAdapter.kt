@@ -14,7 +14,6 @@ import com.google.android.material.textview.MaterialTextView
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
-import com.juanmaGutierrez.carcare.service.milog
 
 interface OnVehicleClickListener {
     fun onVehicleClick(vehicle: VehiclePreview)

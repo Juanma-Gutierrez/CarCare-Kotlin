@@ -13,7 +13,6 @@ import com.juanmaGutierrez.carcare.databinding.FragmentSpentDetailBinding
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
-import com.juanmaGutierrez.carcare.service.euroFormat
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable

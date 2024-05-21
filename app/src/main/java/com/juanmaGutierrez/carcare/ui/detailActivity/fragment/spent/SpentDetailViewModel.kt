@@ -65,12 +65,7 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 
-
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
-    }
-
-    fun getVehicleFromFB(vehicleId: String) {
-
     }
 }
