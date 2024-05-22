@@ -2,22 +2,28 @@ package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentDetailBinding
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.moneyInputFormat
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
+import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
@@ -25,7 +31,7 @@ import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
     private lateinit var viewModel: SpentDetailViewModel
-    private lateinit var spent: Spent
+    private lateinit var vehicleToSave: VehicleFB
     private var itemId = ""
     private var fragmentType = "new"
     private var uiUM: UIUserMessages = UIUserMessages()
@@ -52,9 +58,10 @@ class SpentDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createEmptySpent() {
-        this.spent = Spent(
+        val spent = Spent(
             0.0, getTimestamp(), getTimestamp(), "", "", "", generateId()
         )
+        viewModel.setSpent(spent)
     }
 
     private fun configureUIMessages() {
@@ -86,6 +93,7 @@ class SpentDetailFragment : Fragment() {
         viewModel.getProviders()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureObservers() {
         configureSelectableObservers()
         configureIsLoadingObserver()
@@ -134,8 +142,70 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun buttonAcceptPressed() {
-        showSnackBar("pulsado botón aceptar", requireView()) {}
-        // Añadir lógica de grabación del gasto
+        if (checkAllFieldsValid()) {
+            val title = uiUM.alertDialog.title
+            val message = uiUM.alertDialog.message
+            val icon = AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_edit)
+            val ad = AlertDialogModel(this.requireActivity(), title, message, icon)
+            showDialogAcceptCancel(ad) { accept ->
+                if (accept) {
+                    try {
+                        acceptButtonClicked()
+                    } catch (e: Exception) {
+                        Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
+                    }
+                }
+            }
+        } else {
+            showSnackBar(getString(R.string.error_emptyFields), requireView()) {}
+        }
+    }
+
+    private fun acceptButtonClicked() {
+        viewModel.setSpent(getSpentFromForm())
+        // todo en viewModel.selectedVehicle.value!! está entrando un nulo, chequear esto
+        val v = viewModel.selectedVehicle.value!!
+        when (fragmentType) {
+            "new" -> addNewSpent()
+            "edit" -> editSpent()
+        }
+        saveVehicleToFB()
+    }
+
+    private fun addNewSpent() {
+        var spentsList: MutableList<Spent> = vehicleToSave.spents as MutableList<Spent>
+        spentsList.add(viewModel.spent.value!!)
+        spentsList.sortBy { it.date }
+        milog("Lista de gastos: $spentsList")
+    }
+
+    private fun editSpent() {
+        milog("editar nuevo gasto ${viewModel.spent.value}")
+        milog("vehiculo seleccionado ${viewModel.selectedVehicle.value}")
+    }
+
+    private fun saveVehicleToFB() {
+        milog("Grabar  en firebase $vehicleToSave")
+    }
+
+    private fun getSpentFromForm(): Spent {
+        return Spent(
+            binding.sdTvAmount.text.toString().toDouble(),
+            viewModel.spent.value!!.created,
+            binding.sdBtDate.text.toString(),
+            binding.sdTvObservations.text.toString(),
+            viewModel.spent.value!!.providerId,
+            binding.sdAcProvider.text.toString(),
+            viewModel.spent.value!!.spentId,
+        )
+    }
+
+    private fun checkAllFieldsValid(): Boolean {
+        var valid = true
+        if (binding.sdAcProvider.text.isNullOrEmpty()) valid = false
+        if (binding.sdTvAmount.text.isNullOrEmpty()) valid = false
+        if (!valid) showSnackBar(getString(R.string.snackBar_fieldsEmpty), requireView()) {}
+        return valid
     }
 
     private fun buttonCancelPressed() {
@@ -167,8 +237,8 @@ class SpentDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureSpentObserver() {
-        viewModel.spent.observe(viewLifecycleOwner) { spent ->
-            loadSpentDataInForm(spent)
+        viewModel.spent.observe(viewLifecycleOwner) { newSpent ->
+            loadSpentDataInForm(newSpent)
         }
     }
 

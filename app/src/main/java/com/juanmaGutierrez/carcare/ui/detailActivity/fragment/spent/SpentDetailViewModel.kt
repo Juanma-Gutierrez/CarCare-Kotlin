@@ -65,6 +65,10 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 
+    fun setSpent(spent: Spent) {
+        _spent.value = spent
+    }
+
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
