@@ -69,6 +69,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private fun configureSelectedVehicleTitleObserver() {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
             binding.slTvVehicleSelected.text = String.format("%1s, %2s", vehicle.brand, vehicle.model)
+            binding.slFabAddSpent.visibility = View.VISIBLE
         }
     }
 
@@ -104,6 +105,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     }
 
     private fun configureFabButton() {
+        binding.slFabAddSpent.visibility = View.GONE
         binding.slFabAddSpent.setOnClickListener {
             val ts = ToolbarService.getInstance()
             ts.detailTitle = getString(R.string.new_spent)

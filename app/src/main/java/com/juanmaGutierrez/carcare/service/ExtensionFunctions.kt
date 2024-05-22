@@ -140,7 +140,6 @@ fun String.toCapitalizeString(): String {
     }
 }
 
-
 fun String.convertDateMillisToDate(): String {
     val timestamp = this.toLong()
     val date = Date(timestamp)

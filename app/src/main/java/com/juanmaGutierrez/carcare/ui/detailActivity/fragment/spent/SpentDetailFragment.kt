@@ -21,7 +21,6 @@ import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
-import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -65,6 +64,7 @@ class SpentDetailFragment : Fragment() {
         uiUM.logMessages.deleteError = Constants.LOG_SPENT_DELETION_ERROR
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkNewOrCreate() {
         fragmentType = getSpentFromID()
         when (fragmentType) {
@@ -74,6 +74,7 @@ class SpentDetailFragment : Fragment() {
         viewModel.uiUM = uiUM
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureUI() {
         binding.sdBtAccept.setOnClickListener { buttonAcceptPressed() }
         binding.sdBtCancel.setOnClickListener { buttonCancelPressed() }
@@ -108,6 +109,7 @@ class SpentDetailFragment : Fragment() {
         return "new"
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureNewSpentUI() {
         viewModel.setIsLoading(false)
         binding.sdBtDelete.visibility = View.GONE
@@ -117,6 +119,8 @@ class SpentDetailFragment : Fragment() {
         uiUM.snackbarMessages.createOrEditError = getString(R.string.spent_createSpent_error)
         uiUM.logMessages.createOrEditionSuccess = Constants.LOG_SPENT_CREATION_SUCCESSFULLY
         uiUM.logMessages.createOrEditionError = Constants.LOG_SPENT_CREATION_ERROR
+        binding.sdBtDate.text = getTimestamp().transformDateIsoToString()
+
     }
 
     private fun configureEditSpentUI() {
@@ -131,6 +135,7 @@ class SpentDetailFragment : Fragment() {
 
     private fun buttonAcceptPressed() {
         showSnackBar("pulsado botón aceptar", requireView()) {}
+        // Añadir lógica de grabación del gasto
     }
 
     private fun buttonCancelPressed() {
@@ -148,9 +153,7 @@ class SpentDetailFragment : Fragment() {
         val date = binding.sdBtDate.text.toString()
         showDatePickerDialog(
             date, requireActivity().getString(R.string.spent_editSpent_calendarTitle), childFragmentManager
-        ) { selectedDate ->
-            binding.sdBtDate.text = selectedDate
-        }
+        ) { selectedDate -> binding.sdBtDate.text = selectedDate }
     }
 
     private fun configureIsLoadingObserver() {
@@ -174,7 +177,7 @@ class SpentDetailFragment : Fragment() {
         binding.sdAcProvider.setText(spent.providerName, false)
         binding.sdTvAmount.setText(spent.amount.moneyInputFormat())
         binding.sdTvObservations.setText(spent.observations.toCapitalizeString())
-        binding.sdBtDate.text = spent.date.transformDateIsoToString()
+        if (binding.sdBtDate.text.isEmpty()) binding.sdBtDate.text = spent.date.transformDateIsoToString()
     }
 
     private fun configureEditSpentObserver() {
