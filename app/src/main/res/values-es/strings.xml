@@ -137,6 +137,7 @@
     <string name="spent_editSpent_error">Error en la edición del gasto</string>
     <string name="spent_deleteSpent_successfully">Gasto borrado correctamente</string>
     <string name="spent_deleteSpent_error">Error en el borrado del gasto</string>
+    <string name="spent_editSpent_calendarTitle">Selecciona fecha del gasto</string>
 
 
 </resources>

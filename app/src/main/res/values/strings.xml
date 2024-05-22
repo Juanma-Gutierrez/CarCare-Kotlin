@@ -132,6 +132,7 @@
     <string name="spent_input_amount">Amount</string>
     <string name="spent_input_observations">Observations</string>
     <string name="spent_input_spentDateButton">Spent date</string>
+    <string name="spent_editSpent_calendarTitle">Select spent date</string>
 
 
     <!-- Generic add new item -->

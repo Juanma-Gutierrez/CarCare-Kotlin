@@ -17,9 +17,11 @@ import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.moneyInputFormat
+import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
+import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -76,6 +78,7 @@ class SpentDetailFragment : Fragment() {
         binding.sdBtAccept.setOnClickListener { buttonAcceptPressed() }
         binding.sdBtCancel.setOnClickListener { buttonCancelPressed() }
         binding.sdBtDelete.setOnClickListener { buttonDeletePressed() }
+        binding.sdBtDate.setOnClickListener { buttonSpentDateClicked() }
     }
 
     private fun configureSelectables() {
@@ -131,11 +134,23 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun buttonCancelPressed() {
-        showSnackBar("pulsado botón cancelar", requireView()) {}
+        if (isAdded) {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun buttonDeletePressed() {
         showSnackBar("pulsado botón borrar", requireView()) {}
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun buttonSpentDateClicked() {
+        val date = binding.sdBtDate.text.toString()
+        showDatePickerDialog(
+            date, requireActivity().getString(R.string.spent_editSpent_calendarTitle), childFragmentManager
+        ) { selectedDate ->
+            binding.sdBtDate.text = selectedDate
+        }
     }
 
     private fun configureIsLoadingObserver() {
