@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
-import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
+import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToListVehiclePreview
 import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
 import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
@@ -16,7 +16,6 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
-import com.juanmaGutierrez.carcare.service.milog
 import kotlinx.coroutines.launch
 
 class SpentsListViewModel : ViewModel() {
@@ -47,7 +46,7 @@ class SpentsListViewModel : ViewModel() {
                 val data = v?.data as? Map<String, List<Map<String, String>>>
                 if (data != null) {
                     val rawVehicles = data["vehicles"] as List<HashMap<String, Any>>
-                    val vehiclePreviewList = mapHashVehiclesToList(rawVehicles)
+                    val vehiclePreviewList = mapHashVehiclesToListVehiclePreview(rawVehicles)
                     _vehicles.value = vehiclePreviewList
                 } else {
                     Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL)

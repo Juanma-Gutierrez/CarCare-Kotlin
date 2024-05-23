@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.juanmaGutierrez.carcare.mapping.mapHashMapSpentToSpent
 import com.juanmaGutierrez.carcare.mapping.mapProvidersListRawToProvidersList
 import com.juanmaGutierrez.carcare.mapping.mapSpentFBToSpent
 import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
@@ -18,6 +19,7 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
@@ -48,7 +50,8 @@ class SpentDetailViewModel : ViewModel() {
                 if (itemId.isNotBlank()) {
                     val spents = _selectedVehicle.value?.spents as List<HashMap<String, Any>>
                     val filteredSpentFB = mapSpentListFBToSpentList(spents).filter { it.spentId == itemId }
-                    _spent.value = mapSpentFBToSpent(filteredSpentFB[0])
+                    if (filteredSpentFB.isNotEmpty())
+                        _spent.value = mapSpentFBToSpent(filteredSpentFB[0])
                 }
             }
         }
@@ -86,6 +89,30 @@ class SpentDetailViewModel : ViewModel() {
             saveToLog(LogType.ERROR, OperationLog.SPENT, uiUM.logMessages.createOrEditionError)
         }
     }
+
+    fun deleteSpent(itemId: String, vehicleId: String) {
+        setIsLoading(true)
+        getSpentFromFB(itemId, vehicleId)
+        val spentsList = selectedVehicle.value!!.spents as List<HashMap<String, Any>>
+        val formattedSpentsList = spentsList.map { mapHashMapSpentToSpent(it) }
+        val updatedList = formattedSpentsList.filter { it.spentId != itemId }
+        val rawVehicle = selectedVehicle.value!!
+        val vehicle = VehicleFB(
+            rawVehicle.available,
+            rawVehicle.brand,
+            rawVehicle.category,
+            rawVehicle.created,
+            rawVehicle.imageURL,
+            rawVehicle.model,
+            rawVehicle.plate,
+            rawVehicle.registrationDate,
+            updatedList,
+            rawVehicle.userId,
+            rawVehicle.vehicleId,
+        )
+        saveVehicleToFB(vehicle)
+    }
 }
+
 
 

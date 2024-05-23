@@ -101,10 +101,15 @@ class SpentDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureObservers() {
+        configureSelectedVehicleObserver()
         configureSelectableObservers()
         configureIsLoadingObserver()
         configureSpentObserver()
         configureEditSpentObserver()
+    }
+
+    private fun configureSelectedVehicleObserver() {
+        viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle -> vehicleToSave = vehicle }
     }
 
     private fun configureSelectableObservers() {
@@ -114,8 +119,8 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun getSpentFromID(): String {
-        itemId = arguments?.getString("itemId") ?: ""
-        val vehicleId = arguments?.getString("vehicleId") ?: ""
+        itemId = getItemId()
+        val vehicleId = getVehicleId()
         viewModel.getSpentFromFB(itemId, vehicleId)
         if (itemId != "") return "edit"
         return "new"
@@ -232,7 +237,34 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun buttonDeletePressed() {
-        showSnackBar("pulsado botón borrar", requireView()) {}
+        val title = getString(R.string.alertDialog_deleteSpent_title)
+        val message = getString(R.string.alertDialog_deleteSpent_message)
+        val icon = AppCompatResources.getDrawable(requireActivity(), R.drawable.icon_trash)
+        val ad = AlertDialogModel(this.requireActivity(), title, message, icon)
+        showDialogAcceptCancel(ad) { accept ->
+            if (accept) {
+                try {
+                    deleteButtonClicked()
+                } catch (e: Exception) {
+                    Log.e(Constants.TAG, Constants.ERROR_DATABASE, e)
+                }
+            }
+        }
+    }
+
+    private fun deleteButtonClicked() {
+        val itemId = getItemId()
+        val vehicleId = getVehicleId()
+        viewModel.deleteSpent(itemId, vehicleId)
+    }
+
+
+    private fun getItemId(): String {
+        return arguments?.getString("itemId") ?: ""
+    }
+
+    private fun getVehicleId(): String {
+        return arguments?.getString("vehicleId") ?: ""
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

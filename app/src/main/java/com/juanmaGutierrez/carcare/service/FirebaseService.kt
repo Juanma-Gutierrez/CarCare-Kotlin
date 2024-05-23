@@ -15,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
-import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
+import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToListVehiclePreview
 import com.juanmaGutierrez.carcare.mapping.mapUserToUserFB
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
@@ -140,7 +140,7 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     docRef.get().addOnSuccessListener { document ->
         if (document.exists()) {
             val existingVehiclesData = document.get("vehicles") as? List<HashMap<String, Any>>
-            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
+            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToListVehiclePreview(existingVehiclesData!!)
             filteredVehiclesList = updateOrAddVehicleById(existingVehicles, vehicle)
             val updateTask = docRef.update("vehicles", filteredVehiclesList)
             updateTask.addOnSuccessListener { deferred.complete(updateTask) }
@@ -194,7 +194,7 @@ suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
         val docRef = db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId).get().await()
         if (docRef.exists()) {
             val existingVehiclesData = docRef.get("vehicles") as? List<HashMap<String, Any>>
-            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToList(existingVehiclesData!!)
+            val existingVehicles: List<VehiclePreview> = mapHashVehiclesToListVehiclePreview(existingVehiclesData!!)
             val filtered = existingVehicles.filter { it.vehicleId != vehicle.vehicleId }
             db.collection(Constants.FB_COLLECTION_USER).document(vehicle.userId).update("vehicles", filtered).await()
         } else {

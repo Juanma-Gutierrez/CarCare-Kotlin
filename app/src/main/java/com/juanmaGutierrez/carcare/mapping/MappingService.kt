@@ -1,6 +1,7 @@
 package com.juanmaGutierrez.carcare.mapping
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -88,7 +89,7 @@ fun mapVehicleToVehiclePreview(rawVehicle: VehicleFB): VehiclePreview {
     )
 }
 
-fun mapHashVehiclesToList(vehiclesList: List<HashMap<String, Any>>): List<VehiclePreview> {
+fun mapHashVehiclesToListVehiclePreview(vehiclesList: List<HashMap<String, Any>>): List<VehiclePreview> {
     return vehiclesList.map { rawVehicle ->
         VehiclePreview(
             rawVehicle["available"] as Boolean,
@@ -178,15 +179,14 @@ fun mapSpentFBToSpent(rawSpentFB: SpentFB): Spent {
     )
 }
 
-
-fun mapHashMapSpentToSpent(rawSpentHashMap: HashMap<String, Any>): Spent {
-    return Spent(
-        amount = rawSpentHashMap["amount"] as Double,
-        created = rawSpentHashMap["created"].toString(),
-        date = rawSpentHashMap["date"].toString(),
-        observations = rawSpentHashMap["observations"].toString(),
-        providerId = rawSpentHashMap["providerId"].toString(),
-        providerName = rawSpentHashMap["providerName"].toString(),
-        spentId = rawSpentHashMap["spentId"].toString(),
+fun mapHashMapSpentToSpent(map: HashMap<String, Any>): SpentFB {
+    return SpentFB(
+        amount = map["amount"] as? Double ?: 0.0,
+        created = map["created"] as? String ?: "",
+        date = map["date"] as? String ?: "",
+        observations = map["observations"] as? String ?: "",
+        providerId = map["providerId"] as? String ?: "",
+        providerName = map["providerName"] as? String ?: "",
+        spentId = map["spentId"] as? String ?: ""
     )
 }
