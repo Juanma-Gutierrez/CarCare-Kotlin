@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.DocumentSnapshot
-import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapHashVehiclesToList
 import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
+import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
@@ -57,7 +57,6 @@ class SpentsListViewModel : ViewModel() {
     }
 
     fun vehicleClicked(vehicle: VehiclePreview) {
-        _selectedVehicle.value = vehicle
         viewModelScope.launch {
             fbGetDocumentByID(vehicle.vehicleId, Constants.FB_COLLECTION_VEHICLE) { vehicleSnapshot ->
                 if (vehicleSnapshot != null) {
@@ -66,6 +65,21 @@ class SpentsListViewModel : ViewModel() {
                     calculateNumSpents()
                     calculateTotalSpents()
                 }
+            }
+        }
+    }
+
+    fun vehicleSelectedById(vehicleId: String) {
+        _isLoading.postValue(false)
+        viewModelScope.launch {
+            fbGetDocumentByID(vehicleId, Constants.FB_COLLECTION_VEHICLE) { vehicleSnapshot ->
+                if (vehicleSnapshot != null) {
+                    saveSelectedVehicle(vehicleSnapshot)
+                    convertSpentsFBToSpents(vehicleSnapshot)
+                    calculateNumSpents()
+                    calculateTotalSpents()
+                }
+                _isLoading.postValue(false)
             }
         }
     }

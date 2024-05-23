@@ -116,11 +116,15 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             "spentsList" -> {
                 viewModel.setToolbar(getString(R.string.menu_spents), this)
                 binding.bbBottombar.bottomBar.selectedItemId = R.id.navigation_spents
-                navigateToFragment(SpentsListFragment())
+                val vehicleId = intent.getStringExtra("vehicleId")
+                val spentListFragment = SpentsListFragment()
+                val bundle = Bundle()
+                bundle.putString("vehicleId", vehicleId)
+                spentListFragment.arguments = bundle
+                navigateToFragment(spentListFragment)
             }
         }
     }
-
 
     override fun navigateToFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment).commit()

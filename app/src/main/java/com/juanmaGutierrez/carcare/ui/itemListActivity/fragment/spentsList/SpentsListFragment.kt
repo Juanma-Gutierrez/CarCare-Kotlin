@@ -17,6 +17,7 @@ import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class SpentsListFragment : Fragment(), OnVehicleClickListener {
@@ -36,8 +37,15 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getVehiclesFromFB()
+        checkIfVehicleSelected()
         configureUI()
         configureObservers()
+    }
+
+    private fun checkIfVehicleSelected() {
+        val vehicleId = arguments?.getString("vehicleId")
+        milog("vehiclo seleccionado: $vehicleId")
+        vehicleId?.let { viewModel.vehicleSelectedById(it) }
     }
 
     override fun onVehicleClick(vehicle: VehiclePreview) {
@@ -48,7 +56,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         viewModel.getVehiclesListFromFB()
     }
 
+    // todo asignar false a isloading
     private fun configureUI() {
+        viewModel.isLoading.value = false
         configureFabButton()
     }
 

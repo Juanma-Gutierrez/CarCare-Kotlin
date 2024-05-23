@@ -1,5 +1,6 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentDetailBinding
@@ -20,7 +22,6 @@ import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
-import com.juanmaGutierrez.carcare.service.fbSetDocument
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
@@ -32,6 +33,8 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
+import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
+import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -173,7 +176,6 @@ class SpentDetailFragment : Fragment() {
             "new" -> addNewSpent()
             "edit" -> editSpent()
         }
-        closeFragmentAndRestart()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -182,7 +184,7 @@ class SpentDetailFragment : Fragment() {
         spentsList.add(formatSpent(viewModel.spent.value!!))
         spentsList.sortByDescending { it.date }
         val vehicleUpdated = updateVehicleWithSpents(spentsList)
-        saveVehicleToFB(vehicleUpdated)
+        viewModel.saveVehicleToFB(vehicleUpdated)
     }
 
     private fun editSpent() {
@@ -190,10 +192,6 @@ class SpentDetailFragment : Fragment() {
         milog("vehiculo seleccionado ${viewModel.selectedVehicle.value}")
     }
 
-
-    private fun saveVehicleToFB(vehicle: VehicleFB) {
-        fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
-    }
 
     private fun getSpentsListFromVehicleSelected(): MutableList<Spent> {
         val spentsFBListHashMap = mapSpentListFBToSpentList(vehicleToSave.spents as List<Map<String, Any>>)
@@ -264,7 +262,7 @@ class SpentDetailFragment : Fragment() {
 
     private fun configureEditSpentObserver() {
         viewModel.editSpentSuccessful.observe(viewLifecycleOwner) {
-            showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {}
+            showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) { closeFragmentAndRestart() }
         }
     }
 
@@ -293,7 +291,16 @@ class SpentDetailFragment : Fragment() {
 
     private fun closeFragmentAndRestart() {
         if (isAdded) {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
+            requireActivity().supportFragmentManager.popBackStackImmediate(
+                null, FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+            val intent = Intent(context, ItemListActivity::class.java).apply {
+                putExtra("destinationFragment", "spentsList")
+                putExtra("itemId", itemId)
+                putExtra("vehicleId", vehicleToSave.vehicleId)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
         }
     }
 }

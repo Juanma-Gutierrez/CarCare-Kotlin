@@ -10,11 +10,15 @@ import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
 import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
+import com.juanmaGutierrez.carcare.model.localData.LogType
+import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
+import com.juanmaGutierrez.carcare.service.fbSetDocument
+import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
 
@@ -73,5 +77,15 @@ class SpentDetailViewModel : ViewModel() {
         this._isLoading.value = status
     }
 
-
+    fun saveVehicleToFB(vehicle: VehicleFB) {
+        try {
+            fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
+            saveToLog(LogType.INFO, OperationLog.SPENT, uiUM.logMessages.createOrEditionSuccess)
+            _editSpentSuccessful.value = true
+        } catch (e: Exception) {
+            saveToLog(LogType.ERROR, OperationLog.SPENT, uiUM.logMessages.createOrEditionError)
+        }
+    }
 }
+
+
