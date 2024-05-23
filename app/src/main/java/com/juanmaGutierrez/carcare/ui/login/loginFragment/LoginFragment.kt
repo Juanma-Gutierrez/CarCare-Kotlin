@@ -27,8 +27,8 @@ class LoginFragment : Fragment() {
     private lateinit var registerListener: OnRegisterButtonClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = FragmentLoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
+        binding = FragmentLoginBinding.inflate(layoutInflater)
     }
 
     override fun onCreateView(

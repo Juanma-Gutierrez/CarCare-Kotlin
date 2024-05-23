@@ -16,6 +16,7 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
+import com.juanmaGutierrez.carcare.service.milog
 import kotlinx.coroutines.launch
 
 class SpentsListViewModel : ViewModel() {
@@ -107,5 +108,11 @@ class SpentsListViewModel : ViewModel() {
             }
         }
         _totalSpents.value = amount
+    }
+
+    fun setIsLoading(state: Boolean) {
+        milog("estado antes: ${_isLoading.value}")
+        _isLoading.postValue(state)
+        milog("estado después: ${_isLoading.value}")
     }
 }

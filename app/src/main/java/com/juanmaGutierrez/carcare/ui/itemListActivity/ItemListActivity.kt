@@ -29,8 +29,8 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
     private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[ItemListViewModel::class.java]
         binding = ActivityItemListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         openSelectedFragment()

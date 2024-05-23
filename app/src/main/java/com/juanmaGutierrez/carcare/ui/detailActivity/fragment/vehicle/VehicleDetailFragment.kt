@@ -54,8 +54,8 @@ class VehicleDetailFragment : Fragment() {
     private var uiUM: UIUserMessages = UIUserMessages()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
     }
 
     override fun onCreateView(

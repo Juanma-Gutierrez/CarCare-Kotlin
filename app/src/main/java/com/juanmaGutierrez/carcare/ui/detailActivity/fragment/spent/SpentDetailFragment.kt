@@ -33,7 +33,6 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
-import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 
 class SpentDetailFragment : Fragment() {
@@ -171,7 +170,6 @@ class SpentDetailFragment : Fragment() {
     private fun acceptButtonClicked() {
         viewModel.setSpent(getSpentFromForm())
         vehicleToSave = viewModel.selectedVehicle.value!!
-        milog(vehicleToSave.toString())
         when (fragmentType) {
             "new" -> addNewSpent()
             "edit" -> editSpent()

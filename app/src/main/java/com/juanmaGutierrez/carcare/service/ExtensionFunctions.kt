@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -223,3 +224,4 @@ fun String.getProviderCategoryTranslation(context: Context): String {
         else -> this
     }
 }
+

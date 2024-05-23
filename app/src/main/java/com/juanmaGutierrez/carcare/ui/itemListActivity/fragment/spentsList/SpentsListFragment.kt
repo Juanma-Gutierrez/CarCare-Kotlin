@@ -42,9 +42,15 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        milog("entra en onresume ${viewModel.isLoading.value}")
+        viewModel.setIsLoading(false)
+        milog("entra en onresume ${viewModel.isLoading.value}")
+    }
+
     private fun checkIfVehicleSelected() {
         val vehicleId = arguments?.getString("vehicleId")
-        milog("vehiclo seleccionado: $vehicleId")
         vehicleId?.let { viewModel.vehicleSelectedById(it) }
     }
 
@@ -56,9 +62,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         viewModel.getVehiclesListFromFB()
     }
 
-    // todo asignar false a isloading
     private fun configureUI() {
-        viewModel.isLoading.value = false
         configureFabButton()
     }
 
@@ -68,7 +72,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureNumSpentsObserver()
         configureTotalSpentsObserver()
         configureSpentsListObserver()
+        configureIsLoadingObserver()
     }
+
 
     private fun configureVehicleListObserver() {
         viewModel.vehicles.observe(viewLifecycleOwner) { vehicles ->
@@ -98,6 +104,15 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private fun configureSpentsListObserver() {
         viewModel.spentsList.observe(viewLifecycleOwner) { spents ->
             loadSpentsInRV(spents)
+        }
+    }
+
+    private fun configureIsLoadingObserver() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            when (isLoading) {
+                true -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.VISIBLE
+                false -> requireActivity().findViewById<View>(R.id.lottie_isLoading).visibility = View.GONE
+            }
         }
     }
 
