@@ -64,7 +64,8 @@ class DetailActivity : AppCompatActivity() {
 
             "newSpent" -> {
                 viewModel.setToolbarTitle(getString(R.string.new_spent))
-                navigateToDetailFragment(SpentDetailFragment())
+                val vehicleId = intent.getStringExtra("vehicleId") ?: ""
+                navigateToDetailFragment(SpentDetailFragment(), "", vehicleId)
             }
 
             "editSpent" -> {

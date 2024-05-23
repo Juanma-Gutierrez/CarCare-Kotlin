@@ -16,104 +16,104 @@ import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.getTimestamp
 
 fun mapVehiclesListRawToVehicleEntityList(vehicles: List<Map<String, Any>>): List<VehicleEntity> {
-    val vehicleEntities = vehicles.map { vehicleData ->
-        val refVehicle = "/vehicle/" + vehicleData["vehicleId"].toString()
+    val vehicleEntities = vehicles.map { rawVehicle ->
+        val refVehicle = "/vehicle/" + rawVehicle["vehicleId"].toString()
         VehicleEntity(
-            available = vehicleData["available"] as Boolean,
-            brand = vehicleData["brand"].toString(),
-            category = vehicleData["category"].toString(),
-            created = vehicleData["created"].toString(),
-            imageURL = vehicleData["imageURL"].toString(),
-            model = vehicleData["model"].toString(),
-            plate = vehicleData["plate"].toString(),
+            available = rawVehicle["available"] as Boolean,
+            brand = rawVehicle["brand"].toString(),
+            category = rawVehicle["category"].toString(),
+            created = rawVehicle["created"].toString(),
+            imageURL = rawVehicle["imageURL"].toString(),
+            model = rawVehicle["model"].toString(),
+            plate = rawVehicle["plate"].toString(),
             ref = refVehicle,
-            registrationDate = vehicleData["registrationDate"].toString(),
-            vehicleId = vehicleData["vehicleId"].toString(),
+            registrationDate = rawVehicle["registrationDate"].toString(),
+            vehicleId = rawVehicle["vehicleId"].toString(),
         )
     }
     return vehicleEntities
 }
 
 fun mapVehiclesListEntityToVehiclesList(vehicles: List<VehicleEntity>): List<VehiclePreview> {
-    val vehiclesList = vehicles.map { vehicleData ->
-        val docRef = FirebaseFirestore.getInstance().document(vehicleData.ref)
+    val vehiclesList = vehicles.map { rawVehicle ->
+        val docRef = FirebaseFirestore.getInstance().document(rawVehicle.ref)
         VehiclePreview(
-            available = vehicleData.available,
-            brand = vehicleData.brand,
-            category = vehicleData.category,
-            created = vehicleData.created,
-            imageURL = vehicleData.imageURL,
-            model = vehicleData.model,
-            plate = vehicleData.plate,
+            available = rawVehicle.available,
+            brand = rawVehicle.brand,
+            category = rawVehicle.category,
+            created = rawVehicle.created,
+            imageURL = rawVehicle.imageURL,
+            model = rawVehicle.model,
+            plate = rawVehicle.plate,
             ref = docRef,
-            registrationDate = vehicleData.registrationDate,
-            vehicleId = vehicleData.vehicleId,
+            registrationDate = rawVehicle.registrationDate,
+            vehicleId = rawVehicle.vehicleId,
         )
     }
     return vehiclesList
 }
 
 fun mapVehicleFBToVehicle(document: DocumentSnapshot): VehicleFB {
-    val data = document.data!!
+    val rawVehicleFB = document.data!!
     return VehicleFB(
-        data["available"] as Boolean,
-        data["brand"] as String,
-        data["category"] as String,
-        data["created"] as String,
-        data["imageURL"] as String?,
-        data["model"] as String,
-        data["plate"] as String,
-        data["registrationDate"] as String,
-        data["spents"] as List<SpentFB>,
-        data["userId"] as String,
-        data["vehicleId"] as String,
+        rawVehicleFB["available"] as Boolean,
+        rawVehicleFB["brand"] as String,
+        rawVehicleFB["category"] as String,
+        rawVehicleFB["created"] as String,
+        rawVehicleFB["imageURL"] as String?,
+        rawVehicleFB["model"] as String,
+        rawVehicleFB["plate"] as String,
+        rawVehicleFB["registrationDate"] as String,
+        rawVehicleFB["spents"] as List<SpentFB>,
+        rawVehicleFB["userId"] as String,
+        rawVehicleFB["vehicleId"] as String,
     )
 }
 
-fun mapVehicleToVehiclePreview(vehicle: VehicleFB): VehiclePreview {
-    val vehiclePath = "/vehicle/${vehicle.vehicleId}"
+fun mapVehicleToVehiclePreview(rawVehicle: VehicleFB): VehiclePreview {
+    val vehiclePath = "/vehicle/${rawVehicle.vehicleId}"
     val db = FirebaseFirestore.getInstance()
     val docRef = db.document(vehiclePath)
     return VehiclePreview(
-        vehicle.available,
-        vehicle.brand,
-        vehicle.category,
-        vehicle.created,
-        vehicle.imageURL,
-        vehicle.model,
-        vehicle.plate,
+        rawVehicle.available,
+        rawVehicle.brand,
+        rawVehicle.category,
+        rawVehicle.created,
+        rawVehicle.imageURL,
+        rawVehicle.model,
+        rawVehicle.plate,
         docRef,
-        vehicle.registrationDate,
-        vehicle.vehicleId
+        rawVehicle.registrationDate,
+        rawVehicle.vehicleId
     )
 }
 
 fun mapHashVehiclesToList(vehiclesList: List<HashMap<String, Any>>): List<VehiclePreview> {
-    return vehiclesList.map { data ->
+    return vehiclesList.map { rawVehicle ->
         VehiclePreview(
-            data["available"] as Boolean,
-            data["brand"] as String,
-            data["category"] as String,
-            data["created"] as String,
-            data["imageURL"] as String?,
-            data["model"] as String,
-            data["plate"] as String,
-            data["ref"] as DocumentReference,
-            data["registrationDate"] as String,
-            data["vehicleId"] as String
+            rawVehicle["available"] as Boolean,
+            rawVehicle["brand"] as String,
+            rawVehicle["category"] as String,
+            rawVehicle["created"] as String,
+            rawVehicle["imageURL"] as String?,
+            rawVehicle["model"] as String,
+            rawVehicle["plate"] as String,
+            rawVehicle["ref"] as DocumentReference,
+            rawVehicle["registrationDate"] as String,
+            rawVehicle["vehicleId"] as String
         )
     }
 }
 
-fun mapUserToUserFB(user: User, uid: String): UserFB {
+fun mapUserToUserFB(rawUser: User, uid: String): UserFB {
     val currentTimeStamp = getTimestamp()
     return UserFB(
         currentTimeStamp,
-        user.email,
-        user.name,
-        user.username,
+        rawUser.email,
+        rawUser.name,
+        rawUser.username,
         Constants.DEFAULT_ROLE,
-        user.surname,
+        rawUser.surname,
         uid,
         emptyList(),
     )
@@ -122,14 +122,15 @@ fun mapUserToUserFB(user: User, uid: String): UserFB {
 fun mapProviderFBtoProvider(data: Map<String, List<Map<String, String>>>): MutableList<Provider> {
     val providersList = mutableListOf<Provider>()
     val providersData = data["providers"]
-    providersData?.forEach { providerData ->
-        val provider = Provider()
-        provider.category = providerData["category"].toString()
-        provider.created = providerData["created"].toString()
-        provider.name = providerData["name"].toString()
-        provider.phone = providerData["phone"].toString()
-        provider.providerId = providerData["providerId"].toString()
-        providersList.add(provider)
+    providersData?.forEach { rawProvider ->
+        val providerToAdd = Provider(
+            category = rawProvider["category"].toString(),
+            created = rawProvider["created"].toString(),
+            name = rawProvider["name"].toString(),
+            phone = rawProvider["phone"].toString(),
+            providerId = rawProvider["providerId"].toString(),
+        )
+        providersList.add(providerToAdd)
     }
     return providersList
 }
@@ -154,25 +155,38 @@ fun mapSpentListFBToSpentList(hashMapSpent: List<Map<String, Any>>): List<SpentF
 }
 
 fun mapProvidersListRawToProvidersList(providers: List<Map<String, Any>>): MutableList<Provider> {
-    return providers.map { p ->
+    return providers.map { rawProvider ->
         Provider(
-            category = p["category"] as String,
-            created = p["created"] as String,
-            name = p["name"] as String,
-            phone = p["phone"] as String,
-            providerId = p["providerId"] as String
+            category = rawProvider["category"] as String,
+            created = rawProvider["created"] as String,
+            name = rawProvider["name"] as String,
+            phone = rawProvider["phone"] as String,
+            providerId = rawProvider["providerId"] as String
         )
     }.toMutableList()
 }
 
-fun mapSpentFBToSpent(spentFB: SpentFB): Spent {
+fun mapSpentFBToSpent(rawSpentFB: SpentFB): Spent {
     return Spent(
-        spentFB.amount,
-        spentFB.created,
-        spentFB.date,
-        spentFB.observations,
-        spentFB.providerId,
-        spentFB.providerName,
-        spentFB.spentId
+        rawSpentFB.amount,
+        rawSpentFB.created,
+        rawSpentFB.date,
+        rawSpentFB.observations,
+        rawSpentFB.providerId,
+        rawSpentFB.providerName,
+        rawSpentFB.spentId
+    )
+}
+
+
+fun mapHashMapSpentToSpent(rawSpentHashMap: HashMap<String, Any>): Spent {
+    return Spent(
+        amount = rawSpentHashMap["amount"] as Double,
+        created = rawSpentHashMap["created"].toString(),
+        date = rawSpentHashMap["date"].toString(),
+        observations = rawSpentHashMap["observations"].toString(),
+        providerId = rawSpentHashMap["providerId"].toString(),
+        providerName = rawSpentHashMap["providerName"].toString(),
+        spentId = rawSpentHashMap["spentId"].toString(),
     )
 }

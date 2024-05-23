@@ -111,6 +111,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
             ts.detailTitle = getString(R.string.new_spent)
             val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("fragmentType", "newSpent")
+            intent.putExtra("vehicleId", viewModel.selectedVehicle.value!!.vehicleId)
             startActivity(intent)
         }
     }

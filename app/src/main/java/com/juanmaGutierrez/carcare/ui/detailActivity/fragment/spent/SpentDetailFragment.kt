@@ -12,11 +12,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentDetailBinding
+import com.juanmaGutierrez.carcare.mapping.mapSpentFBToSpent
+import com.juanmaGutierrez.carcare.mapping.mapSpentListFBToSpentList
 import com.juanmaGutierrez.carcare.model.Constants
+import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
+import com.juanmaGutierrez.carcare.service.fbSetDocument
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
@@ -27,6 +31,7 @@ import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
+import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -109,11 +114,9 @@ class SpentDetailFragment : Fragment() {
 
     private fun getSpentFromID(): String {
         itemId = arguments?.getString("itemId") ?: ""
-        if (itemId != "") {
-            val vehicleId = arguments?.getString("vehicleId") ?: ""
-            viewModel.getSpentFromFB(itemId, vehicleId)
-            return "edit"
-        }
+        val vehicleId = arguments?.getString("vehicleId") ?: ""
+        viewModel.getSpentFromFB(itemId, vehicleId)
+        if (itemId != "") return "edit"
         return "new"
     }
 
@@ -161,22 +164,25 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun acceptButtonClicked() {
         viewModel.setSpent(getSpentFromForm())
-        // todo en viewModel.selectedVehicle.value!! está entrando un nulo, chequear esto
-        val v = viewModel.selectedVehicle.value!!
+        vehicleToSave = viewModel.selectedVehicle.value!!
+        milog(vehicleToSave.toString())
         when (fragmentType) {
             "new" -> addNewSpent()
             "edit" -> editSpent()
         }
-        saveVehicleToFB()
+        closeFragmentAndRestart()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addNewSpent() {
-        var spentsList: MutableList<Spent> = vehicleToSave.spents as MutableList<Spent>
-        spentsList.add(viewModel.spent.value!!)
-        spentsList.sortBy { it.date }
-        milog("Lista de gastos: $spentsList")
+        val spentsList = getSpentsListFromVehicleSelected()
+        spentsList.add(formatSpent(viewModel.spent.value!!))
+        spentsList.sortByDescending { it.date }
+        val vehicleUpdated = updateVehicleWithSpents(spentsList)
+        saveVehicleToFB(vehicleUpdated)
     }
 
     private fun editSpent() {
@@ -184,8 +190,14 @@ class SpentDetailFragment : Fragment() {
         milog("vehiculo seleccionado ${viewModel.selectedVehicle.value}")
     }
 
-    private fun saveVehicleToFB() {
-        milog("Grabar  en firebase $vehicleToSave")
+
+    private fun saveVehicleToFB(vehicle: VehicleFB) {
+        fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
+    }
+
+    private fun getSpentsListFromVehicleSelected(): MutableList<Spent> {
+        val spentsFBListHashMap = mapSpentListFBToSpentList(vehicleToSave.spents as List<Map<String, Any>>)
+        return spentsFBListHashMap.map { mapSpentFBToSpent(it) }.toMutableList()
     }
 
     private fun getSpentFromForm(): Spent {
@@ -253,6 +265,35 @@ class SpentDetailFragment : Fragment() {
     private fun configureEditSpentObserver() {
         viewModel.editSpentSuccessful.observe(viewLifecycleOwner) {
             showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) {}
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun formatSpent(spent: Spent): Spent {
+        var formattedSpent = spent
+        formattedSpent.date = spent.date.transformStringToDateIso()
+        return formattedSpent
+    }
+
+    private fun updateVehicleWithSpents(spentsList: MutableList<Spent>): VehicleFB {
+        return VehicleFB(
+            available = vehicleToSave.available,
+            brand = vehicleToSave.brand,
+            category = vehicleToSave.category,
+            created = vehicleToSave.category,
+            imageURL = vehicleToSave.imageURL,
+            model = vehicleToSave.model,
+            plate = vehicleToSave.plate,
+            registrationDate = vehicleToSave.registrationDate,
+            spents = spentsList as List<SpentFB>,
+            userId = vehicleToSave.userId,
+            vehicleId = vehicleToSave.vehicleId
+        )
+    }
+
+    private fun closeFragmentAndRestart() {
+        if (isAdded) {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 }

@@ -40,8 +40,8 @@ class SpentDetailViewModel : ViewModel() {
     fun getSpentFromFB(itemId: String, vehicleId: String) {
         viewModelScope.launch {
             fbGetDocumentByID(vehicleId, Constants.FB_COLLECTION_VEHICLE) { vehicle ->
-                if (vehicle != null) {
-                    _selectedVehicle.value = mapVehicleFBToVehicle(vehicle)
+                _selectedVehicle.value = mapVehicleFBToVehicle(vehicle!!)
+                if (itemId.isNotBlank()) {
                     val spents = _selectedVehicle.value?.spents as List<HashMap<String, Any>>
                     val filteredSpentFB = mapSpentListFBToSpentList(spents).filter { it.spentId == itemId }
                     _spent.value = mapSpentFBToSpent(filteredSpentFB[0])
@@ -72,4 +72,6 @@ class SpentDetailViewModel : ViewModel() {
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
+
+
 }
