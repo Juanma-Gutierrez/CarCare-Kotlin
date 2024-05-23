@@ -44,9 +44,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     override fun onResume() {
         super.onResume()
-        milog("entra en onresume ${viewModel.isLoading.value}")
         viewModel.setIsLoading(false)
-        milog("entra en onresume ${viewModel.isLoading.value}")
     }
 
     private fun checkIfVehicleSelected() {

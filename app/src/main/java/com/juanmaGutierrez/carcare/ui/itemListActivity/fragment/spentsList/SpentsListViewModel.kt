@@ -111,8 +111,6 @@ class SpentsListViewModel : ViewModel() {
     }
 
     fun setIsLoading(state: Boolean) {
-        milog("estado antes: ${_isLoading.value}")
         _isLoading.postValue(state)
-        milog("estado después: ${_isLoading.value}")
     }
 }

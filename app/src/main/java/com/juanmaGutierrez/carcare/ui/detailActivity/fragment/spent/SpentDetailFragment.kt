@@ -25,7 +25,6 @@ import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.generateId
 import com.juanmaGutierrez.carcare.service.getTimestamp
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.moneyInputFormat
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
@@ -185,9 +184,19 @@ class SpentDetailFragment : Fragment() {
         viewModel.saveVehicleToFB(vehicleUpdated)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun editSpent() {
-        milog("editar nuevo gasto ${viewModel.spent.value}")
-        milog("vehiculo seleccionado ${viewModel.selectedVehicle.value}")
+        val spentsList = getSpentsListFromVehicleSelected()
+        val updatedSpent = formatSpent(viewModel.spent.value!!)
+        val index = spentsList.indexOfFirst { it.spentId == updatedSpent.spentId }
+        if (index != -1) {
+            spentsList[index] = updatedSpent
+        } else {
+            spentsList.add(updatedSpent)
+        }
+        spentsList.sortByDescending { it.date }
+        val vehicleUpdated = updateVehicleWithSpents(spentsList)
+        viewModel.saveVehicleToFB(vehicleUpdated)
     }
 
 
