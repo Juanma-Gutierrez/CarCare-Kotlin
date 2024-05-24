@@ -190,7 +190,9 @@ class SpentDetailFragment : Fragment() {
         spentsList.add(formatSpent(viewModel.spent.value!!))
         spentsList.sortByDescending { it.date }
         val vehicleUpdated = updateVehicleWithSpents(spentsList)
-        viewModel.saveVehicleToFB(vehicleUpdated)
+        viewModel.saveVehicleToFB(
+            vehicleUpdated, uiUM.logMessages.createOrEditionSuccess, uiUM.logMessages.createOrEditionError
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -205,7 +207,9 @@ class SpentDetailFragment : Fragment() {
         }
         spentsList.sortByDescending { it.date }
         val vehicleUpdated = updateVehicleWithSpents(spentsList)
-        viewModel.saveVehicleToFB(vehicleUpdated)
+        viewModel.saveVehicleToFB(
+            vehicleUpdated, uiUM.logMessages.createOrEditionSuccess, uiUM.logMessages.createOrEditionError
+        )
     }
 
 

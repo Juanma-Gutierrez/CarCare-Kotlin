@@ -84,13 +84,13 @@ class SpentDetailViewModel : ViewModel() {
         this._isLoading.value = status
     }
 
-    fun saveVehicleToFB(vehicle: VehicleFB) {
+    fun saveVehicleToFB(vehicle: VehicleFB, successMessage: String, errorMessage: String) {
         try {
             fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
-            saveToLog(LogType.INFO, OperationLog.SPENT, uiUM.logMessages.createOrEditionSuccess)
+            saveToLog(LogType.INFO, OperationLog.SPENT, successMessage)
             _editSpentSuccessful.value = true
         } catch (e: Exception) {
-            saveToLog(LogType.ERROR, OperationLog.SPENT, uiUM.logMessages.createOrEditionError)
+            saveToLog(LogType.ERROR, OperationLog.SPENT, errorMessage)
         }
     }
 
@@ -114,7 +114,7 @@ class SpentDetailViewModel : ViewModel() {
             rawVehicle.userId,
             rawVehicle.vehicleId,
         )
-        saveVehicleToFB(vehicle)
+        saveVehicleToFB(vehicle, uiUM.logMessages.deleteSuccess, uiUM.logMessages.deleteError)
     }
 }
 
