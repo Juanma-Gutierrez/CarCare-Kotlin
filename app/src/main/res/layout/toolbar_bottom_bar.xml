@@ -6,8 +6,10 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomBar"
+        style="BottomNavigationViewStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/marginL"
+        app:itemActiveIndicatorStyle="@style/ThemeIndicator"
         app:itemIconTint="?attr/colorPrimary"
         app:itemTextColor="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -50,4 +50,8 @@
         <item name="android:textColorSecondary">@color/color_white</item>
     </style>
 
+    <style name="ThemeIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryFixedDim</item>
+    </style>
+
 </resources>
