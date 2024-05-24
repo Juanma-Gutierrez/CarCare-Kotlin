@@ -14,21 +14,20 @@ import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.model.localData.ProviderSelectable
 import com.juanmaGutierrez.carcare.model.localData.Spent
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.saveToLog
-import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
 
 class SpentDetailViewModel : ViewModel() {
     private val _spent = MutableLiveData<Spent>()
     val spent: LiveData<Spent> get() = _spent
-    private val _providersSelectableList = MutableLiveData<List<String>>()
-    val providersSelectableList: LiveData<List<String>> get() = _providersSelectableList
+    private val _providersSelectableList = MutableLiveData<List<ProviderSelectable>>()
+    val providersSelectableList: LiveData<List<ProviderSelectable>> get() = _providersSelectableList
     private val _selectedVehicle = MutableLiveData<VehicleFB>()
     val selectedVehicle: LiveData<VehicleFB> get() = _selectedVehicle
     private val _isLoading = MutableLiveData<Boolean>()
@@ -66,7 +65,12 @@ class SpentDetailViewModel : ViewModel() {
                 val providers = provider?.get("providers") as List<HashMap<String, Any>>
                 providersListRaw = mapProvidersListRawToProvidersList(providers)
                 _providersSelectableList.value =
-                    providersListRaw.map { it.name.toUpperCamelCase() }.sorted().toMutableList()
+                    providersListRaw.map { provider ->
+                        ProviderSelectable(
+                            name = provider.name,
+                            providerId = provider.providerId
+                        )
+                    }.sortedBy { it.name }.toMutableList()
                 setIsLoading(false)
             }
         }

@@ -38,6 +38,8 @@ class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
     private lateinit var viewModel: SpentDetailViewModel
     private lateinit var vehicleToSave: VehicleFB
+    private lateinit var providerNamesList: List<String>
+    private lateinit var providerIdList: List<String>
     private var itemId = ""
     private var fragmentType = "new"
     private var uiUM: UIUserMessages = UIUserMessages()
@@ -89,10 +91,10 @@ class SpentDetailFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun configureUI() {
+        binding.sdBtDate.setOnClickListener { buttonSpentDateClicked() }
         binding.sdBtAccept.setOnClickListener { buttonAcceptPressed() }
         binding.sdBtCancel.setOnClickListener { buttonCancelPressed() }
         binding.sdBtDelete.setOnClickListener { buttonDeletePressed() }
-        binding.sdBtDate.setOnClickListener { buttonSpentDateClicked() }
     }
 
     private fun configureSelectables() {
@@ -114,7 +116,9 @@ class SpentDetailFragment : Fragment() {
 
     private fun configureSelectableObservers() {
         viewModel.providersSelectableList.observe(viewLifecycleOwner) { providers ->
-            loadDataInSelectable(binding.sdAcProvider, providers, requireActivity())
+            providerNamesList = providers.map { it.name }
+            providerIdList = providers.map { it.providerId }
+            loadDataInSelectable(binding.sdAcProvider, providerNamesList, requireActivity())
         }
     }
 
@@ -211,12 +215,14 @@ class SpentDetailFragment : Fragment() {
     }
 
     private fun getSpentFromForm(): Spent {
+        val index = providerNamesList.indexOf(binding.sdAcProvider.text.toString())
+        val providerId = providerIdList[index]
         return Spent(
             binding.sdTvAmount.text.toString().toDouble(),
             viewModel.spent.value!!.created,
             binding.sdBtDate.text.toString(),
             binding.sdTvObservations.text.toString(),
-            viewModel.spent.value!!.providerId,
+            providerId,
             binding.sdAcProvider.text.toString(),
             viewModel.spent.value!!.spentId,
         )
