@@ -75,12 +75,12 @@
         app:layout_constraintTop_toBottomOf="@+id/sl_bc_spentsChart"
         tools:listitem="@layout/item_spent_list" />
 
-    <com.db.williamchart.view.BarChartView
+    <com.db.williamchart.view.HorizontalBarChartView
         android:id="@+id/sl_bc_spentsChart"
         android:layout_width="match_parent"
         android:layout_height="@dimen/chart_height"
         android:background="?attr/colorPrimaryInverse"
-        android:padding="@dimen/marginS"
+        android:padding="@dimen/marginXS"
         app:chart_barsBackgroundColor="?attr/colorPrimaryFixedDim"
         app:chart_barsColor="?attr/colorPrimary"
         app:chart_barsRadius="@dimen/chart_bar_radius"

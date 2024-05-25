@@ -1,10 +1,12 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +17,11 @@ import com.juanmaGutierrez.carcare.adapter.SpentAdapter
 import com.juanmaGutierrez.carcare.adapter.VehicleInSpentsListAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.model.localData.SpentByProviderForChart
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.milog
+import com.juanmaGutierrez.carcare.service.toCapitalizeString
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class SpentsListFragment : Fragment(), OnVehicleClickListener {
@@ -99,9 +103,11 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureSpentsListObserver() {
         viewModel.spentsList.observe(viewLifecycleOwner) { spents ->
             loadSpentsInRV(spents)
+            loadSpentsInChart(spents)
         }
     }
 
@@ -137,5 +143,26 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
             intent.putExtra("vehicleId", viewModel.selectedVehicle.value!!.vehicleId)
             startActivity(intent)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun loadSpentsInChart(spents: List<SpentFB>) {
+        val mySetRaw = filterByProvider(spents)
+        val mySet = convertToLinkedMap(mySetRaw)
+        val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, 5))
+        val dataList = sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
+        binding.slBcSpentsChart.show(dataList)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun filterByProvider(spents: List<SpentFB>): List<SpentByProviderForChart> {
+        return spents.groupBy { it.providerName.substring(0, minOf(it.providerName.length, 15)) }
+            .map { (providerName, spents) ->
+                SpentByProviderForChart(providerName.toUpperCamelCase(), spents.sumOf { it.amount })
+            }
+    }
+
+    private fun convertToLinkedMap(spentsList: List<SpentByProviderForChart>): LinkedHashMap<String, Float> {
+        return spentsList.associate { it.providerName to it.amount.toFloat() } as LinkedHashMap<String, Float>
     }
 }
