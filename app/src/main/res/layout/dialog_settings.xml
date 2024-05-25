@@ -137,20 +137,53 @@
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider1" />
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/ds_sl_providers_chart_size"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stepSize="1.0"
-                android:value="3.0"
-                android:valueFrom="0.0"
-                android:valueTo="6.0"
-                app:values="@array/initial_slider_top_providers"
-                app:labelBehavior="withinBounds"
-                app:thumbColor="?attr/colorOnPrimaryFixedVariant"
-                app:trackColorActive="?attr/colorPrimary"
-                app:trackColorInactive="?attr/colorPrimaryFixedDim"
-                app:trackHeight="@dimen/chart_settings_track_height" />
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/min_value"
+                        style="@style/ItemText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="@string/settings_providers_chart_no_chart_title" />
+
+                    <TextView
+                        android:id="@+id/max_value"
+                        style="@style/ItemText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="5" />
+                </LinearLayout>
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/ds_sl_providers_chart_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:stepSize="1.0"
+                    android:value="3.0"
+                    android:valueFrom="1.0"
+                    android:valueTo="5.0"
+                    app:thumbColor="?attr/colorOnPrimaryFixedVariant"
+                    app:trackColorActive="?attr/colorPrimary"
+                    app:trackColorInactive="?attr/colorPrimaryFixedDim"
+                    app:trackHeight="@dimen/chart_settings_track_height"
+                    app:values="@array/initial_slider_top_providers" />
+            </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/materialDivider4"

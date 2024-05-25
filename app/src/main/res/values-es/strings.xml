@@ -139,6 +139,7 @@
     <string name="spent_deleteSpent_error">Error en el borrado del gasto</string>
     <string name="spent_editSpent_calendarTitle">Selecciona fecha del gasto</string>
     <string name="settings_providers_chart_size">Tamaño de la gráfica de top proveedores</string>
+    <string name="settings_providers_chart_no_chart_title">Sin gráfica</string>
 
 
 </resources>

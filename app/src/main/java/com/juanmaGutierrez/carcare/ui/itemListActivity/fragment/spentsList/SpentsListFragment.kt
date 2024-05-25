@@ -16,9 +16,11 @@ import com.juanmaGutierrez.carcare.adapter.OnVehicleClickListener
 import com.juanmaGutierrez.carcare.adapter.SpentAdapter
 import com.juanmaGutierrez.carcare.adapter.VehicleInSpentsListAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
+import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.SpentByProviderForChart
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
@@ -147,6 +149,11 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadSpentsInChart(spents: List<SpentFB>) {
-        binding.slBcSpentsChart.show(viewModel.generateChart(spents, requireContext()))
+        val chartSize = viewModel.getChartSize(requireContext())
+        if (chartSize > 1) {
+            binding.slBcSpentsChart.show(viewModel.generateChart(spents, requireContext(), chartSize))
+        } else {
+            binding.slBcSpentsChart.visibility = View.GONE
+        }
     }
 }

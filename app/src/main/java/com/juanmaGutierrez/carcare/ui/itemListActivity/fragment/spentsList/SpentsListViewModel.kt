@@ -121,15 +121,20 @@ class SpentsListViewModel : ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun generateChart(spents: List<SpentFB>, context: Context): List<Pair<String, Float>> {
+    fun generateChart(spents: List<SpentFB>, context: Context, chartSize: Int): List<Pair<String, Float>> {
         val mySetRaw = filterByProvider(spents)
         val mySet = convertToLinkedMap(mySetRaw)
-        val chartSizeString = ConfigService().getPreferencesString(context, Constants.SETTINGS_PROVIDERS_CHART_SIZE)
-        val chartSizeInt = chartSizeString.substring(0, 1).toInt()
-        val sortedList =
-            mySet.entries.sortedByDescending { it.value }
-                .take(minOf(mySet.entries.size, chartSizeInt))
+        val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, chartSize))
         return sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
+    }
+
+    fun getChartSize(context: Context): Int {
+        var chartSizeString = ConfigService().getPreferencesString(context, Constants.SETTINGS_PROVIDERS_CHART_SIZE)
+        if (chartSizeString == "") {
+            chartSizeString = "3.0"
+            ConfigService().savePreferencesData(context, Constants.SETTINGS_PROVIDERS_CHART_SIZE, "3.0")
+        }
+        return chartSizeString.substring(0, 1).toInt()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
