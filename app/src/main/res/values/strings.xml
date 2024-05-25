@@ -172,6 +172,8 @@
     <string name="settings_providers_list_format">Providers list</string>
     <string name="settings_providers_list_format_grid">Grid view</string>
     <string name="settings_providers_list_format_linear">List view</string>
+    <string name="settings_providers_chart_size">Top providers chart size</string>
+
     <string name="content_description_vehicle_image">Vehicle image</string>
     <string name="spents_list_vehicleSelected">Select a vehicle</string>
     <string name="spent_createProvider_error">Error in provider creation</string>

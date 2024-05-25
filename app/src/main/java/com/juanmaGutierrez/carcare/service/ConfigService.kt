@@ -8,7 +8,7 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 class ConfigService {
     private var sharedPreferences: SharedPreferences? = null
 
-    fun savePrefDataBool(context: Context, key: String, value: Any) {
+    fun savePreferencesData(context: Context, key: String, value: Any) {
         sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
         when (value) {
@@ -21,11 +21,19 @@ class ConfigService {
 
     fun getPreferencesBoolean(context: Context, key: String): Boolean {
         val sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean(key, true)
+        return if (sharedPreferences.contains(key)) {
+            sharedPreferences.getBoolean(key, true)
+        } else {
+            false
+        }
     }
 
     fun getPreferencesString(context: Context, key: String): String {
         val sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
-        return sharedPreferences.getString(key, "") ?: ""
+        return if (sharedPreferences.contains(key)) {
+            sharedPreferences.getString(key, "") ?: ""
+        } else {
+            ""
+        }
     }
 }

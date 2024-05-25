@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.slider.Slider
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.Constants
@@ -45,10 +46,10 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
         configureVehiclesListFormat(dialogView)
         configureProvidersListFormat(dialogView)
+        configureProvidersChartSize(dialogView)
         configureCloseButton(dialogView)
         alertDialog = MaterialAlertDialogBuilder(this).setView(dialogView).show()
     }
-
 
     private fun configureVehiclesListFormat(dialogView: View) {
         val compactFormat = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
@@ -65,7 +66,7 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
                 R.id.ds_rb_vehicleList_detailed -> false
                 else -> false
             }
-            ConfigService().savePrefDataBool(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT, compact)
+            ConfigService().savePreferencesData(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT, compact)
         }
     }
 
@@ -85,12 +86,24 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
                     R.id.ds_rb_providers_list_linear -> false
                     else -> false
                 }
-                ConfigService().savePrefDataBool(this, Constants.SETTINGS_PROVIDERS_GRID_FORMAT, compact)
+                ConfigService().savePreferencesData(this, Constants.SETTINGS_PROVIDERS_GRID_FORMAT, compact)
             }
     }
 
+    private fun configureProvidersChartSize(dialogView: View) {
+        val chartSize = ConfigService().getPreferencesString(this, Constants.SETTINGS_PROVIDERS_CHART_SIZE)
+        dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).value = chartSize.toFloat()
+        dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).addOnChangeListener { _, size, _ ->
+            ConfigService().savePreferencesData(
+                applicationContext,
+                Constants.SETTINGS_PROVIDERS_CHART_SIZE,
+                size.toString()
+            )
+        }
+    }
+
     private fun configureCloseButton(dialogView: View) {
-        dialogView.findViewById<TextView>(R.id.ds_tv_close).setOnClickListener {
+        dialogView.findViewById<MaterialButton>(R.id.ds_bt_close).setOnClickListener {
             alertDialog?.dismiss()
             startActivity(Intent(this, ItemListActivity::class.java))
             finish()

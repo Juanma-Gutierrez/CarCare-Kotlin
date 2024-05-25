@@ -33,6 +33,8 @@ import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
+import java.text.NumberFormat
+import java.util.Locale
 
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
@@ -222,7 +224,7 @@ class SpentDetailFragment : Fragment() {
         val index = providerNamesList.indexOf(binding.sdAcProvider.text.toString())
         val providerId = providerIdList[index]
         return Spent(
-            binding.sdTvAmount.text.toString().toDouble(),
+            viewModel.convertNumberToLocale(binding.sdTvAmount.text.toString()),
             viewModel.spent.value!!.created,
             binding.sdBtDate.text.toString(),
             binding.sdTvObservations.text.toString(),
@@ -267,7 +269,6 @@ class SpentDetailFragment : Fragment() {
         val vehicleId = getVehicleId()
         viewModel.deleteSpent(itemId, vehicleId)
     }
-
 
     private fun getItemId(): String {
         return arguments?.getString("itemId") ?: ""

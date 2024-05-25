@@ -72,7 +72,8 @@ class OnBoardingActivity : AppCompatActivity() {
     }
 
     private fun savePrefData() {
-        ConfigService().savePrefDataBool(applicationContext, Constants.SETTINGS_IS_FIRST_TIME_RUN, false)
+        ConfigService().savePreferencesData(applicationContext, Constants.SETTINGS_IS_FIRST_TIME_RUN, false)
+        ConfigService().savePreferencesData(applicationContext, Constants.SETTINGS_PROVIDERS_CHART_SIZE, "3.0")
     }
 
     private fun setOnBoardingViewPagerAdapter(onBoardingData: List<OnBoardingData>) {

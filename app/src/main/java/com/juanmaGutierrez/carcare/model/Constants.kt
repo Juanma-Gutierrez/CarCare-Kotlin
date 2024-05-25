@@ -14,6 +14,7 @@ class Constants {
         const val SETTINGS_VEHICLES_LIST_COMPACT = "settings_vehicles_list_compact"
         const val SETTINGS_IS_FIRST_TIME_RUN = "isFirstTimeRun"
         const val SETTINGS_PROVIDERS_GRID_FORMAT = "settings_providers_list_grid_format"
+        const val SETTINGS_PROVIDERS_CHART_SIZE = "settings_providers_chart_size"
 
         // API
         const val API_URL = "https://jumang.pythonanywhere.com/"

@@ -117,9 +117,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/settings_providers_list_format_linear"
                     app:buttonTint="?attr/colorPrimary" />
-
             </RadioGroup>
-
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/materialDivider2"
@@ -130,12 +128,48 @@
                 tools:layout_editor_absoluteX="25dp" />
 
             <TextView
-                android:id="@+id/ds_tv_close"
-                style="@style/Widget.Material3.Button.IconButton"
+                android:id="@+id/ds_tv_providers_chart_size_title"
+                style="@style/ItemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="none"
+                android:text="@string/settings_providers_chart_size"
+                android:textColor="?attr/colorPrimary"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider1" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/ds_sl_providers_chart_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:value="3.0"
+                android:valueFrom="0.0"
+                android:valueTo="6.0"
+                app:values="@array/initial_slider_top_providers"
+                app:labelBehavior="withinBounds"
+                app:thumbColor="?attr/colorOnPrimaryFixedVariant"
+                app:trackColorActive="?attr/colorPrimary"
+                app:trackColorInactive="?attr/colorPrimaryFixedDim"
+                app:trackHeight="@dimen/chart_settings_track_height" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/marginS"
+                app:layout_constraintTop_toBottomOf="@+id/ds_rg_vehicleListFormat"
+                tools:layout_editor_absoluteX="25dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ds_bt_close"
+                style="?attr/itemFillColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
+                android:backgroundTint="?attr/colorPrimary"
+                android:drawableTint="?android:attr/colorBackground"
                 android:text="@string/close"
+                app:icon="@drawable/icon_cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />

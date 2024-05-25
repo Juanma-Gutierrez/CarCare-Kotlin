@@ -22,6 +22,8 @@ import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 
 class SpentDetailViewModel : ViewModel() {
     private val _spent = MutableLiveData<Spent>()
@@ -115,6 +117,16 @@ class SpentDetailViewModel : ViewModel() {
             rawVehicle.vehicleId,
         )
         saveVehicleToFB(vehicle, uiUM.logMessages.deleteSuccess, uiUM.logMessages.deleteError)
+    }
+
+    fun convertNumberToLocale(number: String): Double {
+        try {
+            val location = Locale.UK
+            val formatter = NumberFormat.getInstance(location)
+            return formatter.parse(number.replace(",", "."))?.toDouble() ?: 0.0
+        } catch (e: Exception) {
+            return 0.0
+        }
     }
 }
 

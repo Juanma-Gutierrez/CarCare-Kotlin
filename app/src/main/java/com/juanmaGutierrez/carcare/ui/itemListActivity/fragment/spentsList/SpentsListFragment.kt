@@ -147,22 +147,6 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadSpentsInChart(spents: List<SpentFB>) {
-        val mySetRaw = filterByProvider(spents)
-        val mySet = convertToLinkedMap(mySetRaw)
-        val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, 5))
-        val dataList = sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
-        binding.slBcSpentsChart.show(dataList)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun filterByProvider(spents: List<SpentFB>): List<SpentByProviderForChart> {
-        return spents.groupBy { it.providerName.substring(0, minOf(it.providerName.length, 15)) }
-            .map { (providerName, spents) ->
-                SpentByProviderForChart(providerName.toUpperCamelCase(), spents.sumOf { it.amount })
-            }
-    }
-
-    private fun convertToLinkedMap(spentsList: List<SpentByProviderForChart>): LinkedHashMap<String, Float> {
-        return spentsList.associate { it.providerName to it.amount.toFloat() } as LinkedHashMap<String, Float>
+        binding.slBcSpentsChart.show(viewModel.generateChart(spents, requireContext()))
     }
 }

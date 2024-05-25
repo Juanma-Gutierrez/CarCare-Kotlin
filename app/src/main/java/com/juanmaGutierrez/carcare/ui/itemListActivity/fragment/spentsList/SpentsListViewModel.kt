@@ -1,6 +1,9 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList
 
+import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,10 +15,14 @@ import com.juanmaGutierrez.carcare.mapping.mapVehicleFBToVehicle
 import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
+import com.juanmaGutierrez.carcare.model.localData.SpentByProviderForChart
 import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
+import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
+import com.juanmaGutierrez.carcare.service.milog
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
 
 class SpentsListViewModel : ViewModel() {
@@ -111,5 +118,29 @@ class SpentsListViewModel : ViewModel() {
 
     fun setIsLoading(state: Boolean) {
         _isLoading.postValue(state)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun generateChart(spents: List<SpentFB>, context: Context): List<Pair<String, Float>> {
+        val mySetRaw = filterByProvider(spents)
+        val mySet = convertToLinkedMap(mySetRaw)
+        val chartSizeString = ConfigService().getPreferencesString(context, Constants.SETTINGS_PROVIDERS_CHART_SIZE)
+        val chartSizeInt = chartSizeString.substring(0, 1).toInt()
+        val sortedList =
+            mySet.entries.sortedByDescending { it.value }
+                .take(minOf(mySet.entries.size, chartSizeInt))
+        return sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun filterByProvider(spents: List<SpentFB>): List<SpentByProviderForChart> {
+        return spents.groupBy { it.providerName.substring(0, minOf(it.providerName.length, 15)) }
+            .map { (providerName, spents) ->
+                SpentByProviderForChart(providerName.toUpperCamelCase(), spents.sumOf { it.amount })
+            }
+    }
+
+    private fun convertToLinkedMap(spentsList: List<SpentByProviderForChart>): LinkedHashMap<String, Float> {
+        return spentsList.associate { it.providerName to it.amount.toFloat() } as LinkedHashMap<String, Float>
     }
 }
