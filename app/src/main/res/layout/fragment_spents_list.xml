@@ -78,7 +78,7 @@
     <com.db.williamchart.view.HorizontalBarChartView
         android:id="@+id/sl_bc_spentsChart"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/chart_height"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryInverse"
         android:padding="@dimen/marginXS"
         app:chart_barsBackgroundColor="?attr/colorPrimaryFixedDim"

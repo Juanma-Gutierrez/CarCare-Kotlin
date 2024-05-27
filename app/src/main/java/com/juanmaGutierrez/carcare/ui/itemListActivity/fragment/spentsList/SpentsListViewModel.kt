@@ -35,6 +35,8 @@ class SpentsListViewModel : ViewModel() {
     val numSpents: LiveData<Int> get() = _numSpents
     private val _totalSpents = MutableLiveData<Double>()
     val totalSpents: LiveData<Double> get() = _totalSpents
+    private val _numSpentsHeightLayout = MutableLiveData<Int>()
+    val numSpentsHeightLayout: LiveData<Int> get() = _numSpentsHeightLayout
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _snackbarMessage = MutableLiveData<String>()
@@ -123,9 +125,19 @@ class SpentsListViewModel : ViewModel() {
     fun generateChart(spents: List<SpentFB>, chartSize: Int): List<Pair<String, Float>> {
         val mySetRaw = filterByProvider(spents)
         val mySet = convertToLinkedMap(mySetRaw)
-        val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, chartSize))
+        val height = minOf(mySet.entries.size, chartSize)
+        _numSpentsHeightLayout.value = height
+        val sortedList = mySet.entries.sortedByDescending { it.value }.take(height)
         return sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
     }
+
+    /*    @RequiresApi(Build.VERSION_CODES.O)
+        fun calculateSpents(spents: List<SpentFB>, chartSize: Int): Int {
+            val mySetRaw = filterByProvider(spents)
+            val mySet = convertToLinkedMap(mySetRaw)
+            val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, chartSize))
+            return sortedList.size
+        }*/
 
     fun getChartSize(context: Context): Int {
         val chartSizeString =

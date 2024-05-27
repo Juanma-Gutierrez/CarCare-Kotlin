@@ -73,9 +73,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureNumSpentsObserver()
         configureTotalSpentsObserver()
         configureSpentsListObserver()
+        configureNumSpentsHeightLayoutObserver()
         configureIsLoadingObserver()
     }
-
 
     private fun configureVehicleListObserver() {
         viewModel.vehicles.observe(viewLifecycleOwner) { vehicles ->
@@ -119,6 +119,22 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    private fun configureNumSpentsHeightLayoutObserver() {
+        viewModel.numSpentsHeightLayout.observe(viewLifecycleOwner) { numBars ->
+            val layoutParams = chartView.layoutParams
+            val scale = resources.displayMetrics.density
+            val height = when (numBars) {
+                2 -> 80
+                3 -> 100
+                4 -> 120
+                5 -> 140
+                else -> 0
+            }
+            val chartHeightPx = height * scale
+            layoutParams.height = chartHeightPx.toInt()
+        }
+    }
+
     private fun loadSpentsInRV(spentsList: List<SpentFB>) {
         spentsAdapter = SpentAdapter(spentsList, requireContext(), viewModel.selectedVehicle.value!!.vehicleId)
         binding.slRvSpents.layoutManager = LinearLayoutManager(requireContext())
@@ -151,6 +167,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
             chartView = binding.slBcSpentsChart
             chartView.labelsFormatter = { value -> value.toInt().toString() }
             chartView.show(viewModel.generateChart(spents, chartSize))
+            chartView.animate(viewModel.generateChart(spents, chartSize))
         } else {
             binding.slBcSpentsChart.visibility = View.GONE
         }
