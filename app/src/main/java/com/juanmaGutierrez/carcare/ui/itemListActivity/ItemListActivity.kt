@@ -91,7 +91,8 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
     }
 
     private fun configureProvidersChartSize(dialogView: View) {
-        val chartSize = ConfigService().getPreferencesString(this, Constants.SETTINGS_PROVIDERS_CHART_SIZE)
+        val chartSize =
+            ConfigService().getPreferencesString(this, Constants.SETTINGS_PROVIDERS_CHART_SIZE).ifEmpty { "3.0" }
         dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).value = chartSize.toFloat()
         dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).addOnChangeListener { _, size, _ ->
             ConfigService().savePreferencesData(
