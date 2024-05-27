@@ -10,20 +10,16 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.db.williamchart.view.AxisChartView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.OnVehicleClickListener
 import com.juanmaGutierrez.carcare.adapter.SpentAdapter
 import com.juanmaGutierrez.carcare.adapter.VehicleInSpentsListAdapter
 import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
-import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
-import com.juanmaGutierrez.carcare.model.localData.SpentByProviderForChart
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
-import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.toCapitalizeString
-import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class SpentsListFragment : Fragment(), OnVehicleClickListener {
@@ -31,6 +27,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var binding: FragmentSpentsListBinding
     private lateinit var vehiclesAdapter: VehicleInSpentsListAdapter
     private lateinit var spentsAdapter: SpentAdapter
+    private lateinit var chartView: AxisChartView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -151,7 +148,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private fun loadSpentsInChart(spents: List<SpentFB>) {
         val chartSize = viewModel.getChartSize(requireContext())
         if (chartSize > 1) {
-            binding.slBcSpentsChart.show(viewModel.generateChart(spents, requireContext(), chartSize))
+            chartView = binding.slBcSpentsChart
+            chartView.labelsFormatter = { value -> value.toInt().toString() }
+            chartView.show(viewModel.generateChart(spents, chartSize))
         } else {
             binding.slBcSpentsChart.visibility = View.GONE
         }
