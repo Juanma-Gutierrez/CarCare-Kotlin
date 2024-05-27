@@ -123,13 +123,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         viewModel.numSpentsHeightLayout.observe(viewLifecycleOwner) { numBars ->
             val layoutParams = chartView.layoutParams
             val scale = resources.displayMetrics.density
-            val height = when (numBars) {
-                2 -> 80
-                3 -> 100
-                4 -> 120
-                5 -> 140
-                else -> 0
-            }
+            val barHeight = 20
+            val paddingsAndXAxisLabel = 40
+            val height = (numBars * barHeight) + paddingsAndXAxisLabel
             val chartHeightPx = height * scale
             layoutParams.height = chartHeightPx.toInt()
         }
