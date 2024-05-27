@@ -17,6 +17,7 @@ import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.fbGetUserLogged
+import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.aboutMe.AboutMeFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
@@ -96,9 +97,7 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).value = chartSize.toFloat()
         dialogView.findViewById<Slider>(R.id.ds_sl_providers_chart_size).addOnChangeListener { _, size, _ ->
             ConfigService().savePreferencesData(
-                applicationContext,
-                Constants.SETTINGS_PROVIDERS_CHART_SIZE,
-                size.toString()
+                applicationContext, Constants.SETTINGS_PROVIDERS_CHART_SIZE, size.toString()
             )
         }
     }
@@ -142,6 +141,12 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
 
     override fun navigateToFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment).commit()
+
+    }
+
+    private fun navigateToFragmentWithBack(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment)
+            .addToBackStack(null).commit()
     }
 
     private fun configureTopToolbar() {
@@ -150,6 +155,11 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             when (menuItem.itemId) {
                 R.id.tb_it_settings -> {
                     viewModel.setSettingsDialog()
+                    true
+                }
+
+                R.id.tb_it_aboutMe -> {
+                    navigateToFragmentWithBack(AboutMeFragment())
                     true
                 }
 

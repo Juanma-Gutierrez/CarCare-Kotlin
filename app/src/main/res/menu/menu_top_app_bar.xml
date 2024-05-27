@@ -4,12 +4,19 @@
     <item
         android:id="@+id/tb_it_userEmail"
         android:enabled="false"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:title="@string/label_username" />
 
     <item
         android:id="@+id/tb_it_settings"
         android:contentDescription="@string/settings_title"
         android:title="@string/settings_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/tb_it_aboutMe"
+        android:contentDescription="@string/settings_aboutMe"
+        android:title="@string/settings_aboutMe"
         app:showAsAction="never" />
 
     <item

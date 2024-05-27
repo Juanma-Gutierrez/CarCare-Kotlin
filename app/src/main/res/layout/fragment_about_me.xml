@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detailActivity.fragment.aboutMe.AboutMeFragment">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="background.json"
+        app:lottie_loop="true" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/am_tv_aboutMeAuthor"
+        style="@style/MaterialAlertDialog.Material3.Title.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/marginS"
+        android:text="@string/aboutMe_author"
+        app:layout_constraintBottom_toTopOf="@+id/am_tv_aboutMeProfession"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/am_tv_aboutMeProfession"
+        style="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/marginS"
+        android:layout_marginTop="@dimen/marginS"
+        android:text="@string/aboutMe_profession"
+        app:layout_constraintBottom_toTopOf="@+id/am_tv_aboutMeInfo"
+        app:layout_constraintTop_toBottomOf="@+id/am_tv_aboutMeAuthor"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/am_tv_aboutMeInfo"
+        style="@style/MaterialAlertDialog.Material3.Body.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/marginS"
+        android:text="@string/aboutMe_info"
+        app:layout_constraintBottom_toTopOf="@+id/am_bt_aboutMeGitHubButton"
+        app:layout_constraintTop_toBottomOf="@+id/am_tv_aboutMeProfession"
+        tools:layout_editor_absoluteX="-16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/am_bt_aboutMeGitHubButton"
+        android:layout_width="@dimen/buttonM"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:text="Github"
+        app:layout_constraintBottom_toTopOf="@+id/am_bt_aboutMeBackButton"
+        app:layout_constraintEnd_toStartOf="@+id/am_bt_aboutMeLinkedInButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/am_tv_aboutMeInfo" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/am_bt_aboutMeLinkedInButton"
+        android:layout_width="@dimen/buttonM"
+        android:layout_height="wrap_content"
+        android:text="Linkedin"
+        app:layout_constraintBottom_toBottomOf="@+id/am_bt_aboutMeGitHubButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/am_bt_aboutMeGitHubButton"
+        app:layout_constraintTop_toTopOf="@+id/am_bt_aboutMeGitHubButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/am_bt_aboutMeBackButton"
+        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+        android:layout_width="@dimen/buttonM"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginM"
+        android:text="@string/aboutMe_backButton"
+        android:textColor="?attr/colorPrimary"
+        app:icon="@drawable/icon_arrow_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/am_bt_aboutMeGitHubButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

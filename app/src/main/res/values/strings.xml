@@ -13,6 +13,7 @@
     <string name="settings_vehicles_list_format">Vehicles list</string>
     <string name="settings_vehicles_list_format_normal">Compact view</string>
     <string name="settings_vehicles_list_format_detail">Expanded view</string>
+    <string name="settings_aboutMe">About me</string>
 
     <!-- TopAppBar -->
     <string name="settings_title">Settings</string>
@@ -61,6 +62,14 @@
     <string name="label_password">Password</string>
     <string name="label_login">Login</string>
     <string name="goRegister_button">Not registered? Do it now</string>
+
+    <!-- About me -->
+    <string name="aboutMe_author">Author: Juan Manuel Gutiérrez Mellado</string>
+    <string name="aboutMe_profession">Frontend Developer Jr.</string>
+    <string name="aboutMe_info">Multi-platform application and web application developer. Studies of Kotlin, HTML, CSS, Javascript, Java, MySQL. Knowledge of C, Python, PHP and AWS and Docker platforms.</string>
+    <string name="aboutMe_gitHub">GitHub</string>
+    <string name="aboutMe_linkedIn">LinkedIn</string>
+    <string name="aboutMe_backButton">Back</string>
 
     <!-- Register -->
     <string name="label_register">Register</string>
@@ -178,5 +187,6 @@
     <string name="content_description_vehicle_image">Vehicle image</string>
     <string name="spents_list_vehicleSelected">Select a vehicle</string>
     <string name="spent_createProvider_error">Error in provider creation</string>
+
 
 </resources>
