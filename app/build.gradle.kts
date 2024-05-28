@@ -65,9 +65,6 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     // Add the dependency for the Firebase Cloud Storage
     implementation("com.google.firebase:firebase-storage")
-    // Navigation graph
-    // implementation(libs.androidx.navigation.fragment.ktx)
-    // implementation(libs.androidx.navigation.ui.ktx)
     val navVersion = "2.7.7"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")

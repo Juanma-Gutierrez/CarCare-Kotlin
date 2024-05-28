@@ -25,6 +25,7 @@
         android:paddingHorizontal="@dimen/marginS"
         android:paddingVertical="@dimen/marginXS"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sl_rv_vehiclesInSpentList">
 
@@ -34,7 +35,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/spents_list_vehicleSelected"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Harley-Davidson Springer Softail" />
@@ -44,9 +44,9 @@
             style="@style/ItemText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginXS"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sl_tv_vehicleSelected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/sl_tv_totalSpents"
+            app:layout_constraintTop_toBottomOf="@+id/sl_tv_totalSpents"
             tools:text="Nº Gastos: 6" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -54,10 +54,21 @@
             style="@style/ItemText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/sl_tv_numSpents"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sl_tv_numSpents"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/sl_tv_vehicleSelected"
+            app:layout_constraintTop_toBottomOf="@+id/sl_tv_vehicleSelected"
             tools:text="Total gastos: 325,75€" />
+
+        <ImageView
+            android:id="@+id/sl_iv_shareButton"
+            android:layout_width="@dimen/iconS"
+            android:layout_height="@dimen/iconS"
+            android:contentDescription="Export"
+            android:src="@drawable/icon_export"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

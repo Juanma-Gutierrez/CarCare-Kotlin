@@ -20,6 +20,8 @@ import com.juanmaGutierrez.carcare.databinding.FragmentSpentsListBinding
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
+import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
 class SpentsListFragment : Fragment(), OnVehicleClickListener {
@@ -37,6 +39,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getVehiclesFromFB()
@@ -63,10 +66,46 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         viewModel.getVehiclesListFromFB()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureUI() {
+        configureShareButtonGone()
         configureFabButton()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun configureShareButtonGone() {
+        binding.slIvShareButton.visibility = View.GONE
+        binding.slIvShareButton.setOnClickListener { shareSpents() }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun shareSpents() {
+        val spentsList = viewModel.spentsList.value
+        if (spentsList != null) {
+            var numSpents = 0
+            var totalSpents = 0.0
+            var textToShare = getExportHeader()
+            for (spent in spentsList) {
+                numSpents += 1
+                totalSpents += spent.amount
+                textToShare += "${spent.toExport()}\n"
+            }
+            textToShare += getExportFooter(numSpents, totalSpents)
+            shareText(textToShare)
+        }
+    }
+
+    private fun shareText(textToShare: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, textToShare)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun configureObservers() {
         configureVehicleListObserver()
         configureSelectedVehicleTitleObserver()
@@ -87,6 +126,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
             binding.slTvVehicleSelected.text = String.format("%1s, %2s", vehicle.brand, vehicle.model)
             binding.slFabAddSpent.visibility = View.VISIBLE
+            binding.slIvShareButton.visibility = View.VISIBLE
         }
     }
 
@@ -167,5 +207,27 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         } else {
             binding.slBcSpentsChart.visibility = View.GONE
         }
+    }
+
+    private fun getExportFooter(numSpents: Int, totalSpents: Double): String {
+        var footer = generateHorizontalDivider()
+        val textNumSpents = getString(R.string.spents_numSpents, numSpents)
+        val textTotalSpents = getString(R.string.spents_totalSpents, totalSpents)
+        footer += "$textNumSpents\n$textTotalSpents\n"
+        return footer
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getExportHeader(): String {
+        val date = getTimestamp().transformDateIsoToString()
+        val selectedVehicle = viewModel.selectedVehicle.value
+        var header = "$date ${selectedVehicle!!.brand} ${selectedVehicle.model}\n"
+        header += generateHorizontalDivider()
+        return header
+    }
+
+    private fun generateHorizontalDivider(): String {
+        val numScripts = 40
+        return "-".repeat(numScripts) + "\n"
     }
 }
