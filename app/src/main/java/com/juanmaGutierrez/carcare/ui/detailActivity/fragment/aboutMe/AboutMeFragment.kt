@@ -43,10 +43,10 @@ class AboutMeFragment : Fragment() {
     }
 
     private fun configureSocialMediaButtons() {
-        binding.amBtAboutMeGitHubButton.setOnClickListener {
+        binding.amIvAboutMeGitHubIcon.setOnClickListener {
             openURL("https://github.com/Juanma-Gutierrez")
         }
-        binding.amBtAboutMeLinkedInButton.setOnClickListener {
+        binding.amIvAboutMeLinkedInIcon.setOnClickListener {
             openURL("https://www.linkedin.com/in/juanmanuelgutierrezm")
         }
     }
