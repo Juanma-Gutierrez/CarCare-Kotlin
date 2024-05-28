@@ -6,4 +6,6 @@ plugins {
     id("com.google.gms.google-services") version "4.4.1" apply false
     // Kapt
     id("org.jetbrains.kotlin.kapt") version "2.0.0-Beta1" apply false
+    // Dokka
+    id("org.jetbrains.dokka") version "1.9.20" apply false
 }

@@ -5,6 +5,8 @@ plugins {
     id("com.google.gms.google-services")
     // Kapt
     id("org.jetbrains.kotlin.kapt")
+    // Dokka
+    id("org.jetbrains.dokka")
 }
 
 android {
@@ -88,7 +90,7 @@ dependencies {
     // Coil
     val coilVersion = "2.5.0"
     implementation("io.coil-kt:coil:$coilVersion")
-    // Charts
+    // WilliamChart
     implementation("com.diogobernardino:williamchart:3.10.1")
 
     implementation(libs.androidx.core.ktx)
