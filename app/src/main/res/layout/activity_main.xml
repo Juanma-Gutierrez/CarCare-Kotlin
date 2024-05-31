@@ -11,7 +11,7 @@
         android:id="@+id/shapeableImageView"
         android:layout_width="@dimen/logoM"
         android:layout_height="@dimen/logoM"
-        android:src="@drawable/logo_carcare_transparent"
+        android:src="@drawable/logo_carcare_with_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

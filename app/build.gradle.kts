@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.juanmaGutierrez.carcare"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -89,6 +89,8 @@ dependencies {
     implementation("io.coil-kt:coil:$coilVersion")
     // WilliamChart
     implementation("com.diogobernardino:williamchart:3.10.1")
+    // SplashScreen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

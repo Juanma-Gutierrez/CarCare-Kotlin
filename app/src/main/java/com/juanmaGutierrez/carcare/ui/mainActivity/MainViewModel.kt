@@ -15,6 +15,7 @@ class MainViewModel : ViewModel() {
             val activity = Intent(context, LoginActivity::class.java)
             context.startActivity(activity)
         } else {
+            ConfigService().savePreferencesData(context, Constants.SETTINGS_IS_FIRST_TIME_RUN, false)
             showOnBoardingActivity(context)
         }
     }

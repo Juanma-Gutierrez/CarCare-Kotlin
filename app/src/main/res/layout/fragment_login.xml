@@ -22,7 +22,7 @@
                 android:layout_height="@dimen/logoM"
                 android:layout_marginTop="@dimen/marginM"
                 android:layout_marginBottom="@dimen/marginXS"
-                android:src="@drawable/logo_carcare_transparent" />
+                android:src="@drawable/logo_carcare_with_name" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/loginCardView"

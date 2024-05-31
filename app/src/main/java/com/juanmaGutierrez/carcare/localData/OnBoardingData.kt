@@ -9,7 +9,7 @@ fun getOnBoardingDataValues(context: Context): List<OnBoardingData> {
         OnBoardingData(
             context.getString(R.string.onBoarding_title_carcare),
             context.getString(R.string.onBoarding_text_carcare),
-            R.drawable.logo_carcare_transparent
+            R.drawable.logo_carcare_with_name
         ),
         OnBoardingData(
             context.getString(R.string.onBoarding_title1),

@@ -19,13 +19,18 @@ class ConfigService {
         editor.apply()
     }
 
-    fun getPreferencesBoolean(context: Context, key: String): Boolean {
+/*    fun getPreferencesBoolean(context: Context, key: String): Boolean {
         val sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
         return if (sharedPreferences.contains(key)) {
             sharedPreferences.getBoolean(key, true)
         } else {
             false
         }
+    }*/
+
+    fun getPreferencesBoolean(context: Context, key: String, defaultValue: Boolean = true): Boolean {
+        val sharedPreferences = context.getSharedPreferences("pref", Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(key, defaultValue)
     }
 
     fun getPreferencesString(context: Context, key: String): String {
