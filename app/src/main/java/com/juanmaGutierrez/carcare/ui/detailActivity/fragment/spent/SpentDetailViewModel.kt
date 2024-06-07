@@ -21,6 +21,7 @@ import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import com.juanmaGutierrez.carcare.service.fbSetDocument
 import com.juanmaGutierrez.carcare.service.saveToLog
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
@@ -69,7 +70,7 @@ class SpentDetailViewModel : ViewModel() {
                 _providersSelectableList.value =
                     providersListRaw.map { provider ->
                         ProviderSelectable(
-                            name = provider.name,
+                            name = provider.name.toUpperCamelCase(),
                             providerId = provider.providerId
                         )
                     }.sortedBy { it.name }.toMutableList()
