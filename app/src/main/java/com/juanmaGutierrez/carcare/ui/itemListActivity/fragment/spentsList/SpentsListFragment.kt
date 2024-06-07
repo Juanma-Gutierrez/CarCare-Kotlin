@@ -198,12 +198,15 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadSpentsInChart(spents: List<SpentFB>) {
-        val chartSize = viewModel.getChartSize(requireContext())
-        if (chartSize > 1) {
-            chartView = binding.slBcSpentsChart
-            chartView.labelsFormatter = { value -> value.toInt().toString() }
-            chartView.show(viewModel.generateChart(spents, chartSize))
-            chartView.animate(viewModel.generateChart(spents, chartSize))
+        if (spents.size > 1) {
+            binding.slBcSpentsChart.visibility = View.VISIBLE
+            val chartSize = viewModel.getChartSize(requireContext())
+            if (chartSize > 1) {
+                chartView = binding.slBcSpentsChart
+                chartView.labelsFormatter = { value -> value.toInt().toString() }
+                chartView.show(viewModel.generateChart(spents, chartSize))
+                chartView.animate(viewModel.generateChart(spents, chartSize))
+            }
         } else {
             binding.slBcSpentsChart.visibility = View.GONE
         }

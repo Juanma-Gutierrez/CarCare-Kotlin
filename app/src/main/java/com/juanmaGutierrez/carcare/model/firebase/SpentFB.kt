@@ -3,6 +3,7 @@ package com.juanmaGutierrez.carcare.model.firebase
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.juanmaGutierrez.carcare.service.euroFormat
+import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import kotlin.math.min
 
@@ -22,7 +23,7 @@ data class SpentFB(
     @RequiresApi(Build.VERSION_CODES.O)
     fun toExport(): String {
         val dateFormatted = date.transformDateIsoToString().substring(0, minOf(date.length, 10))
-        val providerFormatted = providerName.substring(0, minOf(providerName.length, 18))
+        val providerFormatted = providerName.substring(0, minOf(providerName.length, 18)).toUpperCamelCase()
         val amountFormatted = amount.euroFormat()
         return String.format("%-10s %-18s %10s", dateFormatted, providerFormatted, amountFormatted)
     }

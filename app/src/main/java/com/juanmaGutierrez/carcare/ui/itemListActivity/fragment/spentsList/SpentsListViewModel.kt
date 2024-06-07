@@ -55,7 +55,9 @@ class SpentsListViewModel : ViewModel() {
                 if (data != null) {
                     val rawVehicles = data["vehicles"] as List<HashMap<String, Any>>
                     val vehiclePreviewList = mapHashVehiclesToListVehiclePreview(rawVehicles)
-                    _vehicles.value = vehiclePreviewList
+                    _vehicles.value =
+                        vehiclePreviewList.sortedWith(compareBy<VehiclePreview> { it.category }.thenBy { it.brand }
+                            .thenBy { it.model })
                 } else {
                     Log.e(Constants.TAG, Constants.ERROR_FIREBASE_CALL)
                 }

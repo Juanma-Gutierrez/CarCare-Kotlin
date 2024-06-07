@@ -9,6 +9,7 @@ import com.juanmaGutierrez.carcare.mapping.mapProviderFBtoProvider
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.Provider
+import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class ProvidersListViewModel : ViewModel() {
                 val data = providers?.data as? Map<String, List<Map<String, String>>>
                 if (data != null) {
                     _providersList.value = mapProviderFBtoProvider(data)
+                        .sortedWith(compareBy<Provider> { it.category }.thenBy { it.name })
                     _isLoading.value = false
                 } else {
                     Log.e(TAG, Constants.ERROR_FIREBASE_CALL)

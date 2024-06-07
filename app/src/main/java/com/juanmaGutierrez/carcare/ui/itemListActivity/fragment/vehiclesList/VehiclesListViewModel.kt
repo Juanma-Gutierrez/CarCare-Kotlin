@@ -63,6 +63,8 @@ class VehiclesListViewModel(
                         val vehiclesListEntity = mapVehiclesListRawToVehicleEntityList(vehiclesListRaw)
                         saveVehiclesToRoom(vehiclesListEntity)
                         _vehicleList.value = mapVehiclesListEntityToVehiclesList(vehiclesListEntity)
+                            .sortedWith(compareBy<VehiclePreview> { it.category }.thenBy { it.brand }
+                                .thenBy { it.model })
                     } else {
                         Log.e(Constants.TAG_ERROR, Constants.FB_NO_DOCUMENT)
                     }
