@@ -122,7 +122,7 @@
     <string name="vehicle_registrationDate">Fecha de registro</string>
     <string name="vehicle_tab_allVehicles">Todos los vehículos</string>
     <string name="vehicle_tab_availableVehicles">Vehículos disponibles</string>
-    <string name="vehiclesList_noVehicles">Debes incluir algún vehículo en tu base de datos</string>
+    <string name="vehiclesList_noVehicles">Debes añadir algún vehículo</string>
     <string name="spents_list_vehicleSelected">Selecciona un vehículo</string>
     <string name="spents_totalSpents">Gastos totales: %.2f €</string>
     <string name="error_emailInvalid">Email no válido</string>
@@ -147,6 +147,8 @@
     <string name="aboutMe_backButton">Volver</string>
     <string name="aboutMe_gitHub">GitHub</string>
     <string name="aboutMe_linkedIn">LinkedIn</string>
+    <string name="providersList_noProviders">Debes añadir algún proveedor</string>
+    <string name="spentsList_noSpents">Debes añadir algún gasto</string>
 
 
 </resources>

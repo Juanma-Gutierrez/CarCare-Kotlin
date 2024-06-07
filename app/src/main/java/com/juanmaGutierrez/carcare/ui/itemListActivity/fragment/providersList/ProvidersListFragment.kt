@@ -17,6 +17,7 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
+import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -58,6 +59,9 @@ class ProvidersListFragment : Fragment() {
     private fun configureProvidersListObserver() {
         viewModel.providersList.observe(viewLifecycleOwner) { providers ->
             providersList = providers
+            if (providersList.isEmpty()) {
+                showSnackBar(getString(R.string.providersList_noProviders), requireView()) {}
+            }
             loadProvidersListInRV()
         }
     }

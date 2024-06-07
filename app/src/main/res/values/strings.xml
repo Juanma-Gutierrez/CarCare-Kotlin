@@ -85,8 +85,10 @@
     <string name="snackBar_showAll">All vehicles</string>
     <string name="snackBar_showAvailables">Available vehicles</string>
 
-    <!-- Vehicles List -->
-    <string name="vehiclesList_noVehicles">You must add some vehicle to your database</string>
+    <!-- No Items List -->
+    <string name="vehiclesList_noVehicles">You must add some vehicle</string>
+    <string name="providersList_noProviders">You must add some providers</string>
+    <string name="spentsList_noSpents">You must add some spent</string>
 
     <!-- Vehicle -->
     <string name="vehicle_tab_availableVehicles">Available vehicles</string>
