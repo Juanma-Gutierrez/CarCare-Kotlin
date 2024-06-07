@@ -21,6 +21,7 @@ import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
@@ -119,6 +120,14 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private fun configureVehicleListObserver() {
         viewModel.vehicles.observe(viewLifecycleOwner) { vehicles ->
             loadVehiclesInRV(vehicles)
+            if (vehicles.isEmpty()) {
+                binding.slRvVehiclesInSpentList.visibility = View.GONE
+                binding.slClSpentsContainer.visibility = View.GONE
+                showSnackBar(getString(R.string.vehiclesList_noVehicles), requireView()) {}
+            } else {
+                binding.slRvVehiclesInSpentList.visibility = View.VISIBLE
+                binding.slClSpentsContainer.visibility = View.VISIBLE
+            }
         }
     }
 
