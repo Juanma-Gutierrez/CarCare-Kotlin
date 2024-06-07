@@ -323,7 +323,7 @@ class SpentDetailFragment : Fragment() {
         return formattedSpent
     }
 
-    private fun updateVehicleWithSpents(spentsList: MutableList<Spent>): VehicleFB {
+    private fun updateVehicleWithSpents(spentsList: List<Spent>): VehicleFB {
         return VehicleFB(
             available = vehicleToSave.available,
             brand = vehicleToSave.brand,

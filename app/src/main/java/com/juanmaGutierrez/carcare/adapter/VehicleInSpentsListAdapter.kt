@@ -15,7 +15,7 @@ import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetImageURL
 
-interface OnVehicleClickListener {
+fun interface OnVehicleClickListener {
     fun onVehicleClick(vehicle: VehiclePreview)
 }
 

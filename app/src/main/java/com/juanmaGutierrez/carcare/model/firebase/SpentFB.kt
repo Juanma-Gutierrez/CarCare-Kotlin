@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import com.juanmaGutierrez.carcare.service.euroFormat
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
-import kotlin.math.min
 
 data class SpentFB(
     val amount: Double,

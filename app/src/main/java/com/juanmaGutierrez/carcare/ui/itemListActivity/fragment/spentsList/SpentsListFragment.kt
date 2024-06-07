@@ -31,7 +31,6 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var vehiclesAdapter: VehicleInSpentsListAdapter
     private lateinit var spentsAdapter: SpentAdapter
     private lateinit var chartView: AxisChartView
-    private var providerCount: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

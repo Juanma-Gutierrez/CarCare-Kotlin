@@ -1,7 +1,6 @@
 package com.juanmaGutierrez.carcare.mapping
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore

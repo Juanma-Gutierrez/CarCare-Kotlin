@@ -88,9 +88,11 @@ dependencies {
     val coilVersion = "2.5.0"
     implementation("io.coil-kt:coil:$coilVersion")
     // WilliamChart
-    implementation("com.diogobernardino:williamchart:3.10.1")
+    val williamChartVersion = "3.10.1"
+    implementation("com.diogobernardino:williamchart:$williamChartVersion")
     // SplashScreen
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    val splashScreenVersion = "1.0.0"
+    implementation("androidx.core:core-splashscreen:$splashScreenVersion")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

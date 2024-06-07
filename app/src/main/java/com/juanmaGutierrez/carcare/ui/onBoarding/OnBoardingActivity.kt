@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.adapter.OnBoardingViewPagerAdapter
 import com.juanmaGutierrez.carcare.databinding.ActivityOnBoardingBinding

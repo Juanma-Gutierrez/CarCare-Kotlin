@@ -9,7 +9,6 @@ import com.juanmaGutierrez.carcare.mapping.mapProviderFBtoProvider
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.Provider
-import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import kotlinx.coroutines.launch
