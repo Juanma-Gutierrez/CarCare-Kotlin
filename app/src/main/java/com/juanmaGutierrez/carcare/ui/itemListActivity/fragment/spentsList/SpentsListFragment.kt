@@ -31,6 +31,7 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var vehiclesAdapter: VehicleInSpentsListAdapter
     private lateinit var spentsAdapter: SpentAdapter
     private lateinit var chartView: AxisChartView
+    private var providerCount: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -45,8 +46,13 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         super.onViewCreated(view, savedInstanceState)
         getVehiclesFromFB()
         checkIfVehicleSelected()
+        checkIfAnyProviderCreated()
         configureUI()
         configureObservers()
+    }
+
+    private fun checkIfAnyProviderCreated() {
+        viewModel.getProviderCount()
     }
 
     override fun onResume() {
@@ -115,6 +121,18 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureSpentsListObserver()
         configureNumSpentsHeightLayoutObserver()
         configureIsLoadingObserver()
+        configureProviderCountObserver()
+    }
+
+    private fun configureProviderCountObserver() {
+        viewModel.providerCount.observe(viewLifecycleOwner) { count ->
+            if (count == 0) {
+                binding.slFabAddSpent.visibility = View.GONE
+                showSnackBar(getString(R.string.providersList_noProviders), requireView()) {}
+            } else {
+                binding.slFabAddSpent.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun configureVehicleListObserver() {
@@ -134,7 +152,6 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private fun configureSelectedVehicleTitleObserver() {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
             binding.slTvVehicleSelected.text = String.format("%1s, %2s", vehicle.brand, vehicle.model)
-            binding.slFabAddSpent.visibility = View.VISIBLE
             binding.slIvShareButton.visibility = View.VISIBLE
         }
     }

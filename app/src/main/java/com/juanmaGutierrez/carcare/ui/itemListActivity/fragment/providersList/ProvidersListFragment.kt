@@ -17,7 +17,6 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.localData.Provider
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.ToolbarService
-import com.juanmaGutierrez.carcare.service.milog
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 

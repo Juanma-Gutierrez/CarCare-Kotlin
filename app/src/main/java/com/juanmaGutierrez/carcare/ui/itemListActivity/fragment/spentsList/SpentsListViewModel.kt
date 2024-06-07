@@ -16,7 +16,6 @@ import com.juanmaGutierrez.carcare.mapping.mapVehicleToVehiclePreview
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.SpentFB
 import com.juanmaGutierrez.carcare.model.localData.SpentByProviderForChart
-import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.VehiclePreview
 import com.juanmaGutierrez.carcare.service.ConfigService
 import com.juanmaGutierrez.carcare.service.FirebaseService
@@ -41,9 +40,8 @@ class SpentsListViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
-    private val _editSpentSuccessful = MutableLiveData<Boolean>()
-    val editSpentSuccessful: LiveData<Boolean> get() = _editSpentSuccessful
-    lateinit var uiUM: UIUserMessages
+    private val _providerCount = MutableLiveData<Int>()
+    val providerCount: LiveData<Int> get() = _providerCount
 
 
     fun getVehiclesListFromFB() {
@@ -133,14 +131,6 @@ class SpentsListViewModel : ViewModel() {
         return sortedList.map { Pair(it.key, it.value) }.sortedBy { it.second }
     }
 
-    /*    @RequiresApi(Build.VERSION_CODES.O)
-        fun calculateSpents(spents: List<SpentFB>, chartSize: Int): Int {
-            val mySetRaw = filterByProvider(spents)
-            val mySet = convertToLinkedMap(mySetRaw)
-            val sortedList = mySet.entries.sortedByDescending { it.value }.take(minOf(mySet.entries.size, chartSize))
-            return sortedList.size
-        }*/
-
     fun getChartSize(context: Context): Int {
         val chartSizeString =
             ConfigService().getPreferencesString(context, Constants.SETTINGS_PROVIDERS_CHART_SIZE).ifEmpty { "3.0" }
@@ -160,5 +150,17 @@ class SpentsListViewModel : ViewModel() {
 
     private fun convertToLinkedMap(spentsList: List<SpentByProviderForChart>): LinkedHashMap<String, Float> {
         return spentsList.associate { it.providerName to it.amount.toFloat() } as LinkedHashMap<String, Float>
+    }
+
+    fun getProviderCount() {
+        viewModelScope.launch {
+            val uid = FirebaseService.getInstance().auth?.uid.toString()
+            fbGetDocumentByID(uid, Constants.FB_COLLECTION_PROVIDER) { v ->
+                val data = v?.data as? Map<String, List<Map<String, String>>>
+                if (data != null) {
+                    _providerCount.value = data["providers"]?.size
+                }
+            }
+        }
     }
 }
