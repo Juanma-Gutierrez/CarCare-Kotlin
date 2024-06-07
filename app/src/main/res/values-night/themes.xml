@@ -33,7 +33,16 @@
         <item name="harmonizeDanger">false</item>
         <item name="colorPrimaryInverse">@color/md_theme_inverseSurface</item>
         <!-- Splash screen -->
-        <item name="android:windowSplashScreenBackground">#85A4FF</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo_carcare_with_name</item>
+        <item name="android:windowSplashScreenBackground">?attr/colorPrimaryFixedDim</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/logo_carcare_without_name</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">@color/color_white</item>
+        <item name="android:textColorSecondary">@color/color_white</item>
+    </style>
+
+    <style name="ThemeIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryFixedDim</item>
     </style>
 </resources>
