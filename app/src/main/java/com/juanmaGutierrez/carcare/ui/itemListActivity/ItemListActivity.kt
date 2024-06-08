@@ -21,7 +21,6 @@ import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.aboutMe.AboutMeFra
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.providersList.ProvidersListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList.SpentsListFragment
 import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.VehiclesListFragment
-import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
 /**

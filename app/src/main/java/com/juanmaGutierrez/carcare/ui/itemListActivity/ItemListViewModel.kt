@@ -1,4 +1,4 @@
-package com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel
+package com.juanmaGutierrez.carcare.ui.itemListActivity
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

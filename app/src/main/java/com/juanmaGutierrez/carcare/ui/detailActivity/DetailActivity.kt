@@ -11,7 +11,6 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.provider.ProviderDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent.SpentDetailFragment
 import com.juanmaGutierrez.carcare.ui.detailActivity.fragment.vehicle.VehicleDetailFragment
-import com.juanmaGutierrez.carcare.ui.detailActivity.viewModel.DetailViewModel
 
 /**
  * Activity for displaying detail fragments.
