@@ -11,10 +11,16 @@ import com.juanmaGutierrez.carcare.databinding.FragmentRegisterBinding
 import com.juanmaGutierrez.carcare.model.localData.User
 import com.juanmaGutierrez.carcare.service.showSnackBar
 
+/**
+ * A fragment responsible for user registration.
+ */
 class RegisterFragment : Fragment() {
     private lateinit var viewModel: RegisterViewModel
     private lateinit var binding: FragmentRegisterBinding
 
+    /**
+     * Inflates the layout for this fragment, configures buttons, and returns the root view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -23,6 +29,9 @@ class RegisterFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Configures the click listeners for register and login buttons.
+     */
     private fun configureButtons() {
         binding.reBtRegister.setOnClickListener {
             val user = getUserFromForm()
@@ -31,8 +40,11 @@ class RegisterFragment : Fragment() {
         binding.reBtLogin.setOnClickListener { parentFragmentManager.popBackStack() }
     }
 
+    /**
+     * Retrieves user data from the registration form.
+     */
     private fun getUserFromForm(): User {
-        val user = User(
+        return User(
             name = binding.reItName.text.toString(),
             surname = binding.reItSurname.text.toString(),
             username = binding.reItUsername.text.toString(),
@@ -40,9 +52,11 @@ class RegisterFragment : Fragment() {
             password = binding.reItPassword.text.toString(),
             repeatPassword = binding.reItRepeatPassword.text.toString()
         )
-        return user
     }
 
+    /**
+     * Initializes the ViewModel, observes snackbar messages, and navigates to the item list upon registration.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[RegisterViewModel::class.java]

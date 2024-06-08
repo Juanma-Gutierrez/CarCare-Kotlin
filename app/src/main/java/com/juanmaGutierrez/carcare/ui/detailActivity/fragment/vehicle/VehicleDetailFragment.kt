@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -25,18 +23,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.FragmentVehicleDetailBinding
-import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.localData.getVehicleCategories
 import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.firebase.VehicleFB
 import com.juanmaGutierrez.carcare.model.firebase.VehicleImagePackToFB
-import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
+import com.juanmaGutierrez.carcare.model.localData.UIUserMessages
+import com.juanmaGutierrez.carcare.model.localData.VehicleBrandsService
 import com.juanmaGutierrez.carcare.service.CameraService
 import com.juanmaGutierrez.carcare.service.fbSaveImage
 import com.juanmaGutierrez.carcare.service.generateId
-import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.getTimestamp
+import com.juanmaGutierrez.carcare.service.getVehicleCategoryTranslation
 import com.juanmaGutierrez.carcare.service.loadDataInSelectable
 import com.juanmaGutierrez.carcare.service.showDatePickerDialog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
@@ -45,6 +43,9 @@ import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 import com.juanmaGutierrez.carcare.service.translateVehicleCategory
 
+/**
+ * Fragment responsible for handling the details of a vehicle, including creation and editing.
+ */
 class VehicleDetailFragment : Fragment() {
     private lateinit var binding: FragmentVehicleDetailBinding
     private lateinit var viewModel: VehicleDetailViewModel
@@ -53,11 +54,26 @@ class VehicleDetailFragment : Fragment() {
     private var imageURL: String? = null
     private var uiUM: UIUserMessages = UIUserMessages()
 
+    /**
+     * Called when the fragment is starting. This is where most initialization should be performed:
+     * creating the fragment, initializing UI, and restoring state if needed.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[VehicleDetailViewModel::class.java]
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     *
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -65,6 +81,13 @@ class VehicleDetailFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called immediately after onCreateView(LayoutInflater, ViewGroup, Bundle) has returned,
+     * but before any saved state has been restored in to the view.
+     *
+     * @param view               The View returned by onCreateView(LayoutInflater, ViewGroup, Bundle).
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureUIMessages()
@@ -78,11 +101,17 @@ class VehicleDetailFragment : Fragment() {
         checkNewOrEdit()
     }
 
+    /**
+     * Configures the UI messages for snackbar and alert dialog.
+     */
     private fun configureUIMessages() {
         uiUM.snackbarMessages.deleteSuccessful = getString(R.string.vehicle_deleteVehicle_successfully)
         uiUM.snackbarMessages.deletionError = getString(R.string.vehicle_deleteVehicle_error)
     }
 
+    /**
+     * Checks if the fragment is in 'new' or 'edit' mode and configures the UI accordingly.
+     */
     private fun checkNewOrEdit() {
         when (getVehicleFromID()) {
             "new" -> {
@@ -109,6 +138,11 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the message depending on the mode ('new' or 'edit').
+     *
+     * @param mode The mode of the fragment.
+     */
     private fun configureMessage(mode: String) {
         when (mode) {
             "new" -> {
@@ -131,7 +165,11 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Generates a new empty vehicle object.
+     *
+     * @return The new empty vehicle.
+     */
     private fun generateNewEmptyVehicle(): VehicleFB {
         return VehicleFB(
             true,
@@ -148,6 +186,13 @@ class VehicleDetailFragment : Fragment() {
         )
     }
 
+    /**
+     * Determines if the fragment is in 'new' or 'edit' mode based on the provided item ID.
+     * If the item ID is not empty, fetches the vehicle details from Firebase and returns 'edit'.
+     * Otherwise, returns 'new'.
+     *
+     * @return The mode of the fragment ('new' or 'edit').
+     */
     private fun getVehicleFromID(): String {
         val itemId = arguments?.getString("itemId") ?: ""
         if (itemId != "") {
@@ -157,12 +202,18 @@ class VehicleDetailFragment : Fragment() {
         return "new"
     }
 
+    /**
+     * Configures the placeholder image for the vehicle preview.
+     */
     private fun configurePreviewImage() {
         val resourceId = R.drawable.placeholder_vehicle
         val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
         binding.veIvVehicleImage.setImageDrawable(drawable)
     }
 
+    /**
+     * Configures the image button to open the camera/gallery dialog.
+     */
     private fun configureImageButton() {
         binding.veIvCameraButton.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_camera_gallery, null)
@@ -178,6 +229,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the delete image button to reset the vehicle image.
+     */
     private fun configureDeleteImageButton() {
         binding.veIvDeleteImageButton.setOnClickListener {
             val ad = AlertDialogModel(
@@ -200,6 +254,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Resets the vehicle image to the placeholder image.
+     */
     private fun resetVehicleImage() {
         binding.veIvVehicleImage.setImageDrawable(
             AppCompatResources.getDrawable(
@@ -208,7 +265,9 @@ class VehicleDetailFragment : Fragment() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Observes changes in the vehicle data and updates the UI accordingly.
+     */
     private fun configureVehicle() {
         viewModel.vehicle.observe(viewLifecycleOwner) { vehicle ->
             imageURL = vehicle.imageURL
@@ -224,11 +283,17 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the UI components related to selectable items.
+     */
     private fun configureSelectables() {
         configureSelectablesObservers()
         configureSelectablesActions()
     }
 
+    /**
+     * Configures the UI components and actions related to user interactions.
+     */
     private fun configureUI() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
@@ -239,12 +304,18 @@ class VehicleDetailFragment : Fragment() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
     }
 
+    /**
+     * Configures the cancel button to close the fragment and restart the activity.
+     */
     private fun configureCancelButton() {
         binding.veBtCancel.setOnClickListener {
             closeFragmentAndRestart()
         }
     }
 
+    /**
+     * Observes changes in the success state of editing the vehicle and shows a snackbar message accordingly.
+     */
     private fun configureEditVehicleSuccessful() {
         viewModel.editVehicleSuccessful.observe(viewLifecycleOwner) { isSuccessful ->
             if (isSuccessful) {
@@ -256,7 +327,7 @@ class VehicleDetailFragment : Fragment() {
     }
 
     /**
-     * Camera settings
+     * Checks camera permissions. If granted, starts the camera. Otherwise, requests necessary permissions.
      */
     private fun checkCameraPermissions() {
         if (cameraService.allPermissionGranted(requireActivity())) {
@@ -266,6 +337,10 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Handles the result of the permission request. If permissions are granted, starts the camera.
+     * If permissions are denied, shows a Snackbar message.
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
@@ -278,6 +353,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Launcher to get the result from the camera activity. If successful, displays the captured image in the corresponding ImageView.
+     */
     var cameraARL: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
@@ -287,7 +365,7 @@ class VehicleDetailFragment : Fragment() {
     }
 
     /**
-     * Gallery config
+     * Launcher to request permissions to access the gallery. If permissions are granted, opens the gallery. If not, shows a Snackbar message.
      */
     private val requestGalleryPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -298,6 +376,10 @@ class VehicleDetailFragment : Fragment() {
             }
         }
 
+    /**
+     * Launcher to get the result from the gallery image selection activity.
+     * If successful, displays the selected image in the corresponding ImageView.
+     */
     private val pickGalleryImageLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -309,6 +391,9 @@ class VehicleDetailFragment : Fragment() {
             }
         }
 
+    /**
+     * Checks permissions and, if granted, opens the gallery. If not, requests permissions to access the gallery.
+     */
     private fun checkPermissionAndOpenGallery() {
         val permissionsToRequest = arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
         val permissionsNeeded = mutableListOf<String>()
@@ -326,12 +411,18 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Opens the gallery to select an image.
+     */
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickGalleryImageLauncher.launch(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Loads vehicle data into the form fields.
+     * @param vehicle The vehicle data to be loaded.
+     */
     private fun loadVehicleDataToForm(vehicle: VehicleFB) {
         val category = vehicle.category.getVehicleCategoryTranslation(requireContext())
         binding.veAcCategory.setText(category, false)
@@ -342,13 +433,19 @@ class VehicleDetailFragment : Fragment() {
         binding.veCbDate.text = vehicle.registrationDate.transformDateIsoToString()
     }
 
+    /**
+     * Observes the vehicle image and loads it into the ImageView.
+     */
     private fun loadVehicleImageToForm() {
         viewModel.vehicleImage.observe(viewLifecycleOwner) { url ->
             binding.veIvVehicleImage.load(url)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures the date button to show a date picker dialog when clicked.
+     * @param date The initial date to be displayed in the dialog.
+     */
     private fun configureDateButton(date: String) {
         binding.veCbDate.setOnClickListener {
             showDatePickerDialog(
@@ -359,6 +456,9 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures observers for selectable fields (category, brand, and model).
+     */
     private fun configureSelectablesObservers() {
         viewModel.categoriesList.observe(viewLifecycleOwner) { categoriesList ->
             loadDataInSelectable(binding.veAcCategory, categoriesList, requireActivity())
@@ -371,11 +471,17 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures actions related to selectable fields.
+     */
     private fun configureSelectablesActions() {
         configureCategorySelectable()
         configureBrandSelectable()
     }
 
+    /**
+     * Configures the category selectable field.
+     */
     private fun configureCategorySelectable() {
         val categorySelectable = binding.veAcCategory
         val categoriesList = getVehicleCategories(requireActivity())
@@ -411,16 +517,25 @@ class VehicleDetailFragment : Fragment() {
         binding.veAcBrand.isEnabled = true
     }
 
+    /**
+     * Clears the brand selectable field.
+     */
     private fun clearBrandSelectable() {
         binding.veAcBrand.setText("")
         binding.veAcModel.isEnabled = false
         loadDataInSelectable(binding.veAcModel, emptyList(), requireActivity())
     }
 
+    /**
+     * Clears the model selectable field.
+     */
     private fun clearModelSelectable() {
         binding.veAcModel.setText("")
     }
 
+    /**
+     * Configures the brand selectable field.
+     */
     private fun configureBrandSelectable() {
         val brandSelectable = binding.veAcBrand
         brandSelectable.setOnItemClickListener { _, _, _, id ->
@@ -437,6 +552,10 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the accept button. Validates all fields before accepting.
+     * @param vehicle The vehicle data to be accepted.
+     */
     private fun configureAcceptButton(vehicle: VehicleFB) {
         binding.veBtAccept.setOnClickListener {
             if (allFieldsValid()) {
@@ -447,6 +566,10 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Validates all form fields.
+     * @return true if all fields are valid, false otherwise.
+     */
     private fun allFieldsValid(): Boolean {
         if (binding.veAcCategory.text.isNullOrEmpty()) return false
         if (binding.veAcBrand.text.isNullOrEmpty()) return false
@@ -455,12 +578,20 @@ class VehicleDetailFragment : Fragment() {
         return true
     }
 
+    /**
+     * Configures the delete button for the vehicle.
+     * @param vehicle The vehicle to be deleted.
+     */
     private fun configureDeleteButton(vehicle: VehicleFB) {
         binding.veBtDelete.setOnClickListener {
             deleteVehicle(vehicle)
         }
     }
 
+    /**
+     * Handles accepting the changes made to the vehicle.
+     * @param vehicle The vehicle to be accepted.
+     */
     private fun acceptVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
@@ -479,12 +610,21 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Accepts the changes made to the vehicle and saves them to Firebase.
+     * @param vehicle The vehicle to be edited and saved.
+     */
     private fun acceptEditVehicle(vehicle: VehicleFB) {
         val name = if (vehicle.vehicleId.isNotEmpty()) vehicle.vehicleId else generateId()
         saveVehicleImageToFB(name, vehicle)
         saveVehicleToFB(vehicle)
     }
 
+    /**
+     * Saves the vehicle image to Firebase storage.
+     * @param name The name of the image.
+     * @param vehicle The vehicle associated with the image.
+     */
     private fun saveVehicleImageToFB(name: String, vehicle: VehicleFB) {
         val uri = CameraService.image_uri
         if (uri != null) {
@@ -495,7 +635,10 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Saves the vehicle data to Firebase Firestore.
+     * @param vehicle The vehicle data to be saved.
+     */
     private fun saveVehicleToFB(vehicle: VehicleFB) {
         val editedVehicle: VehicleFB = getDataFromForm(vehicle)
         viewModel.editVehicle(editedVehicle)
@@ -508,23 +651,31 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDataFromForm(v: VehicleFB): VehicleFB {
+    /**
+     * Retrieves vehicle data from the form fields.
+     * @param vehicle The original vehicle data.
+     * @return The updated vehicle data.
+     */
+    private fun getDataFromForm(vehicle: VehicleFB): VehicleFB {
         return VehicleFB(
             binding.veCbAvailable.isChecked,
             binding.veAcBrand.text.toString(),
             binding.veAcCategory.text.toString().translateVehicleCategory(),
-            v.created,
+            vehicle.created,
             imageURL,
             binding.veAcModel.text.toString(),
             binding.veItPlate.text.toString(),
             binding.veCbDate.text.toString().transformStringToDateIso(),
-            v.spents,
-            v.userId,
-            v.vehicleId
+            vehicle.spents,
+            vehicle.userId,
+            vehicle.vehicleId
         )
     }
 
+    /**
+     * Deletes the vehicle from Firebase.
+     * @param vehicle The vehicle to be deleted.
+     */
     private fun deleteVehicle(vehicle: VehicleFB) {
         val ad = AlertDialogModel(
             this.requireActivity(),
@@ -543,10 +694,17 @@ class VehicleDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Accepts the deletion of the vehicle.
+     * @param vehicle The vehicle to be deleted.
+     */
     private fun acceptDeleteVehicle(vehicle: VehicleFB) {
         viewModel.deleteVehicle(vehicle)
     }
 
+    /**
+     * Closes the fragment and restarts the activity.
+     */
     private fun closeFragmentAndRestart() {
         if (isAdded) {
             requireActivity().onBackPressedDispatcher.onBackPressed()

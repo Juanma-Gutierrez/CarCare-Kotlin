@@ -110,10 +110,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/marginS"
-        android:backgroundTint="?attr/colorPrimaryFixedDim"
+        android:visibility="gone"
+        android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="@string/add_new_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_plus" />
+        app:srcCompat="@drawable/icon_plus"
+        app:tint="@color/color_white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

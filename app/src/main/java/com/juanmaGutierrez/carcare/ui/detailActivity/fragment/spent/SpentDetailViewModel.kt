@@ -26,6 +26,9 @@ import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Locale
 
+/**
+ * ViewModel responsible for managing data related to the SpentDetailFragment.
+ */
 class SpentDetailViewModel : ViewModel() {
     private val _spent = MutableLiveData<Spent>()
     val spent: LiveData<Spent> get() = _spent
@@ -41,10 +44,16 @@ class SpentDetailViewModel : ViewModel() {
     val editSpentSuccessful: LiveData<Boolean> get() = _editSpentSuccessful
     lateinit var uiUM: UIUserMessages
 
+    /**
+     * Initializes the ViewModel with default values.
+     */
     fun init() {
         _spent.value = Spent()
     }
 
+    /**
+     * Retrieves a spent item from Firebase based on the provided item and vehicle IDs.
+     */
     fun getSpentFromFB(itemId: String, vehicleId: String) {
         viewModelScope.launch {
             fbGetDocumentByID(vehicleId, Constants.FB_COLLECTION_VEHICLE) { vehicle ->
@@ -59,6 +68,9 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Retrieves a list of providers from Firebase.
+     */
     fun getProviders() {
         var providersListRaw: MutableList<Provider>
         setIsLoading(true)
@@ -79,14 +91,23 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Sets the current spent item.
+     */
     fun setSpent(spent: Spent) {
         _spent.value = spent
     }
 
+    /**
+     * Sets the loading status.
+     */
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
 
+    /**
+     * Saves a vehicle to Firebase.
+     */
     fun saveVehicleToFB(vehicle: VehicleFB, successMessage: String, errorMessage: String) {
         try {
             fbSetDocument(Constants.FB_COLLECTION_VEHICLE, vehicle.vehicleId, vehicle)
@@ -97,6 +118,9 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Deletes a spent item.
+     */
     fun deleteSpent(itemId: String, vehicleId: String) {
         setIsLoading(true)
         getSpentFromFB(itemId, vehicleId)
@@ -120,6 +144,9 @@ class SpentDetailViewModel : ViewModel() {
         saveVehicleToFB(vehicle, uiUM.logMessages.deleteSuccess, uiUM.logMessages.deleteError)
     }
 
+    /**
+     * Converts a number string to locale-specific format.
+     */
     fun convertNumberToLocale(number: String): Double {
         try {
             val location = Locale.UK
@@ -130,6 +157,3 @@ class SpentDetailViewModel : ViewModel() {
         }
     }
 }
-
-
-

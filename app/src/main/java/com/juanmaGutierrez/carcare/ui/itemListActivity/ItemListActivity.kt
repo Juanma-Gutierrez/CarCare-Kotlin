@@ -24,7 +24,9 @@ import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.Veh
 import com.juanmaGutierrez.carcare.ui.itemListActivity.viewModel.ItemListViewModel
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
-
+/**
+ * Activity for displaying and managing the item list environment.
+ */
 class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListener {
     private lateinit var binding: ActivityItemListBinding
     private lateinit var viewModel: ItemListViewModel
@@ -43,6 +45,9 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         viewModel.openSettingsDialog.observe(this) { _ -> openSettingsDialog() }
     }
 
+    /**
+     * Opens the settings dialog for configuring preferences.
+     */
     private fun openSettingsDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
         configureVehiclesListFormat(dialogView)
@@ -52,6 +57,11 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         alertDialog = MaterialAlertDialogBuilder(this).setView(dialogView).show()
     }
 
+    /**
+     * Configures the format of the vehicles list in the settings dialog.
+     *
+     * @param dialogView The view of the settings dialog.
+     */
     private fun configureVehiclesListFormat(dialogView: View) {
         val compactFormat = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
         when (compactFormat) {
@@ -71,6 +81,11 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         }
     }
 
+    /**
+     * Configures the format of the providers list in the settings dialog.
+     *
+     * @param dialogView The view of the settings dialog.
+     */
     private fun configureProvidersListFormat(dialogView: View) {
         val compactFormat = ConfigService().getPreferencesBoolean(this, Constants.SETTINGS_PROVIDERS_GRID_FORMAT)
         when (compactFormat) {
@@ -91,6 +106,11 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
             }
     }
 
+    /**
+     * Configures the size of the chart displayed in the settings dialog.
+     *
+     * @param dialogView The view of the settings dialog.
+     */
     private fun configureProvidersChartSize(dialogView: View) {
         val chartSize =
             ConfigService().getPreferencesString(this, Constants.SETTINGS_PROVIDERS_CHART_SIZE).ifEmpty { "3.0" }
@@ -102,6 +122,11 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         }
     }
 
+    /**
+     * Configures the close button in the settings dialog.
+     *
+     * @param dialogView The view of the settings dialog.
+     */
     private fun configureCloseButton(dialogView: View) {
         dialogView.findViewById<MaterialButton>(R.id.ds_bt_close).setOnClickListener {
             alertDialog?.dismiss()
@@ -110,6 +135,9 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         }
     }
 
+    /**
+     * Opens the selected fragment based on the intent data.
+     */
     private fun openSelectedFragment() {
         val intent = intent
         val destinationFragment = intent.getStringExtra("destinationFragment")
@@ -139,16 +167,31 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         }
     }
 
+    /**
+     * Navigates to the specified fragment by replacing the current fragment in the container without adding it to the back stack.
+     *
+     * @param fragment The fragment to navigate to.
+     */
     override fun navigateToFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment).commit()
 
     }
 
+    /**
+     * Navigates to the specified fragment by replacing the current fragment in the container and adding it to the back stack.
+     *
+     * @param fragment The fragment to navigate to.
+     */
     private fun navigateToFragmentWithBack(fragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(R.id.itemList_fragment_container, fragment)
             .addToBackStack(null).commit()
     }
 
+    /**
+     * Configures the top toolbar of the activity.
+     * Observes changes in the toolbar title LiveData and sets the title accordingly.
+     * Handles menu item clicks and performs corresponding actions.
+     */
     private fun configureTopToolbar() {
         viewModel.toolbarTitle.observe(this) { title -> supportActionBar?.title = title }
         binding.tbTopToolbar.topAppBar.setOnMenuItemClickListener { menuItem ->
@@ -173,6 +216,13 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         }
     }
 
+    /**
+     * Initializes the options menu of the activity's top app bar.
+     * Inflates the menu layout resource, sets the user's email as the title of the user email menu item, if available.
+     *
+     * @param menu The options menu.
+     * @return Returns true if the menu is successfully inflated; otherwise, returns false.
+     */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_top_app_bar, menu)
         val userEmail = fbGetUserLogged()?.email ?: ""
@@ -181,14 +231,20 @@ class ItemListActivity : AppCompatActivity(), ItemListViewModel.NavigationListen
         return true
     }
 
-
+    /**
+     * Configures the view model by initializing the item list environment, setting the toolbar title,
+     * and setting up the bottom navigation bar.
+     */
     private fun configureViewModel() {
         viewModel.initItemListEnvironment(this, binding)
         viewModel.setToolbar(getString(R.string.menu_vehicles), this)
         viewModel.setNavigationBottombar(findViewById(R.id.bottomBar), this)
     }
 
-
+    /**
+     * Observes the sign-out LiveData in the view model.
+     * If the sign-out event is triggered, navigates to the LoginActivity.
+     */
     private fun signOutAccepted() {
         viewModel.signOut.observe(this) { isSignedOut ->
             if (isSignedOut) {

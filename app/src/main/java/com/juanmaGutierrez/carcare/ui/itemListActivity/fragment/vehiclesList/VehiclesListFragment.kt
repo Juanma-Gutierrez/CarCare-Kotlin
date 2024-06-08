@@ -18,6 +18,9 @@ import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
+/**
+ * Fragment for displaying the list of vehicles.
+ */
 class VehiclesListFragment : Fragment() {
     private lateinit var binding: FragmentVehiclesListBinding
     private lateinit var vehicleAdapter: VehicleAdapter
@@ -25,6 +28,14 @@ class VehiclesListFragment : Fragment() {
     private lateinit var viewModel: VehiclesListViewModel
     private var step = 0
 
+    /**
+     * Called to create the view hierarchy associated with the fragment.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -34,13 +45,12 @@ class VehiclesListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        step = 0
-        binding.vlTlAvailables.getTabAt(0)?.select()
-        viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
-    }
-
+    /**
+     * Called immediately after onCreateView() has returned, but before any saved state has been restored into the view.
+     *
+     * @param view The view returned by onCreateView().
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         configureVehicles()
@@ -48,6 +58,19 @@ class VehiclesListFragment : Fragment() {
         viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     */
+    override fun onResume() {
+        super.onResume()
+        step = 0
+        binding.vlTlAvailables.getTabAt(0)?.select()
+        viewModel.getFBVehiclesAndSaveFBVehiclesToRoom()
+    }
+
+    /**
+     * Configures the vehicles list and observes changes.
+     */
     private fun configureVehicles() {
         viewModel.loadLocalVehicles(requireContext())
         viewModel.vehiclesList.observe(viewLifecycleOwner) { vehiclesList ->
@@ -60,6 +83,9 @@ class VehiclesListFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the UI components.
+     */
     private fun configureUI() {
         binding.vlFabAddVehicle.setOnClickListener {
             val ts = ToolbarService.getInstance()
@@ -79,11 +105,19 @@ class VehiclesListFragment : Fragment() {
         }
     }
 
+    /**
+     * Checks the tab switch and updates the RecyclerView accordingly.
+     */
     private fun checkSwitchAndUpdateRecylerView() {
         val tab = binding.vlTlAvailables
         updateRecyclerView(vehiclesList, false)
         tab.addOnTabSelectedListener(object : OnTabSelectedListener {
 
+            /**
+             * Called when a tab enters the selected state.
+             *
+             * @param tab The tab that was selected.
+             */
             override fun onTabSelected(tab: Tab?) {
                 when (tab?.position) {
                     0 -> updateRecyclerView(vehiclesList, false)
@@ -92,16 +126,32 @@ class VehiclesListFragment : Fragment() {
                 }
             }
 
+            /**
+             * Called when a tab that is already selected is chosen again by the user.
+             *
+             * @param tab The tab that was reselected.
+             */
             override fun onTabReselected(tab: Tab?) {
                 // not implemented
             }
 
+            /**
+             * Called when a tab that is already selected becomes unselected.
+             *
+             * @param tab The tab that was unselected.
+             */
             override fun onTabUnselected(tab: Tab?) {
                 // not implemented
             }
         })
     }
 
+    /**
+     * Updates the RecyclerView with the filtered vehicle list.
+     *
+     * @param vehiclesList The list of vehicles to display.
+     * @param switch A flag indicating whether to filter the list based on availability.
+     */
     private fun updateRecyclerView(vehiclesList: List<VehiclePreview>?, switch: Boolean) {
         val filteredList = viewModel.filtercheckAvailablesVehicles(vehiclesList!!, switch)
         vehicleAdapter = VehicleAdapter(filteredList, requireContext())

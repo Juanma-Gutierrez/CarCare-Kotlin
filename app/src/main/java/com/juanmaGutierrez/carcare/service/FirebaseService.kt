@@ -35,10 +35,18 @@ import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.Executors
 
+/**
+ * Provides Firebase authentication and user information.
+ */
 class FirebaseService {
     var user: FirebaseUser? = null
     var auth: FirebaseAuth? = null
 
+    /**
+     * Returns a string representation of FirebaseService instance.
+     *
+     * @return A string representation of FirebaseService.
+     */
     override fun toString(): String {
         var data = ""
         if (user != null) {
@@ -47,6 +55,11 @@ class FirebaseService {
         return data
     }
 
+    /**
+     * Gets the singleton instance of FirebaseService.
+     *
+     * @return The singleton instance of FirebaseService.
+     */
     companion object {
         private var instance: FirebaseService? = null
 
@@ -59,10 +72,14 @@ class FirebaseService {
     }
 }
 
-
+/**
+ * Saves a log item to Firestore.
+ *
+ * @param itemLog The log item to save.
+ */
 fun fbSaveLog(itemLog: ItemLog) {
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection(Constants.COLLECTION_LOG).document(Constants.COLLECTION_LOG_DOC)
+    val docRef = db.collection(Constants.FB_COLLECTION_LOG).document(Constants.COLLECTION_LOG_DOC)
     docRef.update(Constants.COLLECTION_LOG_ARRAYLIST, FieldValue.arrayUnion(itemLog)).addOnSuccessListener {}
         .addOnFailureListener { e ->
             val logMap = mapOf("logs" to listOf(itemLog))
@@ -71,6 +88,12 @@ fun fbSaveLog(itemLog: ItemLog) {
         }
 }
 
+/**
+ * Registers a user with email and password authentication in Firebase.
+ *
+ * @param user The user object containing email and password.
+ * @param callback The callback function to invoke after registration is complete.
+ */
 fun fbRegisterUserAuth(user: User, callback: (Boolean) -> Unit) {
     val auth = Firebase.auth
     auth.createUserWithEmailAndPassword(user.email, user.password)
@@ -88,6 +111,12 @@ fun fbRegisterUserAuth(user: User, callback: (Boolean) -> Unit) {
         }
 }
 
+/**
+ * Creates user data in Firestore.
+ *
+ * @param user The user object containing user data.
+ * @param uid The user ID.
+ */
 fun fbCreateUser(user: User, uid: String) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_USER).document(uid)
@@ -96,6 +125,11 @@ fun fbCreateUser(user: User, uid: String) {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
+/**
+ * Creates provider data in Firestore.
+ *
+ * @param uid The user ID.
+ */
 fun fbCreateProviders(uid: String) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(Constants.FB_COLLECTION_PROVIDER).document(uid)
@@ -104,6 +138,13 @@ fun fbCreateProviders(uid: String) {
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
+/**
+ * Retrieves a Firestore document by ID.
+ *
+ * @param itemId The ID of the document to retrieve.
+ * @param collection The collection containing the document.
+ * @param callback The callback function to invoke with the document snapshot.
+ */
 fun fbGetDocumentByID(itemId: String, collection: String, callback: (DocumentSnapshot?) -> Unit) {
     val db = Firebase.firestore
     try {
@@ -124,6 +165,14 @@ fun fbGetDocumentByID(itemId: String, collection: String, callback: (DocumentSna
     }
 }
 
+/**
+ * Sets a document in Firestore.
+ *
+ * @param collection The collection where the document is stored.
+ * @param documentId The ID of the document.
+ * @param document The document to set.
+ * @return A task representing the set operation.
+ */
 fun fbSetDocument(collection: String, documentId: String, document: Any): Task<Void> {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(collection).document(documentId)
@@ -131,6 +180,12 @@ fun fbSetDocument(collection: String, documentId: String, document: Any): Task<V
         .addOnFailureListener { e -> Log.e(Constants.TAG_ERROR, Constants.FB_ERROR_DB_OPERATION, e) }
 }
 
+/**
+ * Sets the vehicle preview data in Firestore.
+ *
+ * @param vehicle The vehicle data to set.
+ * @return A task representing the set operation.
+ */
 suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     val fb = FirebaseService.getInstance()
     val db = FirebaseFirestore.getInstance()
@@ -156,6 +211,13 @@ suspend fun fbSetVehiclePreview(vehicle: VehicleFB): Task<Void> {
     return deferred.await()
 }
 
+/**
+ * Updates or adds a vehicle to the existing list based on its ID.
+ *
+ * @param existingVehicles The existing list of vehicles.
+ * @param vehicle The vehicle to update or add.
+ * @return The updated list of vehicles.
+ */
 fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: VehicleFB): List<VehiclePreview> {
     val filteredVehiclesList = mutableListOf<VehiclePreview>()
     if (existingVehicles == null) {
@@ -178,6 +240,12 @@ fun updateOrAddVehicleById(existingVehicles: List<VehiclePreview>?, vehicle: Veh
     return filteredVehiclesList
 }
 
+/**
+ * Deletes a Firestore document by ID.
+ *
+ * @param collection The collection where the document is stored.
+ * @param id The ID of the document to delete.
+ */
 suspend fun fbDeleteDocumentByID(collection: String, id: String) {
     val db = FirebaseFirestore.getInstance()
     val docRef = db.collection(collection).document(id)
@@ -188,6 +256,11 @@ suspend fun fbDeleteDocumentByID(collection: String, id: String) {
     }
 }
 
+/**
+ * Deletes a vehicle preview from Firestore.
+ *
+ * @param vehicle The vehicle to delete.
+ */
 suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
     val db = FirebaseFirestore.getInstance()
     try {
@@ -205,6 +278,16 @@ suspend fun fbDeleteVehiclePreview(vehicle: VehicleFB) {
     }
 }
 
+/**
+ * Creates a log item for Firebase.
+ *
+ * @param type The type of the log.
+ * @param currentUser The current Firebase user.
+ * @param uid The user ID.
+ * @param operation The operation log.
+ * @param content The content of the log.
+ * @return An ItemLog object.
+ */
 fun fbCreateLog(
     type: LogType,
     currentUser: FirebaseUser?,
@@ -217,6 +300,12 @@ fun fbCreateLog(
     return ItemLog(getTimestamp(), type, operation, email, uid, content)
 }
 
+/**
+ * Saves the currently authenticated user locally in FirebaseService.
+ *
+ * @param auth The FirebaseAuth instance.
+ * @return The currently authenticated Firebase user.
+ */
 fun fbSaveUserLocally(auth: FirebaseAuth): FirebaseUser? {
     val fb = FirebaseService.getInstance()
     fb.user = auth.currentUser
@@ -224,11 +313,22 @@ fun fbSaveUserLocally(auth: FirebaseAuth): FirebaseUser? {
     return fb.user
 }
 
+/**
+ * Retrieves the currently logged-in Firebase user.
+ *
+ * @return The currently logged-in Firebase user.
+ */
 fun fbGetUserLogged(): FirebaseUser? {
     val fb = FirebaseService.getInstance()
     return fb.user
 }
 
+/**
+ * Saves an image to Firestore storage.
+ *
+ * @param imagePack The image data to save.
+ * @return The URL of the saved image.
+ */
 fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     val storageRef = Firebase.storage.reference
     val userID = Firebase.auth.uid
@@ -247,6 +347,12 @@ fun fbSaveImage(imagePack: VehicleImagePackToFB): String {
     return formattedURL
 }
 
+/**
+ * Resizes a bitmap to a specified width.
+ *
+ * @param bitmap The bitmap to resize.
+ * @return The resized bitmap.
+ */
 private fun resizeBitmap(bitmap: Bitmap): Bitmap {
     val newWidth = 500
     val width = bitmap.width
@@ -258,12 +364,25 @@ private fun resizeBitmap(bitmap: Bitmap): Bitmap {
     return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, false)
 }
 
+/**
+ * Compresses a bitmap.
+ *
+ * @param bitmap The bitmap to compress.
+ * @param quality The quality of compression.
+ * @return The compressed bitmap as a byte array.
+ */
 fun compressBitmap(bitmap: Bitmap, quality: Int): ByteArray {
     val stream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
     return stream.toByteArray()
 }
 
+/**
+ * Retrieves the download URL of an image stored in Firestore storage.
+ *
+ * @param imageURL The URL of the image.
+ * @param callback The callback function to handle the retrieved URL.
+ */
 fun fbGetImageURL(imageURL: String, callback: (String?) -> Unit) {
     if (imageURL.isNotEmpty()) {
         val storage = FirebaseStorage.getInstance()
@@ -279,6 +398,11 @@ fun fbGetImageURL(imageURL: String, callback: (String?) -> Unit) {
     }
 }
 
+/**
+ * Retrieves the UID of the currently authenticated user.
+ *
+ * @return The UID of the currently authenticated user.
+ */
 fun fbGetAuthUserUID(): String {
     val user = FirebaseService.getInstance()
     return user.auth?.uid.toString()

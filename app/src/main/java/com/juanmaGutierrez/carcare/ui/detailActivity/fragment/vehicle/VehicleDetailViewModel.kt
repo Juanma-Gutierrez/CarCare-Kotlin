@@ -26,7 +26,9 @@ import kotlinx.coroutines.tasks.await
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * ViewModel for managing vehicle details.
+ */
 class VehicleDetailViewModel : ViewModel() {
     private lateinit var apiService: APIService
     var selectedCategory: String = ""
@@ -47,6 +49,10 @@ class VehicleDetailViewModel : ViewModel() {
     private val _snackbarMessage = MutableLiveData<String>()
     val snackbarMessage: LiveData<String> get() = _snackbarMessage
 
+    /**
+     * Retrieves a vehicle from Firebase Firestore.
+     * @param itemId The ID of the vehicle.
+     */
     fun getVehicleFromFB(itemId: String) {
         setIsLoading(true)
         viewModelScope.launch {
@@ -60,10 +66,18 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Sets the available categories.
+     * @param categories The list of categories.
+     */
     fun setCategories(categories: List<String>) {
         _categoriesList.value = categories
     }
 
+    /**
+     * Retrieves vehicle brands from the API based on the selected category.
+     * @param category The selected vehicle category.
+     */
     fun getBrandsFromAPI(category: String) {
         val retrofit =
             Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
@@ -80,6 +94,9 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Calls the API to fetch vehicle brands.
+     */
     private suspend fun callBrandsFromAPI() {
         _isLoading.value = true
         try {
@@ -91,6 +108,10 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Sets the fetched vehicle brands in the local brand service.
+     * @param brandsResponse The API response containing brands.
+     */
     private fun setBrandsInLocalBrandsService(brandsResponse: BrandsResponseAPI) {
         val vehiclesBrandSVC = VehicleBrandsService
         vehiclesBrandSVC.carsList = brandsResponse.data.cars.sorted()
@@ -99,10 +120,18 @@ class VehicleDetailViewModel : ViewModel() {
         vehiclesBrandSVC.trucksList = brandsResponse.data.trucks.sorted()
     }
 
+    /**
+     * Sets the loading status.
+     * @param status The loading status.
+     */
     private fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
 
+    /**
+     * Retrieves vehicle models from the API based on the selected brand.
+     * @param brand The selected vehicle brand.
+     */
     fun getModelsFromBrandAPI(brand: String) {
         val retrofit =
             Retrofit.Builder().baseUrl(Constants.API_URL).addConverterFactory(GsonConverterFactory.create()).build()
@@ -112,6 +141,10 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Retrieves the vehicle image URL from Firebase.
+     * @param vehicle The vehicle to fetch the image for.
+     */
     fun getVehicleImageURL(vehicle: VehicleFB) {
         viewModelScope.launch {
             vehicle.imageURL?.let {
@@ -122,6 +155,11 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Calls the API to fetch vehicle models.
+     * @param brand The selected vehicle brand.
+     * @return The list of models.
+     */
     private suspend fun callModelsFromAPI(brand: String): List<String> {
         _isLoading.value = true
         return try {
@@ -134,6 +172,10 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Edits the vehicle details in Firebase Firestore.
+     * @param vehicle The vehicle data to be edited.
+     */
     fun editVehicle(vehicle: VehicleFB) {
         viewModelScope.launch {
             try {
@@ -147,6 +189,10 @@ class VehicleDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Deletes the vehicle from Firebase Firestore.
+     * @param vehicle The vehicle to be deleted.
+     */
     fun deleteVehicle(vehicle: VehicleFB) {
         viewModelScope.launch {
             try {

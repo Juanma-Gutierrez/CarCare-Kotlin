@@ -22,6 +22,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * ViewModel for managing the list of vehicles.
+ *
+ * @param dispatcher The coroutine dispatcher to be used for performing background tasks.
+ */
 class VehiclesListViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ViewModel() {
@@ -33,10 +38,18 @@ class VehiclesListViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    /**
+     * Initializes the ViewModel.
+     */
     init {
         _vehicleList.value = emptyList()
     }
 
+    /**
+     * Loads local vehicles from the database.
+     *
+     * @param context The context used for accessing the database.
+     */
     fun loadLocalVehicles(context: Context) {
         viewModelScope.launch {
             val appDatabase = AppDatabase.getInstance(context.applicationContext)
@@ -51,6 +64,9 @@ class VehiclesListViewModel(
         }
     }
 
+    /**
+     * Retrieves vehicles from Firebase and saves them to the local database.
+     */
     fun getFBVehiclesAndSaveFBVehiclesToRoom() {
         viewModelScope.launch {
             withContext(dispatcher) {
@@ -75,12 +91,24 @@ class VehiclesListViewModel(
         }
     }
 
+    /**
+     * Saves vehicles to the local database.
+     *
+     * @param vehicles The list of vehicles to be saved.
+     */
     fun saveVehiclesToRoom(vehicles: List<VehicleEntity>) {
         viewModelScope.launch {
             vehicleDao.replaceAllVehicles(vehicles)
         }
     }
 
+    /**
+     * Filters and checks available vehicles based on the switch state.
+     *
+     * @param vehicles The list of vehicles to filter.
+     * @param switch A flag indicating whether to include all vehicles or only available ones.
+     * @return The filtered list of vehicles.
+     */
     fun filtercheckAvailablesVehicles(vehicles: List<VehiclePreview>, switch: Boolean): List<VehiclePreview> {
         if (switch) return vehicles
         return vehicles.filter { it.available }

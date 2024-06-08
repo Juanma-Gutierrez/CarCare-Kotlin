@@ -1,13 +1,11 @@
 package com.juanmaGutierrez.carcare.ui.detailActivity.fragment.spent
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,9 +31,10 @@ import com.juanmaGutierrez.carcare.service.toCapitalizeString
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.service.transformStringToDateIso
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
-import java.text.NumberFormat
-import java.util.Locale
 
+/**
+ * Fragment for displaying and managing details of a spent item.
+ */
 class SpentDetailFragment : Fragment() {
     private lateinit var binding: FragmentSpentDetailBinding
     private lateinit var viewModel: SpentDetailViewModel
@@ -46,6 +45,9 @@ class SpentDetailFragment : Fragment() {
     private var fragmentType = "new"
     private var uiUM: UIUserMessages = UIUserMessages()
 
+    /**
+     * Initializes the fragment's UI.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -54,7 +56,9 @@ class SpentDetailFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures the fragment's UI components and observes LiveData.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init()
@@ -66,7 +70,9 @@ class SpentDetailFragment : Fragment() {
         configureObservers()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Creates an empty spent item.
+     */
     private fun createEmptySpent() {
         val spent = Spent(
             0.0, getTimestamp(), getTimestamp(), "", "", "", generateId()
@@ -74,6 +80,9 @@ class SpentDetailFragment : Fragment() {
         viewModel.setSpent(spent)
     }
 
+    /**
+     * Configures UI messages for alerts and snackbars.
+     */
     private fun configureUIMessages() {
         uiUM.snackbarMessages.deleteSuccessful = getString(R.string.spent_deleteSpent_successfully)
         uiUM.snackbarMessages.deletionError = getString(R.string.spent_deleteSpent_error)
@@ -81,7 +90,9 @@ class SpentDetailFragment : Fragment() {
         uiUM.logMessages.deleteError = Constants.LOG_SPENT_DELETION_ERROR
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Checks if the fragment is for a new spent item or for editing an existing one.
+     */
     private fun checkNewOrCreate() {
         fragmentType = getSpentFromID()
         when (fragmentType) {
@@ -91,7 +102,9 @@ class SpentDetailFragment : Fragment() {
         viewModel.uiUM = uiUM
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures click listeners for UI components.
+     */
     private fun configureUI() {
         binding.sdBtDate.setOnClickListener { buttonSpentDateClicked() }
         binding.sdBtAccept.setOnClickListener { buttonAcceptPressed() }
@@ -99,11 +112,16 @@ class SpentDetailFragment : Fragment() {
         binding.sdBtDelete.setOnClickListener { buttonDeletePressed() }
     }
 
+    /**
+     * Configures selectables and observes providers LiveData.
+     */
     private fun configureSelectables() {
         viewModel.getProviders()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures observers for LiveData.
+     */
     private fun configureObservers() {
         configureSelectedVehicleObserver()
         configureSelectableObservers()
@@ -112,10 +130,16 @@ class SpentDetailFragment : Fragment() {
         configureEditSpentObserver()
     }
 
+    /**
+     * Configures observer for selected vehicle LiveData.
+     */
     private fun configureSelectedVehicleObserver() {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle -> vehicleToSave = vehicle }
     }
 
+    /**
+     * Configures observer for selectable providers LiveData.
+     */
     private fun configureSelectableObservers() {
         viewModel.providersSelectableList.observe(viewLifecycleOwner) { providers ->
             providerNamesList = providers.map { it.name }
@@ -124,6 +148,9 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Determines if the fragment is for a new spent item or for editing an existing one.
+     */
     private fun getSpentFromID(): String {
         itemId = getItemId()
         val vehicleId = getVehicleId()
@@ -132,7 +159,9 @@ class SpentDetailFragment : Fragment() {
         return "new"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures UI for a new spent item.
+     */
     private fun configureNewSpentUI() {
         viewModel.setIsLoading(false)
         binding.sdBtDelete.visibility = View.GONE
@@ -143,9 +172,11 @@ class SpentDetailFragment : Fragment() {
         uiUM.logMessages.createOrEditionSuccess = Constants.LOG_SPENT_CREATION_SUCCESSFULLY
         uiUM.logMessages.createOrEditionError = Constants.LOG_SPENT_CREATION_ERROR
         binding.sdBtDate.text = getTimestamp().transformDateIsoToString()
-
     }
 
+    /**
+     * Configures UI for editing an existing spent item.
+     */
     private fun configureEditSpentUI() {
         binding.sdBtDelete.visibility = View.VISIBLE
         uiUM.alertDialog.title = getString(R.string.alertDialog_editSpent_title)
@@ -156,6 +187,9 @@ class SpentDetailFragment : Fragment() {
         uiUM.logMessages.createOrEditionError = Constants.LOG_SPENT_EDITION_ERROR
     }
 
+    /**
+     * Handles the button press event for accepting changes.
+     */
     private fun buttonAcceptPressed() {
         if (checkAllFieldsValid()) {
             val title = uiUM.alertDialog.title
@@ -176,7 +210,9 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Handles the logic after the accept button is clicked.
+     */
     private fun acceptButtonClicked() {
         viewModel.setSpent(getSpentFromForm())
         vehicleToSave = viewModel.selectedVehicle.value!!
@@ -186,7 +222,9 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Adds a new spent item.
+     */
     private fun addNewSpent() {
         val spentsList = getSpentsListFromVehicleSelected()
         spentsList.add(formatSpent(viewModel.spent.value!!))
@@ -197,7 +235,9 @@ class SpentDetailFragment : Fragment() {
         )
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Edits an existing spent item.
+     */
     private fun editSpent() {
         val spentsList = getSpentsListFromVehicleSelected()
         val updatedSpent = formatSpent(viewModel.spent.value!!)
@@ -214,12 +254,17 @@ class SpentDetailFragment : Fragment() {
         )
     }
 
-
+    /**
+     * Retrieves a list of spent items from the selected vehicle.
+     */
     private fun getSpentsListFromVehicleSelected(): MutableList<Spent> {
         val spentsFBListHashMap = mapSpentListFBToSpentList(vehicleToSave.spents as List<Map<String, Any>>)
         return spentsFBListHashMap.map { mapSpentFBToSpent(it) }.toMutableList()
     }
 
+    /**
+     * Retrieves a spent item from the form's input.
+     */
     private fun getSpentFromForm(): Spent {
         val index = providerNamesList.indexOf(binding.sdAcProvider.text.toString())
         val providerId = providerIdList[index]
@@ -234,6 +279,9 @@ class SpentDetailFragment : Fragment() {
         )
     }
 
+    /**
+     * Checks if all required fields are valid.
+     */
     private fun checkAllFieldsValid(): Boolean {
         var valid = true
         if (binding.sdAcProvider.text.isNullOrEmpty()) valid = false
@@ -242,12 +290,18 @@ class SpentDetailFragment : Fragment() {
         return valid
     }
 
+    /**
+     * Handles the button press event for cancelling.
+     */
     private fun buttonCancelPressed() {
         if (isAdded) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
+    /**
+     * Handles the button press event for deleting a spent item.
+     */
     private fun buttonDeletePressed() {
         val title = getString(R.string.alertDialog_deleteSpent_title)
         val message = getString(R.string.alertDialog_deleteSpent_message)
@@ -264,21 +318,32 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Handles the button press event for deleting a spent item.
+     */
     private fun deleteButtonClicked() {
         val itemId = getItemId()
         val vehicleId = getVehicleId()
         viewModel.deleteSpent(itemId, vehicleId)
     }
 
+    /**
+     * Retrieves the item ID from the fragment arguments.
+     */
     private fun getItemId(): String {
         return arguments?.getString("itemId") ?: ""
     }
 
+    /**
+     * Retrieves the vehicle ID from the fragment arguments.
+     */
     private fun getVehicleId(): String {
         return arguments?.getString("vehicleId") ?: ""
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Handles the button press event for selecting the spent date.
+     */
     private fun buttonSpentDateClicked() {
         val date = binding.sdBtDate.text.toString()
         showDatePickerDialog(
@@ -286,6 +351,9 @@ class SpentDetailFragment : Fragment() {
         ) { selectedDate -> binding.sdBtDate.text = selectedDate }
     }
 
+    /**
+     * Observes the isLoading LiveData and updates UI visibility accordingly.
+     */
     private fun configureIsLoadingObserver() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
@@ -295,14 +363,18 @@ class SpentDetailFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Observes the spent LiveData and loads the spent data into the form.
+     */
     private fun configureSpentObserver() {
         viewModel.spent.observe(viewLifecycleOwner) { newSpent ->
             loadSpentDataInForm(newSpent)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Loads spent data into the form UI.
+     */
     private fun loadSpentDataInForm(spent: Spent) {
         binding.sdAcProvider.setText(spent.providerName, false)
         binding.sdTvAmount.setText(spent.amount.moneyInputFormat())
@@ -310,19 +382,26 @@ class SpentDetailFragment : Fragment() {
         if (binding.sdBtDate.text.isEmpty()) binding.sdBtDate.text = spent.date.transformDateIsoToString()
     }
 
+    /**
+     * Observes the editSpentSuccessful LiveData and shows a snackbar message upon success.
+     */
     private fun configureEditSpentObserver() {
         viewModel.editSpentSuccessful.observe(viewLifecycleOwner) {
             showSnackBar(uiUM.snackbarMessages.createOrEditSuccessful, requireView()) { closeFragmentAndRestart() }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Formats the spent item's date to ISO format.
+     */
     private fun formatSpent(spent: Spent): Spent {
-        var formattedSpent = spent
-        formattedSpent.date = spent.date.transformStringToDateIso()
-        return formattedSpent
+        spent.date = spent.date.transformStringToDateIso()
+        return spent
     }
 
+    /**
+     * Updates the vehicle with the provided spent list.
+     */
     private fun updateVehicleWithSpents(spentsList: List<Spent>): VehicleFB {
         return VehicleFB(
             available = vehicleToSave.available,
@@ -339,6 +418,9 @@ class SpentDetailFragment : Fragment() {
         )
     }
 
+    /**
+     * Closes the fragment and restarts the ItemListActivity.
+     */
     private fun closeFragmentAndRestart() {
         if (isAdded) {
             requireActivity().supportFragmentManager.popBackStackImmediate(

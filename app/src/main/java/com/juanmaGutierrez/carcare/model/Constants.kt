@@ -21,7 +21,6 @@ class Constants {
 
         // Database
         const val DATABASE_NAME = "app_database"
-        const val COLLECTION_LOG = "log"
         const val COLLECTION_LOG_DOC = "generalLog"
         const val COLLECTION_LOG_ARRAYLIST = "logs"
 

@@ -28,6 +28,9 @@ import com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.vehiclesList.Veh
 import com.juanmaGutierrez.carcare.ui.mainActivity.MainActivity
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for managing the item list environment.
+ */
 class ItemListViewModel : ViewModel() {
     private lateinit var binding: ActivityItemListBinding
     lateinit var activity: AppCompatActivity
@@ -39,14 +42,28 @@ class ItemListViewModel : ViewModel() {
     val signOut: LiveData<Boolean> get() = _signOut
     private var navigationListener: NavigationListener? = null
 
+    /**
+     * Interface for navigation callbacks.
+     */
     fun interface NavigationListener {
         fun navigateToFragment(fragment: Fragment)
     }
 
+    /**
+     * Sets the navigation listener.
+     *
+     * @param listener The navigation listener to set.
+     */
     fun setNavigationListener(listener: NavigationListener) {
         navigationListener = listener
     }
 
+    /**
+     * Initializes the item list environment.
+     *
+     * @param activity The AppCompatActivity instance.
+     * @param binding The binding object for the activity.
+     */
     fun initItemListEnvironment(
         activity: AppCompatActivity,
         binding: ActivityItemListBinding,
@@ -56,11 +73,23 @@ class ItemListViewModel : ViewModel() {
         this._signOut.value = false
     }
 
+    /**
+     * Sets the toolbar title.
+     *
+     * @param title The title to set.
+     * @param activity The AppCompatActivity instance.
+     */
     fun setToolbar(title: String, activity: AppCompatActivity) {
         activity.setSupportActionBar(activity.findViewById(R.id.topAppBar))
         activity.supportActionBar?.title = title
     }
 
+    /**
+     * Sets up the navigation bottom bar.
+     *
+     * @param bottomNavigationView The BottomNavigationView instance.
+     * @param activity The AppCompatActivity instance.
+     */
     fun setNavigationBottombar(
         bottomNavigationView: BottomNavigationView, activity: AppCompatActivity
     ) {
@@ -83,6 +112,13 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Replaces the current fragment with the specified one.
+     *
+     * @param fragment The fragment to replace with.
+     * @param title The title of the fragment.
+     * @return True if the replacement was successful, false otherwise.
+     */
     private fun replaceFragment(
         fragment: Fragment, title: String
     ): Boolean {
@@ -91,10 +127,18 @@ class ItemListViewModel : ViewModel() {
         return true
     }
 
+    /**
+     * Sets the toolbar title.
+     *
+     * @param title The title to set.
+     */
     private fun setToolbarTitle(title: String) {
         _toolbarTitle.value = title
     }
 
+    /**
+     * Shows the sign out dialog.
+     */
     fun setSignOutDialog() {
         val ad = AlertDialogModel(
             activity,
@@ -114,6 +158,9 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Signs the user out.
+     */
     private fun signOut() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             clearRoomDatabase {
@@ -134,6 +181,11 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Clears the Room database.
+     *
+     * @param callback The callback to be executed after clearing the database.
+     */
     private fun clearRoomDatabase(callback: () -> Unit) {
         val vehicleDao = MainActivity.database.vehicleDao()
         viewModelScope.launch {
@@ -142,7 +194,9 @@ class ItemListViewModel : ViewModel() {
         }
     }
 
-
+    /**
+     * Shows the settings dialog.
+     */
     fun setSettingsDialog() {
         _openSettingsDialog.value = true
     }

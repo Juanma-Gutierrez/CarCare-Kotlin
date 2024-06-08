@@ -20,14 +20,25 @@ import com.juanmaGutierrez.carcare.service.ToolbarService
 import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
-
+/**
+ * A fragment that displays a list of providers.
+ */
 class ProvidersListFragment : Fragment() {
     private lateinit var viewModel: ProvidersListViewModel
     private lateinit var binding: FragmentProvidersListBinding
     private lateinit var providersAdapter: ProviderAdapter
     private var providersList: List<Provider> = emptyList()
 
-
+    /**
+     * Called to have the fragment instantiate its user interface view. This is optional,
+     * and non-graphical fragments can return null (which is the default implementation).
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -39,22 +50,35 @@ class ProvidersListFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally tied to Activity.onResume of the containing Activity's lifecycle.
+     * */
     override fun onResume() {
         super.onResume()
         getProvidersList()
     }
 
+    /**
+     * Configures the user interface elements.
+     */
     private fun configureUI() {
         viewModel = ViewModelProvider(this)[ProvidersListViewModel::class.java]
         binding = FragmentProvidersListBinding.inflate(layoutInflater)
     }
 
+    /**
+     * Configures the observers for LiveData.
+     */
     private fun configureObservers() {
         configureProvidersListObserver()
         configureIsLoadingObserver()
         configureSnackbarMessageObserver()
     }
 
+    /**
+     * Configures the observer for the providers list.
+     */
     private fun configureProvidersListObserver() {
         viewModel.providersList.observe(viewLifecycleOwner) { providers ->
             providersList = providers
@@ -65,6 +89,9 @@ class ProvidersListFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the observer for the loading state.
+     */
     private fun configureIsLoadingObserver() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
@@ -74,10 +101,16 @@ class ProvidersListFragment : Fragment() {
         }
     }
 
+    /**
+     * Configures the observer for the snackbar messages.
+     */
     private fun configureSnackbarMessageObserver() {
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, requireView()) {} }
     }
 
+    /**
+     * Configures the click listener for the add provider button.
+     */
     private fun configureAddButton() {
         binding.plFabAddProvider.setOnClickListener {
             ToolbarService.getInstance().detailTitle = getString(R.string.new_provider)
@@ -87,10 +120,16 @@ class ProvidersListFragment : Fragment() {
         }
     }
 
+    /**
+     * Retrieves the list of providers from Firebase.
+     */
     private fun getProvidersList() {
         viewModel.getProvidersListFromFB()
     }
 
+    /**
+     * Loads the list of providers into the RecyclerView.
+     */
     private fun loadProvidersListInRV() {
         providersAdapter = ProviderAdapter(providersList, requireContext())
         val providersGridFormat =
@@ -103,6 +142,9 @@ class ProvidersListFragment : Fragment() {
         binding.plRvProviders.adapter = providersAdapter
     }
 
+    /**
+     * Handles the result of the request for permissions.
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -111,5 +153,4 @@ class ProvidersListFragment : Fragment() {
             showSnackBar(getString(R.string.snackBar_noPermissions), requireView()) {}
         }
     }
-
 }

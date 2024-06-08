@@ -1,12 +1,10 @@
 package com.juanmaGutierrez.carcare.ui.itemListActivity.fragment.spentsList
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +23,9 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.service.transformDateIsoToString
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
+/**
+ * Fragment for displaying the list of spents.
+ */
 class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var viewModel: SpentsListViewModel
     private lateinit var binding: FragmentSpentsListBinding
@@ -32,6 +33,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
     private lateinit var spentsAdapter: SpentAdapter
     private lateinit var chartView: AxisChartView
 
+    /**
+     * Inflates the layout for this fragment.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,7 +44,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Called when the fragment's view has been created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getVehiclesFromFB()
@@ -50,41 +56,65 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureObservers()
     }
 
+    /**
+     * Checks if any provider has been created.
+     */
     private fun checkIfAnyProviderCreated() {
         viewModel.getProviderCount()
     }
 
+    /**
+     * Called when the fragment is resumed.
+     */
     override fun onResume() {
         super.onResume()
         viewModel.setIsLoading(false)
     }
 
+    /**
+     * Checks if a vehicle has been selected from the arguments.
+     */
     private fun checkIfVehicleSelected() {
         val vehicleId = arguments?.getString("vehicleId")
         vehicleId?.let { viewModel.vehicleSelectedById(it) }
     }
 
+    /**
+     * Handles vehicle click events.
+     */
     override fun onVehicleClick(vehicle: VehiclePreview) {
+        if (viewModel.providerCount.value!! > 0) {
+            binding.slFabAddSpent.visibility = View.VISIBLE
+        }
         viewModel.vehicleClicked(vehicle)
     }
 
+    /**
+     * Fetches the list of vehicles from Firebase.
+     */
     private fun getVehiclesFromFB() {
         viewModel.getVehiclesListFromFB()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures the UI components.
+     */
     private fun configureUI() {
         configureShareButtonGone()
         configureFabButton()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Hides the share button.
+     */
     private fun configureShareButtonGone() {
         binding.slIvShareButton.visibility = View.GONE
         binding.slIvShareButton.setOnClickListener { shareSpents() }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Shares the list of spents.
+     */
     private fun shareSpents() {
         val spentsList = viewModel.spentsList.value
         if (spentsList != null) {
@@ -101,6 +131,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Shares the provided text using an intent.
+     */
     private fun shareText(textToShare: String) {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -111,7 +144,9 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         startActivity(shareIntent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures the observers for the ViewModel LiveData.
+     */
     private fun configureObservers() {
         configureVehicleListObserver()
         configureSelectedVehicleTitleObserver()
@@ -123,17 +158,24 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         configureProviderCountObserver()
     }
 
+    /**
+     * Configures the observer for the provider count.
+     * Updates the visibility of the add spent FAB and shows a snackbar if no providers are available.
+     */
     private fun configureProviderCountObserver() {
         viewModel.providerCount.observe(viewLifecycleOwner) { count ->
             if (count == 0) {
                 binding.slFabAddSpent.visibility = View.GONE
                 showSnackBar(getString(R.string.providersList_noProviders), requireView()) {}
-            } else {
-                binding.slFabAddSpent.visibility = View.VISIBLE
             }
         }
     }
 
+    /**
+     * Configures the observer for the vehicle list.
+     * Loads the vehicles into the RecyclerView and updates the visibility of the vehicle and spent containers.
+     * Shows a snackbar if no vehicles are available.
+     */
     private fun configureVehicleListObserver() {
         viewModel.vehicles.observe(viewLifecycleOwner) { vehicles ->
             loadVehiclesInRV(vehicles)
@@ -148,6 +190,10 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Configures the observer for the selected vehicle title.
+     * Updates the text and visibility of the vehicle selected TextView and share button.
+     */
     private fun configureSelectedVehicleTitleObserver() {
         viewModel.selectedVehicle.observe(viewLifecycleOwner) { vehicle ->
             binding.slTvVehicleSelected.text = String.format("%1s, %2s", vehicle.brand, vehicle.model)
@@ -155,19 +201,30 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Configures the observer for the number of spents.
+     * Updates the text of the number of spents TextView.
+     */
     private fun configureNumSpentsObserver() {
         viewModel.numSpents.observe(viewLifecycleOwner) { numSpents ->
             binding.slTvNumSpents.text = getString(R.string.spents_numSpents, numSpents)
         }
     }
 
+    /**
+     * Configures the observer for the total spents.
+     * Updates the text of the total spents TextView.
+     */
     private fun configureTotalSpentsObserver() {
         viewModel.totalSpents.observe(viewLifecycleOwner) { totalSpents ->
             binding.slTvTotalSpents.text = getString(R.string.spents_totalSpents, totalSpents)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Configures the observer for the spents list.
+     * Loads the spents into the RecyclerView and the chart.
+     */
     private fun configureSpentsListObserver() {
         viewModel.spentsList.observe(viewLifecycleOwner) { spents ->
             loadSpentsInRV(spents)
@@ -175,6 +232,10 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Configures the observer for the loading state.
+     * Updates the visibility of the loading animation.
+     */
     private fun configureIsLoadingObserver() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             when (isLoading) {
@@ -184,6 +245,10 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Configures the observer for the number of spents height layout.
+     * Adjusts the height of the chart based on the number of bars.
+     */
     private fun configureNumSpentsHeightLayoutObserver() {
         viewModel.numSpentsHeightLayout.observe(viewLifecycleOwner) { numBars ->
             val layoutParams = chartView.layoutParams
@@ -196,12 +261,22 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Loads the spents into the RecyclerView.
+     *
+     * @param spentsList The list of spents to load.
+     */
     private fun loadSpentsInRV(spentsList: List<SpentFB>) {
         spentsAdapter = SpentAdapter(spentsList, requireContext(), viewModel.selectedVehicle.value!!.vehicleId)
         binding.slRvSpents.layoutManager = LinearLayoutManager(requireContext())
         binding.slRvSpents.adapter = spentsAdapter
     }
 
+    /**
+     * Loads the vehicles into the RecyclerView.
+     *
+     * @param vehicles The list of vehicles to load.
+     */
     private fun loadVehiclesInRV(vehicles: List<VehiclePreview>) {
         vehiclesAdapter = VehicleInSpentsListAdapter(vehicles, requireContext())
         vehiclesAdapter.setOnVehicleClickListener(this)
@@ -209,6 +284,10 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         binding.slRvVehiclesInSpentList.adapter = vehiclesAdapter
     }
 
+    /**
+     * Configures the Floating Action Button (FAB).
+     * Sets its visibility and click listener to navigate to the detail activity for adding a new spent.
+     */
     private fun configureFabButton() {
         binding.slFabAddSpent.visibility = View.GONE
         binding.slFabAddSpent.setOnClickListener {
@@ -221,7 +300,11 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Loads the spents into the chart.
+     *
+     * @param spents The list of spents to load into the chart.
+     */
     private fun loadSpentsInChart(spents: List<SpentFB>) {
         if (spents.size > 1) {
             binding.slBcSpentsChart.visibility = View.VISIBLE
@@ -237,6 +320,13 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         }
     }
 
+    /**
+     * Generates the export footer.
+     *
+     * @param numSpents The number of spents.
+     * @param totalSpents The total amount of spents.
+     * @return The formatted footer string.
+     */
     private fun getExportFooter(numSpents: Int, totalSpents: Double): String {
         var footer = generateHorizontalDivider()
         val textNumSpents = getString(R.string.spents_numSpents, numSpents)
@@ -245,7 +335,11 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         return footer
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /**
+     * Generates the export header.
+     *
+     * @return The formatted header string.
+     */
     private fun getExportHeader(): String {
         val date = getTimestamp().transformDateIsoToString()
         val selectedVehicle = viewModel.selectedVehicle.value
@@ -254,6 +348,11 @@ class SpentsListFragment : Fragment(), OnVehicleClickListener {
         return header
     }
 
+    /**
+     * Generates a horizontal divider.
+     *
+     * @return A string consisting of a horizontal divider.
+     */
     private fun generateHorizontalDivider(): String {
         val numScripts = 40
         return "-".repeat(numScripts) + "\n"

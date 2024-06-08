@@ -20,10 +20,21 @@ import com.juanmaGutierrez.carcare.service.fbGetImageURL
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
+/**
+ * Adapter for displaying a list of vehicles in a RecyclerView
+ * @param vehicles: List of vehicles to display
+ * @param context: Context of the application
+ */
 class VehicleAdapter(
     private var vehicles: List<VehiclePreview>, private val context: Context
 ) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
 
+    /**
+     * Creates and returns a ViewHolder object, inflating the appropriate layout based on user preferences
+     * @param parent: The parent ViewGroup into which the new view will be added after it is bound to an adapter position
+     * @param viewType: The view type of the new view
+     * @return ViewHolder: A new ViewHolder that holds a view of the given view type
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val compactFormat = ConfigService().getPreferencesBoolean(context, Constants.SETTINGS_VEHICLES_LIST_COMPACT)
@@ -36,15 +47,27 @@ class VehicleAdapter(
         return ViewHolder(view)
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position
+     * @param holder: The ViewHolder which should be updated to represent the contents of the item at the given position
+     * @param position: The position of the item within the adapter's data set
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vehicle = vehicles[position]
         holder.bind(vehicle)
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter
+     * @return Int: The total number of items in this adapter
+     */
     override fun getItemCount(): Int {
         return vehicles.size
     }
 
+    /**
+     * ViewHolder class for the vehicle items
+     */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val icon: ShapeableImageView = itemView.findViewById(R.id.iv_iv_iconCategory)
         private val brand: MaterialTextView = itemView.findViewById(R.id.iv_tv_brand)
@@ -52,6 +75,10 @@ class VehicleAdapter(
         private val plate: MaterialTextView = itemView.findViewById(R.id.iv_tv_plate)
         private val vehicleImage: ShapeableImageView = itemView.findViewById(R.id.iv_iv_vehicleImage)
 
+        /**
+         * Binds the vehicle data to the view
+         * @param vehicle: The vehicle data to bind
+         */
         fun bind(vehicle: VehiclePreview) {
             configureIcon(vehicle)
             configureData(vehicle)
@@ -60,6 +87,10 @@ class VehicleAdapter(
             configureNotAvailable(vehicle)
         }
 
+        /**
+         * Configures the display icon for the vehicle category
+         * @param vehicle: The vehicle data to use
+         */
         private fun configureIcon(vehicle: VehiclePreview) {
             icon.setImageResource(
                 when (vehicle.category) {
@@ -72,12 +103,20 @@ class VehicleAdapter(
             )
         }
 
+        /**
+         * Configures the display data for the vehicle
+         * @param vehicle: The vehicle data to display
+         */
         private fun configureData(vehicle: VehiclePreview) {
             brand.text = vehicle.brand.toUpperCamelCase()
             model.text = vehicle.model.toUpperCamelCase()
             plate.text = vehicle.plate.uppercase()
         }
 
+        /**
+         * Configures the display image for the vehicle
+         * @param vehicle: The vehicle data to use
+         */
         private fun configureImage(vehicle: VehiclePreview) {
             if (vehicle.imageURL.isNullOrEmpty() || vehicle.imageURL == "null") {
                 vehicleImage.setImageResource(
@@ -94,6 +133,10 @@ class VehicleAdapter(
             }
         }
 
+        /**
+         * Configures the click listeners for the vehicle item
+         * @param vehicle: The vehicle data to use
+         */
         private fun configureListeners(vehicle: VehiclePreview) {
             val context = itemView.context
             itemView.setOnClickListener {
@@ -104,6 +147,10 @@ class VehicleAdapter(
             }
         }
 
+        /**
+         * Configures the display for unavailable vehicles
+         * @param vehicle: The vehicle data to use
+         */
         private fun configureNotAvailable(vehicle: VehiclePreview) {
             if (!vehicle.available) {
                 itemView.findViewById<TextView>(R.id.iv_tv_notAvailable).visibility = View.VISIBLE
@@ -114,6 +161,10 @@ class VehicleAdapter(
         }
     }
 
+    /**
+     * Updates the adapter's data with a new list of vehicles
+     * @param newVehicles: The new list of vehicles to display
+     */
     fun updateData(newVehicles: List<VehiclePreview>) {
         vehicles = newVehicles
         notifyDataSetChanged()

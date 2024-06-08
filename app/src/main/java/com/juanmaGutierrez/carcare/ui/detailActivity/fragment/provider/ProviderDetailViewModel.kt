@@ -19,6 +19,9 @@ import com.juanmaGutierrez.carcare.service.fbSetDocument
 import com.juanmaGutierrez.carcare.service.saveToLog
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the ProviderDetailFragment. Manages data related to displaying and editing provider details.
+ */
 class ProviderDetailViewModel : ViewModel() {
     private val _provider = MutableLiveData<Provider>()
     val provider: LiveData<Provider> get() = _provider
@@ -31,10 +34,16 @@ class ProviderDetailViewModel : ViewModel() {
     lateinit var providers: ProviderFB
     lateinit var uiUM: UIUserMessages
 
+    /**
+     * Initializes the ViewModel with default values.
+     */
     fun init() {
         providers = ProviderFB(mutableListOf())
     }
 
+    /**
+     * Retrieves provider data from Firestore based on the provided itemId.
+     */
     fun getProviderFromFB(itemId: String) {
         _isLoading.postValue(true)
         viewModelScope.launch {
@@ -54,6 +63,9 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Updates the provider data in Firestore.
+     */
     fun setProviderToFB(provider: Provider) {
         setIsLoading(true)
         updateLocalProvidersList(provider)
@@ -70,6 +82,9 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Updates the local provider list with the new data.
+     */
     private fun updateLocalProvidersList(provider: Provider) {
         val existingProviderIndex = providers.providers.indexOfFirst { it.providerId == provider.providerId }
         if (existingProviderIndex != -1) {
@@ -79,10 +94,16 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Sets the loading status.
+     */
     internal fun setIsLoading(status: Boolean) {
         this._isLoading.value = status
     }
 
+    /**
+     * Creates a new provider and adds it to Firestore.
+     */
     fun createNewProvider(provider: Provider) {
         setIsLoading(true)
         getProvidersList { providersList ->
@@ -95,6 +116,9 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Saves the provider list to Firestore.
+     */
     private fun saveProvidersListToFB(success: String, error: String) {
         viewModelScope.launch {
             try {
@@ -109,6 +133,9 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Retrieves the provider list from Firestore.
+     */
     private fun getProvidersList(callback: (MutableList<Provider>) -> Unit) {
         var providersList = mutableListOf<Provider>()
         _isLoading.postValue(true)
@@ -122,6 +149,9 @@ class ProviderDetailViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Deletes the specified provider from Firestore.
+     */
     fun deleteProvider(provider: Provider) {
         setIsLoading(true)
         getProvidersList { providersList ->

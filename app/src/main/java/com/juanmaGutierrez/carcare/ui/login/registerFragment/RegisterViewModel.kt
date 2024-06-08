@@ -13,6 +13,9 @@ import com.juanmaGutierrez.carcare.model.Constants
 import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.service.fbRegisterUserAuth
 
+/**
+ * ViewModel responsible for user registration logic.
+ */
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var activity: AppCompatActivity
     private val _snackbarMessage = MutableLiveData<String>()
@@ -20,10 +23,16 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
     private val _navigateToItemList = MutableLiveData<Boolean>()
     val navigateToItemList: LiveData<Boolean> get() = _navigateToItemList
 
+    /**
+     * Initializes the ViewModel with the activity context.
+     */
     fun init(activity: AppCompatActivity) {
         this.activity = activity
     }
 
+    /**
+     * Attempts to register a user with the provided data.
+     */
     fun register(user: User) {
         if (!validUserData(user)) return
         else try {
@@ -41,6 +50,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    /**
+     * Validates user data before registration.
+     */
     private fun validUserData(user: User): Boolean {
         if (!allFieldsFilled(user)) return false
         if (!emailIsValid(user)) return false
@@ -48,6 +60,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         return true
     }
 
+    /**
+     * Validates the email format.
+     */
     private fun emailIsValid(user: User): Boolean {
         val regex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
         if (!user.email.matches(regex.toRegex())) {
@@ -57,6 +72,9 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         return true
     }
 
+    /**
+     * Validates the password format and matching.
+     */
     private fun passwordIsValid(user: User): Boolean {
         if (user.password != user.repeatPassword) {
             _snackbarMessage.value = getApplication<Application>().getString(R.string.error_passwordNotMatch)
@@ -69,11 +87,17 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         return true
     }
 
+    /**
+     * Validates if the password meets the required characters.
+     */
     private fun validatePasswordCharacters(password: String): Boolean {
         val pattern = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")
         return pattern.matches(password)
     }
 
+    /**
+     * Validates if all registration fields are filled.
+     */
     private fun allFieldsFilled(user: User): Boolean {
         val invalid =
             user.name.isEmpty() or user.surname.isEmpty() or user.username.isEmpty() or user.email.isEmpty() or user.password.isEmpty()

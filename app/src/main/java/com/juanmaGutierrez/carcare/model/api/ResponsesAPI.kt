@@ -1,5 +1,9 @@
 package com.juanmaGutierrez.carcare.model.api
 
+/**
+ * Represents the response from the API for the list of vehicles.
+ * @property brands: List of vehicle brands.
+ */
 data class VehicleListResponseAPI(
     val brands: List<String>,
 ) {
@@ -8,6 +12,11 @@ data class VehicleListResponseAPI(
     }
 }
 
+/**
+ * Represents the response from the API for the list of brands.
+ * @property data: Object containing the list of brands.
+ * @property status: Status of the response.
+ */
 data class BrandsResponseAPI(
     val data: BrandsList,
     val status: String,
@@ -17,6 +26,13 @@ data class BrandsResponseAPI(
     }
 }
 
+/**
+ * Represents the list of brands.
+ * @property cars: List of car brands.
+ * @property motorcycles: List of motorcycle brands.
+ * @property trucks: List of truck brands.
+ * @property vans: List of van brands.
+ */
 data class BrandsList(
     val cars: List<String>,
     val motorcycles: List<String>,
@@ -28,6 +44,10 @@ data class BrandsList(
     }
 }
 
+/**
+ * Represents the response from the API for the list of vehicle models.
+ * @property models: List of vehicle models.
+ */
 data class ModelListResponseAPI(
     val models: List<String>,
 ) {

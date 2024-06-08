@@ -2,7 +2,6 @@ package com.juanmaGutierrez.carcare.service
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,8 +27,12 @@ import java.time.format.DateTimeParseException
 import java.util.Date
 import java.util.Locale
 
-
 /**
+ * Displays a Snackbar with the given message.
+ *
+ * @param message The message to be displayed in the Snackbar.
+ * @param view The view to anchor the Snackbar to.
+ * @param onDismiss A function to be called after the Snackbar is dismissed.
  * Usage: showSnackBar("Message", requireView()) { <function-after-snackbar> }
  * Usage: showSnackBar("Message", findViewById(android.R.id.content)) { <function-after-snackbar> }
  * Usage: view?.let { showSnackBar("Message", it) {} }
@@ -51,6 +53,12 @@ fun showSnackBar(message: String, view: View, onDismiss: () -> Unit) {
     snackBar.show()
 }
 
+/**
+ * Displays an AlertDialog with Accept and Cancel buttons.
+ *
+ * @param ad The AlertDialogModel containing title, message, and icon.
+ * @param callback A function to be called after the user interacts with the dialog.
+ */
 fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
     MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message).setIcon(ad.icon)
         .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
@@ -60,20 +68,26 @@ fun showDialogAcceptCancel(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
         }.show()
 }
 
-fun showDialogAccept(ad: AlertDialogModel, callback: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(ad.activity).setTitle(ad.title).setMessage(ad.message).setIcon(ad.icon)
-        .setPositiveButton(ad.activity.getString(R.string.accept)) { _, _ ->
-            callback(true)
-        }.show()
-}
-
-
+/**
+ * Loads data into an AutoCompleteTextView.
+ *
+ * @param selectable The AutoCompleteTextView to load data into.
+ * @param listItems The list of items to be displayed.
+ * @param activity The activity context.
+ */
 fun loadDataInSelectable(selectable: AutoCompleteTextView, listItems: List<String>, activity: Activity) {
     val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, listItems.sorted())
     selectable.setAdapter(adapter)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Displays a DatePickerDialog.
+ *
+ * @param initialDate The initial date to be displayed.
+ * @param title The title of the dialog.
+ * @param fragmentManager The FragmentManager to control the dialog.
+ * @param onDateSelected A function to be called when a date is selected.
+ */
 fun showDatePickerDialog(
     initialDate: String, title: String, fragmentManager: FragmentManager, onDateSelected: (String) -> Unit
 ) {
@@ -88,12 +102,25 @@ fun showDatePickerDialog(
     datePicker.show(fragmentManager, "datePickerDialog")
 }
 
+/**
+ * Gets the current timestamp in ISO format.
+ *
+ * @return The current timestamp.
+ */
 fun getTimestamp(): String {
     val currentTimestamp = Date()
     val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
     return dateFormat.format(currentTimestamp)
 }
 
+/**
+ * Saves a log entry.
+ *
+ * @param type The type of log (INFO or ERROR).
+ * @param operation The operation performed.
+ * @param content The content of the log entry.
+ * @param onComplete A function to be called after the log is saved.
+ */
 fun saveToLog(
     type: LogType, operation: OperationLog, content: String, onComplete: (() -> Unit)? = null
 ) {
@@ -106,11 +133,11 @@ fun saveToLog(
     onComplete?.invoke()
 }
 
-fun milog(string: String, t: Throwable? = null) {
-    Log.d("jumang", string, t)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Generates a unique identifier using the current timestamp and random characters.
+ *
+ * @return A unique identifier.
+ */
 fun generateId(): String {
     val formattedDate = getTimestamp().transformDateIsoToString("yyMMddHHmmss-")
     val length = 10
@@ -118,20 +145,41 @@ fun generateId(): String {
     return formattedDate + (1..length).map { allowedChars.random() }.joinToString("")
 }
 
+/**
+ * Converts a string to Upper Camel Case format.
+ *
+ * @param delimiter The delimiter to split the string.
+ * @return The string in Upper Camel Case format.
+ */
 fun String.toUpperCamelCase(delimiter: String = " "): String {
     return split(delimiter).joinToString(delimiter) { word ->
         word.lowercase().replaceFirstChar(Char::uppercase)
     }
 }
 
+/**
+ * Formats a double value to Euro currency format.
+ *
+ * @return The double value formatted as Euro currency.
+ */
 fun Double.euroFormat(): String {
     return String.format("%.2f €", this)
 }
 
+/**
+ * Formats a double value to money input format.
+ *
+ * @return The double value formatted as money input.
+ */
 fun Double.moneyInputFormat(): String {
     return String.format("%.2f", this)
 }
 
+/**
+ * Capitalizes the first character of a string.
+ *
+ * @return The string with the first character capitalized.
+ */
 fun String.toCapitalizeString(): String {
     return if (isNotEmpty()) {
         this[0].uppercaseChar() + substring(1).lowercase()
@@ -140,14 +188,12 @@ fun String.toCapitalizeString(): String {
     }
 }
 
-fun String.convertDateMillisToDate(): String {
-    val timestamp = this.toLong()
-    val date = Date(timestamp)
-    val dateFormat = SimpleDateFormat(Constants.DATE_FORMAT_ISO, Locale.getDefault())
-    return dateFormat.format(date)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Transforms a date string in ISO format to the specified format.
+ *
+ * @param format The format to transform the date string to.
+ * @return The date string transformed to the specified format.
+ */
 fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -159,7 +205,11 @@ fun String.transformDateIsoToString(format: String = "dd/MM/yyyy"): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Transforms a string in a specific format to ISO date format.
+ *
+ * @return The string transformed to ISO date format.
+ */
 fun String.transformStringToDateIso(): String {
     return try {
         val inputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss")
@@ -171,13 +221,22 @@ fun String.transformStringToDateIso(): String {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+/**
+ * Converts a string date to a timestamp in milliseconds.
+ *
+ * @return The timestamp in milliseconds.
+ */
 fun String.longToTimestamp(): Long {
     val formatter = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT_LOCAL)
     val localDate = LocalDate.parse(this, formatter)
     return localDate.toEpochDay() * 24 * 60 * 60 * 1000
 }
 
+/**
+ * Translates a vehicle category string to a standardized format.
+ *
+ * @return The translated vehicle category.
+ */
 fun String.translateVehicleCategory(): String {
     val result = when (this) {
         "Coche", "Car" -> "car"
@@ -189,6 +248,12 @@ fun String.translateVehicleCategory(): String {
     return result
 }
 
+/**
+ * Gets the translated vehicle category.
+ *
+ * @param context The context to access resources.
+ * @return The translated vehicle category.
+ */
 fun String.getVehicleCategoryTranslation(context: Context): String {
     return when (this) {
         "car" -> context.getString(R.string.vehicle_category_car)
@@ -199,6 +264,11 @@ fun String.getVehicleCategoryTranslation(context: Context): String {
     }
 }
 
+/**
+ * Translates a provider category string to a standardized format.
+ *
+ * @return The translated provider category.
+ */
 fun String.translateProviderCategory(): String {
     val result = when (this) {
         "Taller", "Workshop" -> "workshop"
@@ -212,6 +282,12 @@ fun String.translateProviderCategory(): String {
     return result
 }
 
+/**
+ * Gets the translated provider category.
+ *
+ * @param context The context to access resources.
+ * @return The translated provider category.
+ */
 fun String.getProviderCategoryTranslation(context: Context): String {
     return when (this) {
         "workshop" -> context.getString(R.string.provider_category_workshop)
@@ -224,3 +300,12 @@ fun String.getProviderCategoryTranslation(context: Context): String {
     }
 }
 
+/**
+ * Logs a message with optional throwable.
+ *
+ * @param string The message to log.
+ * @param t The optional throwable.
+ */
+fun milog(string: String, t: Throwable? = null) {
+    Log.d("jumang", string, t)
+}

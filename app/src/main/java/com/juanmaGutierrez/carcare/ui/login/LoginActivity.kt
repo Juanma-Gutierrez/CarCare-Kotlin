@@ -10,10 +10,16 @@ import com.juanmaGutierrez.carcare.ui.login.loginFragment.LoginViewModel
 import com.juanmaGutierrez.carcare.ui.login.loginFragment.OnRegisterButtonClickListener
 import com.juanmaGutierrez.carcare.ui.login.registerFragment.RegisterFragment
 
+/**
+ * Activity responsible for handling user login.
+ */
 class LoginActivity : AppCompatActivity(), OnRegisterButtonClickListener {
     private lateinit var binding: ActivityLoginBinding
     private val viewModel: LoginViewModel by viewModels()
 
+    /**
+     * Initializes the activity, sets up the view, and initializes the ViewModel.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -23,6 +29,9 @@ class LoginActivity : AppCompatActivity(), OnRegisterButtonClickListener {
         supportFragmentManager.beginTransaction().replace(binding.loginFragmentContainer.id, LoginFragment()).commit()
     }
 
+    /**
+     * Handles the event when the register button is clicked, navigates to the register fragment.
+     */
     override fun onRegisterButtonClicked() {
         supportFragmentManager.beginTransaction().replace(R.id.login_fragment_container, RegisterFragment())
             .addToBackStack(null).commit()

@@ -4,8 +4,13 @@ import android.content.Context
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.model.localData.OnBoardingData
 
+/**
+ * Retrieves a list of OnBoardingData objects containing onboarding screen information
+ * @param context: The context used to access string and drawable resources
+ * @return List<OnBoardingData>: A list of OnBoardingData objects
+ */
 fun getOnBoardingDataValues(context: Context): List<OnBoardingData> {
-    val data: List<OnBoardingData> = listOf(
+    return listOf(
         OnBoardingData(
             context.getString(R.string.onBoarding_title_carcare),
             context.getString(R.string.onBoarding_text_carcare),
@@ -27,5 +32,4 @@ fun getOnBoardingDataValues(context: Context): List<OnBoardingData> {
             R.drawable.onboarding3
         )
     )
-    return data
 }

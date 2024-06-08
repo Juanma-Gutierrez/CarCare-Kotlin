@@ -26,10 +26,21 @@ import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.toUpperCamelCase
 import com.juanmaGutierrez.carcare.ui.detailActivity.DetailActivity
 
+/**
+ * Adapter for displaying a list of providers in a RecyclerView
+ * @param providers: List of providers to display
+ * @param context: Context of the application
+ */
 class ProviderAdapter(
     private var providers: List<Provider>, private val context: Context
 ) : RecyclerView.Adapter<ProviderAdapter.ViewHolder>() {
 
+    /**
+     * Creates and returns a ViewHolder object, inflating a standard layout called item_provider_list.
+     * @param parent: The parent ViewGroup into which the new view will be added after it is bound to an adapter position
+     * @param viewType: The view type of the new view
+     * @return ViewHolder: A new ViewHolder that holds a view of the given view type
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val providersGridFormat =
@@ -43,14 +54,26 @@ class ProviderAdapter(
         return ViewHolder(view)
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter
+     * @return Int: The total number of items in this adapter
+     */
     override fun getItemCount(): Int {
         return providers.size
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position
+     * @param holder: The ViewHolder which should be updated to represent the contents of the item at the given position
+     * @param position: The position of the item within the adapter's data set
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(providers[position])
     }
 
+    /**
+     * ViewHolder class for the provider items
+     */
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerName)
         private val category: MaterialTextView = itemView.findViewById(R.id.ip_tv_providerCategory)
@@ -59,6 +82,10 @@ class ProviderAdapter(
         private val icon: ImageView = itemView.findViewById(R.id.ip_iv_providerIcon)
         private val phoneButton: ImageView = itemView.findViewById(R.id.ip_iv_phoneButton)
 
+        /**
+         * Binds the provider data to the view
+         * @param provider: The provider data to bind
+         */
         fun bind(provider: Provider) {
             configureData(provider)
             configureIcon(provider)
@@ -66,18 +93,30 @@ class ProviderAdapter(
             configurePhoneIcon(provider)
         }
 
+        /**
+         * Configures the phone icon visibility based on whether the provider has a phone number
+         * @param provider: The provider data to check
+         */
         private fun configurePhoneIcon(provider: Provider) {
             if (provider.phone.isEmpty()) {
                 phoneButton.visibility = View.GONE
             }
         }
 
+        /**
+         * Configures the display data for the provider
+         * @param provider: The provider data to display
+         */
         private fun configureData(provider: Provider) {
             name.text = provider.name.toUpperCamelCase()
             category.text = provider.category.getProviderCategoryTranslation(itemView.context).toUpperCamelCase()
             phone.text = provider.phone.toUpperCamelCase()
         }
 
+        /**
+         * Configures the icon based on the provider's category
+         * @param provider: The provider data to check
+         */
         private fun configureIcon(provider: Provider) {
             icon.setImageResource(
                 when (provider.category) {
@@ -94,6 +133,10 @@ class ProviderAdapter(
             )
         }
 
+        /**
+         * Configures the listeners for the provider item
+         * @param provider: The provider data to use
+         */
         private fun configureListeners(provider: Provider) {
             configureCardListener(provider)
             if (provider.phone.isNotEmpty()) {
@@ -101,6 +144,10 @@ class ProviderAdapter(
             }
         }
 
+        /**
+         * Configures the card click listener to open the detail activity
+         * @param provider: The provider data to use
+         */
         private fun configureCardListener(provider: Provider) {
             card.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
@@ -110,6 +157,10 @@ class ProviderAdapter(
             }
         }
 
+        /**
+         * Configures the phone button click listener to initiate a call
+         * @param provider: The provider data to use
+         */
         private fun configurePhoneButtonListener(provider: Provider) {
             phoneButton.setOnClickListener {
                 val phoneNumber = provider.phone

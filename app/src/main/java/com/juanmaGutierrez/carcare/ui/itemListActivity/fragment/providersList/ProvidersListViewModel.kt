@@ -13,6 +13,9 @@ import com.juanmaGutierrez.carcare.service.fbGetAuthUserUID
 import com.juanmaGutierrez.carcare.service.fbGetDocumentByID
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the ProvidersListFragment. Manages the list of providers and related UI interactions.
+ */
 class ProvidersListViewModel : ViewModel() {
     private val _providersList = MutableLiveData<List<Provider>>()
     val providersList: LiveData<List<Provider>> get() = _providersList
@@ -21,6 +24,9 @@ class ProvidersListViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    /**
+     * Retrieves the list of providers from Firebase.
+     */
     fun getProvidersListFromFB() {
         _isLoading.value = true
         viewModelScope.launch {

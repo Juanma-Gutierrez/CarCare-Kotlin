@@ -17,20 +17,37 @@ import com.juanmaGutierrez.carcare.service.showSnackBar
 import com.juanmaGutierrez.carcare.ui.itemListActivity.ItemListActivity
 import com.juanmaGutierrez.carcare.ui.login.LoginActivity
 
+/**
+ * Interface definition for a callback to be invoked when the register button is clicked.
+ */
 fun interface OnRegisterButtonClickListener {
+    /**
+     * Called when the register button is clicked.
+     */
     fun onRegisterButtonClicked()
 }
 
+/**
+ * A fragment responsible for handling the login process.
+ */
 class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
     private lateinit var registerListener: OnRegisterButtonClickListener
 
+    /**
+     * Called to do initial creation of the fragment.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state, this is the state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentLoginBinding.inflate(layoutInflater)
     }
 
+    /**
+     * Initializes the view and sets up event listeners.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +63,9 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Observes LiveData objects and handles navigation upon successful login.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.snackbarMessage.observe(viewLifecycleOwner) { message -> showSnackBar(message, view) {} }
@@ -58,6 +78,9 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /**
+     * Ensures that the parent activity implements the OnRegisterButtonClickListener interface.
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnRegisterButtonClickListener) {
