@@ -44,19 +44,17 @@ android {
     }
 
     // Dokka config
-    tasks.withType<DokkaTask>().configureEach {
-        moduleName.set(project.name)
-        moduleVersion.set(project.version.toString())
-        outputDirectory.set(layout.buildDirectory.dir("./documentation/html"))
-        failOnWarning.set(false)
-        suppressObviousFunctions.set(true)
-        suppressInheritedMembers.set(false)
-        offlineMode.set(false)
-        dokkaSourceSets.configureEach {
-            includeNonPublic.set(false)
-            reportUndocumented.set(false)
-            skipEmptyPackages.set(false)
-            skipDeprecated.set(true)
+    tasks.dokkaHtml.configure {
+        dokkaSourceSets {
+            configureEach {
+                outputDirectory.set(layout.buildDirectory.dir("./documentation/html"))
+                suppressObviousFunctions.set(true)
+                suppressInheritedMembers.set(true)
+                documentedVisibilities.set(
+                    listOf(org.jetbrains.dokka.DokkaConfiguration.Visibility.PRIVATE)
+                            + documentedVisibilities.get()
+                )
+            }
         }
     }
 }
