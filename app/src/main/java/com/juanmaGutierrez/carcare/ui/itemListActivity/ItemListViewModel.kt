@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.juanmaGutierrez.carcare.R
 import com.juanmaGutierrez.carcare.databinding.ActivityItemListBinding
@@ -19,6 +20,7 @@ import com.juanmaGutierrez.carcare.model.Constants.Companion.TAG
 import com.juanmaGutierrez.carcare.model.localData.AlertDialogModel
 import com.juanmaGutierrez.carcare.model.localData.LogType
 import com.juanmaGutierrez.carcare.model.localData.OperationLog
+import com.juanmaGutierrez.carcare.service.FirebaseService
 import com.juanmaGutierrez.carcare.service.saveToLog
 import com.juanmaGutierrez.carcare.service.showDialogAcceptCancel
 import com.juanmaGutierrez.carcare.service.showSnackBar
@@ -165,13 +167,16 @@ class ItemListViewModel : ViewModel() {
         saveToLog(LogType.INFO, OperationLog.LOGOUT, Constants.LOGOUT_SUCCESSFULLY) {
             clearRoomDatabase {
                 try {
+                    FirebaseService.getInstance().auth!!.signOut()
                     FirebaseAuth.getInstance().signOut()
                     Log.i(TAG, "Firebase auth logout successfully")
-                    Firebase.firestore.clearPersistence().addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.i(TAG, "Firebase cache deleted successfully")
-                        } else {
-                            Log.e(TAG, "Error clearing cache: ${task.exception}")
+                    FirebaseFirestore.getInstance().terminate().addOnCompleteListener {
+                        Firebase.firestore.clearPersistence().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.i(TAG, "Firebase cache deleted successfully")
+                            } else {
+                                Log.e(TAG, "Error clearing cache: ${task.exception}")
+                            }
                         }
                     }
                 } catch (e: Exception) {
